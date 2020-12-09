@@ -1,0 +1,4 @@
+${PODS_ROOT}/Target Support Files/Pods-HCPL-HCPLUITests/Pods-HCPL-HCPLUITests-frameworks.sh
+${BUILT_PRODUCTS_DIR}/AACarousel/AACarousel.framework
+${BUILT_PRODUCTS_DIR}/AMTabView/AMTabView.framework
+${BUILT_PRODUCTS_DIR}/SideMenu/SideMenu.framework

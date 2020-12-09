@@ -1,0 +1,6 @@
+framework module Pods_HCPL {
+  umbrella header "Pods-HCPL-umbrella.h"
+
+  export *
+  module * { export * }
+}
