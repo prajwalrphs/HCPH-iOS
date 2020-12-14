@@ -2,3 +2,5 @@ ${PODS_ROOT}/Target Support Files/Pods-HCPL-HCPLUITests/Pods-HCPL-HCPLUITests-fr
 ${BUILT_PRODUCTS_DIR}/AACarousel/AACarousel.framework
 ${BUILT_PRODUCTS_DIR}/AMTabView/AMTabView.framework
 ${BUILT_PRODUCTS_DIR}/SideMenu/SideMenu.framework
+${BUILT_PRODUCTS_DIR}/UICheckbox.Swift/UICheckbox_Swift.framework
+${BUILT_PRODUCTS_DIR}/iOSDropDown/iOSDropDown.framework

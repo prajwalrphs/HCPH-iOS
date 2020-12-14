@@ -25,5 +25,19 @@ class SidemenuTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    
+    @IBAction func darkmodewhite(_ sender: UISwitch) {
+        if sender.isOn{
+           print("is on")
+            UIApplication.shared.windows.forEach { window in
+                window.overrideUserInterfaceStyle = .dark
+            }
+        }else{
+           print("is off")
+            UIApplication.shared.windows.forEach { window in
+                window.overrideUserInterfaceStyle = .light
+            }
+        }
+    }
+    
 }

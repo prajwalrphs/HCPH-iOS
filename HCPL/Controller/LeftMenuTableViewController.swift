@@ -58,6 +58,11 @@ class LeftMenuTableViewController: UIViewController,UITableViewDelegate,UITableV
             navigate.selectdtab = 2
             self.navigationController?.pushViewController(navigate, animated: true)
         }
+        if indexPath.row == 1{
+            let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+            navigate.selectdtab = 0
+            self.navigationController?.pushViewController(navigate, animated: true)
+        }
         if indexPath.row == 2{
             let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
             navigate.selectdtab = 1

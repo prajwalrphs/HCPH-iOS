@@ -31,7 +31,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
     
     var ServicesPrograms = ["Clinic Service","Animal Service","Mosquito Concerns","Environmental","Food Service"]
     
-    var ClinicServicesArr = ["Medical Clinics","Refugee Clinics","Dental Clinics","WIC","Eligibility"]
+    var ClinicServicesArr = ["Medical Clinics","Refugee Clinics","Dental Clinics","WIC","Eligibility","Mobile clinics"]
     var AnimalServiceArr = ["Shelter Animal","report Animal Cruelty","VPH maps","Events Calender","Wish List"]
     var MosquitoConcernsArr = ["Dead Bird","Mosquito Breeding Site","Disease Activity","Spray Area","Visit Our Website"]
     var EnvironmentalArr = ["Built Environmental","Pools","Drinking Water","Neighbourhood Nuisance","Lead Abatement"]
@@ -273,23 +273,77 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
     
         if CLLocationManager.locationServicesEnabled() == true {
          
-            if indexPath.row == 0{
-                
-                let naviagte:AllTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "AllTableViewController") as! AllTableViewController
-                
-                naviagte.TableArr = MedicalClinicsArr
-                naviagte.TitleName = MedicalClinicsLabel
-                
-                self.navigationController?.pushViewController(naviagte, animated: true)
-                
-            }else if indexPath.row == 1{
-                
-            }else if indexPath.row == 2{
-                
-            }else if indexPath.row == 3{
-                
+            if TableArr == ClinicServicesArr{
+                print("is Equal")
+                if indexPath.row == 0{
+                    
+                    let naviagte:AllTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "AllTableViewController") as! AllTableViewController
+                    
+                    naviagte.TableArr = MedicalClinicsArr
+                    naviagte.TitleName = MedicalClinicsLabel
+                    naviagte.Titlehead = "Medical Clinics"
+                    
+                    self.navigationController?.pushViewController(naviagte, animated: true)
+                    
+                }else if indexPath.row == 1{
+                    
+                    let naviagte:AllTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "AllTableViewController") as! AllTableViewController
+                    
+                    naviagte.TableArr = RefugeeClinicsArr
+                    naviagte.TitleName = RefugeeClinicsLabel
+                    naviagte.Titlehead = "Refugee Clinics"
+                    
+                    self.navigationController?.pushViewController(naviagte, animated: true)
+                    
+                }else if indexPath.row == 2{
+                    
+                    let naviagte:AllTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "AllTableViewController") as! AllTableViewController
+                    
+                    naviagte.TableArr = DentalClinicsArr
+                    naviagte.TitleName = DentalClinicsLabel
+                    naviagte.Titlehead = "Dental Clinics"
+                    
+                    self.navigationController?.pushViewController(naviagte, animated: true)
+                    
+                }else if indexPath.row == 3{
+                    
+                    let naviagte:AllTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "AllTableViewController") as! AllTableViewController
+                    
+                    naviagte.TableArr = WICArr
+                    naviagte.TitleName = WICLabel
+                    naviagte.Titlehead = "WIC"
+                    
+                    self.navigationController?.pushViewController(naviagte, animated: true)
+                    
+                }else if indexPath.row == 4{
+                    
+                }else if indexPath.row == 5{
+                    
+                    let naviagte:MobileClinicsViewController = self.storyboard?.instantiateViewController(withIdentifier: "MobileClinicsViewController") as! MobileClinicsViewController
+                    
+                    self.navigationController?.pushViewController(naviagte, animated: true)
+                    
+                }
+            }else if TableArr == AnimalServiceArr{
+                if indexPath.row == 0{
+                    print("jkdfjkds")
+                }else if indexPath.row == 1{
+                    print("one click")
+                    //ReportanimalViewController
+                    let naviagte:ReportanimalViewController = self.storyboard?.instantiateViewController(withIdentifier: "ReportanimalViewController") as! ReportanimalViewController
+                    
+                    self.navigationController?.pushViewController(naviagte, animated: true)
+                }
+            }else if TableArr == MosquitoConcernsArr{
+                if indexPath.row == 0{
+                                  
+                 let naviagte:DeadbirdViewController = self.storyboard?.instantiateViewController(withIdentifier: "DeadbirdViewController") as! DeadbirdViewController
+                 self.navigationController?.pushViewController(naviagte, animated: true)
+                    
+                }
             }
             
+
             
          } else {
          

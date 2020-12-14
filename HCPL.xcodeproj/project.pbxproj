@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		274416E136E58CF8C28881F8 /* Pods_HCPLTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6C250CE2BE36B4756EB3358 /* Pods_HCPLTests.framework */; };
+		EF13004D257A45300066F712 /* ReportanimalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF13004C257A45300066F712 /* ReportanimalViewController.swift */; };
 		EF56EA71257244C100E6EC66 /* ImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF56EA6F257244C100E6EC66 /* ImageCell.xib */; };
 		EF56EA72257244C100E6EC66 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF56EA70257244C100E6EC66 /* ImageCell.swift */; };
 		EF628C37257A032A00B0A0D8 /* MobileClinicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF628C36257A032A00B0A0D8 /* MobileClinicsViewController.swift */; };
@@ -42,6 +43,8 @@
 		EF8477D6256D481C0061BEB2 /* IQUIView+Hierarchy.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8477C6256D481C0061BEB2 /* IQUIView+Hierarchy.swift */; };
 		EF8477D7256D481C0061BEB2 /* IQNSArray+Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8477C7256D481C0061BEB2 /* IQNSArray+Sort.swift */; };
 		EF8477D9256D4CD20061BEB2 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8477D8256D4CD20061BEB2 /* ForgotPasswordViewController.swift */; };
+		EF8B6C85257E2269004DBF17 /* ReportCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8B6C84257E2269004DBF17 /* ReportCollectionViewCell.swift */; };
+		EF8B6C87257E6D27004DBF17 /* videoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8B6C86257E6D27004DBF17 /* videoCollectionViewCell.swift */; };
 		EF9C711D256CEA38008D3A05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9C711C256CEA38008D3A05 /* AppDelegate.swift */; };
 		EF9C711F256CEA38008D3A05 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9C711E256CEA38008D3A05 /* SceneDelegate.swift */; };
 		EF9C7121256CEA38008D3A05 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9C7120256CEA38008D3A05 /* ViewController.swift */; };
@@ -52,6 +55,9 @@
 		EF9C7137256CEA3A008D3A05 /* HCPLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9C7136256CEA3A008D3A05 /* HCPLTests.swift */; };
 		EF9C7142256CEA3A008D3A05 /* HCPLUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9C7141256CEA3A008D3A05 /* HCPLUITests.swift */; };
 		EF9C7150256D02F6008D3A05 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9C714F256D02F6008D3A05 /* LoginViewController.swift */; };
+		EFA279E22580EF5D008F1681 /* DeadbirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA279E12580EF5D008F1681 /* DeadbirdViewController.swift */; };
+		EFA279E42580EF76008F1681 /* deadbirdCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA279E32580EF76008F1681 /* deadbirdCollectionViewCell.swift */; };
+		EFC67053257F572900854BD2 /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC67052257F572900854BD2 /* DownloadManager.swift */; };
 		EFEB25E625712FD600E20DE5 /* ContactallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEB25E525712FD600E20DE5 /* ContactallTableViewCell.swift */; };
 		FB4A7F9A66D7269B83A09A6E /* Pods_HCPL_HCPLUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B8ED7FA0F2DFBA554F2B636 /* Pods_HCPL_HCPLUITests.framework */; };
 /* End PBXBuildFile section */
@@ -82,6 +88,7 @@
 		A9762CFAA6DFDE3B534D3B2E /* Pods-HCPL-HCPLUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HCPL-HCPLUITests.debug.xcconfig"; path = "Target Support Files/Pods-HCPL-HCPLUITests/Pods-HCPL-HCPLUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		C4A25D56DFDE4AE222445404 /* Pods-HCPL.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HCPL.release.xcconfig"; path = "Target Support Files/Pods-HCPL/Pods-HCPL.release.xcconfig"; sourceTree = "<group>"; };
 		DBD1C3794A6940137AF45D44 /* Pods_HCPL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HCPL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF13004C257A45300066F712 /* ReportanimalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportanimalViewController.swift; sourceTree = "<group>"; };
 		EF56EA6F257244C100E6EC66 /* ImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageCell.xib; sourceTree = "<group>"; };
 		EF56EA70257244C100E6EC66 /* ImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		EF628C36257A032A00B0A0D8 /* MobileClinicsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileClinicsViewController.swift; sourceTree = "<group>"; };
@@ -116,6 +123,8 @@
 		EF8477C6256D481C0061BEB2 /* IQUIView+Hierarchy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IQUIView+Hierarchy.swift"; sourceTree = "<group>"; };
 		EF8477C7256D481C0061BEB2 /* IQNSArray+Sort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IQNSArray+Sort.swift"; sourceTree = "<group>"; };
 		EF8477D8256D4CD20061BEB2 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
+		EF8B6C84257E2269004DBF17 /* ReportCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCollectionViewCell.swift; sourceTree = "<group>"; };
+		EF8B6C86257E6D27004DBF17 /* videoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = videoCollectionViewCell.swift; sourceTree = "<group>"; };
 		EF9C7119256CEA38008D3A05 /* HCPL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HCPL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF9C711C256CEA38008D3A05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EF9C711E256CEA38008D3A05 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -132,6 +141,9 @@
 		EF9C7141256CEA3A008D3A05 /* HCPLUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HCPLUITests.swift; sourceTree = "<group>"; };
 		EF9C7143256CEA3B008D3A05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF9C714F256D02F6008D3A05 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		EFA279E12580EF5D008F1681 /* DeadbirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadbirdViewController.swift; sourceTree = "<group>"; };
+		EFA279E32580EF76008F1681 /* deadbirdCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = deadbirdCollectionViewCell.swift; sourceTree = "<group>"; };
+		EFC67052257F572900854BD2 /* DownloadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
 		EFEB25E525712FD600E20DE5 /* ContactallTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactallTableViewCell.swift; sourceTree = "<group>"; };
 		F6C250CE2BE36B4756EB3358 /* Pods_HCPLTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HCPLTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -198,6 +210,9 @@
 				EF7A0F402570C13F00E2923F /* ProgramsCollectionViewCell.swift */,
 				EFEB25E525712FD600E20DE5 /* ContactallTableViewCell.swift */,
 				EF75E83F25790E3F00479F5B /* AllTableViewCell.swift */,
+				EF8B6C84257E2269004DBF17 /* ReportCollectionViewCell.swift */,
+				EF8B6C86257E6D27004DBF17 /* videoCollectionViewCell.swift */,
+				EFA279E32580EF76008F1681 /* deadbirdCollectionViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -217,6 +232,8 @@
 				EF66ED40256FBAAC00A9E9EE /* LeftMenuTableViewController.swift */,
 				EF75E84125790E6400479F5B /* AllTableViewController.swift */,
 				EF628C36257A032A00B0A0D8 /* MobileClinicsViewController.swift */,
+				EF13004C257A45300066F712 /* ReportanimalViewController.swift */,
+				EFA279E12580EF5D008F1681 /* DeadbirdViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -224,6 +241,7 @@
 		EF8477B1256D48050061BEB2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				EFC67051257F56FF00854BD2 /* Download */,
 				EF8477B2256D481C0061BEB2 /* IQKeyboardManagerSwift */,
 			);
 			path = Model;
@@ -340,6 +358,14 @@
 				EF9C7143256CEA3B008D3A05 /* Info.plist */,
 			);
 			path = HCPLUITests;
+			sourceTree = "<group>";
+		};
+		EFC67051257F56FF00854BD2 /* Download */ = {
+			isa = PBXGroup;
+			children = (
+				EFC67052257F572900854BD2 /* DownloadManager.swift */,
+			);
+			path = Download;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -582,6 +608,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFA279E22580EF5D008F1681 /* DeadbirdViewController.swift in Sources */,
 				EF8477CA256D481C0061BEB2 /* IQTitleBarButtonItem.swift in Sources */,
 				EF75E84025790E3F00479F5B /* AllTableViewCell.swift in Sources */,
 				EF8477D9256D4CD20061BEB2 /* ForgotPasswordViewController.swift in Sources */,
@@ -591,10 +618,12 @@
 				EF66ED31256F6D1600A9E9EE /* AboutUsViewController.swift in Sources */,
 				EF7A0F412570C13F00E2923F /* ProgramsCollectionViewCell.swift in Sources */,
 				EF628C37257A032A00B0A0D8 /* MobileClinicsViewController.swift in Sources */,
+				EFA279E42580EF76008F1681 /* deadbirdCollectionViewCell.swift in Sources */,
 				EF8477D6256D481C0061BEB2 /* IQUIView+Hierarchy.swift in Sources */,
 				EF9C7121256CEA38008D3A05 /* ViewController.swift in Sources */,
 				EF8477CB256D481C0061BEB2 /* IQBarButtonItem.swift in Sources */,
 				EF66ED43256FBB1700A9E9EE /* SidemenuTableViewCell.swift in Sources */,
+				EFC67053257F572900854BD2 /* DownloadManager.swift in Sources */,
 				EF9C711D256CEA38008D3A05 /* AppDelegate.swift in Sources */,
 				EF75E84225790E6400479F5B /* AllTableViewController.swift in Sources */,
 				EF66ED33256F6D3100A9E9EE /* ProfileViewController.swift in Sources */,
@@ -602,13 +631,16 @@
 				EFEB25E625712FD600E20DE5 /* ContactallTableViewCell.swift in Sources */,
 				EF8477CD256D481C0061BEB2 /* IQUIView+IQKeyboardToolbar.swift in Sources */,
 				EF8477CC256D481C0061BEB2 /* IQToolbar.swift in Sources */,
+				EF8B6C85257E2269004DBF17 /* ReportCollectionViewCell.swift in Sources */,
 				EF8477C9256D481C0061BEB2 /* IQPreviousNextView.swift in Sources */,
 				EF8477D5256D481C0061BEB2 /* IQUITextFieldView+Additions.swift in Sources */,
 				EF56EA72257244C100E6EC66 /* ImageCell.swift in Sources */,
 				EF8477D1256D481C0061BEB2 /* IQKeyboardReturnKeyHandler.swift in Sources */,
 				EF8477D2256D481C0061BEB2 /* IQKeyboardManager.swift in Sources */,
+				EF8B6C87257E6D27004DBF17 /* videoCollectionViewCell.swift in Sources */,
 				EF66ED3F256F9EB600A9E9EE /* SliderCollectionViewCell.swift in Sources */,
 				EF8477D4256D481C0061BEB2 /* IQUIViewController+Additions.swift in Sources */,
+				EF13004D257A45300066F712 /* ReportanimalViewController.swift in Sources */,
 				EF8477CE256D481C0061BEB2 /* IQInvocation.swift in Sources */,
 				EF66ED37256F6FAB00A9E9EE /* HomeViewController.swift in Sources */,
 				EF8477D7256D481C0061BEB2 /* IQNSArray+Sort.swift in Sources */,

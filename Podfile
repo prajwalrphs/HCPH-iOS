@@ -9,6 +9,8 @@ target 'HCPL' do
 pod 'AMTabView'
 pod 'SideMenu'
 pod 'AACarousel', '~> 1.1'
+pod 'iOSDropDown', '~> 0.3'
+pod 'UICheckbox.Swift'
 
   target 'HCPLTests' do
     inherit! :search_paths

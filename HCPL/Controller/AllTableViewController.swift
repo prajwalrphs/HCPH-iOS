@@ -11,13 +11,20 @@ import UIKit
 class AllTableViewController: UIViewController,UITableViewDelegate,UITableViewDataSource{
     
     @IBOutlet weak var lbltext: UILabel!
+    @IBOutlet weak var lbltitle: UILabel!
     
     var TableArr = [String]()
     var TitleName:String!
+    var Titlehead:String!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.lbltext.text = TitleName
+        self.lbltitle.text = Titlehead
+    }
+    
+    @IBAction func backpoo(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
     }
     
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -39,5 +46,6 @@ class AllTableViewController: UIViewController,UITableViewDelegate,UITableViewDa
 
             return cell
         }
+    
         
 }

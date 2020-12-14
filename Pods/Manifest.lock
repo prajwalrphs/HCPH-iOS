@@ -1,24 +1,32 @@
 PODS:
   - AACarousel (1.1.1)
   - AMTabView (0.1.2)
+  - iOSDropDown (0.3.4)
   - SideMenu (6.4.9)
+  - UICheckbox.Swift (1.0.0)
 
 DEPENDENCIES:
   - AACarousel (~> 1.1)
   - AMTabView
+  - iOSDropDown (~> 0.3)
   - SideMenu
+  - UICheckbox.Swift
 
 SPEC REPOS:
   trunk:
     - AACarousel
     - AMTabView
+    - iOSDropDown
     - SideMenu
+    - UICheckbox.Swift
 
 SPEC CHECKSUMS:
   AACarousel: e0dbd2d3153c56c36df8aa282553f20fc88e132b
   AMTabView: b8a74f5ea27ec367d8f6fa614ebc77be9af38064
+  iOSDropDown: c10a761f9a00c3f1cc9d3bce43ae504628e2f692
   SideMenu: 8ef57a3cfc024a2d3fc1c036c7fe98537baec9e0
+  UICheckbox.Swift: 85715689206fac5bae38b308f19c2a3e00442c3b
 
-PODFILE CHECKSUM: d301a39c3ff49217a48a672015b672fbc0598119
+PODFILE CHECKSUM: 1049f5e5c691ed7d505fef348d7995cf87d89985
 
 COCOAPODS: 1.9.3
