@@ -37,11 +37,11 @@ class ViewController: AMTabsViewController {
       let AboutUsStoryboard = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AboutUsViewController")
       let HomeStoryboard = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeViewController")
       let ProfileStoryboard = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ProfileViewController")
-      let MapStoryboard = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MapViewController")
+      let ReportStoryboard = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ReportIssueViewController")
       
 
          
-      viewControllers = [ContectStoryboard, AboutUsStoryboard,HomeStoryboard,ProfileStoryboard,MapStoryboard]
+      viewControllers = [ContectStoryboard, AboutUsStoryboard,HomeStoryboard,ProfileStoryboard,ReportStoryboard]
     }
     
     override func tabDidSelectAt(index: Int) {

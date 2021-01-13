@@ -32,24 +32,22 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
     var ServicesPrograms = ["Clinic Service","Animal Service","Mosquito Concerns","Environmental","Food Service"]
     
     var ClinicServicesArr = ["Medical Clinics","Refugee Clinics","Dental Clinics","WIC","Eligibility","Mobile clinics"]
-    var AnimalServiceArr = ["Shelter Animal","report Animal Cruelty","VPH maps","Events Calender","Wish List"]
-    var MosquitoConcernsArr = ["Dead Bird","Mosquito Breeding Site","Disease Activity","Spray Area","Visit Our Website"]
+    var AnimalServiceArr = ["Shelter Animal","Report Animal Cruelty","VPH maps","Events Calender","Wish List"]
+    var MosquitoConcernsArr = ["Dead Bird","Mosquito Breeding Site","Disease Activity","Spray Area","Visit Our Website","Report Issues"]
     var EnvironmentalArr = ["Built Environmental","Pools","Drinking Water","Neighbourhood Nuisance","Lead Abatement"]
-    var FoodServicesArr = ["Search establishments","Permit renewals","New Customer","Events and Marjets","FAQ"]
+    var FoodServicesArr = ["Search establishments","Permit renewals","New Customer","Events and Marjets","FAQ","Food Safety"]
     
-    var MedicalClinicsArr = ["Location","Hours","Dental"]
+    var MedicalClinicsArr = ["Locations","Hours","Dental"]
     var MedicalClinicsLabel = "Health and Wellness Clinic Services"
     
-    var RefugeeClinicsArr = ["Location","Hours"]
+    var RefugeeClinicsArr = ["Locations","Hours"]
     var RefugeeClinicsLabel = "Refugee Helth Screeing Program"
     
-    var DentalClinicsArr = ["Location","Hours"]
+    var DentalClinicsArr = ["Locations","Hours"]
     var DentalClinicsLabel = "Dental Services"
     
     var WICArr = ["Location","Hours"]
     var WICLabel = "Women, infants and Children (WIC)"
-    
-    
     
     var TableArr = [String]()
         
@@ -63,6 +61,9 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
     var timer:Timer?
     var currentcellindex = 0
     
+    var FoodSafetyArray = ["Choose Subject","Food Made Me Sick","Unclean Preparation","Something in My Food"]
+    var Foodids = [1,2,3,4]
+    var FoodTitle = "Food Safety"
     
     var settings = SideMenuSettings()
     
@@ -147,6 +148,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
 
                 }
                 else{
+                    
                     cell.viewround.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
                     cell.lbl.textColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
 
@@ -156,7 +158,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                     cell.lbl.text = ServicesPrograms[indexPath.row]
 
                     cell.viewround.layer.cornerRadius = 6
-                     cell.viewround.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+                    cell.viewround.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
                     cell.viewround.layer.borderWidth = 0.30
                     cell.viewround.clipsToBounds = true
 
@@ -245,6 +247,36 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
             
         }else{
             
+            if indexPath.row == 0{
+                naviGetTo(url: "https://harriscounty.maps.arcgis.com/apps/opsdashboard/index.html#/c0de71f8ea484b85bb5efcb7c07c6914", title: "Covid-19 Resources")
+            }
+            if indexPath.row == 1{
+                naviGetTo(url: "https://harriscounty.maps.arcgis.com/apps/opsdashboard/index.html#/c0de71f8ea484b85bb5efcb7c07c6914", title: "Covid-19 Resources")
+            }
+            if indexPath.row == 2{
+                let naviagte:MosquitoConcernsViewController = self.storyboard?.instantiateViewController(withIdentifier: "MosquitoConcernsViewController") as! MosquitoConcernsViewController
+                self.navigationController?.pushViewController(naviagte, animated: true)
+            }
+            
+            if indexPath.row == 3{
+                let naviagte:EnvironmentalViewController = self.storyboard?.instantiateViewController(withIdentifier: "EnvironmentalViewController") as! EnvironmentalViewController
+                naviagte.TableArrScroll = EnvironmentalArr
+                self.navigationController?.pushViewController(naviagte, animated: true)
+            }
+            
+            if indexPath.row == 4{
+                let naviagte:EnvironmentalViewController = self.storyboard?.instantiateViewController(withIdentifier: "EnvironmentalViewController") as! EnvironmentalViewController
+                naviagte.TableArrScroll = AnimalServiceArr
+                self.navigationController?.pushViewController(naviagte, animated: true)
+            }
+            
+            if indexPath.row == 5{
+                let naviagte:EnvironmentalViewController = self.storyboard?.instantiateViewController(withIdentifier: "EnvironmentalViewController") as! EnvironmentalViewController
+                naviagte.TableArrScroll = FoodServicesArr
+                self.navigationController?.pushViewController(naviagte, animated: true)
+            }
+            
+            
         }
         
     }
@@ -282,6 +314,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                     naviagte.TableArr = MedicalClinicsArr
                     naviagte.TitleName = MedicalClinicsLabel
                     naviagte.Titlehead = "Medical Clinics"
+                    
                     
                     self.navigationController?.pushViewController(naviagte, animated: true)
                     
@@ -333,6 +366,49 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                     let naviagte:ReportanimalViewController = self.storyboard?.instantiateViewController(withIdentifier: "ReportanimalViewController") as! ReportanimalViewController
                     
                     self.navigationController?.pushViewController(naviagte, animated: true)
+                }else if indexPath.row == 2{
+                    let alert = UIAlertController(title: "",
+                        message: "",
+                        preferredStyle: .alert)
+                    
+                    let attribMsg = NSAttributedString(string: "What are you trying to locate?",
+                                                       attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 23.0)])
+     
+                    alert.setValue(attribMsg, forKey: "attributedTitle")
+                    
+                    let action1 = UIAlertAction(title: "Vet Clinic Location", style: .default, handler: { (action) -> Void in
+                            print("ACTION 1 selected!")
+                            self.naviGetTo(url: "http://harriscounty.maps.arcgis.com/apps/webappviewer/index.html?id=4c596ce857ef4b50930c603f2fdef55e", title: "Vet Clinic")
+                        })
+                     
+                        let action2 = UIAlertAction(title: "Dangerous Animal's Location", style: .default, handler: { (action) -> Void in
+                            print("ACTION 2 selected!")
+                            self.naviGetTo(url: "http://harriscounty.maps.arcgis.com/apps/webappviewer/index.html?id=bc063b6062ec4d86a282b13a0c566a7a", title: "Dangerous Animal's")
+                        })
+                     
+                        let action3 = UIAlertAction(title: "Rabies Outbreak Location", style: .default, handler: { (action) -> Void in
+                            print("ACTION 3 selected!")
+                            self.naviGetTo(url: "http://harriscounty.maps.arcgis.com/apps/webappviewer/index.html?id=4c596ce857ef4b50930c603f2fdef55e", title: "Rabies Outbreak")
+                        })
+                         
+                        // Cancel button
+                        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
+                    
+                    // Restyle the view of the Alert
+                    alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)  // change text color of the buttons
+                    alert.view.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)  // change background color
+                    alert.view.layer.cornerRadius = 25
+                    
+                    alert.addAction(action1)
+                    alert.addAction(action2)
+                    alert.addAction(action3)
+                    alert.addAction(cancel)
+                    present(alert, animated: true, completion: nil)
+                    
+                }else if indexPath.row == 3{
+                    self.naviGetTo(url: "http://countypets.com/Event-Calendar", title: "Event Calendar")
+                }else if indexPath.row == 4{
+                    self.naviGetTo(url: "https://www.amazon.com/hz/wishlist/ls/14I5Q47TPD5CE?&", title: "Wish List")
                 }
             }else if TableArr == MosquitoConcernsArr{
                 if indexPath.row == 0{
@@ -340,6 +416,190 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                  let naviagte:DeadbirdViewController = self.storyboard?.instantiateViewController(withIdentifier: "DeadbirdViewController") as! DeadbirdViewController
                  self.navigationController?.pushViewController(naviagte, animated: true)
                     
+                }else if indexPath.row == 1{
+                    
+                    let naviagte:MosquitoBreedingViewController = self.storyboard?.instantiateViewController(withIdentifier: "MosquitoBreedingViewController") as! MosquitoBreedingViewController
+                    self.navigationController?.pushViewController(naviagte, animated: true)
+                       
+                }else if indexPath.row == 4{
+                    
+                    self.naviGetTo(url: "http://publichealth.harriscountytx.gov/About/Organization-Offices/Mosquito-and-Vector-Control", title: "Website")
+                    
+                }else if indexPath.row == 5{
+                    
+           
+                    let alert = UIAlertController(title: "",
+                        message: "",
+                        preferredStyle: .alert)
+                    
+                    let attribMsg = NSAttributedString(string: "What would you like to report?",
+                                                       attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 23.0)])
+     
+                    alert.setValue(attribMsg, forKey: "attributedTitle")
+                    
+                    let action1 = UIAlertAction(title: "Dead Birds", style: .default, handler: { (action) -> Void in
+                        let naviagte:DeadbirdViewController = self.storyboard?.instantiateViewController(withIdentifier: "DeadbirdViewController") as! DeadbirdViewController
+                        self.navigationController?.pushViewController(naviagte, animated: true)
+                        })
+                     
+                    let action2 = UIAlertAction(title: "Mosquito Breeding Site", style: .default, handler: { (action) -> Void in
+                        let naviagte:MosquitoBreedingViewController = self.storyboard?.instantiateViewController(withIdentifier: "MosquitoBreedingViewController") as! MosquitoBreedingViewController
+                        self.navigationController?.pushViewController(naviagte, animated: true)
+                        })
+                     
+                         
+                        // Cancel button
+                        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
+                    
+                    // Restyle the view of the Alert
+                    alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)  // change text color of the buttons
+                    alert.view.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)  // change background color
+                    alert.view.layer.cornerRadius = 25
+                    
+                    alert.addAction(action1)
+                    alert.addAction(action2)
+                    alert.addAction(cancel)
+                    present(alert, animated: true, completion: nil)
+                    
+                }
+            }else if TableArr == EnvironmentalArr{
+                if indexPath.row == 0{
+                    self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/Programs/Built-Environment-Program", title: "Built Environment")
+                }else if indexPath.row == 1{
+                    self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Programs/Pool-Permits-and-Water-Safety", title: "Pools")
+                }else if indexPath.row == 2{
+                    self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Drinking-Water", title: "Drinking Water")
+                }else if indexPath.row == 3{
+                    self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/Services/NeighborhoodNuisance", title: "Neighborhood Nuisance")
+                }else{
+                    self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/Programs/Lead-Hazard-Control", title: "Lead Abatement")
+                }
+            }else if TableArr == FoodServicesArr{
+                if indexPath.row == 0{
+                    
+                }else if indexPath.row == 1{
+                    let alert = UIAlertController(title: "",
+                        message: "",
+                        preferredStyle: .alert)
+                    
+                    let attribMsg = NSAttributedString(string: "Permit Renewal",
+                                                       attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 23.0)])
+     
+                    alert.setValue(attribMsg, forKey: "attributedTitle")
+                    
+                    let action1 = UIAlertAction(title: "Fixed Food Establishments", style: .default, handler: { (action) -> Void in
+                            print("ACTION 1 selected!")
+                            self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Fixed-Food-Establishments", title: "Permit Renewal")
+                        })
+                     
+                        let action2 = UIAlertAction(title: "Mobile Units New", style: .default, handler: { (action) -> Void in
+                            print("ACTION 2 selected!")
+                            self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Mobile-Units-Renewal", title: "Permit Renewal")
+                        })
+                     
+                        let action3 = UIAlertAction(title: "Chnage Of Ownership", style: .default, handler: { (action) -> Void in
+                            print("ACTION 3 selected!")
+                            self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Change-of-Ownership", title: "Permit Renewal")
+                        })
+                         
+                        // Cancel button
+                        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
+                    
+                    // Restyle the view of the Alert
+                    alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)  // change text color of the buttons
+                    alert.view.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)  // change background color
+                    alert.view.layer.cornerRadius = 25
+                    
+                    alert.addAction(action1)
+                    alert.addAction(action2)
+                    alert.addAction(action3)
+                    alert.addAction(cancel)
+                    present(alert, animated: true, completion: nil)
+                }else if indexPath.row == 2{
+                    let alert = UIAlertController(title: "",
+                        message: "",
+                        preferredStyle: .alert)
+                    
+                    let attribMsg = NSAttributedString(string: "New Customer",
+                                                       attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 23.0)])
+     
+                    alert.setValue(attribMsg, forKey: "attributedTitle")
+                    
+                    let action1 = UIAlertAction(title: "Fixed Food Establishments", style: .default, handler: { (action) -> Void in
+                            print("ACTION 1 selected!")
+                            self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Fixed-Food-Establishments", title: "New Customer")
+                        })
+                     
+                        let action2 = UIAlertAction(title: "Mobile Units New", style: .default, handler: { (action) -> Void in
+                            print("ACTION 2 selected!")
+                            self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Mobile-Units-Renewal", title: "New Customer")
+                        })
+                     
+                        let action3 = UIAlertAction(title: "Chnage Of Ownership", style: .default, handler: { (action) -> Void in
+                            print("ACTION 3 selected!")
+                            self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Change-of-Ownership", title: "New Customer")
+                        })
+                         
+                        // Cancel button
+                        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
+                    
+                    // Restyle the view of the Alert
+                    alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)  // change text color of the buttons
+                    alert.view.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)  // change background color
+                    alert.view.layer.cornerRadius = 25
+                    
+                    alert.addAction(action1)
+                    alert.addAction(action2)
+                    alert.addAction(action3)
+                    alert.addAction(cancel)
+                    present(alert, animated: true, completion: nil)
+                }else if indexPath.row == 3{
+                    let alert = UIAlertController(title: "",
+                        message: "",
+                        preferredStyle: .alert)
+                    
+                    let attribMsg = NSAttributedString(string: "Events and Markets",
+                                                       attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 23.0)])
+     
+                    alert.setValue(attribMsg, forKey: "attributedTitle")
+                    
+                    let action1 = UIAlertAction(title: "Farmers Market Vendor", style: .default, handler: { (action) -> Void in
+                            print("ACTION 1 selected!")
+                            self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Events-and-Markets/Farmers-Market-Vendors", title: "Events and Markets")
+                        })
+                     
+                        let action2 = UIAlertAction(title: "Food Sample Permit", style: .default, handler: { (action) -> Void in
+                            print("ACTION 2 selected!")
+                            self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Events-and-Markets/Food-Sample-Permit", title: "Events and Markets")
+                        })
+                     
+                        let action3 = UIAlertAction(title: "Temporary Event Permit", style: .default, handler: { (action) -> Void in
+                            print("ACTION 3 selected!")
+                            self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Events-and-Markets/Temporary-Event", title: "Events and Markets")
+                        })
+                         
+                        // Cancel button
+                        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
+                    
+                    // Restyle the view of the Alert
+                    alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)  // change text color of the buttons
+                    alert.view.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)  // change background color
+                    alert.view.layer.cornerRadius = 25
+                    
+                    alert.addAction(action1)
+                    alert.addAction(action2)
+                    alert.addAction(action3)
+                    alert.addAction(cancel)
+                    present(alert, animated: true, completion: nil)
+                }else if indexPath.row == 4{
+                    self.naviGetTo(url: "http://publichealth.harriscountytx.gov/About/Organization-Offices/EPH/Food-Safety", title: "FAQ")
+                }else{
+                    let navigate:CommercialPoolsViewController = self.storyboard?.instantiateViewController(identifier: "CommercialPoolsViewController") as! CommercialPoolsViewController
+                    navigate.CommercialArray = FoodSafetyArray
+                    navigate.ids = Foodids
+                    navigate.Title = FoodTitle
+                    navigate.PlaceholderGet = "Food Safety"
+                    self.navigationController?.pushViewController(navigate, animated: true)
                 }
             }
             
@@ -379,6 +639,16 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
         alertController.addAction(okAction)
 
         self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func naviGetTo(url:String, title:String){
+        let navigate:webviewViewController = self.storyboard?.instantiateViewController(withIdentifier: "webviewViewController") as! webviewViewController
+        
+        navigate.strUrl = url
+        navigate.strTitle = title
+        
+        self.navigationController?.pushViewController(navigate, animated: true)
+        
     }
 }
 

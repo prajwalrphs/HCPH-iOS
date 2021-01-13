@@ -1,40 +1,47 @@
 //
-//  AboutUsViewController.swift
+//  webviewViewController.swift
 //  HCPL
 //
-//  Created by Skywave-Mac on 26/11/20.
+//  Created by Skywave-Mac on 24/12/20.
 //  Copyright © 2020 Skywave-Mac. All rights reserved.
 //
 
 import UIKit
-import AMTabView
 import WebKit
 
-class AboutUsViewController: UIViewController,TabItem,WKNavigationDelegate {
-    
-    var tabImage: UIImage? {
-      return UIImage(named: "apple")
-    }
+class webviewViewController: UIViewController,WKNavigationDelegate {
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     @IBOutlet weak var webView: WKWebView!
+    @IBOutlet weak var lbltitle: UILabel!
     
-    var strUrl = "https://publichealth.harriscountytx.gov/About/About-Us"
+    var strUrl : String! = nil
+    var strTitle : String! = nil
     
     var datastr:String!
+    var receivedTitle:String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         datastr = strUrl
+        receivedTitle = strTitle
         
+        lbltitle.text  = receivedTitle
+
         let urlget = datastr ?? ""
         let url = NSURL(string: urlget)
         let request = NSURLRequest(url: url! as URL)
                                
         webView.navigationDelegate = self
         webView.load(request as URLRequest)
+        
+    }
+    
+    @IBAction func Backbuttonaction(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
+        
     }
     
     private func webView(webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: NSError) {
@@ -49,5 +56,5 @@ class AboutUsViewController: UIViewController,TabItem,WKNavigationDelegate {
         activityIndicator.stopAnimating()
         activityIndicator.isHidden = true
     }
-
+    
 }

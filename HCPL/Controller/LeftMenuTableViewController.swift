@@ -68,6 +68,26 @@ class LeftMenuTableViewController: UIViewController,UITableViewDelegate,UITableV
             navigate.selectdtab = 1
             self.navigationController?.pushViewController(navigate, animated: true)
         }
+        if indexPath.row == 3{
+            let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+            navigate.selectdtab = 3
+            self.navigationController?.pushViewController(navigate, animated: true)
+        }
+        
+        if indexPath.row == 4{
+           naviGetTo(url: "http://publichealth.harriscountytx.gov/About/Privacy", title: "Privacy Policy")
+        }
+    }
+    
+    
+    func naviGetTo(url:String, title:String){
+        let navigate:webviewViewController = self.storyboard?.instantiateViewController(withIdentifier: "webviewViewController") as! webviewViewController
+        
+        navigate.strUrl = url
+        navigate.strTitle = title
+        
+        self.navigationController?.pushViewController(navigate, animated: true)
+        
     }
     
 }

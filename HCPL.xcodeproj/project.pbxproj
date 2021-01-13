@@ -11,6 +11,8 @@
 		EF13004D257A45300066F712 /* ReportanimalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF13004C257A45300066F712 /* ReportanimalViewController.swift */; };
 		EF56EA71257244C100E6EC66 /* ImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF56EA6F257244C100E6EC66 /* ImageCell.xib */; };
 		EF56EA72257244C100E6EC66 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF56EA70257244C100E6EC66 /* ImageCell.swift */; };
+		EF5DB0AC2595E67D002A59F2 /* LocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5DB0AB2595E67D002A59F2 /* LocationsViewController.swift */; };
+		EF5DB0B12595E69B002A59F2 /* LocationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5DB0B02595E69B002A59F2 /* LocationsTableViewCell.swift */; };
 		EF628C37257A032A00B0A0D8 /* MobileClinicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF628C36257A032A00B0A0D8 /* MobileClinicsViewController.swift */; };
 		EF66ED2F256F6CFC00A9E9EE /* ContectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF66ED2E256F6CFC00A9E9EE /* ContectViewController.swift */; };
 		EF66ED31256F6D1600A9E9EE /* AboutUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF66ED30256F6D1600A9E9EE /* AboutUsViewController.swift */; };
@@ -45,6 +47,19 @@
 		EF8477D9256D4CD20061BEB2 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8477D8256D4CD20061BEB2 /* ForgotPasswordViewController.swift */; };
 		EF8B6C85257E2269004DBF17 /* ReportCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8B6C84257E2269004DBF17 /* ReportCollectionViewCell.swift */; };
 		EF8B6C87257E6D27004DBF17 /* videoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8B6C86257E6D27004DBF17 /* videoCollectionViewCell.swift */; };
+		EF9A9736259460D40048545A /* HoursViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9A9735259460D40048545A /* HoursViewController.swift */; };
+		EF9A973B259461570048545A /* WeekTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9A973A259461570048545A /* WeekTableViewCell.swift */; };
+		EF9A97402594617D0048545A /* CallforAppointmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9A973F2594617D0048545A /* CallforAppointmentTableViewCell.swift */; };
+		EF9A97452594619C0048545A /* CallforAppointmenttwoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9A97442594619C0048545A /* CallforAppointmenttwoTableViewCell.swift */; };
+		EF9A974A259496B70048545A /* ReportIssueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9A9749259496B70048545A /* ReportIssueViewController.swift */; };
+		EF9A974F259496C90048545A /* RepostissueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9A974E259496C90048545A /* RepostissueTableViewCell.swift */; };
+		EF9A97542594B8390048545A /* CommercialPoolsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9A97532594B8390048545A /* CommercialPoolsViewController.swift */; };
+		EF9A97592594B8DB0048545A /* CommercialPoolsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9A97582594B8DB0048545A /* CommercialPoolsCollectionViewCell.swift */; };
+		EF9A975E2594B94D0048545A /* MosquitoBreedingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9A975D2594B94D0048545A /* MosquitoBreedingCollectionViewCell.swift */; };
+		EF9A97632594FB8B0048545A /* webviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9A97622594FB8B0048545A /* webviewViewController.swift */; };
+		EF9A9776259507430048545A /* Appconstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9A9775259507430048545A /* Appconstant.swift */; };
+		EF9A977B25950F580048545A /* EnvironmentalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9A977A25950F580048545A /* EnvironmentalViewController.swift */; };
+		EF9A978025950FCA0048545A /* EnvironmentalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9A977F25950FCA0048545A /* EnvironmentalTableViewCell.swift */; };
 		EF9C711D256CEA38008D3A05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9C711C256CEA38008D3A05 /* AppDelegate.swift */; };
 		EF9C711F256CEA38008D3A05 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9C711E256CEA38008D3A05 /* SceneDelegate.swift */; };
 		EF9C7121256CEA38008D3A05 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9C7120256CEA38008D3A05 /* ViewController.swift */; };
@@ -59,6 +74,9 @@
 		EFA279E42580EF76008F1681 /* deadbirdCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA279E32580EF76008F1681 /* deadbirdCollectionViewCell.swift */; };
 		EFC67053257F572900854BD2 /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC67052257F572900854BD2 /* DownloadManager.swift */; };
 		EFEB25E625712FD600E20DE5 /* ContactallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEB25E525712FD600E20DE5 /* ContactallTableViewCell.swift */; };
+		EFFE326825936DF300415DCD /* MosquitoBreedingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFE326725936DF300415DCD /* MosquitoBreedingViewController.swift */; };
+		EFFE326D25937CFC00415DCD /* MosquitoConcernsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFE326C25937CFC00415DCD /* MosquitoConcernsViewController.swift */; };
+		EFFE327225937DC300415DCD /* MosquitoConcernsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFE327125937DC300415DCD /* MosquitoConcernsTableViewCell.swift */; };
 		FB4A7F9A66D7269B83A09A6E /* Pods_HCPL_HCPLUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B8ED7FA0F2DFBA554F2B636 /* Pods_HCPL_HCPLUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -91,6 +109,8 @@
 		EF13004C257A45300066F712 /* ReportanimalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportanimalViewController.swift; sourceTree = "<group>"; };
 		EF56EA6F257244C100E6EC66 /* ImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageCell.xib; sourceTree = "<group>"; };
 		EF56EA70257244C100E6EC66 /* ImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
+		EF5DB0AB2595E67D002A59F2 /* LocationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsViewController.swift; sourceTree = "<group>"; };
+		EF5DB0B02595E69B002A59F2 /* LocationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsTableViewCell.swift; sourceTree = "<group>"; };
 		EF628C36257A032A00B0A0D8 /* MobileClinicsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileClinicsViewController.swift; sourceTree = "<group>"; };
 		EF66ED2E256F6CFC00A9E9EE /* ContectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContectViewController.swift; sourceTree = "<group>"; };
 		EF66ED30256F6D1600A9E9EE /* AboutUsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsViewController.swift; sourceTree = "<group>"; };
@@ -125,6 +145,19 @@
 		EF8477D8256D4CD20061BEB2 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		EF8B6C84257E2269004DBF17 /* ReportCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCollectionViewCell.swift; sourceTree = "<group>"; };
 		EF8B6C86257E6D27004DBF17 /* videoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = videoCollectionViewCell.swift; sourceTree = "<group>"; };
+		EF9A9735259460D40048545A /* HoursViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursViewController.swift; sourceTree = "<group>"; };
+		EF9A973A259461570048545A /* WeekTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekTableViewCell.swift; sourceTree = "<group>"; };
+		EF9A973F2594617D0048545A /* CallforAppointmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallforAppointmentTableViewCell.swift; sourceTree = "<group>"; };
+		EF9A97442594619C0048545A /* CallforAppointmenttwoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallforAppointmenttwoTableViewCell.swift; sourceTree = "<group>"; };
+		EF9A9749259496B70048545A /* ReportIssueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportIssueViewController.swift; sourceTree = "<group>"; };
+		EF9A974E259496C90048545A /* RepostissueTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepostissueTableViewCell.swift; sourceTree = "<group>"; };
+		EF9A97532594B8390048545A /* CommercialPoolsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommercialPoolsViewController.swift; sourceTree = "<group>"; };
+		EF9A97582594B8DB0048545A /* CommercialPoolsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommercialPoolsCollectionViewCell.swift; sourceTree = "<group>"; };
+		EF9A975D2594B94D0048545A /* MosquitoBreedingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosquitoBreedingCollectionViewCell.swift; sourceTree = "<group>"; };
+		EF9A97622594FB8B0048545A /* webviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = webviewViewController.swift; sourceTree = "<group>"; };
+		EF9A9775259507430048545A /* Appconstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appconstant.swift; sourceTree = "<group>"; };
+		EF9A977A25950F580048545A /* EnvironmentalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentalViewController.swift; sourceTree = "<group>"; };
+		EF9A977F25950FCA0048545A /* EnvironmentalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentalTableViewCell.swift; sourceTree = "<group>"; };
 		EF9C7119256CEA38008D3A05 /* HCPL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HCPL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF9C711C256CEA38008D3A05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EF9C711E256CEA38008D3A05 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -145,6 +178,9 @@
 		EFA279E32580EF76008F1681 /* deadbirdCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = deadbirdCollectionViewCell.swift; sourceTree = "<group>"; };
 		EFC67052257F572900854BD2 /* DownloadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
 		EFEB25E525712FD600E20DE5 /* ContactallTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactallTableViewCell.swift; sourceTree = "<group>"; };
+		EFFE326725936DF300415DCD /* MosquitoBreedingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosquitoBreedingViewController.swift; sourceTree = "<group>"; };
+		EFFE326C25937CFC00415DCD /* MosquitoConcernsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosquitoConcernsViewController.swift; sourceTree = "<group>"; };
+		EFFE327125937DC300415DCD /* MosquitoConcernsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosquitoConcernsTableViewCell.swift; sourceTree = "<group>"; };
 		F6C250CE2BE36B4756EB3358 /* Pods_HCPLTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HCPLTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -213,6 +249,15 @@
 				EF8B6C84257E2269004DBF17 /* ReportCollectionViewCell.swift */,
 				EF8B6C86257E6D27004DBF17 /* videoCollectionViewCell.swift */,
 				EFA279E32580EF76008F1681 /* deadbirdCollectionViewCell.swift */,
+				EFFE327125937DC300415DCD /* MosquitoConcernsTableViewCell.swift */,
+				EF9A973A259461570048545A /* WeekTableViewCell.swift */,
+				EF9A973F2594617D0048545A /* CallforAppointmentTableViewCell.swift */,
+				EF9A97442594619C0048545A /* CallforAppointmenttwoTableViewCell.swift */,
+				EF9A974E259496C90048545A /* RepostissueTableViewCell.swift */,
+				EF9A97582594B8DB0048545A /* CommercialPoolsCollectionViewCell.swift */,
+				EF9A975D2594B94D0048545A /* MosquitoBreedingCollectionViewCell.swift */,
+				EF9A977F25950FCA0048545A /* EnvironmentalTableViewCell.swift */,
+				EF5DB0B02595E69B002A59F2 /* LocationsTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -234,6 +279,14 @@
 				EF628C36257A032A00B0A0D8 /* MobileClinicsViewController.swift */,
 				EF13004C257A45300066F712 /* ReportanimalViewController.swift */,
 				EFA279E12580EF5D008F1681 /* DeadbirdViewController.swift */,
+				EFFE326725936DF300415DCD /* MosquitoBreedingViewController.swift */,
+				EFFE326C25937CFC00415DCD /* MosquitoConcernsViewController.swift */,
+				EF9A9735259460D40048545A /* HoursViewController.swift */,
+				EF9A9749259496B70048545A /* ReportIssueViewController.swift */,
+				EF9A97532594B8390048545A /* CommercialPoolsViewController.swift */,
+				EF9A97622594FB8B0048545A /* webviewViewController.swift */,
+				EF9A977A25950F580048545A /* EnvironmentalViewController.swift */,
+				EF5DB0AB2595E67D002A59F2 /* LocationsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -243,6 +296,7 @@
 			children = (
 				EFC67051257F56FF00854BD2 /* Download */,
 				EF8477B2256D481C0061BEB2 /* IQKeyboardManagerSwift */,
+				EF9A9775259507430048545A /* Appconstant.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -608,13 +662,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF9A97632594FB8B0048545A /* webviewViewController.swift in Sources */,
 				EFA279E22580EF5D008F1681 /* DeadbirdViewController.swift in Sources */,
 				EF8477CA256D481C0061BEB2 /* IQTitleBarButtonItem.swift in Sources */,
 				EF75E84025790E3F00479F5B /* AllTableViewCell.swift in Sources */,
+				EF9A97402594617D0048545A /* CallforAppointmentTableViewCell.swift in Sources */,
+				EF9A9776259507430048545A /* Appconstant.swift in Sources */,
 				EF8477D9256D4CD20061BEB2 /* ForgotPasswordViewController.swift in Sources */,
 				EF8477CF256D481C0061BEB2 /* IQKeyboardManagerConstantsInternal.swift in Sources */,
 				EF8477B0256D3D680061BEB2 /* SignUpViewController.swift in Sources */,
+				EFFE326D25937CFC00415DCD /* MosquitoConcernsViewController.swift in Sources */,
 				EF9C7127256CEA38008D3A05 /* HCPL.xcdatamodeld in Sources */,
+				EFFE327225937DC300415DCD /* MosquitoConcernsTableViewCell.swift in Sources */,
 				EF66ED31256F6D1600A9E9EE /* AboutUsViewController.swift in Sources */,
 				EF7A0F412570C13F00E2923F /* ProgramsCollectionViewCell.swift in Sources */,
 				EF628C37257A032A00B0A0D8 /* MobileClinicsViewController.swift in Sources */,
@@ -627,28 +686,41 @@
 				EF9C711D256CEA38008D3A05 /* AppDelegate.swift in Sources */,
 				EF75E84225790E6400479F5B /* AllTableViewController.swift in Sources */,
 				EF66ED33256F6D3100A9E9EE /* ProfileViewController.swift in Sources */,
+				EF5DB0B12595E69B002A59F2 /* LocationsTableViewCell.swift in Sources */,
+				EF9A978025950FCA0048545A /* EnvironmentalTableViewCell.swift in Sources */,
 				EF66ED41256FBAAC00A9E9EE /* LeftMenuTableViewController.swift in Sources */,
 				EFEB25E625712FD600E20DE5 /* ContactallTableViewCell.swift in Sources */,
 				EF8477CD256D481C0061BEB2 /* IQUIView+IQKeyboardToolbar.swift in Sources */,
 				EF8477CC256D481C0061BEB2 /* IQToolbar.swift in Sources */,
+				EF9A97542594B8390048545A /* CommercialPoolsViewController.swift in Sources */,
 				EF8B6C85257E2269004DBF17 /* ReportCollectionViewCell.swift in Sources */,
 				EF8477C9256D481C0061BEB2 /* IQPreviousNextView.swift in Sources */,
 				EF8477D5256D481C0061BEB2 /* IQUITextFieldView+Additions.swift in Sources */,
 				EF56EA72257244C100E6EC66 /* ImageCell.swift in Sources */,
 				EF8477D1256D481C0061BEB2 /* IQKeyboardReturnKeyHandler.swift in Sources */,
 				EF8477D2256D481C0061BEB2 /* IQKeyboardManager.swift in Sources */,
+				EF9A97452594619C0048545A /* CallforAppointmenttwoTableViewCell.swift in Sources */,
+				EF9A977B25950F580048545A /* EnvironmentalViewController.swift in Sources */,
 				EF8B6C87257E6D27004DBF17 /* videoCollectionViewCell.swift in Sources */,
+				EF5DB0AC2595E67D002A59F2 /* LocationsViewController.swift in Sources */,
 				EF66ED3F256F9EB600A9E9EE /* SliderCollectionViewCell.swift in Sources */,
 				EF8477D4256D481C0061BEB2 /* IQUIViewController+Additions.swift in Sources */,
+				EF9A974F259496C90048545A /* RepostissueTableViewCell.swift in Sources */,
+				EFFE326825936DF300415DCD /* MosquitoBreedingViewController.swift in Sources */,
 				EF13004D257A45300066F712 /* ReportanimalViewController.swift in Sources */,
+				EF9A9736259460D40048545A /* HoursViewController.swift in Sources */,
 				EF8477CE256D481C0061BEB2 /* IQInvocation.swift in Sources */,
 				EF66ED37256F6FAB00A9E9EE /* HomeViewController.swift in Sources */,
+				EF9A975E2594B94D0048545A /* MosquitoBreedingCollectionViewCell.swift in Sources */,
+				EF9A97592594B8DB0048545A /* CommercialPoolsCollectionViewCell.swift in Sources */,
 				EF8477D7256D481C0061BEB2 /* IQNSArray+Sort.swift in Sources */,
+				EF9A974A259496B70048545A /* ReportIssueViewController.swift in Sources */,
 				EF9C7150256D02F6008D3A05 /* LoginViewController.swift in Sources */,
 				EF9C711F256CEA38008D3A05 /* SceneDelegate.swift in Sources */,
 				EF66ED35256F6D3D00A9E9EE /* MapViewController.swift in Sources */,
 				EF8477D0256D481C0061BEB2 /* IQKeyboardManagerConstants.swift in Sources */,
 				EF66ED2F256F6CFC00A9E9EE /* ContectViewController.swift in Sources */,
+				EF9A973B259461570048545A /* WeekTableViewCell.swift in Sources */,
 				EF66ED49256FE21500A9E9EE /* ServicesTableViewCell.swift in Sources */,
 				EF8477C8256D481C0061BEB2 /* IQTextView.swift in Sources */,
 				EF8477D3256D481C0061BEB2 /* IQUIScrollView+Additions.swift in Sources */,
