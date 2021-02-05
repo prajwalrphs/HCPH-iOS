@@ -10,15 +10,11 @@ import UIKit
 
 class ImageCell: UICollectionViewCell {
 
-    
-    //  IBOutlets
-    
+        
     @IBOutlet var wallpaperImageView: UIImageView!
     @IBOutlet weak var lbl: UILabel!
     
-    
-    //  Life Cycle
-    
+        
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

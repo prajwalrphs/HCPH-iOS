@@ -1,16 +1,16 @@
 //
-//  MapViewController.swift
+//  SearchEstablishmentsViewController.swift
 //  HCPL
 //
-//  Created by Skywave-Mac on 26/11/20.
-//  Copyright © 2020 Skywave-Mac. All rights reserved.
+//  Created by Skywave-Mac on 03/02/21.
+//  Copyright © 2021 Skywave-Mac. All rights reserved.
 //
 
 import UIKit
 import ArcGIS
 import CoreLocation
 
-class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarDelegate,AGSGeoViewTouchDelegate {
+class SearchEstablishmentsViewController: UIViewController,CLLocationManagerDelegate,UISearchBarDelegate,AGSGeoViewTouchDelegate {
     
     @IBOutlet weak var mapview: AGSMapView!
     @IBOutlet weak var titletext: UILabel!
@@ -33,68 +33,10 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
         return map
     }
     
-    private func setupMap() {
-         let map = AGSMap(
-             basemapStyle: .arcGISTopographic
-         )
-        mapview.map = map
-        mapview.setViewpoint(
-             AGSViewpoint(
-                 latitude: 22.825187,
-                 longitude: 70.849081,
-                 scale: 72_000
-             )
-         )
-     }
-
-     private func addGraphics() {
-
-         let graphicsOverlay = AGSGraphicsOverlay()
-        mapview.graphicsOverlays.add(graphicsOverlay)
-        
-        let point = AGSPoint(x: -118.80657463861, y: 34.0005930608889, spatialReference: .wgs84())
-        let pointSymbol = AGSSimpleMarkerSymbol(style: .circle, color: .orange, size: 10.0)
-
-        pointSymbol.outline = AGSSimpleLineSymbol(style: .solid, color: .blue, width: 2.0)
-        
-        let pointGraphic = AGSGraphic(geometry: point, symbol: pointSymbol)
-
-        graphicsOverlay.graphics.add(pointGraphic)
-        
-        let polyline = AGSPolyline(
-                    points: [
-                        AGSPoint(x: -118.821527826096, y: 34.0139576938577, spatialReference: .wgs84()),
-                        AGSPoint(x: -118.814893761649, y: 34.0080602407843, spatialReference: .wgs84()),
-                        AGSPoint(x: -118.808878330345, y: 34.0016642996246, spatialReference: .wgs84())
-                    ]
-                )
-
-        let polylineSymbol = AGSSimpleLineSymbol(style: .solid, color: .blue, width: 3.0)
-        
-        let polylineGraphic = AGSGraphic(geometry: polyline, symbol: polylineSymbol)
-
-        graphicsOverlay.graphics.add(polylineGraphic)
-        
-        let polygon = AGSPolygon(
-            points: [
-                AGSPoint(x: -118.818984489994, y: 34.0137559967283, spatialReference: .wgs84()),
-                AGSPoint(x: -118.806796597377, y: 34.0215816298725, spatialReference: .wgs84()),
-                AGSPoint(x: -118.791432890735, y: 34.0163883241613, spatialReference: .wgs84()),
-                AGSPoint(x: -118.79596686535, y: 34.008564864635, spatialReference: .wgs84()),
-                AGSPoint(x: -118.808558110679, y: 34.0035027131376, spatialReference: .wgs84())
-            ]
-        )
-
-        let polygonSymbol = AGSSimpleFillSymbol(style: .solid, color: .orange, outline: AGSSimpleLineSymbol(style: .solid, color: .blue, width: 2.0))
-        
-        let polygonGraphic = AGSGraphic(geometry: polygon, symbol: polygonSymbol)
-
-          graphicsOverlay.graphics.add(polygonGraphic)
-
-     }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //mapview.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         
         mapview.locationDisplay.start {
 
@@ -119,15 +61,11 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
         
         self.titletext.text = TitleHead
         
-        setupMap()
-
-        addGraphics()
-        
         mapview.map = MakeMap()
         
-        mapview.graphicsOverlays.add(locationOverlay)
-
-        mapview.touchDelegate = self
+//        mapview.graphicsOverlays.add(locationOverlay)
+//
+//        mapview.touchDelegate = self
         
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self

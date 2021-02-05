@@ -11,7 +11,7 @@ import AMTabView
 import SideMenu
 import CoreLocation
 
-class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UITableViewDelegate,UITableViewDataSource {
+class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UITableViewDelegate,UITableViewDataSource, CLLocationManagerDelegate {
 
     var tabImage: UIImage? {
       return UIImage(named: "home")
@@ -25,17 +25,18 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
     
     let locationManager = CLLocationManager()
 
+    let flowLayout = ZoomAndSnapFlowLayout()
     
-    var arrimage = [#imageLiteral(resourceName: "pic10"),#imageLiteral(resourceName: "pic11"),#imageLiteral(resourceName: "pic6"),#imageLiteral(resourceName: "pic1"),#imageLiteral(resourceName: "pic2"),#imageLiteral(resourceName: "pic4")]
-    var arrlable = ["  Covide - 19","  Covide-19 Screening","  Mosquito Concerns","  Environmental","  Animal Services","  Food Services"]
+    var Sliderimagearr = [#imageLiteral(resourceName: "pic10"),#imageLiteral(resourceName: "pic11"),#imageLiteral(resourceName: "pic6"),#imageLiteral(resourceName: "pic1"),#imageLiteral(resourceName: "pic2"),#imageLiteral(resourceName: "pic4")]
+    var SliderLabelarr = ["  Covide - 19","  Covide-19 Screening","  Mosquito Concerns","  Environmental","  Animal Services","  Food Services"]
     
     var ServicesPrograms = ["Clinic Service","Animal Service","Mosquito Concerns","Environmental","Food Service"]
     
-    var ClinicServicesArr = ["Medical Clinics","Refugee Clinics","Dental Clinics","WIC","Eligibility","Mobile clinics"]
-    var AnimalServiceArr = ["Shelter Animal","Report Animal Cruelty","VPH maps","Events Calender","Wish List"]
+    var ClinicServicesArr = ["Medical Clinics","Refugee Clinics","Dental Clinics","WIC","Mobile clinics"]
+    var AnimalServiceArr = ["Shelter Animal","Report Animal Cruelty","VPH maps","Events Calender","Wish List","Visit Our Website"]
     var MosquitoConcernsArr = ["Dead Bird","Mosquito Breeding Site","Disease Activity","Spray Area","Visit Our Website","Report Issues"]
     var EnvironmentalArr = ["Built Environmental","Pools","Drinking Water","Neighbourhood Nuisance","Lead Abatement"]
-    var FoodServicesArr = ["Search establishments","Permit renewals","New Customer","Events and Marjets","FAQ","Food Safety"]
+    var FoodServicesArr = ["Search Establishments","Permit Renewals","New Customer","Events and Markets","FAQ","Food Safety"]
     
     var MedicalClinicsArr = ["Locations","Hours","Dental"]
     var MedicalClinicsLabel = "Health and Wellness Clinic Services"
@@ -61,15 +62,22 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
     var timer:Timer?
     var currentcellindex = 0
     
-    var FoodSafetyArray = ["Choose Subject","Food Made Me Sick","Unclean Preparation","Something in My Food"]
+    var FoodSafetyArray = ["Food Made Me Sick","Unclean Preparation","Something in My Food"]
     var Foodids = [1,2,3,4]
     var FoodTitle = "Food Safety"
     
     var settings = SideMenuSettings()
     
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        slidercollectionview.register(UINib(nibName: "ImageCell", bundle: nil), forCellWithReuseIdentifier: "ImageCell")
+        //slidercollectionview.contentInset = UIEdgeInsets.init(top: 0, left: 50, bottom: 0, right: 50)
+        slidercollectionview.decelerationRate = UIScrollView.DecelerationRate.normal
+//        //slidercollectionview.collectionViewLayout = flowLayout
+        slidercollectionview.contentInsetAdjustmentBehavior = .always
 
         if selectedRows.count > 0
         {
@@ -83,14 +91,19 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
         selectedList.removeAll()
         setupSideMenu()
         timer = Timer.scheduledTimer(timeInterval: 4.0, target: self, selector: #selector(slidetoNext), userInfo: nil, repeats: true)
-        mypagecontrol.numberOfPages = arrimage.count
-        viewConfigrations()
+        mypagecontrol.numberOfPages = Sliderimagearr.count
+        
+        //viewConfigrations()
         
         Programscollection.allowsMultipleSelection = false
         
-        selectedList = [Bool](repeating:false, count:arrlable.count)
+        selectedList = [Bool](repeating:false, count:SliderLabelarr.count)
     }
     
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        print("locations = \(locValue.latitude) \(locValue.longitude)")
+    }
     
     private func setupSideMenu() {
         // Define the menus
@@ -103,7 +116,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
     
     @objc func slidetoNext(){
         
-        if currentcellindex < arrimage.count - 1{
+        if currentcellindex < Sliderimagearr.count - 1{
             currentcellindex = currentcellindex + 1
         }else{
             currentcellindex = 0
@@ -116,7 +129,9 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
         
         slidercollectionview.register(UINib(nibName: "ImageCell", bundle: nil), forCellWithReuseIdentifier: "ImageCell")
         slidercollectionview.contentInset = UIEdgeInsets.init(top: 0, left: 40, bottom: 0, right: 40)
-        slidercollectionview.decelerationRate = UIScrollView.DecelerationRate.fast
+        slidercollectionview.decelerationRate = UIScrollView.DecelerationRate.normal
+        //slidercollectionview.collectionViewLayout = flowLayout
+        slidercollectionview.contentInsetAdjustmentBehavior = .always
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -124,10 +139,11 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
         if collectionView == Programscollection{
             return ServicesPrograms.count
         }else{
-            return arrimage.count
+            return Sliderimagearr.count
         }
         
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             
@@ -166,8 +182,8 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
 
             }else{
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! ImageCell
-               cell.wallpaperImageView.image = arrimage[indexPath.row]
-                cell.lbl.text = arrlable[indexPath.row]
+                cell.wallpaperImageView.image = Sliderimagearr[indexPath.row]
+                cell.lbl.text = SliderLabelarr[indexPath.row]
                 cell.lbl.layer.cornerRadius = 10
                 cell.lbl.clipsToBounds = true
                 cell.wallpaperImageView.layer.cornerRadius = 10
@@ -195,9 +211,6 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
         
         if collectionView == Programscollection{
             
-            let cell = collectionView.cellForItem(at: indexPath) as! ProgramsCollectionViewCell
-
-
             if indexPath.row == 0{
                 TableArr = ClinicServicesArr
                 servicetable.reloadData()
@@ -248,10 +261,10 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
         }else{
             
             if indexPath.row == 0{
-                naviGetTo(url: "https://harriscounty.maps.arcgis.com/apps/opsdashboard/index.html#/c0de71f8ea484b85bb5efcb7c07c6914", title: "Covid-19 Resources")
+                naviGetTo(url: "https://publichealth.harriscountytx.gov/Resources/2019-Novel-Coronavirus", title: "Covid-19 Resources")
             }
             if indexPath.row == 1{
-                naviGetTo(url: "https://harriscounty.maps.arcgis.com/apps/opsdashboard/index.html#/c0de71f8ea484b85bb5efcb7c07c6914", title: "Covid-19 Resources")
+                naviGetTo(url: "https://harriscounty.maps.arcgis.com/apps/opsdashboard/index.html#/c0de71f8ea484b85bb5efcb7c07c6914", title: "Covid-19 Screening tool")
             }
             if indexPath.row == 2{
                 let naviagte:MosquitoConcernsViewController = self.storyboard?.instantiateViewController(withIdentifier: "MosquitoConcernsViewController") as! MosquitoConcernsViewController
@@ -261,18 +274,21 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
             if indexPath.row == 3{
                 let naviagte:EnvironmentalViewController = self.storyboard?.instantiateViewController(withIdentifier: "EnvironmentalViewController") as! EnvironmentalViewController
                 naviagte.TableArrScroll = EnvironmentalArr
+                naviagte.MainTitle = "Environmental"
                 self.navigationController?.pushViewController(naviagte, animated: true)
             }
             
             if indexPath.row == 4{
                 let naviagte:EnvironmentalViewController = self.storyboard?.instantiateViewController(withIdentifier: "EnvironmentalViewController") as! EnvironmentalViewController
                 naviagte.TableArrScroll = AnimalServiceArr
+                naviagte.MainTitle = "Animal Services"
                 self.navigationController?.pushViewController(naviagte, animated: true)
             }
             
             if indexPath.row == 5{
                 let naviagte:EnvironmentalViewController = self.storyboard?.instantiateViewController(withIdentifier: "EnvironmentalViewController") as! EnvironmentalViewController
                 naviagte.TableArrScroll = FoodServicesArr
+                naviagte.MainTitle = "Food Services"
                 self.navigationController?.pushViewController(naviagte, animated: true)
             }
             
@@ -349,17 +365,15 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                     self.navigationController?.pushViewController(naviagte, animated: true)
                     
                 }else if indexPath.row == 4{
-                    
-                }else if indexPath.row == 5{
-                    
                     let naviagte:MobileClinicsViewController = self.storyboard?.instantiateViewController(withIdentifier: "MobileClinicsViewController") as! MobileClinicsViewController
                     
                     self.navigationController?.pushViewController(naviagte, animated: true)
-                    
                 }
             }else if TableArr == AnimalServiceArr{
                 if indexPath.row == 0{
-                    print("jkdfjkds")
+                    if let url = URL(string: "itms-apps://apple.com/app/id839686104") {
+                        UIApplication.shared.open(url)
+                    }
                 }else if indexPath.row == 1{
                     print("one click")
                     //ReportanimalViewController
@@ -408,8 +422,12 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                 }else if indexPath.row == 3{
                     self.naviGetTo(url: "http://countypets.com/Event-Calendar", title: "Event Calendar")
                 }else if indexPath.row == 4{
-                    self.naviGetTo(url: "https://www.amazon.com/hz/wishlist/ls/14I5Q47TPD5CE?&", title: "Wish List")
+                    UIApplication.shared.open(URL(string: "https://www.amazon.com/hz/wishlist/ls/14I5Q47TPD5CE?&")!, options: [:], completionHandler: nil)
+                    //self.naviGetTo(url: "https://www.amazon.com/hz/wishlist/ls/14I5Q47TPD5CE?&", title: "Wish List")
+                }else if indexPath.row == 5{
+                    self.naviGetTo(url: "http://publichealth.harriscountytx.gov/About/Organization-Offices/Mosquito-and-Vector-Control", title: "Website")
                 }
+                
             }else if TableArr == MosquitoConcernsArr{
                 if indexPath.row == 0{
                                   
@@ -419,6 +437,18 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                 }else if indexPath.row == 1{
                     
                     let naviagte:MosquitoBreedingViewController = self.storyboard?.instantiateViewController(withIdentifier: "MosquitoBreedingViewController") as! MosquitoBreedingViewController
+                    self.navigationController?.pushViewController(naviagte, animated: true)
+                       
+                }else if indexPath.row == 2{
+                    
+                    let naviagte:SearchEstablishmentsViewController = self.storyboard?.instantiateViewController(withIdentifier: "SearchEstablishmentsViewController") as! SearchEstablishmentsViewController
+                    naviagte.TitleHead = "Disease Activity"
+                    self.navigationController?.pushViewController(naviagte, animated: true)
+                       
+                }else if indexPath.row == 3{
+                    
+                    let naviagte:MapViewController = self.storyboard?.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
+                    naviagte.TitleHead = "Spray Area"
                     self.navigationController?.pushViewController(naviagte, animated: true)
                        
                 }else if indexPath.row == 4{
@@ -598,7 +628,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                     navigate.CommercialArray = FoodSafetyArray
                     navigate.ids = Foodids
                     navigate.Title = FoodTitle
-                    navigate.PlaceholderGet = "Food Safety"
+                    navigate.PlaceholderGet = "Choose Subject"
                     self.navigationController?.pushViewController(navigate, animated: true)
                 }
             }
@@ -688,5 +718,85 @@ extension UIView {
     layer.shouldRasterize = true
     layer.rasterizationScale = scale ? UIScreen.main.scale : 1
   }
+}
+
+
+class ZoomAndSnapFlowLayout: UICollectionViewFlowLayout {
+
+    let activeDistance: CGFloat = 100
+    let zoomFactor: CGFloat = 0.3
+
+    override init() {
+        super.init()
+
+        scrollDirection = .horizontal
+        minimumLineSpacing = 20
+        itemSize = CGSize(width: 100, height: 100)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func prepare() {
+        guard let collectionView = collectionView else { fatalError() }
+        let verticalInsets = (collectionView.frame.height - collectionView.adjustedContentInset.top - collectionView.adjustedContentInset.bottom - itemSize.height) / 2
+        let horizontalInsets = (collectionView.frame.width - collectionView.adjustedContentInset.right - collectionView.adjustedContentInset.left - itemSize.width) / 2
+        sectionInset = UIEdgeInsets(top: verticalInsets, left: horizontalInsets, bottom: verticalInsets, right: horizontalInsets)
+
+        super.prepare()
+    }
+
+    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+        guard let collectionView = collectionView else { return nil }
+        let rectAttributes = super.layoutAttributesForElements(in: rect)!.map { $0.copy() as! UICollectionViewLayoutAttributes }
+        let visibleRect = CGRect(origin: collectionView.contentOffset, size: collectionView.frame.size)
+
+        // Make the cells be zoomed when they reach the center of the screen
+        for attributes in rectAttributes where attributes.frame.intersects(visibleRect) {
+            let distance = visibleRect.midX - attributes.center.x
+            let normalizedDistance = distance / activeDistance
+
+            if distance.magnitude < activeDistance {
+                let zoom = 1 + zoomFactor * (1 - normalizedDistance.magnitude)
+                attributes.transform3D = CATransform3DMakeScale(zoom, zoom, 1)
+                attributes.zIndex = Int(zoom.rounded())
+            }
+        }
+
+        return rectAttributes
+    }
+
+    override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
+        guard let collectionView = collectionView else { return .zero }
+
+        // Add some snapping behaviour so that the zoomed cell is always centered
+        let targetRect = CGRect(x: proposedContentOffset.x, y: 0, width: collectionView.frame.width, height: collectionView.frame.height)
+        guard let rectAttributes = super.layoutAttributesForElements(in: targetRect) else { return .zero }
+
+        var offsetAdjustment = CGFloat.greatestFiniteMagnitude
+        let horizontalCenter = proposedContentOffset.x + collectionView.frame.width / 2
+
+        for layoutAttributes in rectAttributes {
+            let itemHorizontalCenter = layoutAttributes.center.x
+            if (itemHorizontalCenter - horizontalCenter).magnitude < offsetAdjustment.magnitude {
+                offsetAdjustment = itemHorizontalCenter - horizontalCenter
+            }
+        }
+
+        return CGPoint(x: proposedContentOffset.x + offsetAdjustment, y: proposedContentOffset.y)
+    }
+
+    override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
+        // Invalidate layout so that every cell get a chance to be zoomed when it reaches the center of the screen
+        return true
+    }
+
+    override func invalidationContext(forBoundsChange newBounds: CGRect) -> UICollectionViewLayoutInvalidationContext {
+        let context = super.invalidationContext(forBoundsChange: newBounds) as! UICollectionViewFlowLayoutInvalidationContext
+        context.invalidateFlowLayoutDelegateMetrics = newBounds.size != collectionView?.bounds.size
+        return context
+    }
+
 }
 

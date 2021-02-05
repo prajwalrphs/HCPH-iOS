@@ -17,7 +17,15 @@ class ContactallTableViewCell: UITableViewCell {
     @IBOutlet weak var lblmobilenumber: UILabel!
     @IBOutlet weak var btnlocation: UIButton!
     @IBOutlet weak var btncall: UIButton!
+    @IBOutlet weak var mappin: UIImageView!
+    @IBOutlet weak var heightconstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var lblsecondtitle: UILabel!
+    @IBOutlet weak var lblsecondaddress: UILabel!
+    @IBOutlet weak var lblsecondmobilenumber: UILabel!
+    @IBOutlet weak var mappinsecond: UIImageView!
+    @IBOutlet weak var btnlocationsecond: UIButton!
+    @IBOutlet weak var btncallsecond: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

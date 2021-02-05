@@ -36,7 +36,7 @@ class ViewController: AMTabsViewController {
       let ContectStoryboard = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ContectViewController")
       let AboutUsStoryboard = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AboutUsViewController")
       let HomeStoryboard = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeViewController")
-      let ProfileStoryboard = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ProfileViewController")
+      let ProfileStoryboard = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PrivacyPolicyViewController")
       let ReportStoryboard = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ReportIssueViewController")
       
 
@@ -46,6 +46,7 @@ class ViewController: AMTabsViewController {
     
     override func tabDidSelectAt(index: Int) {
       super.tabDidSelectAt(index: index)
+        print("index==>\(index)")
       
     }
     

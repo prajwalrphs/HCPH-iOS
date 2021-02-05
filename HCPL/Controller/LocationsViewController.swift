@@ -8,8 +8,11 @@
 
 import UIKit
 
-class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
-
+class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,MyCellDelegateLocation,MyCellDelegatecall,MyCellDelegatecallsecond {
+    
+    @IBOutlet weak var locationtable: UITableView!
+    
+    
     var TitleArray = [String]()
     var AddressArray = [String]()
     var FirstNumberArray = [String]()
@@ -17,6 +20,10 @@ class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewD
     var SecondNumberArray = [String]()
     
     var ConditionString:String!
+    
+    var LocationTag:String!
+    var FirstCallTag:String!
+    var SecondCallTag:String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +34,34 @@ class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewD
         self.navigationController?.popViewController(animated: true)
     }
     
+    
+    func btnidTappedLocation(cell: LocationsTableViewCell) {
+        let indexPath = self.locationtable.indexPath(for: cell)
+
+        
+        let idget = AddressArray[indexPath!.row]
+                    
+        LocationTag = String(idget)
+                    
+        print("countid=>\(idget)")
+                    
+        cell.btnLocation.tag = Int(LocationTag.count)
+               
+               if cell.btnLocation.tag == Int(LocationTag.count){
+                
+               }
+    }
+    
+   
+    
+    func btnidTappedcall(cell: LocationsTableViewCell) {
+        print("count")
+    }
+    
+    func btnidTappedcallsecond(cell: LocationsTableViewCell) {
+        print("count")
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return TitleArray.count
     }
@@ -35,7 +70,12 @@ class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewD
         
         let cell:LocationsTableViewCell = tableView.dequeueReusableCell(withIdentifier: "LocationsTableViewCell", for: indexPath) as! LocationsTableViewCell
         
+        
         if ConditionString == "Health and Wellness Clinic Services"{
+            
+            cell.delegatecall = self
+            cell.delegatecallsecond = self
+            cell.delegateLocation = self
             
             cell.locationimage.image = cell.locationimage.image?.withRenderingMode(.alwaysTemplate)
             cell.locationimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
@@ -49,6 +89,15 @@ class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewD
             cell.lblFirstNumber.text = FirstNumberArray[indexPath.row]
             cell.lblsecondTitle.text = secondTitleArray[indexPath.row]
             cell.lblSecondNumber.text = SecondNumberArray[indexPath.row]
+            
+            LocationTag = AddressArray[indexPath.row]
+            FirstCallTag = FirstNumberArray[indexPath.row]
+            SecondCallTag = SecondNumberArray[indexPath.row]
+            
+            cell.btnLocation.tag = Int(LocationTag.count)
+            cell.btnCallFirst.tag = Int(FirstCallTag.count)
+            cell.btnCallSecond.tag = Int(SecondCallTag.count)
+            
             
             cell.Mainview.layer.cornerRadius = 10
             
@@ -79,6 +128,10 @@ class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewD
         if ConditionString == "Refugee Helth Screeing Program"{
             if(indexPath.row == 0){
                 
+                cell.delegatecall = self
+                cell.delegatecallsecond = self
+                cell.delegateLocation = self
+                
                 cell.locationimage.image = cell.locationimage.image?.withRenderingMode(.alwaysTemplate)
                 cell.locationimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
                 
@@ -91,6 +144,14 @@ class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewD
                 cell.lblFirstNumber.text = FirstNumberArray[indexPath.row]
                 cell.lblsecondTitle.text = secondTitleArray[indexPath.row]
                 cell.lblSecondNumber.text = SecondNumberArray[indexPath.row]
+                
+                LocationTag = AddressArray[indexPath.row]
+                FirstCallTag = FirstNumberArray[indexPath.row]
+                SecondCallTag = SecondNumberArray[indexPath.row]
+                
+                cell.btnLocation.tag = Int(LocationTag.count)
+                cell.btnCallFirst.tag = Int(FirstCallTag.count)
+                cell.btnCallSecond.tag = Int(SecondCallTag.count)
                 
                 cell.Mainview.layer.cornerRadius = 10
                 
@@ -118,6 +179,10 @@ class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewD
                   
             }else{
                 
+                cell.delegatecall = self
+                cell.delegatecallsecond = self
+                cell.delegateLocation = self
+                
                 cell.locationimage.image = cell.locationimage.image?.withRenderingMode(.alwaysTemplate)
                 cell.locationimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
                 
@@ -128,6 +193,14 @@ class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewD
                 cell.lblTitle.text = TitleArray[indexPath.row]
                 cell.lblAddress.text = AddressArray[indexPath.row]
                 cell.lblFirstNumber.text = FirstNumberArray[indexPath.row]
+                
+                LocationTag = AddressArray[indexPath.row]
+                FirstCallTag = FirstNumberArray[indexPath.row]
+                //SecondCallTag = SecondNumberArray[indexPath.row]
+                
+                cell.btnLocation.tag = Int(LocationTag.count)
+                cell.btnCallFirst.tag = Int(FirstCallTag.count)
+                //cell.btnCallSecond.tag = Int(SecondCallTag.count)
            
                 cell.Mainview.layer.cornerRadius = 10
                 
@@ -149,10 +222,19 @@ class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewD
                 cell.heightconstraint.constant = 185
                 
             }
+            
+            if indexPath.row == 3{
+                cell.heightconstraint.constant = 198
+            }
         }
         
         
         if ConditionString == "Dental Services"{
+            
+            cell.delegatecall = self
+            cell.delegatecallsecond = self
+            cell.delegateLocation = self
+            
             cell.locationimage.image = cell.locationimage.image?.withRenderingMode(.alwaysTemplate)
             cell.locationimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
             
@@ -163,6 +245,14 @@ class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewD
             cell.lblTitle.text = TitleArray[indexPath.row]
             cell.lblAddress.text = AddressArray[indexPath.row]
             cell.lblFirstNumber.text = FirstNumberArray[indexPath.row]
+            
+            LocationTag = AddressArray[indexPath.row]
+            FirstCallTag = FirstNumberArray[indexPath.row]
+            SecondCallTag = SecondNumberArray[indexPath.row]
+            
+            cell.btnLocation.tag = Int(LocationTag.count)
+            cell.btnCallFirst.tag = Int(FirstCallTag.count)
+            cell.btnCallSecond.tag = Int(SecondCallTag.count)
        
             cell.Mainview.layer.cornerRadius = 10
             
@@ -181,10 +271,15 @@ class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewD
             cell.btnCallFirst.layer.borderWidth = 1
             cell.btnCallFirst.layer.borderColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
          
-            cell.heightconstraint.constant = 160
+            cell.heightconstraint.constant = 185
         }
         
         if ConditionString == "WIC"{
+            
+            cell.delegatecall = self
+            cell.delegatecallsecond = self
+            cell.delegateLocation = self
+            
             cell.locationimage.image = cell.locationimage.image?.withRenderingMode(.alwaysTemplate)
             cell.locationimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
             
@@ -196,6 +291,14 @@ class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewD
             cell.lblTitle.text = TitleArray[indexPath.row]
             cell.lblAddress.text = AddressArray[indexPath.row]
             //cell.lblFirstNumber.text = FirstNumberArray[indexPath.row]
+            
+            LocationTag = AddressArray[indexPath.row]
+            FirstCallTag = TitleArray[indexPath.row]
+            //SecondCallTag = SecondNumberArray[indexPath.row]
+            
+            cell.btnLocation.tag = Int(LocationTag.count)
+            cell.btnCallFirst.tag = Int(FirstCallTag.count)
+            //cell.btnCallSecond.tag = Int(SecondCallTag.count)
        
             cell.Mainview.layer.cornerRadius = 10
             

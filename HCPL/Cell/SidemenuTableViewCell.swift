@@ -12,8 +12,6 @@ class SidemenuTableViewCell: UITableViewCell {
 
     @IBOutlet weak var img: UIImageView!
     @IBOutlet weak var lbl: UILabel!
-    @IBOutlet weak var onoff: UISwitch!
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,20 +22,6 @@ class SidemenuTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
-    }
-    
-    @IBAction func darkmodewhite(_ sender: UISwitch) {
-        if sender.isOn{
-           print("is on")
-            UIApplication.shared.windows.forEach { window in
-                window.overrideUserInterfaceStyle = .dark
-            }
-        }else{
-           print("is off")
-            UIApplication.shared.windows.forEach { window in
-                window.overrideUserInterfaceStyle = .light
-            }
-        }
     }
     
 }

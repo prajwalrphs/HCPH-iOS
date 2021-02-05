@@ -54,9 +54,9 @@ class AllTableViewController: UIViewController,UITableViewDelegate,UITableViewDa
     var RefugeeArrayTime = ["8:30 am-5:00 pm","8:30 am-5:00 pm","8:30 am-5:00 pm","8:30 am-5:00 pm","8:30 am-5:00 pm"]
     var RefugeeArrayCall = ["Walk-ins are welcome, however we recommend calling before you arrive"]
     
-    var WICTitleArray = ["WIC Administration Office","Harris County Public Helalth Antoine WIC Center","Harris County Public Helalth Bear Creek WIC","Harris County Public Helalth Decker Drive WIC Center","Harris County Public Helalth Emerald Plaza WIC Center","Harris County Public Helalth Fallbrook WIC center","Harris County Public Humble WIC center","Harris County Public Helalth Cypress Station WIC center","Harris County Public Helalth Shaver WIC center","Harris County Public Helalth Scarsdale WIC center","Harris County Public Helalth Tomball WIC center","Harris County Public Helalth Southeast WIC center"]
+    var WICTitleArray = ["WIC Administration Office","Harris County Public Helalth Antoine WIC Center","Harris County Public Helalth Bear Creek WIC","Harris County Public Helalth Decker Drive WIC Center","Harris County Public Helalth Emerald Plaza WIC Center","Harris County Public Helalth Fallbrook WIC Center","Harris County Public Humble WIC Center","Harris County Public Helalth Cypress Station WIC Center","Harris County Public Helalth Shaver WIC Center","Harris County Public Helalth Scarsdale WIC Center","Harris County Public Helalth Tomball WIC Center","Harris County Public Helalth Southeast WIC Center"]
     
-    var WICAddressArray = ["2223 West Loop south, Suit 529 Houston Taxes 77027","5815 Antoine Drive Houston, Texas 77091","16233 Clay Road, Suit 318, Houston TX 77084","4128 decker Drive,Baytown, Texas 77520","11509 Veterans Memorial Drive,Suite 400 Houston,Texas 77067","14901 SH 249 Tomball Parkway,suit 107 Houston, Texas","8950 Will Clyton Parkway, Suite A Humble Texas 77338","221 FM 1960 West, suit A Houston, Texas 77090","152 Fairmont Parkway, Pasadena,Texas 77504","10851 Scarsdale Boulevard,Suit 116 Houston,teaxas 77089","701 East Main street, Suite # 145b Tomball, Teaxas 77375","3737 red Bluff Road Pasadena,Teaxas 77503"]
+    var WICAddressArray = ["2223 West Loop south, Suit 529 Houston Taxes 77027","5815 Antoine Drive Houston, Texas 77091","16233 Clay Road, Suit 318, Houston TX 77084","4128 decker Drive,Baytown, Texas 77520","11509 Veterans Memorial Drive,Suite 400 Houston,Texas 77067","14901 SH 249 Tomball Parkway,suit 107 Houston, Texas 77086","8950 Will Clyton Parkway, Suite A Humble Texas 77338","221 FM 1960 West, suit A Houston, Texas 77090","152 Fairmont Parkway, Pasadena,Texas 77504","10851 Scarsdale Boulevard,Suit 116 Houston,teaxas 77089","701 East Main street, Suite # 145b Tomball, Teaxas 77375","3737 red Bluff Road Pasadena,Teaxas 77503"]
     
     var WICArraydays = [" Monday"," Tuesday"," Wednesday"," Thursday"," Friday"," Saturday"]
     var WICArrayTime = ["8:00 am-5:30 pm","8:00 am-5:30 pm","8:00 am-5:30 pm","8:00 am-2:30 pm","8:00 am-2:30 pm","Call for an appointment"]
@@ -99,9 +99,7 @@ class AllTableViewController: UIViewController,UITableViewDelegate,UITableViewDa
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-       // let cell = tableView.cellForItem(at: indexPath) as! ProgramsCollectionViewCell
         
-        let cell = tableView.cellForRow(at: indexPath) as! AllTableViewCell
         
         if TitleName == "Health and Wellness Clinic Services"{
             

@@ -8,6 +8,21 @@
 
 import UIKit
 
+protocol MyCellDelegateLocation: AnyObject {
+    
+    func btnidTappedLocation(cell: LocationsTableViewCell)
+}
+
+protocol MyCellDelegatecall: AnyObject {
+    
+    func btnidTappedcall(cell: LocationsTableViewCell)
+}
+
+protocol MyCellDelegatecallsecond: AnyObject {
+    
+    func btnidTappedcallsecond(cell: LocationsTableViewCell)
+}
+
 class LocationsTableViewCell: UITableViewCell {
 
     @IBOutlet weak var Mainview: UIView!
@@ -31,8 +46,31 @@ class LocationsTableViewCell: UITableViewCell {
         
     }
 
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+
+    }
+    
+    weak var delegateLocation: MyCellDelegateLocation?
+    weak var delegatecall: MyCellDelegatecall?
+    weak var delegatecallsecond: MyCellDelegatecallsecond?
+    
+    @IBAction func LocationnavigateTapped(sender: AnyObject) {
+        
+        delegateLocation?.btnidTappedLocation(cell: self)
+
+    }
+    
+    @IBAction func CallnavigateTapped(sender: AnyObject) {
+        
+        delegatecall?.btnidTappedcall(cell: self)
+
+    }
+    
+    @IBAction func CallsecondTapped(sender: AnyObject) {
+        
+        delegatecallsecond?.btnidTappedcallsecond(cell: self)
 
     }
 

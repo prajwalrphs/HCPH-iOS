@@ -19,18 +19,20 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
     
     var Arrofname = ["Commercial Pools","Dead Bird","Drinking Water","Food Safety","Mosquito Breading Site","Neighbour hood Nuisance","Animal Report Cruelty"]
     
-    var CommercialArray = ["CommercialPools"]
+    var CommercialArray = ["Commercial Pools"]
     var ids = [1]
     var CommercialTitle = "Commercial Pools"
     
-    var FoodSafetyArray = ["Choose Subject","Food Made Me Sick","Unclean Preparation","Something in My Food"]
+    var FoodSafetyArray = ["Food Made Me Sick","Unclean Preparation","Something in My Food"]
     var Foodids = [1,2,3,4]
     var FoodTitle = "Food Safety"
     
-    var NeighbourArray = ["Neighbour hood Nuisance"]
+    var NeighbourArray = ["Neighbourhood Nuisance"]
     var Neighbourids = [1]
     var NeighbourTitle = "Neighbour hood Nuisance"
     
+    var DrinkingWater = ["Public Drinking Water"]
+    var DrinkingWaterids = [1]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,6 +77,10 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
         }else if indexPath.row == 2{
             
             let navigate:CommercialPoolsViewController = self.storyboard?.instantiateViewController(identifier: "CommercialPoolsViewController") as! CommercialPoolsViewController
+            navigate.CommercialArray = DrinkingWater
+            navigate.ids = DrinkingWaterids
+            navigate.PlaceholderGet = "Public Drinking Water"
+            navigate.Title = "Drinking Water"
             self.navigationController?.pushViewController(navigate, animated: true)
             
         }else if indexPath.row == 3{

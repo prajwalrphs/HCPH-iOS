@@ -15,11 +15,18 @@ class LeftMenuTableViewController: UIViewController,UITableViewDelegate,UITableV
     
     @IBOutlet weak var sidetable: UITableView!
     
-    var arrlable = ["Home","Contact","About","User Profile","Privacy Policy","Enable dark Mode","Logout"]
-    var arrimages = [#imageLiteral(resourceName: "home"),#imageLiteral(resourceName: "call-2"),#imageLiteral(resourceName: "apple"),#imageLiteral(resourceName: "user"),#imageLiteral(resourceName: "policyicon"),#imageLiteral(resourceName: "user"),#imageLiteral(resourceName: "logout-2")]
+    var arrlable = ["Home","Contact","About","Privacy Policy","Report Issue"]
+    var arrimages = [#imageLiteral(resourceName: "home"),#imageLiteral(resourceName: "call-2"),#imageLiteral(resourceName: "apple"),#imageLiteral(resourceName: "secure"),#imageLiteral(resourceName: "alarm"),#imageLiteral(resourceName: "user")]
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("releaseVersionNumber==>\(Bundle.main.releaseVersionNumber ?? "")")
+        print("buildVersionNumber==>\(Bundle.main.buildVersionNumber ?? "")")
+        
+        arrlable.append("Version \(Bundle.main.releaseVersionNumber ?? "")")
 
         // Do any additional setup after loading the view.
     }
@@ -32,21 +39,10 @@ class LeftMenuTableViewController: UIViewController,UITableViewDelegate,UITableV
         
         let cell:SidemenuTableViewCell = tableView.dequeueReusableCell(withIdentifier: "SidemenuTableViewCell", for: indexPath) as! SidemenuTableViewCell
         
-                
-        if indexPath.row == 5{
             cell.img.image = arrimages[indexPath.row]
             cell.lbl.text = arrlable[indexPath.row]
             cell.img.image = cell.img.image?.withRenderingMode(.alwaysTemplate)
             cell.img.tintColor = #colorLiteral(red: 0.4235294118, green: 0.7490196078, blue: 0.3529411765, alpha: 1)
-            cell.onoff.isHidden = false
-        }else{
-            cell.img.image = arrimages[indexPath.row]
-            cell.lbl.text = arrlable[indexPath.row]
-            cell.img.image = cell.img.image?.withRenderingMode(.alwaysTemplate)
-            cell.img.tintColor = #colorLiteral(red: 0.4235294118, green: 0.7490196078, blue: 0.3529411765, alpha: 1)
-            cell.onoff.isHidden = true
-        }
-        
 
         return cell
         
@@ -73,10 +69,12 @@ class LeftMenuTableViewController: UIViewController,UITableViewDelegate,UITableV
             navigate.selectdtab = 3
             self.navigationController?.pushViewController(navigate, animated: true)
         }
-        
         if indexPath.row == 4{
-           naviGetTo(url: "http://publichealth.harriscountytx.gov/About/Privacy", title: "Privacy Policy")
+            let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+            navigate.selectdtab = 4
+            self.navigationController?.pushViewController(navigate, animated: true)
         }
+ 
     }
     
     
@@ -90,4 +88,13 @@ class LeftMenuTableViewController: UIViewController,UITableViewDelegate,UITableV
         
     }
     
+}
+
+extension Bundle {
+    var releaseVersionNumber: String? {
+        return infoDictionary?["CFBundleShortVersionString"] as? String
+    }
+    var buildVersionNumber: String? {
+        return infoDictionary?["CFBundleVersion"] as? String
+    }
 }
