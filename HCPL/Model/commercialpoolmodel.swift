@@ -1,10 +1,3 @@
-//
-//  commercialpoolmodel.swift
-//  HCPL
-//
-//  Created by Skywave-Mac on 22/01/21.
-//  Copyright © 2021 Skywave-Mac. All rights reserved.
-//
 
 import Foundation
 

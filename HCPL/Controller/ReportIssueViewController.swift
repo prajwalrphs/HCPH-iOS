@@ -1,10 +1,3 @@
-//
-//  ReportIssueViewController.swift
-//  HCPL
-//
-//  Created by Skywave-Mac on 24/12/20.
-//  Copyright © 2020 Skywave-Mac. All rights reserved.
-//
 
 import UIKit
 import AMTabView
@@ -17,7 +10,7 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
     
     @IBOutlet weak var reporttable: UITableView!
     
-    var Arrofname = ["Commercial Pools","Dead Bird","Drinking Water","Food Safety","Mosquito Breading Site","Neighbour hood Nuisance","Animal Report Cruelty"]
+    var Arrofname = ["Commercial Pools","Dead Bird","Drinking Water","Food Safety","Mosquito Breading Site","Neighborhood Nuisance","Animal Report Cruelty"]
     
     var CommercialArray = ["Commercial Pools"]
     var ids = [1]
@@ -27,16 +20,31 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
     var Foodids = [1,2,3,4]
     var FoodTitle = "Food Safety"
     
-    var NeighbourArray = ["Neighbourhood Nuisance"]
+    var NeighbourArray = ["Neighborhood Nuisance"]
     var Neighbourids = [1]
-    var NeighbourTitle = "Neighbour hood Nuisance"
+    var NeighbourTitle = "Neighborhood Nuisance"
     
     var DrinkingWater = ["Public Drinking Water"]
     var DrinkingWaterids = [1]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+        print("onoff==>\(onoff ?? "")")
+        
+        if onoff == "on"{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .dark
+             }
+        }else if onoff == "off"{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .light
+             }
+        }else{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .light
+             }
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -48,12 +56,31 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
         let cell:RepostissueTableViewCell = tableView.dequeueReusableCell(withIdentifier: "RepostissueTableViewCell", for: indexPath) as! RepostissueTableViewCell
         
         cell.lblname.text = Arrofname[indexPath.row]
-        cell.borderview.backgroundColor = UIColor.white
-        cell.borderview.layer.shadowColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        cell.borderview.layer.shadowOpacity = 2
-        cell.borderview.layer.shadowOffset = CGSize.zero
-        cell.borderview.layer.shadowRadius = 5
-        cell.borderview.layer.cornerRadius = 15
+        
+//        cell.borderview.backgroundColor = UIColor.white
+//        cell.borderview.layer.shadowColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+//        cell.borderview.layer.shadowOpacity = 2
+//        cell.borderview.layer.shadowOffset = CGSize.zero
+//        cell.borderview.layer.shadowRadius = 2
+        
+        cell.borderview.layer.borderWidth = 0.6
+        cell.borderview.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        cell.borderview.layer.cornerRadius = 10
+        
+        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+        print("onoff==>\(onoff ?? "")")
+        
+        if onoff == "on"{
+            
+            cell.borderview.backgroundColor = AppConstant.ViewColor
+            cell.lblname.textColor = AppConstant.NormalTextColor
+            cell.ArrowRight.tintColor = AppConstant.LabelColor
+            cell.borderview.layer.borderColor = #colorLiteral(red: 0.2588235294, green: 0.2588235294, blue: 0.2588235294, alpha: 1)
+        }else if onoff == "off"{
+            
+        }else{
+            
+        }
         
         return cell
         
@@ -103,7 +130,7 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
             navigate.CommercialArray = NeighbourArray
             navigate.ids = Neighbourids
             navigate.Title = NeighbourTitle
-            navigate.PlaceholderGet = "Neighbour hood Nuisance"
+            navigate.PlaceholderGet = "Neighborhood Nuisance"
             self.navigationController?.pushViewController(navigate, animated: true)
             
         }else{

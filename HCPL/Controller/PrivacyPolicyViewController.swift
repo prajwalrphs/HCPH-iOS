@@ -1,10 +1,3 @@
-//
-//  PrivacyPolicyViewController.swift
-//  HCPL
-//
-//  Created by Skywave-Mac on 01/02/21.
-//  Copyright © 2021 Skywave-Mac. All rights reserved.
-//
 
 import UIKit
 import AMTabView
@@ -13,7 +6,7 @@ import WebKit
 class PrivacyPolicyViewController: UIViewController,WKNavigationDelegate,TabItem {
 
     var tabImage: UIImage? {
-      return #imageLiteral(resourceName: "secure")
+      return #imageLiteral(resourceName: "baseline_privacy_tip_black_18dp")
     }
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -29,6 +22,23 @@ class PrivacyPolicyViewController: UIViewController,WKNavigationDelegate,TabItem
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+        print("onoff==>\(onoff ?? "")")
+        
+        if onoff == "on"{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .dark
+             }
+        }else if onoff == "off"{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .light
+             }
+        }else{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .light
+             }
+        }
         
         datastr = "http://publichealth.harriscountytx.gov/About/Privacy"
         receivedTitle = "Privacy Policy"

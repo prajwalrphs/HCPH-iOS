@@ -1,9 +1,3 @@
-//
-//  UIViewExtension.swift
-//  ODOMeter
-//
-//
-
 import Foundation
 import UIKit
 

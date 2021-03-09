@@ -1,16 +1,13 @@
-//
-//  CommercialPoolsViewController.swift
-//  HCPL
-//
-//  Created by Skywave-Mac on 24/12/20.
-//  Copyright © 2020 Skywave-Mac. All rights reserved.
-//
 
 import UIKit
 import iOSDropDown
 import MBProgressHUD
 import SwiftyJSON
 import Alamofire
+import MaterialComponents.MaterialTextControls_FilledTextAreas
+import MaterialComponents.MaterialTextControls_FilledTextFields
+import MaterialComponents.MaterialTextControls_OutlinedTextAreas
+import MaterialComponents.MaterialTextControls_OutlinedTextFields
 
 class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UIImagePickerControllerDelegate, UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate {
 
@@ -30,8 +27,14 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     @IBOutlet weak var txtlastname: UITextField!
     @IBOutlet weak var txtcontactnumber: UITextField!
     @IBOutlet weak var viewdescription: UIView!
-    //@IBOutlet weak var txtdescription: UITextField!
     @IBOutlet weak var LimitLabel: UILabel!
+    
+    @IBOutlet var viewone: UIView!
+    @IBOutlet var viewtwo: UIView!
+    @IBOutlet var viewthree: UIView!
+    @IBOutlet var viewfour: UIView!
+    @IBOutlet var viewfive: UIView!
+    
     
     @IBOutlet weak var txtdescription: UITextView!
     @IBOutlet weak var viewaddimage: UIView!
@@ -46,15 +49,98 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     var Title:String!
     var PlaceholderGet:String!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
+        txtcontactnumber.delegate = self
+        
+        self.viewaddimage.layer.cornerRadius = 5
+        self.viewaddimage.layer.borderWidth = 1
+        self.viewaddimage.layer.borderColor = #colorLiteral(red: 0.4078176022, green: 0.407827884, blue: 0.4078223705, alpha: 1)
+        self.viewaddimage.clipsToBounds = true
+
+        self.viewdescription.layer.cornerRadius = 5
+        self.viewdescription.layer.borderWidth = 1
+        self.viewdescription.layer.borderColor = #colorLiteral(red: 0.4078176022, green: 0.407827884, blue: 0.4078223705, alpha: 1)
+        self.viewdescription.clipsToBounds = true
+        
+        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+        print("onoff==>\(onoff ?? "")")
+        
+        if onoff == "on"{
+
+            mainDropDown.rowBackgroundColor = AppConstant.ViewColor
+            
+            self.viewaddimage.layer.cornerRadius = 5
+            self.viewaddimage.layer.borderWidth = 1
+            self.viewaddimage.layer.borderColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
+            self.viewaddimage.clipsToBounds = true
+            
+            self.viewdescription.layer.cornerRadius = 5
+            self.viewdescription.layer.borderWidth = 1
+            self.viewdescription.layer.borderColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
+            self.viewdescription.clipsToBounds = true
+            
+            self.viewone.backgroundColor = AppConstant.LabelWhiteColor
+            self.viewtwo.backgroundColor = AppConstant.LabelWhiteColor
+            self.viewthree.backgroundColor = AppConstant.LabelWhiteColor
+            self.viewfour.backgroundColor = AppConstant.LabelWhiteColor
+            self.viewfive.backgroundColor = AppConstant.LabelWhiteColor
+            
+            
+            Statetxt.attributedPlaceholder = NSAttributedString(string: "Commercial Pools",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            txtnameaddress.attributedPlaceholder = NSAttributedString(string: "Search by Name Address or Zip*",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            txtemailaddress.attributedPlaceholder = NSAttributedString(string: "Email Address (optional)",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            txtfirstname.attributedPlaceholder = NSAttributedString(string: "First Name*",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            txtlastname.attributedPlaceholder = NSAttributedString(string: "Last Name*",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            txtcontactnumber.attributedPlaceholder = NSAttributedString(string: "Contact Number*",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            
+        }else if onoff == "off"{
+            
+        }else{
+            
+        }
+        
+  
+        
+        txtdescription.autocapitalizationType = .sentences
+        txtdescription.autocapitalizationType = .words
+        txtdescription.text = "Please describe the complaint in as much detail as possible, including: date, time, address(if not already entered), and any other information that will help our investigation."
+        txtdescription.textColor = UIColor.lightGray
+        //txtdescription.autocapitalizationType = .allCharacters
+        
+        
+        if onoff == "on"{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .dark
+             }
+            
+        }else if onoff == "off"{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .light
+             }
+        }else{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .light
+             }
+        }
+
+        
+        self.txtnameaddress.delegate = self
         self.hideKeyboardTappedAround()
         
-        self.updateCharacterCount()
+        //self.updateCharacterCount()
         
         self.lbltitle.text = Title
 
+        mainDropDown.selectedRowColor = #colorLiteral(red: 0.4118635654, green: 0.7550011873, blue: 0.330655843, alpha: 1)
         mainDropDown.optionArray = CommercialArray
         mainDropDown.optionIds = ids
         mainDropDown.checkMarkEnabled = false
@@ -73,18 +159,62 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
             self.Statetxt.text = selectedText
         }
         
-        self.submitoutlate.layer.cornerRadius = 20
+        self.submitoutlate.layer.cornerRadius = 25
         
-        self.viewaddimage.layer.cornerRadius = 5
-        self.viewaddimage.layer.borderWidth = 1
-        self.viewaddimage.layer.borderColor = #colorLiteral(red: 0.4078176022, green: 0.407827884, blue: 0.4078223705, alpha: 1)
-        self.viewaddimage.clipsToBounds = true
+    }
+    
+    var MAX_LENGHTPhone = 10
+    func Phonelenght(_ textField : UITextField){
+        if let text = textField.text, text.count >= MAX_LENGHTPhone {
+            textField.text = String(text.dropLast(text.count - MAX_LENGHTPhone))
+            return
+        }
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == txtcontactnumber{
+            let MAX_LENGTH = 10
+            let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            return updatedString.count <= MAX_LENGTH
+        }else{
+            return true
+        }
+        }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField == self.txtnameaddress {
+            let controller = storyboard?.instantiateViewController(withIdentifier: "FindLocationViewController") as! FindLocationViewController
+            controller.modalPresentationStyle = .pageSheet
+            controller.modalTransitionStyle = .coverVertical
+            present(controller, animated: true, completion: nil)
+            
+            return true
+        }else if textField == self.txtcontactnumber{
+            self.Phonelenght(self.txtcontactnumber)
+            return true
+        }
+      
+     return false
+    }
+    
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.openPopup), name: Notification.Name("remove_View"), object: nil)
+    }
+
+    @objc func openPopup(){
+        let Address = UserDefaults.standard.string(forKey: AppConstant.CURRENTADDRESS)
+        print("Address==>\(Address ?? "")")
+        self.txtnameaddress.text = Address ?? ""
         
-        self.viewdescription.layer.cornerRadius = 5
-        self.viewdescription.layer.borderWidth = 1
-        self.viewdescription.layer.borderColor = #colorLiteral(red: 0.4078176022, green: 0.407827884, blue: 0.4078223705, alpha: 1)
-        self.viewdescription.clipsToBounds = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                // your code hear
+            let defaults = UserDefaults.standard
+            defaults.removeObject(forKey: AppConstant.CURRENTADDRESS)
+        })
         
+
     }
     
     func updateCharacterCount() {
@@ -94,73 +224,109 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
 
        self.LimitLabel.text = "\((0) + descriptionCount)/1000 characters left"
     }
-
-    func textViewDidChange(_ textView: UITextView) {
-       self.updateCharacterCount()
+    
+    func checkRemainingChars() {
+        
+        let allowedChars = 1000
+        
+        let charsInTextView = -txtdescription.text.count
+        
+        let remainingChars = allowedChars + charsInTextView
+        
+        
+        if remainingChars <= allowedChars {
+            
+            LimitLabel.textColor = #colorLiteral(red: 0.4118635654, green: 0.7550011873, blue: 0.330655843, alpha: 1)
+            
+        }
+        
+        if remainingChars <= 20 {
+            
+            LimitLabel.textColor = UIColor.orange
+            
+        }
+        
+        if remainingChars <= 10 {
+            
+            LimitLabel.textColor = UIColor.red
+        }
+        
+        
+        LimitLabel.text = String("\(remainingChars)  " + "characters left")
+        
+        
     }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        
+        checkRemainingChars()
+    }
+    
+    
+
+//    func textViewDidChange(_ textView: UITextView) {
+//       self.updateCharacterCount()
+//    }
 
 
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool{
        if(textView == txtdescription){
-        return textView.text.count +  (text.count - range.length) <= 1000
+        return textView.text.count -  (text.count - range.length) <= 1000
        }
        return false
     }
     
-    public func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == "Description*" {
-            txtdescription.text = ""
-            txtdescription.textColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.86)
-
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        
+        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+        print("onoff==>\(onoff ?? "")")
+        
+        if onoff == "on"{
+            if textView.textColor == UIColor.lightGray {
+                textView.text = nil
+                textView.textColor = UIColor.white
+            }
+        }else{
+            if textView.textColor == UIColor.lightGray {
+                textView.text = nil
+                textView.textColor = UIColor.black
+            }
         }
-        textView.becomeFirstResponder()
-    }
+            
 
-    public func textViewDidEndEditing(_ textView: UITextView) {
-
-        if textView.text == "" {
-            txtdescription.text = "Description*"
-            txtdescription.textColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.30)
-        }
-        textView.resignFirstResponder()
     }
     
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "Please describe the complaint in as much detail as possible, including: date, time, address(if not already entered), and any other information that will help our investigation."
+            textView.textColor = UIColor.lightGray
+        }
+    }
+
+
     func headers() -> HTTPHeaders {
         let headers:HTTPHeaders = ["Content-Type": "application/json"]
         return headers
     }
     
+    //txtnameaddress
     func validate() -> Bool {
-     if self.Statetxt.text?.isEmpty ?? true {
-      self.view.showToast(toastMessage: "Choose CommercialPools", duration: 0.3)
+     if self.txtnameaddress.text?.isEmpty ?? true {
+      self.view.showToast(toastMessage: "Please provide Location", duration: 0.3)
                 return false
-    }else if self.txtnameaddress.text?.isEmpty ?? true {
-      self.view.showToast(toastMessage: "Enter Name Address or Zip", duration: 0.3)
-                return false
-    }else if self.txtemailaddress.text?.isEmpty ?? true {
-      self.view.showToast(toastMessage: "Enter Email Address", duration: 0.3)
-                return false
-    }else if self.isValidEmail(testStr: txtemailaddress.text!) == false{
-        self.view.showToast(toastMessage: "Please Enter a valid Email id.", duration: 0.3)
-        return false
     }else if self.txtfirstname.text?.isEmpty ?? true {
-      self.view.showToast(toastMessage: "Enter First Name", duration: 0.3)
+      self.view.showToast(toastMessage: "Please provide the First Name", duration: 0.3)
                 return false
     }else if self.txtlastname.text?.isEmpty ?? true {
-      self.view.showToast(toastMessage: "Enter Last Name", duration: 0.3)
+      self.view.showToast(toastMessage: "Please provide the Last Name", duration: 0.3)
                 return false
     }else if self.txtcontactnumber.text!.count != 10{
-        self.view.showToast(toastMessage: "Please Enter a valid number.", duration: 0.3)
-                  return false
-      }else if self.txtdescription.text?.isEmpty ?? true {
-      self.view.showToast(toastMessage: "Enter Description", duration: 0.3)
-                return false
-    }else if self.arrayimage.isEmpty{
-        self.view.showToast(toastMessage: "Choose Image", duration: 0.3)
+        self.view.showToast(toastMessage: "Please provide the valid contact number.", duration: 0.3)
                   return false
     }
       return true
     }
+    
     
     func isValidEmail(testStr:String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
@@ -183,12 +349,13 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
             "EstablishmentNumber":"0",
             "FirstName":txtfirstname.text ?? "",
             "LastName":txtlastname.text ?? "",
-            "Place":"hchcgchchx",
+            "Place":txtnameaddress.text ?? "",
             "ReceivedDevice":"1",
             "Section":"0",
             "Subject":Statetxt.text ?? "",
             "ImageList":["values":arrayimage]
         ] as [String : Any]
+        
 
         let jsonData = try? JSONSerialization.data(withJSONObject: parameters)
 
@@ -203,20 +370,49 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                  guard let data = data else { return }
                  do{
                      let json = try JSON(data:data)
-                     print("PlaceorderApicall==> \(json)")
+                     print("CommercialPoolsApicall==> \(json)")
                     
-                    let decoder = JSONDecoder()
-                    self.CommercialPools = try decoder.decode(CommercialPoolsWelcome.self, from: data)
-                       
-              DispatchQueue.main.async {
+                    let statusisSuccess = json["isSuccess"]
+                    let messageTost = json["message"]
+                    
+                    let gettost = "\(messageTost)"
+                    
+                    print("statusisSuccess==>\(statusisSuccess)")
+                    print("gettost==>\(gettost)")
+                    
+                    if statusisSuccess == "false"{
+
+                        DispatchQueue.main.async {
+                            self.hud.hide(animated: true)
+                            self.view.showToast(toastMessage: gettost, duration: 0.3)
+                            
+                        }
                 
-                    self.hud.hide(animated: true)
-                
-                let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
-                navigate.selectdtab = 4
-                self.navigationController?.pushViewController(navigate, animated: true)
-                        
-                }
+                    }else{
+                        let decoder = JSONDecoder()
+                        self.CommercialPools = try decoder.decode(CommercialPoolsWelcome.self, from: data)
+                           
+                  DispatchQueue.main.async {
+                    
+                        self.hud.hide(animated: true)
+                    
+
+                    
+                    self.view.showToast(toastMessage: "Form Successfully Submitted", duration: 0.3)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                        // your code here
+                        let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                        navigate.selectdtab = 4
+                        self.navigationController?.pushViewController(navigate, animated: true)
+                    }
+                    
+
+                            
+                    }
+                    }
+                    
+
                      
                  }catch{
                      print(error.localizedDescription)
@@ -285,9 +481,17 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     }
     
     @IBAction func submitaction(_ sender: UIButton) {
-        if validate(){
-            CommercialPoolsApicall()
+        
+        if Reachability.isConnectedToNetwork(){
+            print("Internet Connection Available!")
+            if validate(){
+                CommercialPoolsApicall()
+            }
+        }else{
+            print("Internet Connection not Available!")
+            self.view.showToast(toastMessage: "Network unavailable please try later", duration: 0.3)
         }
+      
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -302,7 +506,24 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            remove(index: indexPath.row)
+        showDeleteWarningimage(for: indexPath)
+    }
+    
+    func showDeleteWarningimage(for indexPath: IndexPath) {
+        let alert = UIAlertController(title: "HCPH", message: "Are you sure want to delete this image?", preferredStyle: .alert)
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+
+        let deleteAction = UIAlertAction(title: "OK", style: .destructive) { _ in
+            DispatchQueue.main.async {
+                self.remove(index: indexPath.row)
+            }
+        }
+
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+
+        present(alert, animated: true, completion: nil)
     }
     
     func remove(index: Int) {

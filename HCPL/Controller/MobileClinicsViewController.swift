@@ -1,10 +1,3 @@
-//
-//  MobileClinicsViewController.swift
-//  HCPL
-//
-//  Created by Skywave-Mac on 04/12/20.
-//  Copyright © 2020 Skywave-Mac. All rights reserved.
-//
 
 import UIKit
 
@@ -22,6 +15,40 @@ class MobileClinicsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+        print("onoff==>\(onoff ?? "")")
+        
+        
+        if onoff == "on"{
+            
+        //self.lblmobilehealth.textColor = AppConstant.LabelWhiteColor
+        self.lblhealthvillage.textColor = AppConstant.LabelWhiteColor
+        self.lblhealthvillagedes.textColor = AppConstant.LabelWhiteColor
+        self.lblpublichealth.textColor = AppConstant.LabelWhiteColor
+        self.lblpublichealthdes.textColor = AppConstant.LabelWhiteColor
+        self.lblour.textColor = AppConstant.LabelWhiteColor
+        self.lblformore.textColor = AppConstant.LabelWhiteColor
+            self.lblnumber.textColor = AppConstant.LabelWhiteColor
+        }else if onoff == "off"{
+            
+        }else{
+            
+        }
+        
+        if onoff == "on"{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .dark
+             }
+        }else if onoff == "off"{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .light
+             }
+        }else{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .light
+             }
+        }
         
 //        self.lblmobilehealth.text = "   Mobile Health Village"
 //        self.lblhealthvillage.text = "What is a Mobile Health Village?"

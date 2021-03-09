@@ -1,34 +1,42 @@
-//
-//  LeftMenuTableViewController.swift
-//  HCPL
-//
-//  Created by Skywave-Mac on 26/11/20.
-//  Copyright © 2020 Skywave-Mac. All rights reserved.
-//
 
 import UIKit
 
-class LeftMenuTableViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
-
-    @IBOutlet weak var lblname: UILabel!
-    @IBOutlet weak var lblprofile: UILabel!
-    
+class LeftMenuTableViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,SwitchisOn {
+ 
     @IBOutlet weak var sidetable: UITableView!
     
-    var arrlable = ["Home","Contact","About","Privacy Policy","Report Issue"]
-    var arrimages = [#imageLiteral(resourceName: "home"),#imageLiteral(resourceName: "call-2"),#imageLiteral(resourceName: "apple"),#imageLiteral(resourceName: "secure"),#imageLiteral(resourceName: "alarm"),#imageLiteral(resourceName: "user")]
     
+    var arrlable = ["Home","Contacts","About","Privacy Policy","Report Issue","Enable Dark\n Mode"]
+    var arrimages = [#imageLiteral(resourceName: "home"),#imageLiteral(resourceName: "call-2"),#imageLiteral(resourceName: "apple"),#imageLiteral(resourceName: "baseline_privacy_tip_black_18dp"),#imageLiteral(resourceName: "alarm"),#imageLiteral(resourceName: "user"),#imageLiteral(resourceName: "baseline_insert_drive_file_black_18dp")]
     
+
+    var SwitchTag:String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+        print("onoff==>\(onoff ?? "")")
+        
+        if onoff == "on"{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .dark
+             }
+        }else if onoff == "off"{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .light
+             }
+        }else{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .light
+             }
+        }
         
         print("releaseVersionNumber==>\(Bundle.main.releaseVersionNumber ?? "")")
         print("buildVersionNumber==>\(Bundle.main.buildVersionNumber ?? "")")
         
         arrlable.append("Version \(Bundle.main.releaseVersionNumber ?? "")")
 
-        // Do any additional setup after loading the view.
     }
  
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -39,13 +47,92 @@ class LeftMenuTableViewController: UIViewController,UITableViewDelegate,UITableV
         
         let cell:SidemenuTableViewCell = tableView.dequeueReusableCell(withIdentifier: "SidemenuTableViewCell", for: indexPath) as! SidemenuTableViewCell
         
+        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+        print("onoff==>\(onoff ?? "")")
+        
+        if indexPath.row == 5{
+            
+            if onoff == "on"{
+                cell.img.image = arrimages[indexPath.row]
+                cell.lbl.text = arrlable[indexPath.row]
+                cell.img.image = cell.img.image?.withRenderingMode(.alwaysTemplate)
+                cell.img.tintColor = #colorLiteral(red: 0.4235294118, green: 0.7490196078, blue: 0.3529411765, alpha: 1)
+                cell.darklightmode.isHidden = false
+                cell.darklightmode.isOn = true
+                cell.delegateSwitchisOn = self
+                SwitchTag = arrlable[indexPath.row]
+                cell.darklightmode.tag = Int(SwitchTag.count)
+            }else{
+                cell.img.image = arrimages[indexPath.row]
+                cell.lbl.text = arrlable[indexPath.row]
+                cell.img.image = cell.img.image?.withRenderingMode(.alwaysTemplate)
+                cell.img.tintColor = #colorLiteral(red: 0.4235294118, green: 0.7490196078, blue: 0.3529411765, alpha: 1)
+                cell.darklightmode.isHidden = false
+                cell.darklightmode.isOn = false
+                cell.delegateSwitchisOn = self
+                SwitchTag = arrlable[indexPath.row]
+                cell.darklightmode.tag = Int(SwitchTag.count)
+            }
+//            else{
+//                cell.img.image = arrimages[indexPath.row]
+//                cell.lbl.text = arrlable[indexPath.row]
+//                cell.img.image = cell.img.image?.withRenderingMode(.alwaysTemplate)
+//                cell.img.tintColor = #colorLiteral(red: 0.4235294118, green: 0.7490196078, blue: 0.3529411765, alpha: 1)
+//                cell.darklightmode.isHidden = false
+//                cell.delegateSwitchisOn = self
+//                SwitchTag = arrlable[indexPath.row]
+//                cell.darklightmode.tag = Int(SwitchTag.count)
+//            }
+            
+        }else{
             cell.img.image = arrimages[indexPath.row]
             cell.lbl.text = arrlable[indexPath.row]
             cell.img.image = cell.img.image?.withRenderingMode(.alwaysTemplate)
             cell.img.tintColor = #colorLiteral(red: 0.4235294118, green: 0.7490196078, blue: 0.3529411765, alpha: 1)
-
+            cell.darklightmode.isHidden = true
+//            cell.delegateSwitchisOn = self
+//            SwitchTag = arrlable[indexPath.row]
+//            cell.darklightmode.tag = Int(SwitchTag.count)
+        }
+        
         return cell
         
+    }
+    
+    func SwitchisOnTapped(cell: SidemenuTableViewCell) {
+        
+        let indexPath = self.sidetable.indexPath(for: cell)
+
+        let idget = arrlable[indexPath!.row]
+                    
+        SwitchTag = String(idget)
+                                        
+        cell.darklightmode.tag = Int(SwitchTag.count)
+               
+        if cell.darklightmode.tag == Int(SwitchTag.count){
+            
+            if cell.darklightmode.isOn{
+                print("is on")
+                UserDefaults.standard.set("on", forKey: AppConstant.ISONISOFF)
+                UIApplication.shared.windows.forEach { window in
+                     window.overrideUserInterfaceStyle = .dark
+                 }
+                let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                navigate.selectdtab = 2
+                self.navigationController?.pushViewController(navigate, animated: true)
+            }else{
+                print("of")
+                print("is off")
+                UserDefaults.standard.set("off", forKey: AppConstant.ISONISOFF)
+                UIApplication.shared.windows.forEach { window in
+                     window.overrideUserInterfaceStyle = .light
+                 }
+                let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                navigate.selectdtab = 2
+                self.navigationController?.pushViewController(navigate, animated: true)
+            }
+        }
+      
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

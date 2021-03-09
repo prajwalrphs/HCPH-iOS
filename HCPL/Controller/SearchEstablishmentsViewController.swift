@@ -1,10 +1,3 @@
-//
-//  SearchEstablishmentsViewController.swift
-//  HCPL
-//
-//  Created by Skywave-Mac on 03/02/21.
-//  Copyright © 2021 Skywave-Mac. All rights reserved.
-//
 
 import UIKit
 import ArcGIS
@@ -36,24 +29,30 @@ class SearchEstablishmentsViewController: UIViewController,CLLocationManagerDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //mapview.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+        print("onoff==>\(onoff ?? "")")
         
+        if onoff == "on"{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .dark
+             }
+        }else if onoff == "off"{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .light
+             }
+        }else{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .light
+             }
+        }
+                
         mapview.locationDisplay.start {
 
             [weak self] (error:Error?) -> Void in
 
             if let error = error {
 
-               // show error
-                print("show error")
-
            } else {
-
-              // get the map location
-            
-            print("get the map location")
-
-            //let currentLocation : AGSPoint = mapView.mapLocation;
 
            }
 
@@ -63,9 +62,9 @@ class SearchEstablishmentsViewController: UIViewController,CLLocationManagerDele
         
         mapview.map = MakeMap()
         
-//        mapview.graphicsOverlays.add(locationOverlay)
-//
-//        mapview.touchDelegate = self
+        mapview.graphicsOverlays.add(locationOverlay)
+
+        mapview.touchDelegate = self
         
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self

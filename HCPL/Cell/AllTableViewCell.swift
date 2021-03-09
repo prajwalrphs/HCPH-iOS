@@ -1,10 +1,3 @@
-//
-//  AllTableViewCell.swift
-//  HCPL
-//
-//  Created by Skywave-Mac on 03/12/20.
-//  Copyright © 2020 Skywave-Mac. All rights reserved.
-//
 
 import UIKit
 
@@ -12,6 +5,7 @@ class AllTableViewCell: UITableViewCell {
 
     @IBOutlet weak var lbl: UILabel!
     @IBOutlet weak var viewlayout: UIView!
+    @IBOutlet var ArrowRight: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

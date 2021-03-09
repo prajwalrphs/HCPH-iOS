@@ -1,10 +1,3 @@
-//
-//  EnvironmentalViewController.swift
-//  HCPL
-//
-//  Created by Skywave-Mac on 24/12/20.
-//  Copyright © 2020 Skywave-Mac. All rights reserved.
-//
 
 import UIKit
 
@@ -15,9 +8,9 @@ class EnvironmentalViewController: UIViewController,UITableViewDelegate,UITableV
     
     var MainTitle:String!
     
-    var ArrofEnvironment = ["Built Environmental","Pools","Drinking Water","Neighbourhood Nuisance","Lead Abatement"]
-    var ArrofServices = ["Shelter Animal","Report Animal Cruelty","VPH maps","Events Calender","Wish List","Visit Our Website"]
-    var ArrofFoodServices = ["Search Establishments","Permit Renewals","New Customer","Events and Markets","FAQ","Food Safety"]
+    var ArrofEnvironment = ["Built Environment","Pools","Drinking Water","Neighborhood Nuisance","Lead Abatement"]
+    var ArrofServices = ["Shelter Animals","Report Animal Cruelty","VPH maps","Events Calendar","Wish List","Visit Our Website"]
+    var ArrofFoodServices = ["Search Establishments","Permit Renewals","New Customer","Events and Markets","FAQ","Report issues"]
     
     var TableArrScroll = [String]()
     
@@ -32,6 +25,24 @@ class EnvironmentalViewController: UIViewController,UITableViewDelegate,UITableV
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+        print("onoff==>\(onoff ?? "")")
+        
+        if onoff == "on"{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .dark
+             }
+        }else if onoff == "off"{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .light
+             }
+        }else{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .light
+             }
+        }
+        
         lbltitle.text = MainTitle
     }
     
@@ -48,12 +59,24 @@ class EnvironmentalViewController: UIViewController,UITableViewDelegate,UITableV
         let cell:EnvironmentalTableViewCell = tableView.dequeueReusableCell(withIdentifier: "EnvironmentalTableViewCell", for: indexPath) as! EnvironmentalTableViewCell
         
         cell.lblname.text = TableArrScroll[indexPath.row]
-        cell.borderview.backgroundColor = UIColor.white
-        cell.borderview.layer.shadowColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        cell.borderview.layer.shadowOpacity = 2
-        cell.borderview.layer.shadowOffset = CGSize.zero
-        cell.borderview.layer.shadowRadius = 5
-        cell.borderview.layer.cornerRadius = 15
+        cell.borderview.layer.borderWidth = 0.6
+        cell.borderview.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        cell.borderview.layer.cornerRadius = 10
+        
+        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+        print("onoff==>\(onoff ?? "")")
+        
+        if onoff == "on"{
+            cell.borderview.backgroundColor = AppConstant.ViewColor
+            cell.lblname.textColor = AppConstant.NormalTextColor
+            cell.ArrowRight.tintColor = AppConstant.LabelColor
+            cell.borderview.layer.borderColor = #colorLiteral(red: 0.2588828802, green: 0.2548307478, blue: 0.2589023411, alpha: 1)
+
+        }else if onoff == "off"{
+            
+        }else{
+            
+        }
         
         return cell
         
@@ -75,7 +98,9 @@ class EnvironmentalViewController: UIViewController,UITableViewDelegate,UITableV
             }
         }else if TableArrScroll == ArrofServices{
             if indexPath.row == 0{
-                
+                if let url = URL(string: "https://apps.apple.com/in/app/petharbor-mobile/id989353019") {
+                    UIApplication.shared.open(url)
+                }
             }else if indexPath.row == 1{
                 let navigate:ReportanimalViewController = self.storyboard?.instantiateViewController(identifier: "ReportanimalViewController") as! ReportanimalViewController
                 self.navigationController?.pushViewController(navigate, animated: true)
@@ -107,9 +132,16 @@ class EnvironmentalViewController: UIViewController,UITableViewDelegate,UITableV
                     // Cancel button
                     let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
                 
+                let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+                print("onoff==>\(onoff ?? "")")
+                
+                if onoff == "on"{
+                    alert.view.tintColor = AppConstant.LabelWhiteColor
+                }else{
+                    alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+                }
                 // Restyle the view of the Alert
-                alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)  // change text color of the buttons
-                alert.view.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)  // change background color
+                alert.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)  // change background color
                 alert.view.layer.cornerRadius = 25
                 
                 alert.addAction(action1)
@@ -124,7 +156,9 @@ class EnvironmentalViewController: UIViewController,UITableViewDelegate,UITableV
             }
         }else{
             if indexPath.row == 0{
-              
+                let naviagte:SearchEstablishmentsViewController = self.storyboard?.instantiateViewController(withIdentifier: "SearchEstablishmentsViewController") as! SearchEstablishmentsViewController
+                naviagte.TitleHead = "Disease Activity"
+                self.navigationController?.pushViewController(naviagte, animated: true)
             }else if indexPath.row == 1{
                 let alert = UIAlertController(title: "",
                     message: "",
@@ -153,9 +187,16 @@ class EnvironmentalViewController: UIViewController,UITableViewDelegate,UITableV
                     // Cancel button
                     let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
                 
+                let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+                print("onoff==>\(onoff ?? "")")
+                
+                if onoff == "on"{
+                    alert.view.tintColor = AppConstant.LabelWhiteColor
+                }else{
+                    alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+                }
                 // Restyle the view of the Alert
-                alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)  // change text color of the buttons
-                alert.view.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)  // change background color
+                alert.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)  // change background color
                 alert.view.layer.cornerRadius = 25
                 
                 alert.addAction(action1)
@@ -191,9 +232,16 @@ class EnvironmentalViewController: UIViewController,UITableViewDelegate,UITableV
                     // Cancel button
                     let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
                 
+                let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+                print("onoff==>\(onoff ?? "")")
+                
+                if onoff == "on"{
+                    alert.view.tintColor = AppConstant.LabelWhiteColor
+                }else{
+                    alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+                }
                 // Restyle the view of the Alert
-                alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)  // change text color of the buttons
-                alert.view.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)  // change background color
+                alert.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)  // change background color
                 alert.view.layer.cornerRadius = 25
                 
                 alert.addAction(action1)
@@ -229,9 +277,16 @@ class EnvironmentalViewController: UIViewController,UITableViewDelegate,UITableV
                     // Cancel button
                     let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
                 
+                let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+                print("onoff==>\(onoff ?? "")")
+                
+                if onoff == "on"{
+                    alert.view.tintColor = AppConstant.LabelWhiteColor
+                }else{
+                    alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+                }
                 // Restyle the view of the Alert
-                alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)  // change text color of the buttons
-                alert.view.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)  // change background color
+                alert.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)  // change background color
                 alert.view.layer.cornerRadius = 25
                 
                 alert.addAction(action1)

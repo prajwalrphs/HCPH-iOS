@@ -1,10 +1,3 @@
-//
-//  HomeViewController.swift
-//  HCPL
-//
-//  Created by Skywave-Mac on 26/11/20.
-//  Copyright © 2020 Skywave-Mac. All rights reserved.
-//
 
 import UIKit
 import AMTabView
@@ -27,22 +20,22 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
 
     let flowLayout = ZoomAndSnapFlowLayout()
     
-    var Sliderimagearr = [#imageLiteral(resourceName: "pic10"),#imageLiteral(resourceName: "pic11"),#imageLiteral(resourceName: "pic6"),#imageLiteral(resourceName: "pic1"),#imageLiteral(resourceName: "pic2"),#imageLiteral(resourceName: "pic4")]
-    var SliderLabelarr = ["  Covide - 19","  Covide-19 Screening","  Mosquito Concerns","  Environmental","  Animal Services","  Food Services"]
+    var Sliderimagearr = [#imageLiteral(resourceName: "pic10"),#imageLiteral(resourceName: "pic10-1"),#imageLiteral(resourceName: "pic6"),#imageLiteral(resourceName: "pic1"),#imageLiteral(resourceName: "pic2"),#imageLiteral(resourceName: "pic4")]
+    var SliderLabelarr = ["  COVID-19 Resources","  COVID-19 Screening tool","  Mosquito Concerns","  Environmental","  Animal Services","  Food Services"]
     
-    var ServicesPrograms = ["Clinic Service","Animal Service","Mosquito Concerns","Environmental","Food Service"]
+    var ServicesPrograms = ["Clinical Services","Animal Services","Mosquito Concerns","Environmental","Food Services"]
     
     var ClinicServicesArr = ["Medical Clinics","Refugee Clinics","Dental Clinics","WIC","Mobile clinics"]
-    var AnimalServiceArr = ["Shelter Animal","Report Animal Cruelty","VPH maps","Events Calender","Wish List","Visit Our Website"]
-    var MosquitoConcernsArr = ["Dead Bird","Mosquito Breeding Site","Disease Activity","Spray Area","Visit Our Website","Report Issues"]
-    var EnvironmentalArr = ["Built Environmental","Pools","Drinking Water","Neighbourhood Nuisance","Lead Abatement"]
-    var FoodServicesArr = ["Search Establishments","Permit Renewals","New Customer","Events and Markets","FAQ","Food Safety"]
+    var AnimalServiceArr = ["Shelter Animals","Report Animal Cruelty","VPH maps","Events Calendar","Wish List","Visit Our Website"]
+    var MosquitoConcernsArr = ["Dead Bird","Mosquito Breeding Site","Disease Activity","Spray Area","Visit Our Website"]
+    var EnvironmentalArr = ["Built Environment","Pools","Drinking Water","Neighborhood Nuisance","Lead Abatement"]
+    var FoodServicesArr = ["Search Establishments","Permit Renewals","New Customer","Events and Markets","FAQ","Report issues"]
     
     var MedicalClinicsArr = ["Locations","Hours","Dental"]
     var MedicalClinicsLabel = "Health and Wellness Clinic Services"
     
     var RefugeeClinicsArr = ["Locations","Hours"]
-    var RefugeeClinicsLabel = "Refugee Helth Screeing Program"
+    var RefugeeClinicsLabel = "Refugee Health Screening Program"
     
     var DentalClinicsArr = ["Locations","Hours"]
     var DentalClinicsLabel = "Dental Services"
@@ -69,16 +62,32 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
     var settings = SideMenuSettings()
     
 
+    override func viewWillAppear(_ animated: Bool) {
+       print("sbhcjkadsd")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+                
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
         
-        slidercollectionview.register(UINib(nibName: "ImageCell", bundle: nil), forCellWithReuseIdentifier: "ImageCell")
-        //slidercollectionview.contentInset = UIEdgeInsets.init(top: 0, left: 50, bottom: 0, right: 50)
-        slidercollectionview.decelerationRate = UIScrollView.DecelerationRate.normal
-//        //slidercollectionview.collectionViewLayout = flowLayout
-        slidercollectionview.contentInsetAdjustmentBehavior = .always
-
+        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+        print("onoff==>\(onoff ?? "")")
+        
+        if onoff == "on"{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .dark
+             }
+        }else if onoff == "off"{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .light
+             }
+        }
+        
         if selectedRows.count > 0
         {
                 selectedRows.removeAll()
@@ -93,7 +102,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
         timer = Timer.scheduledTimer(timeInterval: 4.0, target: self, selector: #selector(slidetoNext), userInfo: nil, repeats: true)
         mypagecontrol.numberOfPages = Sliderimagearr.count
         
-        //viewConfigrations()
+        viewConfigrations()
         
         Programscollection.allowsMultipleSelection = false
         
@@ -102,13 +111,16 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-        print("locations = \(locValue.latitude) \(locValue.longitude)")
+        //print("locations = \(locValue.latitude) \(locValue.longitude)")
+        UserDefaults.standard.set(locValue.latitude, forKey: AppConstant.CURRENTLAT)
+        UserDefaults.standard.set(locValue.longitude, forKey: AppConstant.CURRENTLONG)
     }
     
     private func setupSideMenu() {
         // Define the menus
+        
         SideMenuManager.default.leftMenuNavigationController = storyboard?.instantiateViewController(withIdentifier: "LeftMenuNavigationController") as? SideMenuNavigationController
-     
+        
         SideMenuManager.default.addPanGestureToPresent(toView: navigationController!.navigationBar)
         SideMenuManager.default.addScreenEdgePanGesturesToPresent(toView: view)
                 
@@ -128,7 +140,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
     private func viewConfigrations() {
         
         slidercollectionview.register(UINib(nibName: "ImageCell", bundle: nil), forCellWithReuseIdentifier: "ImageCell")
-        slidercollectionview.contentInset = UIEdgeInsets.init(top: 0, left: 40, bottom: 0, right: 40)
+        slidercollectionview.contentInset = UIEdgeInsets.init(top: 0, left: 20, bottom: 0, right: 20)
         slidercollectionview.decelerationRate = UIScrollView.DecelerationRate.normal
         //slidercollectionview.collectionViewLayout = flowLayout
         slidercollectionview.contentInsetAdjustmentBehavior = .always
@@ -154,29 +166,85 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                 if selectedRows.contains(indexPath)
                 {
                     
+                    let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+                    print("onoff==>\(onoff ?? "")")
+                    
                     cell.viewround.backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.137254902, blue: 0.2745098039, alpha: 1)
                     cell.lbl.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+                    
+                    if onoff == "on"{
+                        cell.viewround.backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.137254902, blue: 0.2745098039, alpha: 1)
+                        cell.lbl.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+                        cell.viewround.layer.borderColor = #colorLiteral(red: 0.8941176471, green: 0.137254902, blue: 0.2745098039, alpha: 1)
+                    }else if onoff == "off"{
+                        cell.viewround.backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.137254902, blue: 0.2745098039, alpha: 1)
+                        cell.lbl.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+                        cell.viewround.layer.borderColor = #colorLiteral(red: 0.8941176471, green: 0.137254902, blue: 0.2745098039, alpha: 1)
+                    }
+                    
+
                     
                 } else if indexPath.row == 0 {
                     
                     cell.viewround.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
                     cell.lbl.textColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
+                    
+                    let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+                    print("onoff==>\(onoff ?? "")")
+                    
+                    if onoff == "on"{
+                        cell.viewround.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+                        cell.lbl.textColor = AppConstant.LabelWhiteColor
+                        cell.viewround.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+                    }else if onoff == "off"{
+                        cell.viewround.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+                        cell.lbl.textColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
+                        cell.viewround.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+                    }
 
                 }
                 else{
                     
                     cell.viewround.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
                     cell.lbl.textColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
+                    
+                    let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+                    print("onoff==>\(onoff ?? "")")
+                    
+                    if onoff == "on"{
+                        cell.viewround.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+                        cell.lbl.textColor = AppConstant.LabelWhiteColor
+                        cell.viewround.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+                    }else if onoff == "off"{
+                        cell.viewround.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+                        cell.lbl.textColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
+                        cell.viewround.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+                    }
 
                 }
 
 
                     cell.lbl.text = ServicesPrograms[indexPath.row]
 
-                    cell.viewround.layer.cornerRadius = 6
+                    cell.viewround.layer.cornerRadius = 13
                     cell.viewround.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
                     cell.viewround.layer.borderWidth = 0.30
                     cell.viewround.clipsToBounds = true
+                
+                let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+                print("onoff==>\(onoff ?? "")")
+                
+                if onoff == "on"{
+                    cell.viewround.layer.cornerRadius = 13
+                    cell.viewround.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+                    cell.viewround.layer.borderWidth = 1
+                    cell.viewround.clipsToBounds = true
+                }else if onoff == "off"{
+                    cell.viewround.layer.cornerRadius = 13
+                    cell.viewround.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+                    cell.viewround.layer.borderWidth = 0.30
+                    cell.viewround.clipsToBounds = true
+                }
 
                     return cell
 
@@ -184,16 +252,19 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! ImageCell
                 cell.wallpaperImageView.image = Sliderimagearr[indexPath.row]
                 cell.lbl.text = SliderLabelarr[indexPath.row]
-                cell.lbl.layer.cornerRadius = 10
-                cell.lbl.clipsToBounds = true
-                cell.wallpaperImageView.layer.cornerRadius = 10
-                cell.wallpaperImageView.clipsToBounds = true
+                cell.cornerview.layer.cornerRadius = 15
+                cell.cornerview.clipsToBounds = true
+//                cell.lbl.layer.cornerRadius = 10
+//                cell.lbl.clipsToBounds = true
+//                cell.wallpaperImageView.layer.cornerRadius = 10
+//                cell.wallpaperImageView.clipsToBounds = true
                return cell
             }
             
           
 
         }
+    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
@@ -306,14 +377,33 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
         let cell:ServicesTableViewCell = tableView.dequeueReusableCell(withIdentifier: "ServicesTableViewCell", for: indexPath) as! ServicesTableViewCell
         
         cell.lbl.text = TableArr[indexPath.row]
-        cell.viewlayout.layer.cornerRadius = 10
+        cell.viewlayout.layer.cornerRadius = 7
         
-        cell.viewlayout.backgroundColor = UIColor.white
-        cell.viewlayout.layer.shadowColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        cell.viewlayout.layer.shadowOpacity = 2
-        cell.viewlayout.layer.shadowOffset = CGSize.zero
-        cell.viewlayout.layer.shadowRadius = 2
+        cell.viewlayout.layer.borderWidth = 0.6
+        cell.viewlayout.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        
+        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+        print("onoff==>\(onoff ?? "")")
+        
+        if onoff == "on"{
+            cell.viewlayout.backgroundColor = AppConstant.ViewColor
+            cell.lbl.textColor = AppConstant.NormalTextColor
+            cell.ArrowRight.tintColor = AppConstant.LabelColor
+            cell.viewlayout.layer.borderColor = #colorLiteral(red: 0.2588828802, green: 0.2548307478, blue: 0.2589023411, alpha: 1)
 
+        }else if onoff == "off"{
+            
+        }else{
+            
+        }
+        
+        
+        //cell.viewlayout.backgroundColor = UIColor.white
+//        cell.viewlayout.layer.shadowColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+//        cell.viewlayout.layer.shadowOpacity = 2
+//        cell.viewlayout.layer.shadowOffset = CGSize.zero
+//        cell.viewlayout.layer.shadowRadius = 2
+        
         return cell
     }
     
@@ -371,9 +461,10 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                 }
             }else if TableArr == AnimalServiceArr{
                 if indexPath.row == 0{
-                    if let url = URL(string: "itms-apps://apple.com/app/id839686104") {
-                        UIApplication.shared.open(url)
-                    }
+                    openAppStore()
+//                    if let url = URL(string: "https://apps.apple.com/in/app/petharbor-mobile/id989353019") {
+//                        UIApplication.shared.open(url)
+//                    }
                 }else if indexPath.row == 1{
                     print("one click")
                     //ReportanimalViewController
@@ -409,8 +500,18 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                         let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
                     
                     // Restyle the view of the Alert
-                    alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)  // change text color of the buttons
-                    alert.view.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)  // change background color
+                    
+                    let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+                    print("onoff==>\(onoff ?? "")")
+                    
+                    if onoff == "on"{
+                        alert.view.tintColor = AppConstant.LabelWhiteColor
+                    }else{
+                        alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+                    }
+                    
+                    
+                    alert.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
                     alert.view.layer.cornerRadius = 25
                     
                     alert.addAction(action1)
@@ -481,9 +582,16 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                         // Cancel button
                         let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
                     
+                    let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+                    print("onoff==>\(onoff ?? "")")
+                    
+                    if onoff == "on"{
+                        alert.view.tintColor = AppConstant.LabelWhiteColor
+                    }else{
+                        alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+                    }
                     // Restyle the view of the Alert
-                    alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)  // change text color of the buttons
-                    alert.view.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)  // change background color
+                    alert.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)  // change background color
                     alert.view.layer.cornerRadius = 25
                     
                     alert.addAction(action1)
@@ -506,7 +614,9 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                 }
             }else if TableArr == FoodServicesArr{
                 if indexPath.row == 0{
-                    
+                    let naviagte:SearchEstablishmentsViewController = self.storyboard?.instantiateViewController(withIdentifier: "SearchEstablishmentsViewController") as! SearchEstablishmentsViewController
+                    naviagte.TitleHead = "Search Establishments"
+                    self.navigationController?.pushViewController(naviagte, animated: true)
                 }else if indexPath.row == 1{
                     let alert = UIAlertController(title: "",
                         message: "",
@@ -535,9 +645,16 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                         // Cancel button
                         let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
                     
+                    let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+                    print("onoff==>\(onoff ?? "")")
+                    
+                    if onoff == "on"{
+                        alert.view.tintColor = AppConstant.LabelWhiteColor
+                    }else{
+                        alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+                    }
                     // Restyle the view of the Alert
-                    alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)  // change text color of the buttons
-                    alert.view.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)  // change background color
+                    alert.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)  // change background color
                     alert.view.layer.cornerRadius = 25
                     
                     alert.addAction(action1)
@@ -573,9 +690,16 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                         // Cancel button
                         let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
                     
+                    let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+                    print("onoff==>\(onoff ?? "")")
+                    
+                    if onoff == "on"{
+                        alert.view.tintColor = AppConstant.LabelWhiteColor
+                    }else{
+                        alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+                    }
                     // Restyle the view of the Alert
-                    alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)  // change text color of the buttons
-                    alert.view.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)  // change background color
+                    alert.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)  // change background color
                     alert.view.layer.cornerRadius = 25
                     
                     alert.addAction(action1)
@@ -611,9 +735,16 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                         // Cancel button
                         let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
                     
+                    let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+                    print("onoff==>\(onoff ?? "")")
+                    
+                    if onoff == "on"{
+                        alert.view.tintColor = AppConstant.LabelWhiteColor
+                    }else{
+                        alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+                    }
                     // Restyle the view of the Alert
-                    alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)  // change text color of the buttons
-                    alert.view.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)  // change background color
+                    alert.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)  // change background color
                     alert.view.layer.cornerRadius = 25
                     
                     alert.addAction(action1)
@@ -653,6 +784,19 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
             
             
          }
+    }
+    
+    func openAppStore() {
+        if let url = URL(string: "itms-apps://itunes.apple.com/app/petharbor-mobile/id989353019"),
+            UIApplication.shared.canOpenURL(url){
+            UIApplication.shared.open(url, options: [:]) { (opened) in
+                if(opened){
+                    print("App Store Opened")
+                }
+            }
+        } else {
+            print("Can't Open URL on Simulator")
+        }
     }
     
        func showPermissionAlert(){
@@ -797,6 +941,6 @@ class ZoomAndSnapFlowLayout: UICollectionViewFlowLayout {
         context.invalidateFlowLayoutDelegateMetrics = newBounds.size != collectionView?.bounds.size
         return context
     }
-
+    
 }
 

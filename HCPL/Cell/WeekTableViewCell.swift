@@ -1,10 +1,3 @@
-//
-//  WeekTableViewCell.swift
-//  HCPL
-//
-//  Created by Skywave-Mac on 24/12/20.
-//  Copyright © 2020 Skywave-Mac. All rights reserved.
-//
 
 import UIKit
 
@@ -13,6 +6,7 @@ class WeekTableViewCell: UITableViewCell {
     @IBOutlet weak var weekday: UILabel!
     @IBOutlet weak var time: UILabel!
     @IBOutlet weak var viewborder: UIView!
+    @IBOutlet var borderview: UIView!
     
     
     override func awakeFromNib() {

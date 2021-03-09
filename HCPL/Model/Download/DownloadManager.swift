@@ -1,7 +1,3 @@
-// Copyright 2017, Ralf Ebert
-// License   https://opensource.org/licenses/MIT
-// Source    https://www.ralfebert.de/snippets/ios/urlsession-background-downloads/
-
 import Foundation
 
 class DownloadManager : NSObject, URLSessionDelegate, URLSessionDownloadDelegate {

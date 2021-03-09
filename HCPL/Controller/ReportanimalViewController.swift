@@ -1,10 +1,3 @@
-//
-//  ReportanimalViewController.swift
-//  HCPL
-//
-//  Created by Skywave-Mac on 04/12/20.
-//  Copyright © 2020 Skywave-Mac. All rights reserved.
-//
 
 import UIKit
 import iOSDropDown
@@ -14,11 +7,14 @@ import AVKit
 import MBProgressHUD
 import SwiftyJSON
 import Alamofire
+import MaterialComponents.MaterialTextControls_FilledTextAreas
+import MaterialComponents.MaterialTextControls_FilledTextFields
+import MaterialComponents.MaterialTextControls_OutlinedTextAreas
+import MaterialComponents.MaterialTextControls_OutlinedTextFields
 
-class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate{
+class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate{
 
     @IBOutlet weak var mainDropDown: DropDown!
-    
     @IBOutlet weak var check: UICheckbox!
     @IBOutlet weak var nofood: UICheckbox!
     @IBOutlet weak var cockfighting: UICheckbox!
@@ -53,13 +49,38 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     @IBOutlet weak var txtanimalslocation: UITextField!
     @IBOutlet weak var txtfirstdate: UITextField!
     @IBOutlet weak var txtlastdate: UITextField!
-    @IBOutlet weak var txtdescription: UITextField!
+    @IBOutlet var txtdescription: UITextView!
+    
     @IBOutlet weak var txtagency: UITextField!
     @IBOutlet weak var txtfirstname: UITextField!
     @IBOutlet weak var txtlastname: UITextField!
     @IBOutlet weak var txtemail: UITextField!
     @IBOutlet weak var txtphone: UITextField!
     
+    @IBOutlet var lbltypeofcruelty: UILabel!
+    @IBOutlet weak var LimitLabel: UILabel!
+
+    @IBOutlet var descriptionview: UIView!
+    
+    @IBOutlet var view1: UIView!
+    @IBOutlet var view2: UIView!
+    @IBOutlet var view3: UIView!
+    @IBOutlet var view4: UIView!
+    @IBOutlet var view5: UIView!
+    @IBOutlet var view6: UIView!
+    @IBOutlet var view7: UIView!
+    @IBOutlet var view8: UIView!
+    @IBOutlet var view9: UIView!
+    @IBOutlet var view10: UIView!
+    @IBOutlet var view11: UIView!
+    @IBOutlet var view12: UIView!
+    @IBOutlet var view13: UIView!
+    @IBOutlet var view14: UIView!
+    @IBOutlet var view15: UIView!
+    @IBOutlet var view16: UIView!
+    @IBOutlet var view17: UIView!
+    @IBOutlet var view18: UIView!
+    @IBOutlet var view19: UIView!
     
     //var FirsttoolBar = UIToolbar()
     var FirstdatePicker : UIDatePicker!
@@ -85,6 +106,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     var checkboxBool:String?
     var checkboxongoingBool:String?
     var ImagevideoUrl:String?
+    var VideoBase64Url:String?
     
     var randomnumber:String!
     
@@ -97,25 +119,6 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
-        self.hideKeyboardTappedAround()
-        clearAllFile()
-        txtfirstdate.delegate = self
-        txtlastdate.delegate = self
-        checkboxstring = ""
-        checkboxBool = ""
-        checkboxongoingBool = ""
-        ImagevideoUrl = ""
-        
-        mainDropDown.optionArray = countries
-        mainDropDown.optionIds = ids
-        mainDropDown.checkMarkEnabled = false
-        
-        mainDropDown.didSelect{(selectedText , index , id) in
-            self.Statetxt.text = selectedText
-        }
-        
-        self.submit.layer.cornerRadius = 20
         
         self.addimageview.layer.cornerRadius = 5
         self.addimageview.layer.borderWidth = 1
@@ -126,14 +129,170 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
         self.addvideoview.layer.borderWidth = 1
         self.addvideoview.layer.borderColor = #colorLiteral(red: 0.4078176022, green: 0.407827884, blue: 0.4078223705, alpha: 1)
         self.addvideoview.clipsToBounds = true
+        
+        txtdescription.autocapitalizationType = .sentences
+        txtdescription.autocapitalizationType = .words
+        //txtdescription.autocapitalizationType = .allCharacters
+        txtdescription.text = "Description of Cruelty (Please fill out information in this field)"
+        txtdescription.textColor = UIColor.lightGray
+
+        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+        print("onoff==>\(onoff ?? "")")
+        
+        
+        if onoff == "on"{
+            
+            mainDropDown.rowBackgroundColor = AppConstant.ViewColor
+            
+            
+            self.addimageview.layer.cornerRadius = 5
+            self.addimageview.layer.borderWidth = 1
+            self.addimageview.layer.borderColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
+            self.addimageview.clipsToBounds = true
+            
+            self.addvideoview.layer.cornerRadius = 5
+            self.addvideoview.layer.borderWidth = 1
+            self.addvideoview.layer.borderColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
+            self.addvideoview.clipsToBounds = true
+
+        
+            self.view1.backgroundColor = AppConstant.LabelWhiteColor
+            self.view2.backgroundColor = AppConstant.LabelWhiteColor
+            self.view3.backgroundColor = AppConstant.LabelWhiteColor
+            self.view4.backgroundColor = AppConstant.LabelWhiteColor
+            self.view5.backgroundColor = AppConstant.LabelWhiteColor
+            self.view6.backgroundColor = AppConstant.LabelWhiteColor
+            self.view7.backgroundColor = AppConstant.LabelWhiteColor
+            self.view8.backgroundColor = AppConstant.LabelWhiteColor
+            self.view9.backgroundColor = AppConstant.LabelWhiteColor
+            self.view10.backgroundColor = AppConstant.LabelWhiteColor
+            self.view11.backgroundColor = AppConstant.LabelWhiteColor
+            self.view12.backgroundColor = AppConstant.LabelWhiteColor
+            self.view13.backgroundColor = AppConstant.LabelWhiteColor
+            //self.view14.backgroundColor = AppConstant.LabelWhiteColor
+            self.view15.backgroundColor = AppConstant.LabelWhiteColor
+            self.view16.backgroundColor = AppConstant.LabelWhiteColor
+            self.view17.backgroundColor = AppConstant.LabelWhiteColor
+            self.view18.backgroundColor = AppConstant.LabelWhiteColor
+            self.view19.backgroundColor = AppConstant.LabelWhiteColor
+
+
+            self.lbltypeofcruelty.textColor = AppConstant.LabelWhiteColor
+       
+            txtaddress.attributedPlaceholder = NSAttributedString(string: "Address*",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            txtaptnumber.attributedPlaceholder = NSAttributedString(string: "Apt. Number",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            txtgatcode.attributedPlaceholder = NSAttributedString(string: "Gate Code",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            txtcity.attributedPlaceholder = NSAttributedString(string: "City",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            Statetxt.attributedPlaceholder = NSAttributedString(string: "-- State --",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            txtzip.attributedPlaceholder = NSAttributedString(string: "Zip",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            txtcountry.attributedPlaceholder = NSAttributedString(string: "County",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            txtneighborhood.attributedPlaceholder = NSAttributedString(string: "Neighborhood",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            txtnumberofanimal.attributedPlaceholder = NSAttributedString(string: "Number of Animals",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            txttypeofanimal.attributedPlaceholder = NSAttributedString(string: "Types of Animals",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+
+            txtcolorofanimal.attributedPlaceholder = NSAttributedString(string: "Colors of Animals",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            txtanimalslocation.attributedPlaceholder = NSAttributedString(string: "Where on the property is the animal(s) located?",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            txtfirstdate.attributedPlaceholder = NSAttributedString(string: "Date First Observed",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            txtlastdate.attributedPlaceholder = NSAttributedString(string: "Date last Observed",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+//            txtdescription.attributedPlaceholder = NSAttributedString(string: "  Description of Cruelty (Please fill out information in this field)",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            txtagency.attributedPlaceholder = NSAttributedString(string: "Agency Previously to (if applicable).",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            txtfirstname.attributedPlaceholder = NSAttributedString(string: "First Name",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            txtlastname.attributedPlaceholder = NSAttributedString(string: "Last Name",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            txtemail.attributedPlaceholder = NSAttributedString(string: "Email*",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            txtphone.attributedPlaceholder = NSAttributedString(string: "Phone",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+        }else if onoff == "off"{
+            
+        }else{
+            
+        }
+        
+        if onoff == "on"{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .dark
+             }
+        }else if onoff == "off"{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .light
+             }
+        }else{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .light
+             }
+        }
+        
+        self.hideKeyboardTappedAround()
+        clearAllFile()
+        
+        txtfirstdate.delegate = self
+        txtlastdate.delegate = self
+        txtaptnumber.delegate = self
+        txtaddress.delegate = self
+        txtgatcode.delegate = self
+        txtcity.delegate = self
+        txtzip.delegate = self
+        txtcountry.delegate = self
+        txtneighborhood.delegate = self
+        txttypeofanimal.delegate = self
+        txtcolorofanimal.delegate = self
+        txtanimalslocation.delegate = self
+        txtanimalslocation.delegate = self
+        txtdescription.delegate = self
+        txtagency.delegate = self
+        txtfirstname.delegate = self
+        txtlastname.delegate = self
+        txtemail.delegate = self
+        txtphone.delegate = self
+        
+        descriptionview.layer.cornerRadius = 5
+        descriptionview.layer.borderWidth = 1
+        descriptionview.layer.borderColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        
+        checkboxstring = ""
+        checkboxBool = ""
+        checkboxongoingBool = ""
+        ImagevideoUrl = ""
+        VideoBase64Url = ""
+        
+        mainDropDown.selectedRowColor = #colorLiteral(red: 0.4118635654, green: 0.7550011873, blue: 0.330655843, alpha: 1)
+        mainDropDown.optionArray = countries
+        mainDropDown.optionIds = ids
+        mainDropDown.checkMarkEnabled = false
+        
+        mainDropDown.didSelect{(selectedText , index , id) in
+            self.Statetxt.text = selectedText
+        }
+        
+        self.submit.layer.cornerRadius = 20
+        
+
     }
     
   
     func pickUpDate(_ textField : UITextField){
 
            self.FirstdatePicker = UIDatePicker(frame:CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 216))
-           self.FirstdatePicker.backgroundColor = #colorLiteral(red: 0.4118635654, green: 0.7550011873, blue: 0.330655843, alpha: 1)
+           self.FirstdatePicker.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
            self.FirstdatePicker.datePickerMode = UIDatePicker.Mode.date
+           self.FirstdatePicker?.preferredDatePickerStyle = .wheels
            //self.FirstdatePicker.tintColor = #colorLiteral(red: 0.1688283401, green: 0.6115575723, blue: 1, alpha: 1)
 
            textField.inputView = self.FirstdatePicker
@@ -141,8 +300,17 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
            let toolBar = UIToolbar()
            toolBar.barStyle = .default
            toolBar.isTranslucent = true
-           toolBar.backgroundColor = #colorLiteral(red: 0, green: 0.2156862745, blue: 0.4666666667, alpha: 1)
-           toolBar.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+           toolBar.backgroundColor = #colorLiteral(red: 0.4118635654, green: 0.7550011873, blue: 0.330655843, alpha: 1)
+            let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+            print("onoff==>\(onoff ?? "")")
+            
+            if onoff == "on"{
+                toolBar.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            }else{
+                toolBar.tintColor = #colorLiteral(red: 0.4118635654, green: 0.7550011873, blue: 0.330655843, alpha: 1)
+            }
+
+           
            toolBar.sizeToFit()
 
            let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneClick))
@@ -168,8 +336,9 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     func pickUpDatelast(_ textField : UITextField){
 
            self.LastdatePicker = UIDatePicker(frame:CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 216))
-           self.LastdatePicker.backgroundColor = #colorLiteral(red: 0.4118635654, green: 0.7550011873, blue: 0.330655843, alpha: 1)
+           self.LastdatePicker.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
            self.LastdatePicker.datePickerMode = UIDatePicker.Mode.date
+           self.LastdatePicker?.preferredDatePickerStyle = .wheels
            //self.LastdatePicker.tintColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 1)
 
            textField.inputView = self.LastdatePicker
@@ -177,8 +346,15 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
            let toolBar = UIToolbar()
            toolBar.barStyle = .default
            toolBar.isTranslucent = true
-           toolBar.backgroundColor = #colorLiteral(red: 0, green: 0.2156862745, blue: 0.4666666667, alpha: 1)
-           toolBar.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+           toolBar.backgroundColor = #colorLiteral(red: 0.4118635654, green: 0.7550011873, blue: 0.330655843, alpha: 1)
+            let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+            print("onoff==>\(onoff ?? "")")
+            
+            if onoff == "on"{
+                toolBar.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            }else{
+                toolBar.tintColor = #colorLiteral(red: 0.4118635654, green: 0.7550011873, blue: 0.330655843, alpha: 1)
+            }
            toolBar.sizeToFit()
 
            let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneClickLast))
@@ -201,6 +377,67 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
      txtlastdate.resignFirstResponder()
     }
     
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+        print("onoff==>\(onoff ?? "")")
+        
+        if onoff == "on"{
+            if textView.textColor == UIColor.lightGray {
+                textView.text = nil
+                textView.textColor = UIColor.white
+            }
+        }else{
+            if textView.textColor == UIColor.lightGray {
+                textView.text = nil
+                textView.textColor = UIColor.black
+            }
+        }
+       
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "Description of Cruelty (Please fill out information in this field)"
+            textView.textColor = UIColor.lightGray
+        }
+    }
+    
+    func checkRemainingChars() {
+        
+        let allowedChars = 1000
+        
+        let charsInTextView = -txtdescription.text.count
+        
+        let remainingChars = allowedChars + charsInTextView
+        
+        
+        if remainingChars <= allowedChars {
+            
+            LimitLabel.textColor = #colorLiteral(red: 0.4118635654, green: 0.7550011873, blue: 0.330655843, alpha: 1)
+            
+        }
+        
+        if remainingChars <= 20 {
+            
+            LimitLabel.textColor = UIColor.orange
+            
+        }
+        
+        if remainingChars <= 10 {
+            
+            LimitLabel.textColor = UIColor.red
+        }
+        
+        
+        LimitLabel.text = String("\(remainingChars)  " + "characters left")
+        
+        
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        
+        checkRemainingChars()
+    }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField == self.txtfirstdate {
@@ -209,10 +446,254 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
         }else if textField == self.txtlastdate{
             self.pickUpDatelast(self.txtlastdate)
             return true
+        }else if textField == self.txtaptnumber{
+            self.aptnumberlenght(self.txtaptnumber)
+            return true
+        }else if textField == self.txtaddress{
+            self.Addresslenght(self.txtaddress)
+            return true
+        }else if textField == self.txtgatcode{
+            self.Getcodelenght(self.txtgatcode)
+            return true
+        }else if textField == self.txtcity{
+            self.Citylenght(self.txtgatcode)
+            return true
+        }else if textField == self.txtzip{
+            self.Zipcodelenght(self.txtzip)
+            return true
+        }else if textField == self.txtcountry{
+            self.Countylenght(self.txtcountry)
+            return true
+        }else if textField == self.txtneighborhood{
+            self.Neighborhoodlenght(self.txtneighborhood)
+            return true
+        }else if textField == self.txttypeofanimal{
+            self.Typeofanimallenght(self.txttypeofanimal)
+            return true
+        }else if textField == self.txtcolorofanimal{
+            self.Colorofanimallenght(self.txtcolorofanimal)
+            return true
+        }else if textField == self.txtanimalslocation{
+            self.AnimalLocationlenght(self.txtanimalslocation)
+            return true
+        }else if textField == self.txtagency{
+            self.Agencylenght(self.txtagency)
+            return true
+        }else if textField == self.txtfirstname{
+            self.Firstnamelenght(self.txtfirstname)
+            return true
+        }else if textField == self.txtlastname{
+            self.Lastnamelenght(self.txtlastname)
+            return true
+        }else if textField == self.txtemail{
+            self.Emaillenght(self.txtemail)
+            return true
+        }else if textField == self.txtphone{
+            self.Phonelenght(self.txtphone)
+            return true
         }
       
      return false
     }
+    
+    var MAX_LENGHT = 20
+    func aptnumberlenght(_ textField : UITextField){
+        if let text = textField.text, text.count >= MAX_LENGHT {
+            textField.text = String(text.dropLast(text.count - MAX_LENGHT))
+            return
+        }
+    }
+    
+    var MAX_LENGHTAddress = 100
+    func Addresslenght(_ textField : UITextField){
+        if let text = textField.text, text.count >= MAX_LENGHTAddress {
+            textField.text = String(text.dropLast(text.count - MAX_LENGHTAddress))
+            return
+        }
+    }
+    
+    var MAX_LENGHTGetcode = 20
+    func Getcodelenght(_ textField : UITextField){
+        if let text = textField.text, text.count >= MAX_LENGHTGetcode {
+            textField.text = String(text.dropLast(text.count - MAX_LENGHTGetcode))
+            return
+        }
+    }
+    
+    var MAX_LENGHTCity = 50
+    func Citylenght(_ textField : UITextField){
+        if let text = textField.text, text.count >= MAX_LENGHTCity {
+            textField.text = String(text.dropLast(text.count - MAX_LENGHTCity))
+            return
+        }
+    }
+    
+    var MAX_LENGHTZipcode = 20
+    func Zipcodelenght(_ textField : UITextField){
+        if let text = textField.text, text.count >= MAX_LENGHTZipcode {
+            textField.text = String(text.dropLast(text.count - MAX_LENGHTZipcode))
+            return
+        }
+    }
+    
+    var MAX_LENGHTCounty = 50
+    func Countylenght(_ textField : UITextField){
+        if let text = textField.text, text.count >= MAX_LENGHTCounty {
+            textField.text = String(text.dropLast(text.count - MAX_LENGHTCounty))
+            return
+        }
+    }
+    
+    var MAX_LENGHTNeighborhood = 100
+    func Neighborhoodlenght(_ textField : UITextField){
+        if let text = textField.text, text.count >= MAX_LENGHTNeighborhood {
+            textField.text = String(text.dropLast(text.count - MAX_LENGHTNeighborhood))
+            return
+        }
+    }
+
+    var MAX_LENGHTTypeofanimal = 500
+    func Typeofanimallenght(_ textField : UITextField){
+        if let text = textField.text, text.count >= MAX_LENGHTTypeofanimal {
+            textField.text = String(text.dropLast(text.count - MAX_LENGHTTypeofanimal))
+            return
+        }
+    }
+    
+    
+    var MAX_LENGHTColorofanimal = 500
+    func Colorofanimallenght(_ textField : UITextField){
+        if let text = textField.text, text.count >= MAX_LENGHTColorofanimal {
+            textField.text = String(text.dropLast(text.count - MAX_LENGHTColorofanimal))
+            return
+        }
+    }
+    
+    var MAX_LENGHTAnimalLocation = 500
+    func AnimalLocationlenght(_ textField : UITextField){
+        if let text = textField.text, text.count >= MAX_LENGHTAnimalLocation {
+            textField.text = String(text.dropLast(text.count - MAX_LENGHTAnimalLocation))
+            return
+        }
+    }
+    
+    var MAX_LENGHTDescription = 1000
+    func Descriptionlenght(_ textField : UITextField){
+        if let text = textField.text, text.count >= MAX_LENGHTDescription {
+            textField.text = String(text.dropLast(text.count - MAX_LENGHTDescription))
+            return
+        }
+    }
+    
+    var MAX_LENGHTAgency = 100
+    func Agencylenght(_ textField : UITextField){
+        if let text = textField.text, text.count >= MAX_LENGHTAgency {
+            textField.text = String(text.dropLast(text.count - MAX_LENGHTAgency))
+            return
+        }
+    }
+    
+    var MAX_LENGHTFirstname = 100
+    func Firstnamelenght(_ textField : UITextField){
+        if let text = textField.text, text.count >= MAX_LENGHTFirstname {
+            textField.text = String(text.dropLast(text.count - MAX_LENGHTFirstname))
+            return
+        }
+    }
+    
+    var MAX_LENGHTLastname = 100
+    func Lastnamelenght(_ textField : UITextField){
+        if let text = textField.text, text.count >= MAX_LENGHTLastname {
+            textField.text = String(text.dropLast(text.count - MAX_LENGHTLastname))
+            return
+        }
+    }
+    
+    var MAX_LENGHTEmail = 250
+    func Emaillenght(_ textField : UITextField){
+        if let text = textField.text, text.count >= MAX_LENGHTEmail {
+            textField.text = String(text.dropLast(text.count - MAX_LENGHTEmail))
+            return
+        }
+    }
+    
+    var MAX_LENGHTPhone = 20
+    func Phonelenght(_ textField : UITextField){
+        if let text = textField.text, text.count >= MAX_LENGHTPhone {
+            textField.text = String(text.dropLast(text.count - MAX_LENGHTPhone))
+            return
+        }
+    }
+
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == txtaptnumber{
+            let MAX_LENGTH = 20
+            let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            return updatedString.count <= MAX_LENGTH
+        }else if textField == txtaddress{
+            let MAX_LENGTH = 100
+            let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            return updatedString.count <= MAX_LENGTH
+        }else if textField == txtgatcode{
+            let MAX_LENGTH = 20
+            let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            return updatedString.count <= MAX_LENGTH
+        }else if textField == txtcity{
+            let MAX_LENGTH = 50
+            let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            return updatedString.count <= MAX_LENGTH
+        }else if textField == txtzip{
+            let MAX_LENGTH = 20
+            let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            return updatedString.count <= MAX_LENGTH
+        }else if textField == txtcountry{
+            let MAX_LENGTH = 50
+            let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            return updatedString.count <= MAX_LENGTH
+        }else if textField == txtneighborhood{
+            let MAX_LENGTH = 100
+            let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            return updatedString.count <= MAX_LENGTH
+        }else if textField == txttypeofanimal{
+            let MAX_LENGTH = 500
+            let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            return updatedString.count <= MAX_LENGTH
+        }else if textField == txtcolorofanimal{
+            let MAX_LENGTH = 500
+            let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            return updatedString.count <= MAX_LENGTH
+        }else if textField == txtanimalslocation{
+            let MAX_LENGTH = 500
+            let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            return updatedString.count <= MAX_LENGTH
+        }else if textField == txtdescription{
+            let MAX_LENGTH = 1000
+            let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            return updatedString.count <= MAX_LENGTH
+        }else if textField == txtagency{
+            let MAX_LENGTH = 100
+            let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            return updatedString.count <= MAX_LENGTH
+        }else if textField == txtfirstname{
+            let MAX_LENGTH = 100
+            let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            return updatedString.count <= MAX_LENGTH
+        }else if textField == txtlastname{
+            let MAX_LENGTH = 100
+            let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            return updatedString.count <= MAX_LENGTH
+        }else if textField == txtemail{
+            let MAX_LENGTH = 250
+            let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            return updatedString.count <= MAX_LENGTH
+        }else if textField == txtphone{
+            let MAX_LENGTH = 20
+            let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            return updatedString.count <= MAX_LENGTH
+        }else{
+            return true
+        }
+        }
     
     func clearAllFile() {
         let fileManager = FileManager.default
@@ -347,67 +828,16 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     
     func validate() -> Bool {
      if self.txtaddress.text?.isEmpty ?? true {
-      self.view.showToast(toastMessage: "Enter Address", duration: 0.3)
+      self.view.showToast(toastMessage: "Please provide the valid address", duration: 0.3)
                 return false
-    }else if self.txtaptnumber.text?.isEmpty ?? true {
-      self.view.showToast(toastMessage: "Enter Apt.Number", duration: 0.3)
-                return false
-    }else if self.txtgatcode.text?.isEmpty ?? true {
-      self.view.showToast(toastMessage: "Enter Gate Code", duration: 0.3)
-                return false
-    }else if self.txtcity.text?.isEmpty ?? true {
-      self.view.showToast(toastMessage: "Enter City", duration: 0.3)
-                return false
-    }else if self.Statetxt.text?.isEmpty ?? true {
-      self.view.showToast(toastMessage: "Enter State", duration: 0.3)
-                return false
-    }else if self.txtzip.text?.isEmpty ?? true {
-      self.view.showToast(toastMessage: "Enter Zip", duration: 0.3)
-                return false
-    }else if self.txtcountry.text?.isEmpty ?? true {
-      self.view.showToast(toastMessage: "Enter County", duration: 0.3)
-                return false
-    }else if self.txtneighborhood.text?.isEmpty ?? true {
-      self.view.showToast(toastMessage: "Enter Neighborhood", duration: 0.3)
-                return false
-    }else if self.txttypeofanimal.text?.isEmpty ?? true {
-      self.view.showToast(toastMessage: "Enter Types of Animals", duration: 0.3)
-                return false
-    }else if self.txtnumberofanimal.text?.isEmpty ?? true {
-        self.view.showToast(toastMessage: "Enter Number of Animals", duration: 0.3)
-                  return false
-    }else if self.txtcolorofanimal.text?.isEmpty ?? true {
-        self.view.showToast(toastMessage: "Enter Color of Animals", duration: 0.3)
-                  return false
-    }else if self.txtanimalslocation.text?.isEmpty ?? true {
-        self.view.showToast(toastMessage: "Enter Whare on the Property is the animal(s) located?", duration: 0.3)
-                  return false
-    }else if self.txtfirstdate.text?.isEmpty ?? true {
-        self.view.showToast(toastMessage: "Enter Date First Observed", duration: 0.3)
-                  return false
-    }else if self.txtlastdate.text?.isEmpty ?? true {
-        self.view.showToast(toastMessage: "Enter Date Last Observed", duration: 0.3)
-                  return false
-    }else if self.txtdescription.text?.isEmpty ?? true {
-        self.view.showToast(toastMessage: "Enter Description of Cruelty ", duration: 0.3)
-                  return false
-    }else if self.txtagency.text?.isEmpty ?? true {
-        self.view.showToast(toastMessage: "Enter Agency Previously to (if applicable).", duration: 0.3)
-                  return false
-    }else if self.txtfirstname.text?.isEmpty ?? true {
-        self.view.showToast(toastMessage: "Enter First Name", duration: 0.3)
-                  return false
-    }else if self.txtlastname.text?.isEmpty ?? true {
-        self.view.showToast(toastMessage: "Enter Last Name", duration: 0.3)
-                  return false
-    }else if txtphone.text!.count != 10{
-        self.view.showToast(toastMessage: "Please Enter a valid number.", duration: 0.3)
-                  return false
-      }else if self.txtemail.text?.isEmpty ?? true {
-        self.view.showToast(toastMessage: "Enter Email", duration: 0.3)
+    }else if self.txtemail.text?.isEmpty ?? true {
+        self.view.showToast(toastMessage: "Please provide the valid email", duration: 0.3)
                   return false
     }else if self.isValidEmail(testStr: txtemail.text!) == false{
-        self.view.showToast(toastMessage: "Please Enter a valid Email id.", duration: 0.3)
+        self.view.showToast(toastMessage: "Please provide the valid email", duration: 0.3)
+        return false
+    }else if self.checkboxBool == "true"{
+        self.view.showToast(toastMessage: "Please provide the valid Agency Previously to (if applicable).", duration: 0.3)
         return false
     }
       return true
@@ -421,9 +851,15 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     }
     
     @IBAction func submitebutton(_ sender: UIButton) {
+        if Reachability.isConnectedToNetwork(){
+            print("Internet Connection Available!")
             if validate(){
                 ReportAnimalApicall()
             }
+        }else{
+            print("Internet Connection not Available!")
+            self.view.showToast(toastMessage: "Network unavailable please try later", duration: 0.3)
+        }
     }
     
     func ReportAnimalApicall() {
@@ -457,13 +893,17 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
             "ReporterLastName":txtlastname.text as Any,
             "ReporterPhone":txtphone.text as Any,
             "ReporterEmail":txtemail.text as Any,
-            "ReceivedDevice":"0",
+            "ReceivedDevice":"1",
             "ImageList":ImagevideoUrl as Any,
+            "ImageBytes5":VideoBase64Url as Any,
         ] as [String : Any]
 
+       
+        
         let jsonData = try? JSONSerialization.data(withJSONObject: parameters)
+        
 
-        let url = URL(string: "https://apps.harriscountytx.gov/PublicHealthPortal/api/UploadVPHComplaint")!
+        let url = URL(string: "https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/UploadVPHComplaint")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.httpBody = jsonData
@@ -475,7 +915,6 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
                  do{
                      let json = try JSON(data:data)
                      print("ReportAnimalApicall==> \(json)")
-                    
                     
                     let statusisSuccess = json["isSuccess"]
                     let messageTost = json["message"]
@@ -495,18 +934,30 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
                     }else{
                         let decoder = JSONDecoder()
                         self.Reportanimal = try decoder.decode(CommercialPoolsWelcome.self, from: data)
-                                        
+                        
+                        
                         DispatchQueue.main.async {
                           
                               self.hud.hide(animated: true)
-                            let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
-                            navigate.selectdtab = 4
-                            self.navigationController?.pushViewController(navigate, animated: true)
-                      
+                          
+                          self.view.showToast(toastMessage: "Form Successfully Submitted", duration: 0.3)
+                          
+                          DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                              // your code here
+                              let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                              navigate.selectdtab = 4
+                              self.navigationController?.pushViewController(navigate, animated: true)
+                          }
+                          
+
+                                  
                           }
                     }
                  }catch{
                      print(error.localizedDescription)
+                    DispatchQueue.main.async {
+                        self.hud.hide(animated: true)
+                    }
                  }
                  
                  }
@@ -589,8 +1040,17 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
                 
     
             }else{
-                 print("jksbdjkshkjbdkjbwedjkbeqwd")
+                 
                 self.VideosongUrl = "\(videoUrl)"
+                
+                if let base64Str = VideosongUrl.base64Encoded() {
+                    print("Base64 encoded string: \"\(base64Str)\"")
+                    //VideoBase64Url = base64Str
+                    self.VideoBase64Url?.append(base64Str)
+                    if let trs = base64Str.base64Decoded() {
+                        print("Base64 decoded string: \"\(trs)\"")
+                    }
+                }
                 
                 let randomDouble = Double.random(in: 2.71828...3.14159)
                 
@@ -616,6 +1076,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
         
         
     }
+    
     
        func showPermissionAlert(){
         let alertController = UIAlertController(title: "Location Permission Required", message: "Please enable location permissions in settings.", preferredStyle: UIAlertController.Style.alert)
@@ -840,14 +1301,49 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
         
         if collectionView == addimagescollection{
             print("index:==>\(indexPath.row)")
-            remove(index: indexPath.row)
+            showDeleteWarningimage(for: indexPath)
         }else{
             print("index:==>\(indexPath.row)")
-            removevideos(index: indexPath.row, urlmain: arrOfFiles[indexPath.row].absoluteURL)
+            showDeleteWarningvideo(for: indexPath)
+            
         }
 
     }
     
+    
+    func showDeleteWarningvideo(for indexPath: IndexPath) {
+        let alert = UIAlertController(title: "HCPH", message: "Are you sure want to delete this video?", preferredStyle: .alert)
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+
+        let deleteAction = UIAlertAction(title: "OK", style: .destructive) { _ in
+            DispatchQueue.main.async {
+                self.removevideos(index: indexPath.row, urlmain: self.arrOfFiles[indexPath.row].absoluteURL)
+            }
+        }
+
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func showDeleteWarningimage(for indexPath: IndexPath) {
+        let alert = UIAlertController(title: "HCPH", message: "Are you sure want to delete this image?", preferredStyle: .alert)
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+
+        let deleteAction = UIAlertAction(title: "OK", style: .destructive) { _ in
+            DispatchQueue.main.async {
+                self.remove(index: indexPath.row)
+            }
+        }
+
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+
+        present(alert, animated: true, completion: nil)
+    }
 
     
     func remove(index: Int) {
@@ -898,7 +1394,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     }}
     
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+ func textFieldShouldReturn(_ textField: UITextField) -> Bool {
              
     textField.resignFirstResponder()
     return true
@@ -908,8 +1404,6 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
              
      self.view.endEditing(true)
     }
-    
-    
     
 }
 
@@ -958,5 +1452,23 @@ extension ReportanimalViewController{
     
     @objc func dismissKeyboard(){
         view.endEditing(true)
+    }
+}
+
+extension String {
+//: ### Base64 encoding a string
+    func base64Encoded() -> String? {
+        if let data = self.data(using: .utf8) {
+            return data.base64EncodedString()
+        }
+        return nil
+    }
+
+//: ### Base64 decoding a string
+    func base64Decoded() -> String? {
+        if let data = Data(base64Encoded: self) {
+            return String(data: data, encoding: .utf8)
+        }
+        return nil
     }
 }

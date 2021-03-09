@@ -1,12 +1,25 @@
-//
-//  ContactallTableViewCell.swift
-//  HCPL
-//
-//  Created by Skywave-Mac on 27/11/20.
-//  Copyright © 2020 Skywave-Mac. All rights reserved.
-//
 
 import UIKit
+
+protocol MyocationFirst: AnyObject {
+    
+    func btnidTappedLocationFirst(cell: ContactallTableViewCell)
+}
+
+protocol MyocationSecond: AnyObject {
+    
+    func btnidTappedLocationSecond(cell: ContactallTableViewCell)
+}
+
+protocol MycallFirst: AnyObject {
+    
+    func btnidTappedcallFirst(cell: ContactallTableViewCell)
+}
+
+protocol MycallSecond: AnyObject {
+    
+    func btnidTappedcallSecond(cell: ContactallTableViewCell)
+}
 
 class ContactallTableViewCell: UITableViewCell {
 
@@ -36,4 +49,25 @@ class ContactallTableViewCell: UITableViewCell {
 
     }
 
+    weak var delegateLocationFirst: MyocationFirst?
+    weak var delegateLocationSecond: MyocationSecond?
+    weak var delegatecallFirst: MycallFirst?
+    weak var delegatecallSecond: MycallSecond?
+    
+    @IBAction func LocationnavigateTappedFirst(sender: AnyObject) {
+        delegateLocationFirst?.btnidTappedLocationFirst(cell: self)
+    }
+    
+    @IBAction func LocationnavigateTappedSecond(sender: AnyObject) {
+        delegateLocationSecond?.btnidTappedLocationSecond(cell: self)
+    }
+    
+    @IBAction func CallnavigateTappedFirst(sender: AnyObject) {
+        delegatecallFirst?.btnidTappedcallFirst(cell: self)
+    }
+    
+    @IBAction func CallsecondTappedSecond(sender: AnyObject) {
+        delegatecallSecond?.btnidTappedcallSecond(cell: self)
+    }
+    
 }

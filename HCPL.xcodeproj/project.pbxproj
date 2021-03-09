@@ -9,10 +9,14 @@
 /* Begin PBXBuildFile section */
 		274416E136E58CF8C28881F8 /* Pods_HCPLTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6C250CE2BE36B4756EB3358 /* Pods_HCPLTests.framework */; };
 		EF13004D257A45300066F712 /* ReportanimalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF13004C257A45300066F712 /* ReportanimalViewController.swift */; };
+		EF55A95625D2AADC004A55AC /* CheckDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF55A95525D2AADC004A55AC /* CheckDevice.swift */; };
 		EF56EA71257244C100E6EC66 /* ImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF56EA6F257244C100E6EC66 /* ImageCell.xib */; };
 		EF56EA72257244C100E6EC66 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF56EA70257244C100E6EC66 /* ImageCell.swift */; };
+		EF5B3FF725BA945F0068EDEE /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5B3FF625BA945F0068EDEE /* UIViewExtension.swift */; };
+		EF5B401B25BAFB140068EDEE /* commercialpoolmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5B401A25BAFB140068EDEE /* commercialpoolmodel.swift */; };
 		EF5DB0AC2595E67D002A59F2 /* LocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5DB0AB2595E67D002A59F2 /* LocationsViewController.swift */; };
 		EF5DB0B12595E69B002A59F2 /* LocationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5DB0B02595E69B002A59F2 /* LocationsTableViewCell.swift */; };
+		EF6052A925D53BD000842EAA /* FindLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6052A825D53BCF00842EAA /* FindLocationViewController.swift */; };
 		EF628C37257A032A00B0A0D8 /* MobileClinicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF628C36257A032A00B0A0D8 /* MobileClinicsViewController.swift */; };
 		EF66ED2F256F6CFC00A9E9EE /* ContectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF66ED2E256F6CFC00A9E9EE /* ContectViewController.swift */; };
 		EF66ED31256F6D1600A9E9EE /* AboutUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF66ED30256F6D1600A9E9EE /* AboutUsViewController.swift */; };
@@ -24,6 +28,8 @@
 		EF66ED41256FBAAC00A9E9EE /* LeftMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF66ED40256FBAAC00A9E9EE /* LeftMenuTableViewController.swift */; };
 		EF66ED43256FBB1700A9E9EE /* SidemenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF66ED42256FBB1700A9E9EE /* SidemenuTableViewCell.swift */; };
 		EF66ED49256FE21500A9E9EE /* ServicesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF66ED48256FE21500A9E9EE /* ServicesTableViewCell.swift */; };
+		EF67380D25CAD1A9006FAEEB /* SearchEstablishmentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF67380C25CAD1A9006FAEEB /* SearchEstablishmentsViewController.swift */; };
+		EF6CD73725E8FAC9001491FF /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6CD73625E8FAC9001491FF /* Reachability.swift */; };
 		EF75E84025790E3F00479F5B /* AllTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF75E83F25790E3F00479F5B /* AllTableViewCell.swift */; };
 		EF75E84225790E6400479F5B /* AllTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF75E84125790E6400479F5B /* AllTableViewController.swift */; };
 		EF7A0F412570C13F00E2923F /* ProgramsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7A0F402570C13F00E2923F /* ProgramsCollectionViewCell.swift */; };
@@ -72,6 +78,7 @@
 		EF9C7150256D02F6008D3A05 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9C714F256D02F6008D3A05 /* LoginViewController.swift */; };
 		EFA279E22580EF5D008F1681 /* DeadbirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA279E12580EF5D008F1681 /* DeadbirdViewController.swift */; };
 		EFA279E42580EF76008F1681 /* deadbirdCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA279E32580EF76008F1681 /* deadbirdCollectionViewCell.swift */; };
+		EFACA24D25C80589009496B1 /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFACA24C25C80589009496B1 /* PrivacyPolicyViewController.swift */; };
 		EFC67053257F572900854BD2 /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC67052257F572900854BD2 /* DownloadManager.swift */; };
 		EFEB25E625712FD600E20DE5 /* ContactallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEB25E525712FD600E20DE5 /* ContactallTableViewCell.swift */; };
 		EFFE326825936DF300415DCD /* MosquitoBreedingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFE326725936DF300415DCD /* MosquitoBreedingViewController.swift */; };
@@ -107,10 +114,14 @@
 		C4A25D56DFDE4AE222445404 /* Pods-HCPL.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HCPL.release.xcconfig"; path = "Target Support Files/Pods-HCPL/Pods-HCPL.release.xcconfig"; sourceTree = "<group>"; };
 		DBD1C3794A6940137AF45D44 /* Pods_HCPL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HCPL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF13004C257A45300066F712 /* ReportanimalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportanimalViewController.swift; sourceTree = "<group>"; };
+		EF55A95525D2AADC004A55AC /* CheckDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckDevice.swift; sourceTree = "<group>"; };
 		EF56EA6F257244C100E6EC66 /* ImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageCell.xib; sourceTree = "<group>"; };
 		EF56EA70257244C100E6EC66 /* ImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
+		EF5B3FF625BA945F0068EDEE /* UIViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		EF5B401A25BAFB140068EDEE /* commercialpoolmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = commercialpoolmodel.swift; sourceTree = "<group>"; };
 		EF5DB0AB2595E67D002A59F2 /* LocationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsViewController.swift; sourceTree = "<group>"; };
 		EF5DB0B02595E69B002A59F2 /* LocationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsTableViewCell.swift; sourceTree = "<group>"; };
+		EF6052A825D53BCF00842EAA /* FindLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindLocationViewController.swift; sourceTree = "<group>"; };
 		EF628C36257A032A00B0A0D8 /* MobileClinicsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileClinicsViewController.swift; sourceTree = "<group>"; };
 		EF66ED2E256F6CFC00A9E9EE /* ContectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContectViewController.swift; sourceTree = "<group>"; };
 		EF66ED30256F6D1600A9E9EE /* AboutUsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsViewController.swift; sourceTree = "<group>"; };
@@ -121,6 +132,9 @@
 		EF66ED40256FBAAC00A9E9EE /* LeftMenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftMenuTableViewController.swift; sourceTree = "<group>"; };
 		EF66ED42256FBB1700A9E9EE /* SidemenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidemenuTableViewCell.swift; sourceTree = "<group>"; };
 		EF66ED48256FE21500A9E9EE /* ServicesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesTableViewCell.swift; sourceTree = "<group>"; };
+		EF67380325CA83AB006FAEEB /* ArcGIS.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ArcGIS.xcframework; path = "Pods/ArcGIS-Runtime-SDK-iOS/ArcGIS.xcframework"; sourceTree = "<group>"; };
+		EF67380C25CAD1A9006FAEEB /* SearchEstablishmentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEstablishmentsViewController.swift; sourceTree = "<group>"; };
+		EF6CD73625E8FAC9001491FF /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		EF75E83F25790E3F00479F5B /* AllTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTableViewCell.swift; sourceTree = "<group>"; };
 		EF75E84125790E6400479F5B /* AllTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTableViewController.swift; sourceTree = "<group>"; };
 		EF7A0F402570C13F00E2923F /* ProgramsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramsCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -176,6 +190,7 @@
 		EF9C714F256D02F6008D3A05 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		EFA279E12580EF5D008F1681 /* DeadbirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadbirdViewController.swift; sourceTree = "<group>"; };
 		EFA279E32580EF76008F1681 /* deadbirdCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = deadbirdCollectionViewCell.swift; sourceTree = "<group>"; };
+		EFACA24C25C80589009496B1 /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
 		EFC67052257F572900854BD2 /* DownloadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
 		EFEB25E525712FD600E20DE5 /* ContactallTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactallTableViewCell.swift; sourceTree = "<group>"; };
 		EFFE326725936DF300415DCD /* MosquitoBreedingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosquitoBreedingViewController.swift; sourceTree = "<group>"; };
@@ -215,6 +230,7 @@
 		64CA6B46A6FCFFB618A50693 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EF67380325CA83AB006FAEEB /* ArcGIS.xcframework */,
 				DBD1C3794A6940137AF45D44 /* Pods_HCPL.framework */,
 				7B8ED7FA0F2DFBA554F2B636 /* Pods_HCPL_HCPLUITests.framework */,
 				F6C250CE2BE36B4756EB3358 /* Pods_HCPLTests.framework */,
@@ -287,6 +303,9 @@
 				EF9A97622594FB8B0048545A /* webviewViewController.swift */,
 				EF9A977A25950F580048545A /* EnvironmentalViewController.swift */,
 				EF5DB0AB2595E67D002A59F2 /* LocationsViewController.swift */,
+				EFACA24C25C80589009496B1 /* PrivacyPolicyViewController.swift */,
+				EF67380C25CAD1A9006FAEEB /* SearchEstablishmentsViewController.swift */,
+				EF6052A825D53BCF00842EAA /* FindLocationViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -294,9 +313,13 @@
 		EF8477B1256D48050061BEB2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				EF5B3FF625BA945F0068EDEE /* UIViewExtension.swift */,
 				EFC67051257F56FF00854BD2 /* Download */,
 				EF8477B2256D481C0061BEB2 /* IQKeyboardManagerSwift */,
 				EF9A9775259507430048545A /* Appconstant.swift */,
+				EF5B401A25BAFB140068EDEE /* commercialpoolmodel.swift */,
+				EF55A95525D2AADC004A55AC /* CheckDevice.swift */,
+				EF6CD73625E8FAC9001491FF /* Reachability.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -430,6 +453,7 @@
 			buildConfigurationList = EF9C7146256CEA3B008D3A05 /* Build configuration list for PBXNativeTarget "HCPL" */;
 			buildPhases = (
 				D49D8E58FFECC630BD9140AD /* [CP] Check Pods Manifest.lock */,
+				59B7EBA81B671EC5D7E45D9A /* [CP] Prepare Artifacts */,
 				EF9C7115256CEA38008D3A05 /* Sources */,
 				EF9C7116256CEA38008D3A05 /* Frameworks */,
 				EF9C7117256CEA38008D3A05 /* Resources */,
@@ -468,6 +492,7 @@
 			buildConfigurationList = EF9C714C256CEA3B008D3A05 /* Build configuration list for PBXNativeTarget "HCPLUITests" */;
 			buildPhases = (
 				8ED96FCBC8FA5EA7B6F7443B /* [CP] Check Pods Manifest.lock */,
+				18007E9E8705966BED8AB778 /* [CP] Prepare Artifacts */,
 				EF9C7139256CEA3A008D3A05 /* Sources */,
 				EF9C713A256CEA3A008D3A05 /* Frameworks */,
 				EF9C713B256CEA3A008D3A05 /* Resources */,
@@ -555,6 +580,40 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		18007E9E8705966BED8AB778 /* [CP] Prepare Artifacts */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HCPL-HCPLUITests/Pods-HCPL-HCPLUITests-artifacts-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Prepare Artifacts";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HCPL-HCPLUITests/Pods-HCPL-HCPLUITests-artifacts-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HCPL-HCPLUITests/Pods-HCPL-HCPLUITests-artifacts.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		59B7EBA81B671EC5D7E45D9A /* [CP] Prepare Artifacts */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HCPL/Pods-HCPL-artifacts-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Prepare Artifacts";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HCPL/Pods-HCPL-artifacts-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HCPL/Pods-HCPL-artifacts.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		5C2E21922FE4E2032068EF74 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -664,6 +723,7 @@
 			files = (
 				EF9A97632594FB8B0048545A /* webviewViewController.swift in Sources */,
 				EFA279E22580EF5D008F1681 /* DeadbirdViewController.swift in Sources */,
+				EF67380D25CAD1A9006FAEEB /* SearchEstablishmentsViewController.swift in Sources */,
 				EF8477CA256D481C0061BEB2 /* IQTitleBarButtonItem.swift in Sources */,
 				EF75E84025790E3F00479F5B /* AllTableViewCell.swift in Sources */,
 				EF9A97402594617D0048545A /* CallforAppointmentTableViewCell.swift in Sources */,
@@ -679,6 +739,7 @@
 				EF628C37257A032A00B0A0D8 /* MobileClinicsViewController.swift in Sources */,
 				EFA279E42580EF76008F1681 /* deadbirdCollectionViewCell.swift in Sources */,
 				EF8477D6256D481C0061BEB2 /* IQUIView+Hierarchy.swift in Sources */,
+				EFACA24D25C80589009496B1 /* PrivacyPolicyViewController.swift in Sources */,
 				EF9C7121256CEA38008D3A05 /* ViewController.swift in Sources */,
 				EF8477CB256D481C0061BEB2 /* IQBarButtonItem.swift in Sources */,
 				EF66ED43256FBB1700A9E9EE /* SidemenuTableViewCell.swift in Sources */,
@@ -689,13 +750,16 @@
 				EF5DB0B12595E69B002A59F2 /* LocationsTableViewCell.swift in Sources */,
 				EF9A978025950FCA0048545A /* EnvironmentalTableViewCell.swift in Sources */,
 				EF66ED41256FBAAC00A9E9EE /* LeftMenuTableViewController.swift in Sources */,
+				EF5B401B25BAFB140068EDEE /* commercialpoolmodel.swift in Sources */,
 				EFEB25E625712FD600E20DE5 /* ContactallTableViewCell.swift in Sources */,
 				EF8477CD256D481C0061BEB2 /* IQUIView+IQKeyboardToolbar.swift in Sources */,
+				EF6052A925D53BD000842EAA /* FindLocationViewController.swift in Sources */,
 				EF8477CC256D481C0061BEB2 /* IQToolbar.swift in Sources */,
 				EF9A97542594B8390048545A /* CommercialPoolsViewController.swift in Sources */,
 				EF8B6C85257E2269004DBF17 /* ReportCollectionViewCell.swift in Sources */,
 				EF8477C9256D481C0061BEB2 /* IQPreviousNextView.swift in Sources */,
 				EF8477D5256D481C0061BEB2 /* IQUITextFieldView+Additions.swift in Sources */,
+				EF6CD73725E8FAC9001491FF /* Reachability.swift in Sources */,
 				EF56EA72257244C100E6EC66 /* ImageCell.swift in Sources */,
 				EF8477D1256D481C0061BEB2 /* IQKeyboardReturnKeyHandler.swift in Sources */,
 				EF8477D2256D481C0061BEB2 /* IQKeyboardManager.swift in Sources */,
@@ -705,6 +769,7 @@
 				EF5DB0AC2595E67D002A59F2 /* LocationsViewController.swift in Sources */,
 				EF66ED3F256F9EB600A9E9EE /* SliderCollectionViewCell.swift in Sources */,
 				EF8477D4256D481C0061BEB2 /* IQUIViewController+Additions.swift in Sources */,
+				EF55A95625D2AADC004A55AC /* CheckDevice.swift in Sources */,
 				EF9A974F259496C90048545A /* RepostissueTableViewCell.swift in Sources */,
 				EFFE326825936DF300415DCD /* MosquitoBreedingViewController.swift in Sources */,
 				EF13004D257A45300066F712 /* ReportanimalViewController.swift in Sources */,
@@ -722,6 +787,7 @@
 				EF66ED2F256F6CFC00A9E9EE /* ContectViewController.swift in Sources */,
 				EF9A973B259461570048545A /* WeekTableViewCell.swift in Sources */,
 				EF66ED49256FE21500A9E9EE /* ServicesTableViewCell.swift in Sources */,
+				EF5B3FF725BA945F0068EDEE /* UIViewExtension.swift in Sources */,
 				EF8477C8256D481C0061BEB2 /* IQTextView.swift in Sources */,
 				EF8477D3256D481C0061BEB2 /* IQUIScrollView+Additions.swift in Sources */,
 			);
@@ -898,17 +964,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = WRUT5PP3QT;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = S3SAGN2DFC;
 				INFOPLIST_FILE = HCPL/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = hcph.hctx.net;
+				MARKETING_VERSION = 4.1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = gov.harriscountytx.harriscountypublichealth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -918,17 +986,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = WRUT5PP3QT;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = S3SAGN2DFC;
 				INFOPLIST_FILE = HCPL/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = hcph.hctx.net;
+				MARKETING_VERSION = 4.1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = gov.harriscountytx.harriscountypublichealth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

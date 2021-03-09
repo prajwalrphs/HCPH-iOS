@@ -1,14 +1,8 @@
-//
-//  MapViewController.swift
-//  HCPL
-//
-//  Created by Skywave-Mac on 26/11/20.
-//  Copyright © 2020 Skywave-Mac. All rights reserved.
-//
 
 import UIKit
 import ArcGIS
 import CoreLocation
+import MapKit
 
 class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarDelegate,AGSGeoViewTouchDelegate {
     
@@ -17,84 +11,36 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
     
     var TitleHead:String!
     
+    let CURRENTLAT = UserDefaults.standard.double(forKey: AppConstant.CURRENTLAT)
+    let CURRENTLONG = UserDefaults.standard.double(forKey: AppConstant.CURRENTLONG)
+
+    let locationManager = CLLocationManager()
+    
     let locationOverlay = AGSGraphicsOverlay()
     let locatorTask = AGSLocatorTask(url: URL(string: "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer")!)
     
-    let locationManager = CLLocationManager()
-    
-    fileprivate func MakeMap() -> AGSMap {
-        let map =  AGSMap(basemapType: .navigationVector, latitude: 22.825187, longitude: 70.849081, levelOfDetail: 15)
-        
-        let featureTable = AGSServiceFeatureTable(url: URL(string: "https://services.arcgis.com/OfH668nDRN7tbjh0/arcgis/rest/services/Palm_Springs_Shortlist/FeatureServer/0")!)
-        
-        let featureLayer = AGSFeatureLayer(featureTable: featureTable)
-        map.operationalLayers.add(featureLayer)
-        
-        return map
-    }
-    
-    private func setupMap() {
-         let map = AGSMap(
-             basemapStyle: .arcGISTopographic
-         )
-        mapview.map = map
-        mapview.setViewpoint(
-             AGSViewpoint(
-                 latitude: 22.825187,
-                 longitude: 70.849081,
-                 scale: 72_000
-             )
-         )
-     }
 
-     private func addGraphics() {
-
-         let graphicsOverlay = AGSGraphicsOverlay()
-        mapview.graphicsOverlays.add(graphicsOverlay)
-        
-        let point = AGSPoint(x: -118.80657463861, y: 34.0005930608889, spatialReference: .wgs84())
-        let pointSymbol = AGSSimpleMarkerSymbol(style: .circle, color: .orange, size: 10.0)
-
-        pointSymbol.outline = AGSSimpleLineSymbol(style: .solid, color: .blue, width: 2.0)
-        
-        let pointGraphic = AGSGraphic(geometry: point, symbol: pointSymbol)
-
-        graphicsOverlay.graphics.add(pointGraphic)
-        
-        let polyline = AGSPolyline(
-                    points: [
-                        AGSPoint(x: -118.821527826096, y: 34.0139576938577, spatialReference: .wgs84()),
-                        AGSPoint(x: -118.814893761649, y: 34.0080602407843, spatialReference: .wgs84()),
-                        AGSPoint(x: -118.808878330345, y: 34.0016642996246, spatialReference: .wgs84())
-                    ]
-                )
-
-        let polylineSymbol = AGSSimpleLineSymbol(style: .solid, color: .blue, width: 3.0)
-        
-        let polylineGraphic = AGSGraphic(geometry: polyline, symbol: polylineSymbol)
-
-        graphicsOverlay.graphics.add(polylineGraphic)
-        
-        let polygon = AGSPolygon(
-            points: [
-                AGSPoint(x: -118.818984489994, y: 34.0137559967283, spatialReference: .wgs84()),
-                AGSPoint(x: -118.806796597377, y: 34.0215816298725, spatialReference: .wgs84()),
-                AGSPoint(x: -118.791432890735, y: 34.0163883241613, spatialReference: .wgs84()),
-                AGSPoint(x: -118.79596686535, y: 34.008564864635, spatialReference: .wgs84()),
-                AGSPoint(x: -118.808558110679, y: 34.0035027131376, spatialReference: .wgs84())
-            ]
-        )
-
-        let polygonSymbol = AGSSimpleFillSymbol(style: .solid, color: .orange, outline: AGSSimpleLineSymbol(style: .solid, color: .blue, width: 2.0))
-        
-        let polygonGraphic = AGSGraphic(geometry: polygon, symbol: polygonSymbol)
-
-          graphicsOverlay.graphics.add(polygonGraphic)
-
-     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+        print("onoff==>\(onoff ?? "")")
+        
+        if onoff == "on"{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .dark
+             }
+        }else if onoff == "off"{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .light
+             }
+        }else{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .light
+             }
+        }
         
         mapview.locationDisplay.start {
 
@@ -102,29 +48,16 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
 
             if let error = error {
 
-               // show error
-                print("show error")
-
            } else {
-
-              // get the map location
-            
-            print("get the map location")
-
-            //let currentLocation : AGSPoint = mapView.mapLocation;
 
            }
 
         }
+    
         
         self.titletext.text = TitleHead
         
-        setupMap()
-
-        addGraphics()
-        
-        mapview.map = MakeMap()
-        
+        setupMapLoad()
         mapview.graphicsOverlays.add(locationOverlay)
 
         mapview.touchDelegate = self
@@ -134,17 +67,68 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
-        
+
     }
+    
+    
+    private func setupMapLoad() {
+
+         let map = AGSMap(
+             basemapStyle: .arcGISTopographic
+         )
+
+        mapview.map = map
+
+        mapview.setViewpoint(
+             AGSViewpoint(
+                 latitude: CURRENTLAT,
+                 longitude: CURRENTLONG,
+                 scale: 72_000
+             )
+         )
+        
+        let locationmain = AGSPoint(clLocationCoordinate2D: CLLocationCoordinate2D(latitude: CURRENTLAT, longitude: CURRENTLONG))
+         
+        let graphic = AGSGraphic(geometry: locationmain, symbol: AGSSimpleMarkerSymbol(style: .circle, color: .blue, size: 12), attributes: nil)
+         self.locationOverlay.graphics.add(graphic)
+     }
+    
+    private func setupMap() {
+
+         let map = AGSMap(
+             basemapStyle: .arcGISTopographic
+         )
+
+        mapview.map = map
+
+        mapview.setViewpoint(
+             AGSViewpoint(
+                 latitude: CURRENTLAT,
+                 longitude: CURRENTLONG,
+                 scale: 72_000
+             )
+         )
+        
+       let locationmain = AGSPoint(clLocationCoordinate2D: CLLocationCoordinate2D(latitude: CURRENTLAT, longitude: CURRENTLONG))
+        
+        let graphic = AGSGraphic(geometry: locationmain, symbol: AGSSimpleMarkerSymbol(style: .circle, color: .red, size: 12), attributes: nil)
+        self.locationOverlay.graphics.add(graphic)
+
+     }
     
     @IBAction func Back(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
     }
     
+    @IBAction func GPSopen(_ sender: UIButton) {
+        setupMap()
+    }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         print("locations updates = \(locValue.latitude) \(locValue.longitude)")
+        UserDefaults.standard.set(locValue.latitude, forKey: AppConstant.CURRENTLAT)
+        UserDefaults.standard.set(locValue.longitude, forKey: AppConstant.CURRENTLONG)
         
     }
     

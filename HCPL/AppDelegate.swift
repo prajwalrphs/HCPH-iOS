@@ -1,15 +1,9 @@
-//
-//  AppDelegate.swift
-//  HCPL
-//
-//  Created by Skywave-Mac on 24/11/20.
-//  Copyright © 2020 Skywave-Mac. All rights reserved.
-//
 
 import UIKit
 import CoreData
 import AMTabView
 import CoreLocation
+import ArcGIS
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate,CLLocationManagerDelegate {
@@ -21,8 +15,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate,CLLocationManagerDelegate 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+//        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+//        print("applicationonoff==>\(onoff ?? "")")
+//
+//        if onoff == nil{
+//            print("isEmpty")
+//        }else{
+//            print("isEmpty Not")
+//        }
+        
+        if let favorites = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF) {
+            print("Favorites exists")
+
+            if favorites.isEmpty {
+                print("Favorites is empty")
+            } else {
+                print("Favorites is not empty, it has \(favorites.count) items")
+            }
+        } else {
+            print("Favorites is nil")
+            if UITraitCollection.current.userInterfaceStyle == .dark {
+                print("Dark mode")
+                UserDefaults.standard.set("on", forKey: AppConstant.ISONISOFF)
+            }
+            else {
+                print("Light mode")
+                UserDefaults.standard.set("off", forKey: AppConstant.ISONISOFF)
+            }
+        }
+        
+
+        
+        AGSArcGISRuntimeEnvironment.apiKey = "AAPK7369e57cb9ef4b58967beda270b251cdzdmK1GUiCL4htVQXyVP0MbYgA0I8rXzleRIMGMrZLbeJzHFtXDm8jBjO1HvvA5R4"
+        
         self.locationManager.requestAlwaysAuthorization()
 
+        IQKeyboardManager.shared.enable = true
         // For use in foreground
         self.locationManager.requestWhenInUseAuthorization()
 
@@ -32,20 +60,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate,CLLocationManagerDelegate 
             locationManager.startUpdatingLocation()
         }
         
-        IQKeyboardManager.shared.enable = true
-        AMTabView.settings.ballColor = #colorLiteral(red: 0.4235294118, green: 0.7490196078, blue: 0.3529411765, alpha: 1)
-        AMTabView.settings.tabColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 0.5)
-        AMTabView.settings.selectedTabTintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        AMTabView.settings.unSelectedTabTintColor = #colorLiteral(red: 0.4235294118, green: 0.7490196078, blue: 0.3529411765, alpha: 1)
-
-        // Chnage the animation duration
-        AMTabView.settings.animationDuration = 1
+//        AMTabView.settings.ballColor = #colorLiteral(red: 0.4235294118, green: 0.7490196078, blue: 0.3529411765, alpha: 1)
+//        AMTabView.settings.tabColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 0.5)
+//        AMTabView.settings.selectedTabTintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+//        AMTabView.settings.unSelectedTabTintColor = #colorLiteral(red: 0.4235294118, green: 0.7490196078, blue: 0.3529411765, alpha: 1)
+//
+//        // Chnage the animation duration
+//        AMTabView.settings.animationDuration = 1
         return true
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-        print("locations = \(locValue.latitude) \(locValue.longitude)")
+        //print("locations = \(locValue.latitude) \(locValue.longitude)")
     }
 
     // MARK: UISceneSession Lifecycle

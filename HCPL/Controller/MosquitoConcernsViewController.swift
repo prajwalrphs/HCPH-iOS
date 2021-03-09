@@ -1,10 +1,3 @@
-//
-//  MosquitoConcernsViewController.swift
-//  HCPL
-//
-//  Created by Skywave-Mac on 23/12/20.
-//  Copyright © 2020 Skywave-Mac. All rights reserved.
-//
 
 import UIKit
 
@@ -18,6 +11,22 @@ class MosquitoConcernsViewController: UIViewController,UITableViewDelegate,UITab
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+        print("onoff==>\(onoff ?? "")")
+        
+        if onoff == "on"{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .dark
+             }
+        }else if onoff == "off"{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .light
+             }
+        }else{
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .light
+             }
+        }
         // Do any additional setup after loading the view.
     }
     
@@ -51,10 +60,14 @@ class MosquitoConcernsViewController: UIViewController,UITableViewDelegate,UITab
             self.navigationController?.pushViewController(navigate, animated: true)
         }
         if indexPath.row == 2{
-            
+            let naviagte:MapViewController = self.storyboard?.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
+            naviagte.TitleHead = "Disease Activity"
+            self.navigationController?.pushViewController(naviagte, animated: true)
         }
         if indexPath.row == 3{
-            
+            let naviagte:MapViewController = self.storyboard?.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
+            naviagte.TitleHead = "Spray Area"
+            self.navigationController?.pushViewController(naviagte, animated: true)
         }
         if indexPath.row == 4{
             self.naviGetTo(url: "http://publichealth.harriscountytx.gov/About/Organization-Offices/Mosquito-and-Vector-Control", title: "Website")
@@ -83,8 +96,15 @@ class MosquitoConcernsViewController: UIViewController,UITableViewDelegate,UITab
                 // Cancel button
                 let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
             
+            let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+            print("onoff==>\(onoff ?? "")")
+            
+            if onoff == "on"{
+                alert.view.tintColor = AppConstant.LabelWhiteColor
+            }else{
+                alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+            }
             // Restyle the view of the Alert
-            alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)  // change text color of the buttons
             alert.view.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)  // change background color
             alert.view.layer.cornerRadius = 25
             
