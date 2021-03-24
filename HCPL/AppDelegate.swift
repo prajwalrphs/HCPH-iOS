@@ -4,6 +4,8 @@ import CoreData
 import AMTabView
 import CoreLocation
 import ArcGIS
+import GoogleMaps
+import GooglePlaces
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate,CLLocationManagerDelegate {
@@ -45,9 +47,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate,CLLocationManagerDelegate 
         }
         
 
+        GMSPlacesClient.provideAPIKey(AppConstant.googleApiKey)
+        GMSServices.provideAPIKey(AppConstant.googleApiKey)
         
         AGSArcGISRuntimeEnvironment.apiKey = "AAPK7369e57cb9ef4b58967beda270b251cdzdmK1GUiCL4htVQXyVP0MbYgA0I8rXzleRIMGMrZLbeJzHFtXDm8jBjO1HvvA5R4"
+//      AGSArcGISRuntimeEnvironment.setLicenseKey("runtimelite,1000,rud2361000057,none,TRB3LNBHPDH4F5KHT180")
+
         
+        
+        //AGSArcGISRuntimeEnvironment.setLicense("runtimelite,1000,rud2361000057,none,TRB3LNBHPDH4F5KHT180");
         self.locationManager.requestAlwaysAuthorization()
 
         IQKeyboardManager.shared.enable = true

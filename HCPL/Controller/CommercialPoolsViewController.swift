@@ -8,8 +8,9 @@ import MaterialComponents.MaterialTextControls_FilledTextAreas
 import MaterialComponents.MaterialTextControls_FilledTextFields
 import MaterialComponents.MaterialTextControls_OutlinedTextAreas
 import MaterialComponents.MaterialTextControls_OutlinedTextFields
+import CoreLocation
 
-class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UIImagePickerControllerDelegate, UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate {
+class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UIImagePickerControllerDelegate, UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate,CLLocationManagerDelegate {
 
 
     var images: [Image] = []
@@ -43,16 +44,27 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     @IBOutlet weak var submitoutlate: UIButton!
     @IBOutlet weak var lbltitle: UILabel!
     
+    
+    var ImageBytesone = String()
+    var ImageBytestwo = String()
+    var ImageBytesthree = String()
+    var ImageBytesfour = String()
+    var ImageBytesfive = String()
+    
     var CommercialArray = [String]()
     var arrayimage = [String]()
     var ids = [Int]()
     var Title:String!
     var PlaceholderGet:String!
     
+    var LatitudeString:String!
+    var LongitudeString:String!
+    let locationManager = CLLocationManager()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         txtcontactnumber.delegate = self
         
         self.viewaddimage.layer.cornerRadius = 5
@@ -109,6 +121,12 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
         }
         
   
+        txtfirstname.autocapitalizationType = .sentences
+        txtfirstname.autocapitalizationType = .words
+        
+        txtlastname.autocapitalizationType = .sentences
+        txtlastname.autocapitalizationType = .words
+        
         
         txtdescription.autocapitalizationType = .sentences
         txtdescription.autocapitalizationType = .words
@@ -147,20 +165,59 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
         
         txtdescription.delegate = self
         
-        Statetxt.placeholder = PlaceholderGet
-        let placeholder = NSMutableAttributedString(
-            string: PlaceholderGet,
-            attributes: [.font: UIFont(name: "Helvetica", size: 15.0)!,
-                         .foregroundColor: UIColor.gray
-                         ])
-        Statetxt.attributedPlaceholder = placeholder
-        
-        mainDropDown.didSelect{(selectedText , index , id) in
-            self.Statetxt.text = selectedText
+        if Title == "Food Safety"{
+            Statetxt.placeholder = PlaceholderGet
+            let placeholder = NSMutableAttributedString(
+                string: PlaceholderGet,
+                attributes: [.font: UIFont(name: "Helvetica", size: 15.0)!,
+                             .foregroundColor: UIColor.gray
+                             ])
+            Statetxt.attributedPlaceholder = placeholder
+            
+            
+            mainDropDown.didSelect{(selectedText , index , id) in
+                self.Statetxt.text = selectedText
+            }
+        }else{
+            Statetxt.text = CommercialArray[0]
+            Statetxt.placeholder = PlaceholderGet
+            let placeholder = NSMutableAttributedString(
+                string: PlaceholderGet,
+                attributes: [.font: UIFont(name: "Helvetica", size: 15.0)!,
+                             .foregroundColor: UIColor.gray
+                             ])
+            Statetxt.attributedPlaceholder = placeholder
+            
+            
+            mainDropDown.didSelect{(selectedText , index , id) in
+                self.Statetxt.text = selectedText
+            }
         }
+        
+
         
         self.submitoutlate.layer.cornerRadius = 25
         
+        self.locationManager.requestAlwaysAuthorization()
+
+        // For use in foreground
+        self.locationManager.requestWhenInUseAuthorization()
+
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        //print("locations = \(locValue.latitude) \(locValue.longitude)")
+        self.LatitudeString = "\(locValue.latitude)"
+        self.LongitudeString = "\(locValue.longitude)"
+        
+        print("LatitudeString==>\(LatitudeString ?? "")")
+        print("LongitudeString==>\(LongitudeString ?? "")")
     }
     
     var MAX_LENGHTPhone = 10
@@ -183,11 +240,18 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField == self.txtnameaddress {
-            let controller = storyboard?.instantiateViewController(withIdentifier: "FindLocationViewController") as! FindLocationViewController
-            controller.modalPresentationStyle = .pageSheet
-            controller.modalTransitionStyle = .coverVertical
-            present(controller, animated: true, completion: nil)
             
+            if Reachability.isConnectedToNetwork(){
+                print("Internet Connection Available!")
+                let controller = storyboard?.instantiateViewController(withIdentifier: "FindLocationViewController") as! FindLocationViewController
+                controller.modalPresentationStyle = .pageSheet
+                controller.modalTransitionStyle = .coverVertical
+                present(controller, animated: true, completion: nil)
+                
+            }else{
+                print("Internet Connection not Available!")
+                self.view.showToast(toastMessage: "Please turn on internet connection to continue.", duration: 0.3)
+            }
             return true
         }else if textField == self.txtcontactnumber{
             self.Phonelenght(self.txtcontactnumber)
@@ -312,16 +376,37 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     //txtnameaddress
     func validate() -> Bool {
      if self.txtnameaddress.text?.isEmpty ?? true {
-      self.view.showToast(toastMessage: "Please provide Location", duration: 0.3)
+      self.view.showToast(toastMessage: "Please select location.", duration: 0.3)
                 return false
     }else if self.txtfirstname.text?.isEmpty ?? true {
-      self.view.showToast(toastMessage: "Please provide the First Name", duration: 0.3)
+      self.view.showToast(toastMessage: "Please enter the first name.", duration: 0.3)
                 return false
     }else if self.txtlastname.text?.isEmpty ?? true {
-      self.view.showToast(toastMessage: "Please provide the Last Name", duration: 0.3)
+      self.view.showToast(toastMessage: "Please enter the last name.", duration: 0.3)
                 return false
     }else if self.txtcontactnumber.text!.count != 10{
-        self.view.showToast(toastMessage: "Please provide the valid contact number.", duration: 0.3)
+        self.view.showToast(toastMessage: "Please enter the valid contact number.", duration: 0.3)
+                  return false
+    }
+      return true
+    }
+    
+    func validateFoodSafety() -> Bool {
+        
+    if self.Statetxt.text?.isEmpty ?? true {
+        self.view.showToast(toastMessage: "Please choose subject", duration: 0.3)
+                return false
+    }else if self.txtnameaddress.text?.isEmpty ?? true {
+      self.view.showToast(toastMessage: "Please select location.", duration: 0.3)
+                return false
+    }else if self.txtfirstname.text?.isEmpty ?? true {
+      self.view.showToast(toastMessage: "Please enter the first name.", duration: 0.3)
+                return false
+    }else if self.txtlastname.text?.isEmpty ?? true {
+      self.view.showToast(toastMessage: "Please enter the last name.", duration: 0.3)
+                return false
+    }else if self.txtcontactnumber.text!.count != 10{
+        self.view.showToast(toastMessage: "Please enter the valid contact number.", duration: 0.3)
                   return false
     }
       return true
@@ -353,10 +438,19 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
             "ReceivedDevice":"1",
             "Section":"0",
             "Subject":Statetxt.text ?? "",
-            "ImageList":["values":arrayimage]
+            "GPSX":LatitudeString ?? "",
+            "GPSY":LongitudeString ?? "",
+            "ImageBytes":ImageBytesone,
+            "ImageBytes2":ImageBytestwo,
+            "ImageBytes3":ImageBytesthree,
+            "ImageBytes4":ImageBytesfour,
+            "ImageBytes5":ImageBytesfive,
         ] as [String : Any]
         
+        print("LatitudeString==>\(LatitudeString ?? "")")
+        print("LongitudeString==>\(LongitudeString ?? "")")
 
+        
         let jsonData = try? JSONSerialization.data(withJSONObject: parameters)
 
         let url = URL(string: "https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/UploadServiceRequest")!
@@ -371,7 +465,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                  do{
                      let json = try JSON(data:data)
                      print("CommercialPoolsApicall==> \(json)")
-                    
+                                        
                     let statusisSuccess = json["isSuccess"]
                     let messageTost = json["message"]
                     
@@ -441,8 +535,26 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
             
             let imageData: Data? = selectedImage.jpegData(compressionQuality: 0.4)
             let imageStr = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
-            print("imageStr====>\(imageStr)")
+            //print("imageStr====>\(imageStr)")
             self.arrayimage.append(imageStr)
+            
+            if arrayimage.count == 1{
+                print("Count 1")
+                ImageBytesone = imageStr
+            }else if arrayimage.count == 2{
+                print("Count 2")
+                ImageBytestwo = imageStr
+            }else if arrayimage.count == 3{
+                print("Count 3")
+                ImageBytesthree = imageStr
+            }else if arrayimage.count == 4{
+                print("Count 4")
+                ImageBytesfour = imageStr
+            }else if arrayimage.count == 5{
+                print("Count 5")
+                ImageBytesfive = imageStr
+            }
+            
     }
         
     }
@@ -452,44 +564,65 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     }
     
     @IBAction func AddimageAction(_ sender: UIButton) {
-        let imagePicker = UIImagePickerController()
-                imagePicker.delegate = self
-                
-                let alertViewController = UIAlertController(title: "Choose Image Source", message: nil, preferredStyle: .actionSheet)
-                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-                
-                if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-                    let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default, handler: { action in
-                        imagePicker.sourceType = .photoLibrary
-                        self.present(imagePicker, animated: true, completion: nil)
-                    })
-                    let CameraLibraryAction = UIAlertAction(title: "Camera", style: .default, handler: { action in
-                        //self.galleryVideo()
-                        imagePicker.sourceType = .camera
-                        self.present(imagePicker, animated: true, completion: nil)
-                    })
+        
+        if arrayimage.count == 5{
+            print("Count 5 Done!")
+            let alertController = UIAlertController(title: "HCPH", message: "You can attach maximum five images.", preferredStyle: UIAlertController.Style.alert)
 
-                    alertViewController.addAction(CameraLibraryAction)
-                    alertViewController.addAction(photoLibraryAction)
-                }
-        alertViewController.addAction(cancelAction)
-                present(alertViewController, animated: true, completion: nil)
-                
-                alertViewController.view.subviews.flatMap({$0.constraints}).filter{ (one: NSLayoutConstraint)-> (Bool)  in
-                    return (one.constant < 0) && (one.secondItem == nil) &&  (one.firstAttribute == .width)
-                    }.first?.isActive = false
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+            alertController.addAction(cancelAction)
+
+
+            self.present(alertController, animated: true, completion: nil)
+        }else{
+            let imagePicker = UIImagePickerController()
+                    imagePicker.delegate = self
+                    
+                    let alertViewController = UIAlertController(title: "Choose Image Source", message: nil, preferredStyle: .actionSheet)
+                    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                    
+                    if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                        let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default, handler: { action in
+                            imagePicker.sourceType = .photoLibrary
+                            self.present(imagePicker, animated: true, completion: nil)
+                        })
+                        let CameraLibraryAction = UIAlertAction(title: "Camera", style: .default, handler: { action in
+                            //self.galleryVideo()
+                            imagePicker.sourceType = .camera
+                            self.present(imagePicker, animated: true, completion: nil)
+                        })
+
+                        alertViewController.addAction(CameraLibraryAction)
+                        alertViewController.addAction(photoLibraryAction)
+                    }
+            alertViewController.addAction(cancelAction)
+                    present(alertViewController, animated: true, completion: nil)
+                    
+                    alertViewController.view.subviews.flatMap({$0.constraints}).filter{ (one: NSLayoutConstraint)-> (Bool)  in
+                        return (one.constant < 0) && (one.secondItem == nil) &&  (one.firstAttribute == .width)
+                        }.first?.isActive = false
+        }
     }
     
     @IBAction func submitaction(_ sender: UIButton) {
         
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
-            if validate(){
-                CommercialPoolsApicall()
+            
+            if Title == "Food Safety"{
+                if validateFoodSafety(){
+                    CommercialPoolsApicall()
+                }
+            }else{
+                if validate(){
+                    CommercialPoolsApicall()
+                }
             }
+            
+            
         }else{
             print("Internet Connection not Available!")
-            self.view.showToast(toastMessage: "Network unavailable please try later", duration: 0.3)
+            self.view.showToast(toastMessage: "Please turn on internet connection to continue.", duration: 0.3)
         }
       
     }

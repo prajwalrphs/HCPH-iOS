@@ -4,7 +4,7 @@ import UIKit
 class MosquitoConcernsTableViewCell: UITableViewCell {
 
     @IBOutlet weak var mainview: UIView!
-    @IBOutlet weak var img: UIImageView!
+    @IBOutlet var ArrowRight: UIButton!
     @IBOutlet weak var lbl: UILabel!
     
     

@@ -4,6 +4,10 @@ import MBProgressHUD
 import SwiftyJSON
 import Alamofire
 import CoreLocation
+import GoogleMaps
+import GooglePlaces
+import GooglePlacePicker
+import UserNotifications
 
 
 struct DeadbirdClass: Codable {
@@ -62,10 +66,12 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     let currentDateTime = Date()
     let formatter = DateFormatter()
     
+    var ZIpCode = String()
+    var CityCode = String()
+    var AddressCode = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
- 
         
         self.contacttext.delegate = self
         
@@ -151,7 +157,6 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
         
         self.submit.layer.cornerRadius = 20
         
-
         // Do any additional setup after loading the view.
     }
     
@@ -160,7 +165,36 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
         //print("locations = \(locValue.latitude) \(locValue.longitude)")
         self.LatitudeString = "\(locValue.latitude)"
         self.LongitudeString = "\(locValue.longitude)"
+        
+        let geocoder = GMSGeocoder()
+        geocoder.reverseGeocodeCoordinate(locValue) { response, error in
+            if error != nil {
+                print("reverse geodcode fail: \(error!.localizedDescription)")
+            } else {
+                if let places = response?.results() {
+                    if let place = places.first {
+                        print(place.lines)
+                        print("GEOCODE: Formatted postalCode: \(place.postalCode ?? "")")
+                        print("GEOCODE: Formatted locality: \(place.locality ?? "")")
+                        print("GEOCODE: Formatted subLocality: \(place.subLocality ?? "")")
+                        print("GEOCODE: Formatted administrativeArea: \(place.administrativeArea ?? "")")
+                        print("GEOCODE: Formatted country: \(place.country ?? "")")
+                       
+                        self.ZIpCode = place.postalCode ?? ""
+                        self.CityCode = place.locality ?? ""
+                        self.AddressCode = "\(place.locality ?? "")" + " \(place.subLocality ?? "")" + " \(place.administrativeArea ?? "")" + " \(place.country ?? "")"
+                    } else {
+                        print("GEOCODE: nil first in places")
+                    }
+                } else {
+                    print("GEOCODE: nil in places")
+                }
+            }
+        }
     }
+    
+ 
+
     
     var MAX_LENGHTPhone = 10
     func Phonelenght(_ textField : UITextField){
@@ -190,14 +224,19 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     }
     
     func validate() -> Bool {
+        
+        print("ZIpCode==>\(ZIpCode)")
+        print("CityCode==>\(CityCode)")
+        print("CityCode==>\(AddressCode)")
+        
      if self.emailtext.text?.isEmpty ?? true {
-      self.view.showToast(toastMessage: "Please provide the valid email", duration: 0.3)
+      self.view.showToast(toastMessage: "Please enter the valid email", duration: 0.3)
                 return false
     }else if self.isValidEmail(testStr: emailtext.text!) == false{
-        self.view.showToast(toastMessage: "Please provide the valid email", duration: 0.3)
+        self.view.showToast(toastMessage: "Please enter the valid email", duration: 0.3)
         return false
     }else if contacttext.text!.count != 10{
-      self.view.showToast(toastMessage: "Please provide the valid number.", duration: 0.3)
+      self.view.showToast(toastMessage: "Please enter the valid number.", duration: 0.3)
                 return false
     }else if self.arrayimage.isEmpty{
         self.view.showToast(toastMessage: "Image is required", duration: 0.3)
@@ -221,7 +260,7 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
             }
         }else{
             print("Internet Connection not Available!")
-            self.view.showToast(toastMessage: "Network unavailable please try later", duration: 0.3)
+            self.view.showToast(toastMessage: "Please turn on internet connection to continue.", duration: 0.3)
         }
     }
     
@@ -278,7 +317,7 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     hud.show(animated: true)
 
     var SecondaryarrayOfDict = [NSDictionary]()
-    let dict1 = ["addressname":"","city":"","zip":""]
+    let dict1 = ["addressname":"\(AddressCode)","city":"\(CityCode)","zip":"\(ZIpCode)"]
     SecondaryarrayOfDict.append(dict1 as NSDictionary)
 
     var Address = [NSDictionary]()
@@ -395,7 +434,7 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     ]
 
 
-     let url = URL(string: "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddDeadBirdReport?SecondaryAddress=" + "etcetcetc" + "&City=" + "Texas" + "&ZipCode=" + "77510" + "&IsExternalRequest=true")!
+     let url = URL(string: "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddDeadBirdReport?SecondaryAddress=" + "\(AddressCode)" + "&City=" + "\(CityCode)" + "&ZipCode=" + "\(ZIpCode)" + "&IsExternalRequest=true")!
      print("urlurlurl==>\(url)")
 
     AF.request(url,method: .post, parameters:objParameters, encoding: JSONEncoding.default

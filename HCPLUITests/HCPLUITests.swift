@@ -1,10 +1,3 @@
-//
-//  HCPLUITests.swift
-//  HCPLUITests
-//
-//  Created by Skywave-Mac on 24/11/20.
-//  Copyright © 2020 Skywave-Mac. All rights reserved.
-//
 
 import XCTest
 

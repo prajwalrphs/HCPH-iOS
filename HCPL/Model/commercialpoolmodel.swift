@@ -1,6 +1,91 @@
 
 import Foundation
 
+
+struct Violations: Codable {
+    let isSuccess: Bool
+    let data: [ViolationsDatum]
+    let message: String
+    let createdID, pageIndex, pageSize, totalCount: Int
+    let totalPageCount: Int
+    let hasPreviousPage, hasNextPage: Bool
+}
+
+// MARK: - Datum
+struct ViolationsDatum: Codable {
+    let violationNumber, assignedDemerits, violationDescription: String
+
+    enum CodingKeys: String, CodingKey {
+        case violationNumber
+        case assignedDemerits = "assigned_demerits"
+        case violationDescription
+    }
+}
+
+struct Inspection: Codable {
+    let isSuccess: Bool
+    let data: [InspectionDatum]
+    let message: String
+    let errorDetails: JSONNull?
+    let createdID, pageIndex, pageSize, totalCount: Int
+    let totalPageCount: Int
+    let hasPreviousPage, hasNextPage: Bool
+}
+
+struct InspectionDatum: Codable {
+    let establishmentNumber, inspectionDate, inspectionNumber, demerits: String
+    let citationsIssued: String
+}
+
+struct SearchModeltwo: Codable {
+    let isSuccess: Bool
+    let data: [SearchDatumtwo]
+    let message: String
+    let errorDetails: JSONNull?
+    let createdID, pageIndex, pageSize, totalCount: Int
+    let totalPageCount: Int
+    let hasPreviousPage, hasNextPage: Bool
+}
+
+struct SearchDatumtwo: Codable {
+    let count: Int
+    let establishmentNumber, facilityType, establishmentName, streetNumber: String
+    let streetAddress, city, zipCode, lon: String
+    let lat, demerits, lastInspection, permitExpireDate: String
+    let milesAway: String
+    let numInspections: Int
+}
+
+struct SearchModel: Codable {
+    let isSuccess: Bool
+    let data: [SearchDatum]
+    let message: String
+    let errorDetails: JSONNull?
+    let createdID, pageIndex, pageSize, totalCount: Int
+    let totalPageCount: Int
+    let hasPreviousPage, hasNextPage: Bool
+}
+
+struct SearchDatum: Codable {
+    let count: Int
+    let establishmentNumber, facilityType, establishmentName, streetNumber: String
+    let streetAddress, city, zipCode, lon: String
+    let lat, demerits, lastInspection, permitExpireDate: String
+    let milesAway: String
+    let numInspections: Int
+}
+
+struct Maponcreate: Codable {
+    let isSuccess: Bool
+    let data: [JSONAny]
+    let message: String
+    let errorDetails: JSONNull?
+    let createdID, pageIndex, pageSize, totalCount: Int
+    let totalPageCount: Int
+    let hasPreviousPage, hasNextPage: Bool
+}
+
+
 struct CommercialPoolsWelcome: Codable {
     let isSuccess: Bool
     let data: [JSONAny]

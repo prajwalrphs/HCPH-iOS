@@ -1,16 +1,17 @@
 
 import UIKit
+import CoreLocation
 
-class EnvironmentalViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+class EnvironmentalViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,CLLocationManagerDelegate {
 
     
     @IBOutlet weak var lbltitle: UILabel!
     
     var MainTitle:String!
     
-    var ArrofEnvironment = ["Built Environment","Pools","Drinking Water","Neighborhood Nuisance","Lead Abatement"]
+    var ArrofEnvironment = ["Built Environment","Pools","Drinking Water","Neighborhood Nuisance","Lead Abatement","Visit Our Website"]
     var ArrofServices = ["Shelter Animals","Report Animal Cruelty","VPH maps","Events Calendar","Wish List","Visit Our Website"]
-    var ArrofFoodServices = ["Search Establishments","Permit Renewals","New Customer","Events and Markets","FAQ","Report issues"]
+    var ArrofFoodServices = ["Search Establishments","Permit Renewals","New Customer","Events and Markets","FAQ","Nutrition & Healthy Living","Report issues"]
     
     var TableArrScroll = [String]()
     
@@ -61,7 +62,7 @@ class EnvironmentalViewController: UIViewController,UITableViewDelegate,UITableV
         cell.lblname.text = TableArrScroll[indexPath.row]
         cell.borderview.layer.borderWidth = 0.6
         cell.borderview.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        cell.borderview.layer.cornerRadius = 10
+        cell.borderview.layer.cornerRadius = 7
         
         let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
         print("onoff==>\(onoff ?? "")")
@@ -93,8 +94,10 @@ class EnvironmentalViewController: UIViewController,UITableViewDelegate,UITableV
                 naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Drinking-Water", title: "Drinking Water")
             }else if indexPath.row == 3{
                 naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/Services/NeighborhoodNuisance", title: "Neighborhood Nuisance")
+            }else if indexPath.row == 4{
+                self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/Programs/Lead-Hazard-Control", title: "Lead Abatement")
             }else{
-                naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/Programs/Lead-Hazard-Control", title: "Lead Abatement")
+                self.naviGetTo(url: "https://publichealth.harriscountytx.gov/About/Organization-Offices/Environmental-Public-Health", title: "Website")
             }
         }else if TableArrScroll == ArrofServices{
             if indexPath.row == 0{
@@ -156,9 +159,27 @@ class EnvironmentalViewController: UIViewController,UITableViewDelegate,UITableV
             }
         }else{
             if indexPath.row == 0{
-                let naviagte:SearchEstablishmentsViewController = self.storyboard?.instantiateViewController(withIdentifier: "SearchEstablishmentsViewController") as! SearchEstablishmentsViewController
-                naviagte.TitleHead = "Disease Activity"
-                self.navigationController?.pushViewController(naviagte, animated: true)
+                if CLLocationManager.locationServicesEnabled() == true {
+                    let naviagte:SearchEstablishmentsViewController = self.storyboard?.instantiateViewController(withIdentifier: "SearchEstablishmentsViewController") as! SearchEstablishmentsViewController
+                    naviagte.TitleHead = "Search Establishments"
+                    self.navigationController?.pushViewController(naviagte, animated: true)
+                }else{
+                    let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                    let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                        //Redirect to Settings app
+                        UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                    })
+
+                    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                    alertController.addAction(cancelAction)
+
+                    alertController.addAction(okAction)
+
+                    self.present(alertController, animated: true, completion: nil)
+                }
+                
+                
             }else if indexPath.row == 1{
                 let alert = UIAlertController(title: "",
                     message: "",
@@ -296,6 +317,8 @@ class EnvironmentalViewController: UIViewController,UITableViewDelegate,UITableV
                 present(alert, animated: true, completion: nil)
             }else if indexPath.row == 4{
                 self.naviGetTo(url: "http://publichealth.harriscountytx.gov/About/Organization-Offices/EPH/Food-Safety", title: "FAQ")
+            }else if indexPath.row == 5{
+                self.naviGetTo(url: "https://publichealth.harriscountytx.gov/about/Organization/NCDP", title: "Nutrition & Healthy Living")
             }else{
                 let navigate:CommercialPoolsViewController = self.storyboard?.instantiateViewController(identifier: "CommercialPoolsViewController") as! CommercialPoolsViewController
                 navigate.CommercialArray = FoodSafetyArray

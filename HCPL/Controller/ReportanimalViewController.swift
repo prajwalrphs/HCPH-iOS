@@ -109,9 +109,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     var VideoBase64Url:String?
     
     var randomnumber:String!
-    
-    var maxLen:Int = 20;
-    
+        
     let countries = ["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","ldaho","illinois","lowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode island","south Carolina","south Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"]
     let ids = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50]
     
@@ -130,6 +128,39 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
         self.addvideoview.layer.borderColor = #colorLiteral(red: 0.4078176022, green: 0.407827884, blue: 0.4078223705, alpha: 1)
         self.addvideoview.clipsToBounds = true
         
+        txtaddress.autocapitalizationType = .sentences
+        txtaddress.autocapitalizationType = .words
+        
+        txtaptnumber.autocapitalizationType = .sentences
+        txtaptnumber.autocapitalizationType = .words
+        
+        txtgatcode.autocapitalizationType = .sentences
+        txtgatcode.autocapitalizationType = .words
+        
+        txtcity.autocapitalizationType = .sentences
+        txtcity.autocapitalizationType = .words
+        
+        txtcountry.autocapitalizationType = .sentences
+        txtcountry.autocapitalizationType = .words
+        
+        txtneighborhood.autocapitalizationType = .sentences
+        txtneighborhood.autocapitalizationType = .words
+        
+        txttypeofanimal.autocapitalizationType = .sentences
+        txttypeofanimal.autocapitalizationType = .words
+        
+        txtcolorofanimal.autocapitalizationType = .sentences
+        txtcolorofanimal.autocapitalizationType = .words
+        
+        txtanimalslocation.autocapitalizationType = .sentences
+        txtanimalslocation.autocapitalizationType = .words
+        
+        txtfirstname.autocapitalizationType = .sentences
+        txtfirstname.autocapitalizationType = .words
+        
+        txtlastname.autocapitalizationType = .sentences
+        txtlastname.autocapitalizationType = .words
+                
         txtdescription.autocapitalizationType = .sentences
         txtdescription.autocapitalizationType = .words
         //txtdescription.autocapitalizationType = .allCharacters
@@ -617,7 +648,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
         }
     }
     
-    var MAX_LENGHTPhone = 20
+    var MAX_LENGHTPhone = 10
     func Phonelenght(_ textField : UITextField){
         if let text = textField.text, text.count >= MAX_LENGHTPhone {
             textField.text = String(text.dropLast(text.count - MAX_LENGHTPhone))
@@ -687,7 +718,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
             let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
             return updatedString.count <= MAX_LENGTH
         }else if textField == txtphone{
-            let MAX_LENGTH = 20
+            let MAX_LENGTH = 10
             let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
             return updatedString.count <= MAX_LENGTH
         }else{
@@ -730,7 +761,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     @IBAction func cockfightingbutton(_ sender: UICheckbox) {
         print("cockfightingbutton value change: \(sender.isSelected)")
         if sender.isSelected == true{
-            self.checkboxstring?.append(",Cock Fighting")
+            self.checkboxstring?.append("Cock Fighting,")
         }else{
             print("false")
         }
@@ -739,7 +770,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     @IBAction func medicalcarebutton(_ sender: UICheckbox) {
         print("medicalcarebutton value change: \(sender.isSelected)")
         if sender.isSelected == true{
-            self.checkboxstring?.append(",Needs Medical Care")
+            self.checkboxstring?.append("Needs Medical Care,")
         }else{
             print("false")
         }
@@ -748,7 +779,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     @IBAction func tetheringbutton(_ sender: UICheckbox) {
         print("tetheringbutton value change: \(sender.isSelected)")
         if sender.isSelected == true{
-            self.checkboxstring?.append(",Tethering")
+            self.checkboxstring?.append("Tethering,")
         }else{
             print("false")
         }
@@ -757,7 +788,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     @IBAction func noshelterbutton(_ sender: UICheckbox) {
         print("noshelterbutton value change: \(sender.isSelected)")
         if sender.isSelected == true{
-            self.checkboxstring?.append(",No Shelter")
+            self.checkboxstring?.append("No Shelter,")
         }else{
             print("false")
         }
@@ -766,7 +797,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     @IBAction func hoardingbutton(_ sender: UICheckbox) {
         print("hoardingbutton value change: \(sender.isSelected)")
         if sender.isSelected == true{
-            self.checkboxstring?.append(",Hoarding Animals")
+            self.checkboxstring?.append("Hoarding Animals,")
         }else{
             print("false")
         }
@@ -775,7 +806,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     @IBAction func cruellybutton(_ sender: UICheckbox) {
         print("cruellybutton value change: \(sender.isSelected)")
         if sender.isSelected == true{
-            self.checkboxstring?.append(",Cruelly Confined")
+            self.checkboxstring?.append("Cruelly Confined,")
         }else{
             print("false")
         }
@@ -784,7 +815,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     @IBAction func dumpedbutton(_ sender: UICheckbox) {
         print("dumpedbutton value change: \(sender.isSelected)")
         if sender.isSelected == true{
-            self.checkboxstring?.append(",Dumped Animal")
+            self.checkboxstring?.append("Dumped Animal,")
         }else{
             print("false")
         }
@@ -793,7 +824,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     @IBAction func abandonedbutton(_ sender: UICheckbox) {
         print("abandonedbutton value change: \(sender.isSelected)")
         if sender.isSelected == true{
-            self.checkboxstring?.append(",Abandoned")
+            self.checkboxstring?.append("Abandoned,")
         }else{
             print("false")
         }
@@ -802,7 +833,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     @IBAction func otherbutton(_ sender: UICheckbox) {
         print("otherbutton value change: \(sender.isSelected)")
         if sender.isSelected == true{
-            self.checkboxstring?.append(",other")
+            self.checkboxstring?.append("Other,")
         }else{
             print("false")
         }
@@ -811,7 +842,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     @IBAction func dogfightingbutton(_ sender: UICheckbox) {
         print("dogfightingbutton value change: \(sender.isSelected)")
         if sender.isSelected == true{
-            self.checkboxstring?.append(",Dog Fighting")
+            self.checkboxstring?.append("Dog Fighting,")
         }else{
             print("false")
         }
@@ -820,24 +851,22 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     @IBAction func agencybutton(_ sender: UICheckbox) {
         print("agencybutton value change: \(sender.isSelected)")
         if sender.isSelected == true{
-            self.checkboxBool?.append("true")
+            self.checkboxBool = "true"
         }else{
             print("false")
+            self.checkboxBool = "false"
         }
     }
     
     func validate() -> Bool {
      if self.txtaddress.text?.isEmpty ?? true {
-      self.view.showToast(toastMessage: "Please provide the valid address", duration: 0.3)
+      self.view.showToast(toastMessage: "Please enter the valid address", duration: 0.3)
                 return false
     }else if self.txtemail.text?.isEmpty ?? true {
-        self.view.showToast(toastMessage: "Please provide the valid email", duration: 0.3)
+        self.view.showToast(toastMessage: "Please enter the valid email", duration: 0.3)
                   return false
     }else if self.isValidEmail(testStr: txtemail.text!) == false{
-        self.view.showToast(toastMessage: "Please provide the valid email", duration: 0.3)
-        return false
-    }else if self.checkboxBool == "true"{
-        self.view.showToast(toastMessage: "Please provide the valid Agency Previously to (if applicable).", duration: 0.3)
+        self.view.showToast(toastMessage: "Please enter the valid email", duration: 0.3)
         return false
     }
       return true
@@ -854,13 +883,29 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
             if validate(){
-                ReportAnimalApicall()
+                
+                if self.checkboxBool == "true"{
+                    if self.txtagency.text?.isEmpty ?? true {
+                        self.view.showToast(toastMessage: "Please enter the agency previously report", duration: 0.3)
+                    }else{
+                        ReportAnimalApicall()
+                    }
+                }else if checkboxstring == "false"{
+                    print("Test")
+                    ReportAnimalApicall()
+                }else{
+                    ReportAnimalApicall()
+                }
+              
+            }else{
+                print("Testtwo")
             }
         }else{
             print("Internet Connection not Available!")
-            self.view.showToast(toastMessage: "Network unavailable please try later", duration: 0.3)
+            self.view.showToast(toastMessage: "Please turn on internet connection to continue.", duration: 0.3)
         }
     }
+    
     
     func ReportAnimalApicall() {
         
@@ -894,11 +939,13 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
             "ReporterPhone":txtphone.text as Any,
             "ReporterEmail":txtemail.text as Any,
             "ReceivedDevice":"1",
-            "ImageList":ImagevideoUrl as Any,
-            "ImageBytes5":VideoBase64Url as Any,
+            "ImageList":ImagevideoUrl ?? "",
+            "ImageBytes5":VideoBase64Url ?? "",
         ] as [String : Any]
 
-       
+        print("checkboxstring==>\(checkboxstring ?? "")")
+        print("parameters==>\(parameters)")
+        
         
         let jsonData = try? JSONSerialization.data(withJSONObject: parameters)
         

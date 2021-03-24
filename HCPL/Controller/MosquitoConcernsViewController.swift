@@ -1,12 +1,12 @@
 
 import UIKit
+import CoreLocation
 
-class MosquitoConcernsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+class MosquitoConcernsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,CLLocationManagerDelegate {
 
-
-    var arrofname = ["   Dead Birds","   Mosquito Breeding","   Disease Activity","   Apray Area","   Visit Our Website","   Report Issues"]
+    var arrofname = ["Dead Birds","Mosquito Breeding","Disease Activity","Spray Area","Visit Our Website"]
     
-    var imagearray = [#imageLiteral(resourceName: "mosq1"),#imageLiteral(resourceName: "mosq2"),#imageLiteral(resourceName: "mosq3"),#imageLiteral(resourceName: "mosq4"),#imageLiteral(resourceName: "pic6"),#imageLiteral(resourceName: "pic7")]
+    var imagearray = [#imageLiteral(resourceName: "mosq1"),#imageLiteral(resourceName: "mosq2"),#imageLiteral(resourceName: "mosq3"),#imageLiteral(resourceName: "mosq4"),#imageLiteral(resourceName: "pic6")]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,78 +41,70 @@ class MosquitoConcernsViewController: UIViewController,UITableViewDelegate,UITab
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:MosquitoConcernsTableViewCell = tableView.dequeueReusableCell(withIdentifier: "MosquitoConcernsTableViewCell", for: indexPath) as! MosquitoConcernsTableViewCell
         
-        cell.img.image = imagearray[indexPath.row]
         cell.lbl.text = arrofname[indexPath.row]
+        cell.mainview.layer.borderWidth = 0.6
+        cell.mainview.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        cell.mainview.layer.cornerRadius = 10
         
-        cell.mainview.layer.cornerRadius = 20
-        cell.mainview.clipsToBounds = true
+        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+        print("onoff==>\(onoff ?? "")")
+        
+        if onoff == "on"{
+            cell.mainview.backgroundColor = AppConstant.ViewColor
+            cell.lbl.textColor = AppConstant.NormalTextColor
+            cell.ArrowRight.tintColor = AppConstant.LabelColor
+            cell.mainview.layer.borderColor = #colorLiteral(red: 0.2588828802, green: 0.2548307478, blue: 0.2589023411, alpha: 1)
+
+        }else if onoff == "off"{
+            
+        }else{
+            
+        }
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 0{
-            let navigate:DeadbirdViewController = self.storyboard?.instantiateViewController(identifier: "DeadbirdViewController") as! DeadbirdViewController
-            self.navigationController?.pushViewController(navigate, animated: true)
-        }
-        if indexPath.row == 1{
-            let navigate:MosquitoBreedingViewController = self.storyboard?.instantiateViewController(identifier: "MosquitoBreedingViewController") as! MosquitoBreedingViewController
-            self.navigationController?.pushViewController(navigate, animated: true)
-        }
-        if indexPath.row == 2{
-            let naviagte:MapViewController = self.storyboard?.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
-            naviagte.TitleHead = "Disease Activity"
-            self.navigationController?.pushViewController(naviagte, animated: true)
-        }
-        if indexPath.row == 3{
-            let naviagte:MapViewController = self.storyboard?.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
-            naviagte.TitleHead = "Spray Area"
-            self.navigationController?.pushViewController(naviagte, animated: true)
-        }
+        
         if indexPath.row == 4{
             self.naviGetTo(url: "http://publichealth.harriscountytx.gov/About/Organization-Offices/Mosquito-and-Vector-Control", title: "Website")
-        }
-        if indexPath.row == 5{
-            let alert = UIAlertController(title: "",
-                message: "",
-                preferredStyle: .alert)
-            
-            let attribMsg = NSAttributedString(string: "What would you like to report?",
-                                               attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 23.0)])
-
-            alert.setValue(attribMsg, forKey: "attributedTitle")
-            
-            let action1 = UIAlertAction(title: "Dead Birds", style: .default, handler: { (action) -> Void in
-                let naviagte:DeadbirdViewController = self.storyboard?.instantiateViewController(withIdentifier: "DeadbirdViewController") as! DeadbirdViewController
-                self.navigationController?.pushViewController(naviagte, animated: true)
-                })
-             
-            let action2 = UIAlertAction(title: "Mosquito Breeding Site", style: .default, handler: { (action) -> Void in
-                let naviagte:MosquitoBreedingViewController = self.storyboard?.instantiateViewController(withIdentifier: "MosquitoBreedingViewController") as! MosquitoBreedingViewController
-                self.navigationController?.pushViewController(naviagte, animated: true)
-                })
-             
-                 
-                // Cancel button
-                let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
-            
-            let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
-            print("onoff==>\(onoff ?? "")")
-            
-            if onoff == "on"{
-                alert.view.tintColor = AppConstant.LabelWhiteColor
+        }else{
+            if CLLocationManager.locationServicesEnabled() == true {
+                if indexPath.row == 0{
+                    let navigate:DeadbirdViewController = self.storyboard?.instantiateViewController(identifier: "DeadbirdViewController") as! DeadbirdViewController
+                    self.navigationController?.pushViewController(navigate, animated: true)
+                }
+                if indexPath.row == 1{
+                    let navigate:MosquitoBreedingViewController = self.storyboard?.instantiateViewController(identifier: "MosquitoBreedingViewController") as! MosquitoBreedingViewController
+                    self.navigationController?.pushViewController(navigate, animated: true)
+                }
+                if indexPath.row == 2{
+                    let naviagte:MapViewController = self.storyboard?.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
+                    naviagte.TitleHead = "Disease Activity"
+                    self.navigationController?.pushViewController(naviagte, animated: true)
+                }
+                if indexPath.row == 3{
+                    let naviagte:MapViewController = self.storyboard?.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
+                    naviagte.TitleHead = "Spray Area"
+                    self.navigationController?.pushViewController(naviagte, animated: true)
+                }
             }else{
-                alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                    //Redirect to Settings app
+                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                })
+
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                alertController.addAction(cancelAction)
+
+                alertController.addAction(okAction)
+
+                self.present(alertController, animated: true, completion: nil)
             }
-            // Restyle the view of the Alert
-            alert.view.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)  // change background color
-            alert.view.layer.cornerRadius = 25
-            
-            alert.addAction(action1)
-            alert.addAction(action2)
-            alert.addAction(cancel)
-            present(alert, animated: true, completion: nil)
         }
+    
     }
 
     func naviGetTo(url:String, title:String){

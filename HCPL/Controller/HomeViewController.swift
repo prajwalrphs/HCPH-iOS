@@ -28,8 +28,8 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
     var ClinicServicesArr = ["Medical Clinics","Refugee Clinics","Dental Clinics","WIC","Mobile clinics"]
     var AnimalServiceArr = ["Shelter Animals","Report Animal Cruelty","VPH maps","Events Calendar","Wish List","Visit Our Website"]
     var MosquitoConcernsArr = ["Dead Bird","Mosquito Breeding Site","Disease Activity","Spray Area","Visit Our Website"]
-    var EnvironmentalArr = ["Built Environment","Pools","Drinking Water","Neighborhood Nuisance","Lead Abatement"]
-    var FoodServicesArr = ["Search Establishments","Permit Renewals","New Customer","Events and Markets","FAQ","Report issues"]
+    var EnvironmentalArr = ["Built Environment","Pools","Drinking Water","Neighborhood Nuisance","Lead Abatement","Visit Our Website"]
+    var FoodServicesArr = ["Search Establishments","Permit Renewals","New Customer","Events and Markets","FAQ","Nutrition & Healthy Living","Report issues"]
     
     var MedicalClinicsArr = ["Locations","Hours","Dental"]
     var MedicalClinicsLabel = "Health and Wellness Clinic Services"
@@ -54,6 +54,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
     
     var timer:Timer?
     var currentcellindex = 0
+    var currentcellindexScroll : Int!
     
     var FoodSafetyArray = ["Food Made Me Sick","Unclean Preparation","Something in My Food"]
     var Foodids = [1,2,3,4]
@@ -99,7 +100,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
         
         selectedList.removeAll()
         setupSideMenu()
-        timer = Timer.scheduledTimer(timeInterval: 4.0, target: self, selector: #selector(slidetoNext), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(slidetoNext), userInfo: nil, repeats: true)
         mypagecontrol.numberOfPages = Sliderimagearr.count
         
         viewConfigrations()
@@ -109,9 +110,25 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
         selectedList = [Bool](repeating:false, count:SliderLabelarr.count)
     }
     
+    @IBAction func changePage(_ sender: UIPageControl) {
+      
+        
+        let Indexget = sender.currentPage
+        
+        mypagecontrol.currentPage = Indexget
+        slidercollectionview.scrollToItem(at: IndexPath(item: Indexget, section: 0), at: .right, animated: true)
+          
+      }
+
+    
+//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+//        print("currentcellindexScroll==>\(currentcellindexScroll ?? 0)")
+//        mypagecontrol.currentPage = currentcellindexScroll
+//    }
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-        //print("locations = \(locValue.latitude) \(locValue.longitude)")
+        print("locations = \(locValue.latitude) \(locValue.longitude)")
         UserDefaults.standard.set(locValue.latitude, forKey: AppConstant.CURRENTLAT)
         UserDefaults.standard.set(locValue.longitude, forKey: AppConstant.CURRENTLONG)
     }
@@ -526,7 +543,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                     UIApplication.shared.open(URL(string: "https://www.amazon.com/hz/wishlist/ls/14I5Q47TPD5CE?&")!, options: [:], completionHandler: nil)
                     //self.naviGetTo(url: "https://www.amazon.com/hz/wishlist/ls/14I5Q47TPD5CE?&", title: "Wish List")
                 }else if indexPath.row == 5{
-                    self.naviGetTo(url: "http://publichealth.harriscountytx.gov/About/Organization-Offices/Mosquito-and-Vector-Control", title: "Website")
+                    self.naviGetTo(url: "https://www.countypets.com", title: "Website")
                 }
                 
             }else if TableArr == MosquitoConcernsArr{
@@ -542,10 +559,10 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                        
                 }else if indexPath.row == 2{
                     
-                    let naviagte:SearchEstablishmentsViewController = self.storyboard?.instantiateViewController(withIdentifier: "SearchEstablishmentsViewController") as! SearchEstablishmentsViewController
+                    let naviagte:MapViewController = self.storyboard?.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
                     naviagte.TitleHead = "Disease Activity"
                     self.navigationController?.pushViewController(naviagte, animated: true)
-                       
+                    
                 }else if indexPath.row == 3{
                     
                     let naviagte:MapViewController = self.storyboard?.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
@@ -609,8 +626,10 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                     self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Drinking-Water", title: "Drinking Water")
                 }else if indexPath.row == 3{
                     self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/Services/NeighborhoodNuisance", title: "Neighborhood Nuisance")
-                }else{
+                }else if indexPath.row == 4{
                     self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/Programs/Lead-Hazard-Control", title: "Lead Abatement")
+                }else{
+                    self.naviGetTo(url: "https://publichealth.harriscountytx.gov/About/Organization-Offices/Environmental-Public-Health", title:"Website")
                 }
             }else if TableArr == FoodServicesArr{
                 if indexPath.row == 0{
@@ -754,6 +773,8 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                     present(alert, animated: true, completion: nil)
                 }else if indexPath.row == 4{
                     self.naviGetTo(url: "http://publichealth.harriscountytx.gov/About/Organization-Offices/EPH/Food-Safety", title: "FAQ")
+                }else if indexPath.row == 5{
+                    self.naviGetTo(url: "https://publichealth.harriscountytx.gov/about/Organization/NCDP", title: "Nutrition & Healthy Living")
                 }else{
                     let navigate:CommercialPoolsViewController = self.storyboard?.instantiateViewController(identifier: "CommercialPoolsViewController") as! CommercialPoolsViewController
                     navigate.CommercialArray = FoodSafetyArray
@@ -763,12 +784,10 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                     self.navigationController?.pushViewController(navigate, animated: true)
                 }
             }
-            
-
-            
+        
          } else {
          
-            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disable. do you want to enable", preferredStyle: UIAlertController.Style.alert)
+            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
 
             let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
                 //Redirect to Settings app

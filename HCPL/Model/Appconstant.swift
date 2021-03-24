@@ -18,6 +18,8 @@ import UIKit
 //
 //}
 
+var SearchGet:SearchModel?
+
 public class AppConstant {
   
     static let CURRENTADDRESS = "current_address"
@@ -26,9 +28,15 @@ public class AppConstant {
     static let CURRENTRADIUS = "current_radius"
     static let ISONISOFF = "onoff"
     static let DATE = "date"
+    static let TITLE = "title"
+    static let ZIPCODE = "zipcode"
     static let ViewColor = #colorLiteral(red: 0.2588235294, green: 0.2588235294, blue: 0.2588235294, alpha: 1)
     static let LabelColor = #colorLiteral(red: 0.8078431373, green: 0.8078431373, blue: 0.8078431373, alpha: 1)
     static let NormalTextColor = #colorLiteral(red: 0.4784313725, green: 0.4823529412, blue: 0.4941176471, alpha: 1)
     static let LabelWhiteColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
     static let ButtonColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+    
+    //static let googleApiKey = "AIzaSyDf1sipqw-B6Y79tVQpVl17rXSsgwf9qps"
+    static let googleApiKey = "AIzaSyAmriqCw9Bhwv3I2p4wrTIes4bAceMeZFU"
+    
 }

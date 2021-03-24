@@ -1,8 +1,9 @@
 
 import UIKit
 import AMTabView
+import CoreLocation
 
-class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,TabItem {
+class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,TabItem,CLLocationManagerDelegate {
 
     var tabImage: UIImage? {
       return UIImage(named: "alarm")
@@ -65,7 +66,7 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
         
         cell.borderview.layer.borderWidth = 0.6
         cell.borderview.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        cell.borderview.layer.cornerRadius = 10
+        cell.borderview.layer.cornerRadius = 7
         
         let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
         print("onoff==>\(onoff ?? "")")
@@ -87,60 +88,177 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
         if indexPath.row == 0{
             
-            let navigate:CommercialPoolsViewController = self.storyboard?.instantiateViewController(identifier: "CommercialPoolsViewController") as! CommercialPoolsViewController
-            navigate.CommercialArray = CommercialArray
-            navigate.ids = ids
-            navigate.Title = CommercialTitle
-            navigate.PlaceholderGet = "Commercial Pools"
-            self.navigationController?.pushViewController(navigate, animated: true)
+            if CLLocationManager.locationServicesEnabled() == true {
+                let navigate:CommercialPoolsViewController = self.storyboard?.instantiateViewController(identifier: "CommercialPoolsViewController") as! CommercialPoolsViewController
+                navigate.CommercialArray = CommercialArray
+                navigate.ids = ids
+                navigate.Title = CommercialTitle
+                navigate.PlaceholderGet = "Commercial Pools"
+                self.navigationController?.pushViewController(navigate, animated: true)
+            }else{
+                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                    //Redirect to Settings app
+                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                })
+
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                alertController.addAction(cancelAction)
+
+                alertController.addAction(okAction)
+
+                self.present(alertController, animated: true, completion: nil)
+            }
+
             
         }else if indexPath.row == 1{
             
-            let navigate:DeadbirdViewController = self.storyboard?.instantiateViewController(identifier: "DeadbirdViewController") as! DeadbirdViewController
-            self.navigationController?.pushViewController(navigate, animated: true)
+            if CLLocationManager.locationServicesEnabled() == true {
+                let navigate:DeadbirdViewController = self.storyboard?.instantiateViewController(identifier: "DeadbirdViewController") as! DeadbirdViewController
+                self.navigationController?.pushViewController(navigate, animated: true)
+            }else{
+                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                    //Redirect to Settings app
+                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                })
+
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                alertController.addAction(cancelAction)
+
+                alertController.addAction(okAction)
+
+                self.present(alertController, animated: true, completion: nil)
+            }
+            
             
         }else if indexPath.row == 2{
             
-            let navigate:CommercialPoolsViewController = self.storyboard?.instantiateViewController(identifier: "CommercialPoolsViewController") as! CommercialPoolsViewController
-            navigate.CommercialArray = DrinkingWater
-            navigate.ids = DrinkingWaterids
-            navigate.PlaceholderGet = "Public Drinking Water"
-            navigate.Title = "Drinking Water"
-            self.navigationController?.pushViewController(navigate, animated: true)
+            if CLLocationManager.locationServicesEnabled() == true {
+                let navigate:CommercialPoolsViewController = self.storyboard?.instantiateViewController(identifier: "CommercialPoolsViewController") as! CommercialPoolsViewController
+                navigate.CommercialArray = DrinkingWater
+                navigate.ids = DrinkingWaterids
+                navigate.PlaceholderGet = "Public Drinking Water"
+                navigate.Title = "Drinking Water"
+                self.navigationController?.pushViewController(navigate, animated: true)
+            }else{
+                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                    //Redirect to Settings app
+                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                })
+
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                alertController.addAction(cancelAction)
+
+                alertController.addAction(okAction)
+
+                self.present(alertController, animated: true, completion: nil)
+            }
+
             
         }else if indexPath.row == 3{
             
-            let navigate:CommercialPoolsViewController = self.storyboard?.instantiateViewController(identifier: "CommercialPoolsViewController") as! CommercialPoolsViewController
-            navigate.CommercialArray = FoodSafetyArray
-            navigate.ids = Foodids
-            navigate.Title = FoodTitle
-            navigate.PlaceholderGet = "Choose Subject"
-            self.navigationController?.pushViewController(navigate, animated: true)
+            if CLLocationManager.locationServicesEnabled() == true {
+                let navigate:CommercialPoolsViewController = self.storyboard?.instantiateViewController(identifier: "CommercialPoolsViewController") as! CommercialPoolsViewController
+                navigate.CommercialArray = FoodSafetyArray
+                navigate.ids = Foodids
+                navigate.Title = FoodTitle
+                navigate.PlaceholderGet = "Choose Subject"
+                self.navigationController?.pushViewController(navigate, animated: true)
+            }else{
+                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                    //Redirect to Settings app
+                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                })
+
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                alertController.addAction(cancelAction)
+
+                alertController.addAction(okAction)
+
+                self.present(alertController, animated: true, completion: nil)
+            }
+
             
         }else if indexPath.row == 4{
             
-            let navigate:MosquitoBreedingViewController = self.storyboard?.instantiateViewController(identifier: "MosquitoBreedingViewController") as! MosquitoBreedingViewController
-            self.navigationController?.pushViewController(navigate, animated: true)
+            if CLLocationManager.locationServicesEnabled() == true {
+                let navigate:MosquitoBreedingViewController = self.storyboard?.instantiateViewController(identifier: "MosquitoBreedingViewController") as! MosquitoBreedingViewController
+                self.navigationController?.pushViewController(navigate, animated: true)
+            }else{
+                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                    //Redirect to Settings app
+                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                })
+
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                alertController.addAction(cancelAction)
+
+                alertController.addAction(okAction)
+
+                self.present(alertController, animated: true, completion: nil)
+            }
+        
             
         }else if indexPath.row == 5{
             
-            let navigate:CommercialPoolsViewController = self.storyboard?.instantiateViewController(identifier: "CommercialPoolsViewController") as! CommercialPoolsViewController
-            navigate.CommercialArray = NeighbourArray
-            navigate.ids = Neighbourids
-            navigate.Title = NeighbourTitle
-            navigate.PlaceholderGet = "Neighborhood Nuisance"
-            self.navigationController?.pushViewController(navigate, animated: true)
+            if CLLocationManager.locationServicesEnabled() == true {
+                let navigate:CommercialPoolsViewController = self.storyboard?.instantiateViewController(identifier: "CommercialPoolsViewController") as! CommercialPoolsViewController
+                navigate.CommercialArray = NeighbourArray
+                navigate.ids = Neighbourids
+                navigate.Title = NeighbourTitle
+                navigate.PlaceholderGet = "Neighborhood Nuisance"
+                self.navigationController?.pushViewController(navigate, animated: true)
+            }else{
+                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                    //Redirect to Settings app
+                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                })
+
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                alertController.addAction(cancelAction)
+
+                alertController.addAction(okAction)
+
+                self.present(alertController, animated: true, completion: nil)
+            }
+            
+
             
         }else{
             
-            let navigate:ReportanimalViewController = self.storyboard?.instantiateViewController(identifier: "ReportanimalViewController") as! ReportanimalViewController
-            self.navigationController?.pushViewController(navigate, animated: true)
-            
+            if CLLocationManager.locationServicesEnabled() == true {
+                let navigate:ReportanimalViewController = self.storyboard?.instantiateViewController(identifier: "ReportanimalViewController") as! ReportanimalViewController
+                self.navigationController?.pushViewController(navigate, animated: true)
+            }else{
+                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                    //Redirect to Settings app
+                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                })
+
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                alertController.addAction(cancelAction)
+
+                alertController.addAction(okAction)
+
+                self.present(alertController, animated: true, completion: nil)
+            }
         }
-        
-        
     }
     
 }

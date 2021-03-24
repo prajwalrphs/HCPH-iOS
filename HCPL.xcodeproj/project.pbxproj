@@ -9,15 +9,40 @@
 /* Begin PBXBuildFile section */
 		274416E136E58CF8C28881F8 /* Pods_HCPLTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6C250CE2BE36B4756EB3358 /* Pods_HCPLTests.framework */; };
 		EF13004D257A45300066F712 /* ReportanimalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF13004C257A45300066F712 /* ReportanimalViewController.swift */; };
+		EF1455C42600A29A007A8D2D /* ResizingDemo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF1455C32600A29A007A8D2D /* ResizingDemo.storyboard */; };
+		EF1455C92600A2A5007A8D2D /* ResizingDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1455C82600A2A5007A8D2D /* ResizingDemo.swift */; };
+		EF1455CE2600A32F007A8D2D /* Demoable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1455CD2600A32F007A8D2D /* Demoable.swift */; };
+		EF1455D32600D43A007A8D2D /* DropDownTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1455D22600D43A007A8D2D /* DropDownTableViewCell.swift */; };
+		EF1455D82600EA95007A8D2D /* SearchlistingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1455D72600EA95007A8D2D /* SearchlistingTableViewCell.swift */; };
+		EF4AFB2D2605096600957E24 /* SheetContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4AFB252605096200957E24 /* SheetContentViewController.swift */; };
+		EF4AFB2E2605096600957E24 /* Localize.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4AFB2C2605096600957E24 /* Localize.swift */; };
+		EF4AFB2F2605096600957E24 /* SheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4AFB262605096300957E24 /* SheetViewController.swift */; };
+		EF4AFB302605096600957E24 /* SheetTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4AFB1F2605095F00957E24 /* SheetTransition.swift */; };
+		EF4AFB312605096600957E24 /* SheetSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4AFB282605096400957E24 /* SheetSize.swift */; };
+		EF4AFB322605096600957E24 /* InitialTouchPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4AFB2A2605096500957E24 /* InitialTouchPanGestureRecognizer.swift */; };
+		EF4AFB332605096600957E24 /* SheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4AFB292605096400957E24 /* SheetView.swift */; };
+		EF4AFB342605096600957E24 /* Yalta.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4AFB272605096300957E24 /* Yalta.swift */; };
+		EF4AFB352605096600957E24 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4AFB1E2605095E00957E24 /* UIViewControllerExtension.swift */; };
+		EF4AFB362605096600957E24 /* SheetViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4AFB222605096000957E24 /* SheetViewDelegate.swift */; };
+		EF4AFB372605096600957E24 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4AFB242605096200957E24 /* UIColorExtension.swift */; };
+		EF4AFB382605096600957E24 /* SheetContentViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4AFB202605095F00957E24 /* SheetContentViewDelegate.swift */; };
+		EF4AFB392605096600957E24 /* SheetOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4AFB212605096000957E24 /* SheetOptions.swift */; };
 		EF55A95625D2AADC004A55AC /* CheckDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF55A95525D2AADC004A55AC /* CheckDevice.swift */; };
+		EF568DAD2603DE8700AE8208 /* vpSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF568DAC2603DE8700AE8208 /* vpSearchTableViewCell.swift */; };
 		EF56EA71257244C100E6EC66 /* ImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF56EA6F257244C100E6EC66 /* ImageCell.xib */; };
 		EF56EA72257244C100E6EC66 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF56EA70257244C100E6EC66 /* ImageCell.swift */; };
+		EF5A8ED7260206D80081BDCD /* InspectionSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5A8ED6260206D80081BDCD /* InspectionSummaryViewController.swift */; };
+		EF5A8EDC260206FC0081BDCD /* InspectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5A8EDB260206FC0081BDCD /* InspectionCollectionViewCell.swift */; };
+		EF5A8EE1260207160081BDCD /* InspectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5A8EE0260207160081BDCD /* InspectionTableViewCell.swift */; };
 		EF5B3FF725BA945F0068EDEE /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5B3FF625BA945F0068EDEE /* UIViewExtension.swift */; };
 		EF5B401B25BAFB140068EDEE /* commercialpoolmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5B401A25BAFB140068EDEE /* commercialpoolmodel.swift */; };
 		EF5DB0AC2595E67D002A59F2 /* LocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5DB0AB2595E67D002A59F2 /* LocationsViewController.swift */; };
 		EF5DB0B12595E69B002A59F2 /* LocationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5DB0B02595E69B002A59F2 /* LocationsTableViewCell.swift */; };
 		EF6052A925D53BD000842EAA /* FindLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6052A825D53BCF00842EAA /* FindLocationViewController.swift */; };
 		EF628C37257A032A00B0A0D8 /* MobileClinicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF628C36257A032A00B0A0D8 /* MobileClinicsViewController.swift */; };
+		EF62BE182602732F000036E7 /* VPAutoComplete.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF62BE152602732F000036E7 /* VPAutoComplete.swift */; };
+		EF62BE192602732F000036E7 /* VPAutoCompleteViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF62BE162602732F000036E7 /* VPAutoCompleteViewCell.xib */; };
+		EF62BE1A2602732F000036E7 /* VPAutoCompleteViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF62BE172602732F000036E7 /* VPAutoCompleteViewCell.swift */; };
 		EF66ED2F256F6CFC00A9E9EE /* ContectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF66ED2E256F6CFC00A9E9EE /* ContectViewController.swift */; };
 		EF66ED31256F6D1600A9E9EE /* AboutUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF66ED30256F6D1600A9E9EE /* AboutUsViewController.swift */; };
 		EF66ED33256F6D3100A9E9EE /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF66ED32256F6D3100A9E9EE /* ProfileViewController.swift */; };
@@ -30,6 +55,7 @@
 		EF66ED49256FE21500A9E9EE /* ServicesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF66ED48256FE21500A9E9EE /* ServicesTableViewCell.swift */; };
 		EF67380D25CAD1A9006FAEEB /* SearchEstablishmentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF67380C25CAD1A9006FAEEB /* SearchEstablishmentsViewController.swift */; };
 		EF6CD73725E8FAC9001491FF /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6CD73625E8FAC9001491FF /* Reachability.swift */; };
+		EF7408DF2604DCE0004B5CE2 /* InspectionReportIssueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7408DE2604DCE0004B5CE2 /* InspectionReportIssueViewController.swift */; };
 		EF75E84025790E3F00479F5B /* AllTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF75E83F25790E3F00479F5B /* AllTableViewCell.swift */; };
 		EF75E84225790E6400479F5B /* AllTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF75E84125790E6400479F5B /* AllTableViewController.swift */; };
 		EF7A0F412570C13F00E2923F /* ProgramsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7A0F402570C13F00E2923F /* ProgramsCollectionViewCell.swift */; };
@@ -114,15 +140,41 @@
 		C4A25D56DFDE4AE222445404 /* Pods-HCPL.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HCPL.release.xcconfig"; path = "Target Support Files/Pods-HCPL/Pods-HCPL.release.xcconfig"; sourceTree = "<group>"; };
 		DBD1C3794A6940137AF45D44 /* Pods_HCPL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HCPL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF13004C257A45300066F712 /* ReportanimalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportanimalViewController.swift; sourceTree = "<group>"; };
+		EF1455C32600A29A007A8D2D /* ResizingDemo.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ResizingDemo.storyboard; sourceTree = "<group>"; };
+		EF1455C82600A2A5007A8D2D /* ResizingDemo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResizingDemo.swift; sourceTree = "<group>"; };
+		EF1455CD2600A32F007A8D2D /* Demoable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Demoable.swift; sourceTree = "<group>"; };
+		EF1455D22600D43A007A8D2D /* DropDownTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownTableViewCell.swift; sourceTree = "<group>"; };
+		EF1455D72600EA95007A8D2D /* SearchlistingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchlistingTableViewCell.swift; sourceTree = "<group>"; };
+		EF4AFB1E2605095E00957E24 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
+		EF4AFB1F2605095F00957E24 /* SheetTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetTransition.swift; sourceTree = "<group>"; };
+		EF4AFB202605095F00957E24 /* SheetContentViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetContentViewDelegate.swift; sourceTree = "<group>"; };
+		EF4AFB212605096000957E24 /* SheetOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetOptions.swift; sourceTree = "<group>"; };
+		EF4AFB222605096000957E24 /* SheetViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetViewDelegate.swift; sourceTree = "<group>"; };
+		EF4AFB232605096100957E24 /* FittedSheetsPod.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FittedSheetsPod.h; sourceTree = "<group>"; };
+		EF4AFB242605096200957E24 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		EF4AFB252605096200957E24 /* SheetContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetContentViewController.swift; sourceTree = "<group>"; };
+		EF4AFB262605096300957E24 /* SheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetViewController.swift; sourceTree = "<group>"; };
+		EF4AFB272605096300957E24 /* Yalta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Yalta.swift; sourceTree = "<group>"; };
+		EF4AFB282605096400957E24 /* SheetSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetSize.swift; sourceTree = "<group>"; };
+		EF4AFB292605096400957E24 /* SheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetView.swift; sourceTree = "<group>"; };
+		EF4AFB2A2605096500957E24 /* InitialTouchPanGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialTouchPanGestureRecognizer.swift; sourceTree = "<group>"; };
+		EF4AFB2C2605096600957E24 /* Localize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localize.swift; sourceTree = "<group>"; };
 		EF55A95525D2AADC004A55AC /* CheckDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckDevice.swift; sourceTree = "<group>"; };
+		EF568DAC2603DE8700AE8208 /* vpSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = vpSearchTableViewCell.swift; sourceTree = "<group>"; };
 		EF56EA6F257244C100E6EC66 /* ImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageCell.xib; sourceTree = "<group>"; };
 		EF56EA70257244C100E6EC66 /* ImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
+		EF5A8ED6260206D80081BDCD /* InspectionSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectionSummaryViewController.swift; sourceTree = "<group>"; };
+		EF5A8EDB260206FC0081BDCD /* InspectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectionCollectionViewCell.swift; sourceTree = "<group>"; };
+		EF5A8EE0260207160081BDCD /* InspectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectionTableViewCell.swift; sourceTree = "<group>"; };
 		EF5B3FF625BA945F0068EDEE /* UIViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		EF5B401A25BAFB140068EDEE /* commercialpoolmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = commercialpoolmodel.swift; sourceTree = "<group>"; };
 		EF5DB0AB2595E67D002A59F2 /* LocationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsViewController.swift; sourceTree = "<group>"; };
 		EF5DB0B02595E69B002A59F2 /* LocationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsTableViewCell.swift; sourceTree = "<group>"; };
 		EF6052A825D53BCF00842EAA /* FindLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindLocationViewController.swift; sourceTree = "<group>"; };
 		EF628C36257A032A00B0A0D8 /* MobileClinicsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileClinicsViewController.swift; sourceTree = "<group>"; };
+		EF62BE152602732F000036E7 /* VPAutoComplete.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VPAutoComplete.swift; sourceTree = "<group>"; };
+		EF62BE162602732F000036E7 /* VPAutoCompleteViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VPAutoCompleteViewCell.xib; sourceTree = "<group>"; };
+		EF62BE172602732F000036E7 /* VPAutoCompleteViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VPAutoCompleteViewCell.swift; sourceTree = "<group>"; };
 		EF66ED2E256F6CFC00A9E9EE /* ContectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContectViewController.swift; sourceTree = "<group>"; };
 		EF66ED30256F6D1600A9E9EE /* AboutUsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsViewController.swift; sourceTree = "<group>"; };
 		EF66ED32256F6D3100A9E9EE /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -135,6 +187,7 @@
 		EF67380325CA83AB006FAEEB /* ArcGIS.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ArcGIS.xcframework; path = "Pods/ArcGIS-Runtime-SDK-iOS/ArcGIS.xcframework"; sourceTree = "<group>"; };
 		EF67380C25CAD1A9006FAEEB /* SearchEstablishmentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEstablishmentsViewController.swift; sourceTree = "<group>"; };
 		EF6CD73625E8FAC9001491FF /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		EF7408DE2604DCE0004B5CE2 /* InspectionReportIssueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectionReportIssueViewController.swift; sourceTree = "<group>"; };
 		EF75E83F25790E3F00479F5B /* AllTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTableViewCell.swift; sourceTree = "<group>"; };
 		EF75E84125790E6400479F5B /* AllTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTableViewController.swift; sourceTree = "<group>"; };
 		EF7A0F402570C13F00E2923F /* ProgramsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramsCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -251,6 +304,45 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		EF4AFB1D2605095D00957E24 /* FittedSheets */ = {
+			isa = PBXGroup;
+			children = (
+				EF4AFB242605096200957E24 /* UIColorExtension.swift */,
+				EF4AFB202605095F00957E24 /* SheetContentViewDelegate.swift */,
+				EF4AFB282605096400957E24 /* SheetSize.swift */,
+				EF4AFB1E2605095E00957E24 /* UIViewControllerExtension.swift */,
+				EF4AFB212605096000957E24 /* SheetOptions.swift */,
+				EF4AFB222605096000957E24 /* SheetViewDelegate.swift */,
+				EF4AFB252605096200957E24 /* SheetContentViewController.swift */,
+				EF4AFB1F2605095F00957E24 /* SheetTransition.swift */,
+				EF4AFB292605096400957E24 /* SheetView.swift */,
+				EF4AFB2A2605096500957E24 /* InitialTouchPanGestureRecognizer.swift */,
+				EF4AFB232605096100957E24 /* FittedSheetsPod.h */,
+				EF4AFB272605096300957E24 /* Yalta.swift */,
+				EF4AFB2B2605096500957E24 /* Localization */,
+				EF4AFB262605096300957E24 /* SheetViewController.swift */,
+			);
+			path = FittedSheets;
+			sourceTree = "<group>";
+		};
+		EF4AFB2B2605096500957E24 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				EF4AFB2C2605096600957E24 /* Localize.swift */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
+		EF62BE142602732F000036E7 /* VPAutoComplete-Source */ = {
+			isa = PBXGroup;
+			children = (
+				EF62BE172602732F000036E7 /* VPAutoCompleteViewCell.swift */,
+				EF62BE152602732F000036E7 /* VPAutoComplete.swift */,
+				EF62BE162602732F000036E7 /* VPAutoCompleteViewCell.xib */,
+			);
+			path = "VPAutoComplete-Source";
+			sourceTree = "<group>";
+		};
 		EF66ED3B256F9DC500A9E9EE /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -274,6 +366,11 @@
 				EF9A975D2594B94D0048545A /* MosquitoBreedingCollectionViewCell.swift */,
 				EF9A977F25950FCA0048545A /* EnvironmentalTableViewCell.swift */,
 				EF5DB0B02595E69B002A59F2 /* LocationsTableViewCell.swift */,
+				EF1455D22600D43A007A8D2D /* DropDownTableViewCell.swift */,
+				EF1455D72600EA95007A8D2D /* SearchlistingTableViewCell.swift */,
+				EF5A8EDB260206FC0081BDCD /* InspectionCollectionViewCell.swift */,
+				EF5A8EE0260207160081BDCD /* InspectionTableViewCell.swift */,
+				EF568DAC2603DE8700AE8208 /* vpSearchTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -306,6 +403,12 @@
 				EFACA24C25C80589009496B1 /* PrivacyPolicyViewController.swift */,
 				EF67380C25CAD1A9006FAEEB /* SearchEstablishmentsViewController.swift */,
 				EF6052A825D53BCF00842EAA /* FindLocationViewController.swift */,
+				EF1455C82600A2A5007A8D2D /* ResizingDemo.swift */,
+				EF1455CD2600A32F007A8D2D /* Demoable.swift */,
+				EF5A8ED6260206D80081BDCD /* InspectionSummaryViewController.swift */,
+				EF62BE142602732F000036E7 /* VPAutoComplete-Source */,
+				EF7408DE2604DCE0004B5CE2 /* InspectionReportIssueViewController.swift */,
+				EF4AFB1D2605095D00957E24 /* FittedSheets */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -411,6 +514,7 @@
 				EF9C711C256CEA38008D3A05 /* AppDelegate.swift */,
 				EF9C711E256CEA38008D3A05 /* SceneDelegate.swift */,
 				EF9C7122256CEA38008D3A05 /* Main.storyboard */,
+				EF1455C32600A29A007A8D2D /* ResizingDemo.storyboard */,
 				EF9C7128256CEA3A008D3A05 /* Assets.xcassets */,
 				EF9C712A256CEA3A008D3A05 /* LaunchScreen.storyboard */,
 				EF9C712D256CEA3A008D3A05 /* Info.plist */,
@@ -453,11 +557,11 @@
 			buildConfigurationList = EF9C7146256CEA3B008D3A05 /* Build configuration list for PBXNativeTarget "HCPL" */;
 			buildPhases = (
 				D49D8E58FFECC630BD9140AD /* [CP] Check Pods Manifest.lock */,
-				59B7EBA81B671EC5D7E45D9A /* [CP] Prepare Artifacts */,
 				EF9C7115256CEA38008D3A05 /* Sources */,
 				EF9C7116256CEA38008D3A05 /* Frameworks */,
 				EF9C7117256CEA38008D3A05 /* Resources */,
 				86CA1214B8EBAF421912EDE2 /* [CP] Embed Pods Frameworks */,
+				4450FCD74E2BDC7FB93C1218 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -492,11 +596,11 @@
 			buildConfigurationList = EF9C714C256CEA3B008D3A05 /* Build configuration list for PBXNativeTarget "HCPLUITests" */;
 			buildPhases = (
 				8ED96FCBC8FA5EA7B6F7443B /* [CP] Check Pods Manifest.lock */,
-				18007E9E8705966BED8AB778 /* [CP] Prepare Artifacts */,
 				EF9C7139256CEA3A008D3A05 /* Sources */,
 				EF9C713A256CEA3A008D3A05 /* Frameworks */,
 				EF9C713B256CEA3A008D3A05 /* Resources */,
 				5C2E21922FE4E2032068EF74 /* [CP] Embed Pods Frameworks */,
+				F2979414D6721CC71FAE8C3B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -556,10 +660,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF1455C42600A29A007A8D2D /* ResizingDemo.storyboard in Resources */,
 				EF9C712C256CEA3A008D3A05 /* LaunchScreen.storyboard in Resources */,
 				EF56EA71257244C100E6EC66 /* ImageCell.xib in Resources */,
 				EF9C7129256CEA3A008D3A05 /* Assets.xcassets in Resources */,
 				EF9C7124256CEA38008D3A05 /* Main.storyboard in Resources */,
+				EF62BE192602732F000036E7 /* VPAutoCompleteViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -580,38 +686,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		18007E9E8705966BED8AB778 /* [CP] Prepare Artifacts */ = {
+		4450FCD74E2BDC7FB93C1218 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-HCPL-HCPLUITests/Pods-HCPL-HCPLUITests-artifacts-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-HCPL/Pods-HCPL-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Prepare Artifacts";
+			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-HCPL-HCPLUITests/Pods-HCPL-HCPLUITests-artifacts-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-HCPL/Pods-HCPL-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HCPL-HCPLUITests/Pods-HCPL-HCPLUITests-artifacts.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		59B7EBA81B671EC5D7E45D9A /* [CP] Prepare Artifacts */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-HCPL/Pods-HCPL-artifacts-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Prepare Artifacts";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-HCPL/Pods-HCPL-artifacts-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HCPL/Pods-HCPL-artifacts.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HCPL/Pods-HCPL-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5C2E21922FE4E2032068EF74 /* [CP] Embed Pods Frameworks */ = {
@@ -714,6 +803,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		F2979414D6721CC71FAE8C3B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HCPL-HCPLUITests/Pods-HCPL-HCPLUITests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HCPL-HCPLUITests/Pods-HCPL-HCPLUITests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HCPL-HCPLUITests/Pods-HCPL-HCPLUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -725,16 +831,21 @@
 				EFA279E22580EF5D008F1681 /* DeadbirdViewController.swift in Sources */,
 				EF67380D25CAD1A9006FAEEB /* SearchEstablishmentsViewController.swift in Sources */,
 				EF8477CA256D481C0061BEB2 /* IQTitleBarButtonItem.swift in Sources */,
+				EF4AFB2E2605096600957E24 /* Localize.swift in Sources */,
 				EF75E84025790E3F00479F5B /* AllTableViewCell.swift in Sources */,
 				EF9A97402594617D0048545A /* CallforAppointmentTableViewCell.swift in Sources */,
 				EF9A9776259507430048545A /* Appconstant.swift in Sources */,
 				EF8477D9256D4CD20061BEB2 /* ForgotPasswordViewController.swift in Sources */,
+				EF4AFB2F2605096600957E24 /* SheetViewController.swift in Sources */,
 				EF8477CF256D481C0061BEB2 /* IQKeyboardManagerConstantsInternal.swift in Sources */,
 				EF8477B0256D3D680061BEB2 /* SignUpViewController.swift in Sources */,
+				EF5A8ED7260206D80081BDCD /* InspectionSummaryViewController.swift in Sources */,
 				EFFE326D25937CFC00415DCD /* MosquitoConcernsViewController.swift in Sources */,
 				EF9C7127256CEA38008D3A05 /* HCPL.xcdatamodeld in Sources */,
 				EFFE327225937DC300415DCD /* MosquitoConcernsTableViewCell.swift in Sources */,
+				EF4AFB372605096600957E24 /* UIColorExtension.swift in Sources */,
 				EF66ED31256F6D1600A9E9EE /* AboutUsViewController.swift in Sources */,
+				EF4AFB302605096600957E24 /* SheetTransition.swift in Sources */,
 				EF7A0F412570C13F00E2923F /* ProgramsCollectionViewCell.swift in Sources */,
 				EF628C37257A032A00B0A0D8 /* MobileClinicsViewController.swift in Sources */,
 				EFA279E42580EF76008F1681 /* deadbirdCollectionViewCell.swift in Sources */,
@@ -742,10 +853,17 @@
 				EFACA24D25C80589009496B1 /* PrivacyPolicyViewController.swift in Sources */,
 				EF9C7121256CEA38008D3A05 /* ViewController.swift in Sources */,
 				EF8477CB256D481C0061BEB2 /* IQBarButtonItem.swift in Sources */,
+				EF4AFB342605096600957E24 /* Yalta.swift in Sources */,
 				EF66ED43256FBB1700A9E9EE /* SidemenuTableViewCell.swift in Sources */,
+				EF4AFB322605096600957E24 /* InitialTouchPanGestureRecognizer.swift in Sources */,
 				EFC67053257F572900854BD2 /* DownloadManager.swift in Sources */,
+				EF4AFB382605096600957E24 /* SheetContentViewDelegate.swift in Sources */,
 				EF9C711D256CEA38008D3A05 /* AppDelegate.swift in Sources */,
+				EF1455CE2600A32F007A8D2D /* Demoable.swift in Sources */,
+				EF5A8EDC260206FC0081BDCD /* InspectionCollectionViewCell.swift in Sources */,
+				EF4AFB352605096600957E24 /* UIViewControllerExtension.swift in Sources */,
 				EF75E84225790E6400479F5B /* AllTableViewController.swift in Sources */,
+				EF4AFB392605096600957E24 /* SheetOptions.swift in Sources */,
 				EF66ED33256F6D3100A9E9EE /* ProfileViewController.swift in Sources */,
 				EF5DB0B12595E69B002A59F2 /* LocationsTableViewCell.swift in Sources */,
 				EF9A978025950FCA0048545A /* EnvironmentalTableViewCell.swift in Sources */,
@@ -761,12 +879,17 @@
 				EF8477D5256D481C0061BEB2 /* IQUITextFieldView+Additions.swift in Sources */,
 				EF6CD73725E8FAC9001491FF /* Reachability.swift in Sources */,
 				EF56EA72257244C100E6EC66 /* ImageCell.swift in Sources */,
+				EF4AFB2D2605096600957E24 /* SheetContentViewController.swift in Sources */,
 				EF8477D1256D481C0061BEB2 /* IQKeyboardReturnKeyHandler.swift in Sources */,
 				EF8477D2256D481C0061BEB2 /* IQKeyboardManager.swift in Sources */,
 				EF9A97452594619C0048545A /* CallforAppointmenttwoTableViewCell.swift in Sources */,
+				EF1455D32600D43A007A8D2D /* DropDownTableViewCell.swift in Sources */,
 				EF9A977B25950F580048545A /* EnvironmentalViewController.swift in Sources */,
+				EF1455C92600A2A5007A8D2D /* ResizingDemo.swift in Sources */,
 				EF8B6C87257E6D27004DBF17 /* videoCollectionViewCell.swift in Sources */,
+				EF4AFB332605096600957E24 /* SheetView.swift in Sources */,
 				EF5DB0AC2595E67D002A59F2 /* LocationsViewController.swift in Sources */,
+				EF4AFB312605096600957E24 /* SheetSize.swift in Sources */,
 				EF66ED3F256F9EB600A9E9EE /* SliderCollectionViewCell.swift in Sources */,
 				EF8477D4256D481C0061BEB2 /* IQUIViewController+Additions.swift in Sources */,
 				EF55A95625D2AADC004A55AC /* CheckDevice.swift in Sources */,
@@ -776,14 +899,21 @@
 				EF9A9736259460D40048545A /* HoursViewController.swift in Sources */,
 				EF8477CE256D481C0061BEB2 /* IQInvocation.swift in Sources */,
 				EF66ED37256F6FAB00A9E9EE /* HomeViewController.swift in Sources */,
+				EF568DAD2603DE8700AE8208 /* vpSearchTableViewCell.swift in Sources */,
+				EF62BE182602732F000036E7 /* VPAutoComplete.swift in Sources */,
 				EF9A975E2594B94D0048545A /* MosquitoBreedingCollectionViewCell.swift in Sources */,
 				EF9A97592594B8DB0048545A /* CommercialPoolsCollectionViewCell.swift in Sources */,
 				EF8477D7256D481C0061BEB2 /* IQNSArray+Sort.swift in Sources */,
+				EF62BE1A2602732F000036E7 /* VPAutoCompleteViewCell.swift in Sources */,
 				EF9A974A259496B70048545A /* ReportIssueViewController.swift in Sources */,
 				EF9C7150256D02F6008D3A05 /* LoginViewController.swift in Sources */,
 				EF9C711F256CEA38008D3A05 /* SceneDelegate.swift in Sources */,
 				EF66ED35256F6D3D00A9E9EE /* MapViewController.swift in Sources */,
+				EF7408DF2604DCE0004B5CE2 /* InspectionReportIssueViewController.swift in Sources */,
+				EF1455D82600EA95007A8D2D /* SearchlistingTableViewCell.swift in Sources */,
 				EF8477D0256D481C0061BEB2 /* IQKeyboardManagerConstants.swift in Sources */,
+				EF4AFB362605096600957E24 /* SheetViewDelegate.swift in Sources */,
+				EF5A8EE1260207160081BDCD /* InspectionTableViewCell.swift in Sources */,
 				EF66ED2F256F6CFC00A9E9EE /* ContectViewController.swift in Sources */,
 				EF9A973B259461570048545A /* WeekTableViewCell.swift in Sources */,
 				EF66ED49256FE21500A9E9EE /* ServicesTableViewCell.swift in Sources */,
@@ -964,19 +1094,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = S3SAGN2DFC;
+				DEVELOPMENT_TEAM = D42N54EC4S;
 				INFOPLIST_FILE = HCPL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = gov.harriscountytx.harriscountypublichealth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -986,19 +1114,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = S3SAGN2DFC;
+				DEVELOPMENT_TEAM = D42N54EC4S;
 				INFOPLIST_FILE = HCPL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = gov.harriscountytx.harriscountypublichealth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

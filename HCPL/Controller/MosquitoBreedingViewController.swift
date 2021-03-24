@@ -226,7 +226,7 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
             }
         }else{
             print("Internet Connection not Available!")
-            self.view.showToast(toastMessage: "Network unavailable please try later", duration: 0.3)
+            self.view.showToast(toastMessage: "Please turn on internet connection to continue.", duration: 0.3)
         }
     }
     
@@ -279,13 +279,13 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
 
     func validate() -> Bool {
      if self.txtemailofpersonrepoting.text?.isEmpty ?? true {
-      self.view.showToast(toastMessage: "Please provide the valid email", duration: 0.3)
+      self.view.showToast(toastMessage: "Please enter the valid email", duration: 0.3)
                 return false
     }else if self.isValidEmail(testStr: txtemailofpersonrepoting.text!) == false{
-        self.view.showToast(toastMessage: "Please provide the valid email", duration: 0.3)
+        self.view.showToast(toastMessage: "Please enter the valid email", duration: 0.3)
         return false
     }else if self.txtcontactofpersonrepoting.text!.count != 10{
-        self.view.showToast(toastMessage: "Please provide the valid contact number.", duration: 0.3)
+        self.view.showToast(toastMessage: "Please enter the valid contact number.", duration: 0.3)
                   return false
     }else if self.Timeofday.text?.isEmpty ?? true{
         self.view.showToast(toastMessage: "Please Select Time of day", duration: 0.3)
