@@ -36,7 +36,8 @@ public class AppConstant {
     static let LabelWhiteColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
     static let ButtonColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
     
-    //static let googleApiKey = "AIzaSyDf1sipqw-B6Y79tVQpVl17rXSsgwf9qps"
-    static let googleApiKey = "AIzaSyAmriqCw9Bhwv3I2p4wrTIes4bAceMeZFU"
+    static let googleApiKey = "AIzaSyDf1sipqw-B6Y79tVQpVl17rXSsgwf9qps"
+    //static let googleApiKey = "AIzaSyAmriqCw9Bhwv3I2p4wrTIes4bAceMeZFU"
+    //static let googleApiKey = "AIzaSyD7kU_FVIhbC0aEVpBB5Y6"
     
 }

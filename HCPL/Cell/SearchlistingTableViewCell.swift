@@ -18,6 +18,7 @@ class SearchlistingTableViewCell: UITableViewCell {
     @IBOutlet var buttonview: UIView!
     @IBOutlet var buttonimage: UIImageView!
     @IBOutlet var reportissueoutlate: UIButton!
+    @IBOutlet var borderview: UIView!
     
     
     override func awakeFromNib() {

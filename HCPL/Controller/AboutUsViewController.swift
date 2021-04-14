@@ -13,9 +13,21 @@ class AboutUsViewController: UIViewController,TabItem,WKNavigationDelegate {
 
     @IBOutlet weak var webView: WKWebView!
     
+    @IBOutlet var loadrefresh: UIButton!
+    
     var strUrl = "https://publichealth.harriscountytx.gov/About/About-Us"
     
     var datastr:String!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print("viewWillAppear")
+        LoadLink()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        print("viewWillDisappear")
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,12 +49,64 @@ class AboutUsViewController: UIViewController,TabItem,WKNavigationDelegate {
         }
         datastr = strUrl
         
-        let urlget = datastr ?? ""
-        let url = NSURL(string: urlget)
-        let request = NSURLRequest(url: url! as URL)
-                               
-        webView.navigationDelegate = self
-        webView.load(request as URLRequest)
+        
+        LoadLink()
+        
+//        if Reachability.isConnectedToNetwork(){
+//            print("Internet Connection Available!")
+//            let urlget = datastr ?? ""
+//            let url = NSURL(string: urlget)
+//            let request = NSURLRequest(url: url! as URL)
+//
+//            webView.navigationDelegate = self
+//            webView.load(request as URLRequest)
+//
+//        }else{
+//
+//            let alertController = UIAlertController(title: "Internet Connection", message: "Please turn on internet connection to continue.", preferredStyle: UIAlertController.Style.alert)
+//            let cancelAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel)
+//            alertController.addAction(cancelAction)
+//            self.present(alertController, animated: true, completion: nil)
+//
+//
+//        }
+        
+
+    }
+    
+    @IBAction func RefreshBtn(_ sender: UIButton) {
+        LoadLink()
+    }
+    
+    
+    func LoadLink(){
+        if Reachability.isConnectedToNetwork(){
+            //self.loadrefresh.isHidden = true
+            self.activityIndicator.isHidden = false
+            print("Internet Connection Available!")
+            let urlget = datastr ?? ""
+            let url = NSURL(string: urlget)
+            let request = NSURLRequest(url: url! as URL)
+                                   
+            webView.navigationDelegate = self
+            webView.load(request as URLRequest)
+            
+        }else{
+         
+            let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+            navigate.selectdtab = 2
+            self.navigationController?.pushViewController(navigate, animated: true)
+            
+            //self.loadrefresh.isHidden = false
+            self.activityIndicator.isHidden = true
+            let alertController = UIAlertController(title: "Internet Connection", message: "Please turn on your device internet connection to continue.", preferredStyle: UIAlertController.Style.alert)
+            let cancelAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel)
+            alertController.addAction(cancelAction)
+            self.present(alertController, animated: true, completion: nil)
+            
+
+          
+        }
     }
     
     private func webView(webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: NSError) {

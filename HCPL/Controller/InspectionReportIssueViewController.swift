@@ -17,6 +17,17 @@ import SwiftyJSON
 import Alamofire
 import iOSDropDown
 
+extension UITextField{
+    
+    func setBottomBordar(){
+        self.layer.shadowColor = UIColor.darkGray.cgColor
+        self.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
+        self.layer.shadowOpacity = 1.0
+        self.layer.shadowRadius = 0.0
+    }
+    
+}
+
 class InspectionReportIssueViewController: UIViewController,GMSMapViewDelegate,CLLocationManagerDelegate,UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
 
     @IBOutlet weak var CustomMapView: GMSMapView!
@@ -26,6 +37,7 @@ class InspectionReportIssueViewController: UIViewController,GMSMapViewDelegate,C
     @IBOutlet var lblDemerit: UILabel!
     @IBOutlet var txtsubject: UITextField!
     @IBOutlet weak var mainDropDown: DropDown!
+    @IBOutlet var viewAddress: UIView!
     
     @IBOutlet var viewemail: UIView!
     @IBOutlet var viewname: UIView!
@@ -93,6 +105,10 @@ class InspectionReportIssueViewController: UIViewController,GMSMapViewDelegate,C
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+        print("onoff==>\(onoff ?? "")")
+        
         ShowLocation(lath: lat, Longh: long)
         
         
@@ -104,21 +120,29 @@ class InspectionReportIssueViewController: UIViewController,GMSMapViewDelegate,C
         viewbordermap.layer.borderWidth = 1
         viewbordermap.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         
-        txtaddress.layer.cornerRadius = 3
-        txtaddress.layer.borderWidth = 1
-        txtaddress.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+//        txtaddress.layer.cornerRadius = 3
+//        txtaddress.layer.borderWidth = 1
+//        txtaddress.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         
-        txtFirstName.layer.cornerRadius = 3
-        txtFirstName.layer.borderWidth = 1
-        txtFirstName.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+//        txtFirstName.layer.cornerRadius = 3
+//        txtFirstName.layer.borderWidth = 1
+//        txtFirstName.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         
-        txtLastName.layer.cornerRadius = 3
-        txtLastName.layer.borderWidth = 1
-        txtLastName.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        //txtFirstName.layer.borderColor = UIColor.clear.cgColor
+        txtFirstName.setBottomBordar()
+        txtaddress.setBottomBordar()
+        txtLastName.setBottomBordar()
+        txtContectNumber.setBottomBordar()
         
-        txtContectNumber.layer.cornerRadius = 3
-        txtContectNumber.layer.borderWidth = 1
-        txtContectNumber.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+
+        
+//        txtLastName.layer.cornerRadius = 3
+//        txtLastName.layer.borderWidth = 1
+//        txtLastName.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        
+//        txtContectNumber.layer.cornerRadius = 3
+//        txtContectNumber.layer.borderWidth = 1
+//        txtContectNumber.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         
         viewcamera1.layer.cornerRadius = 3
         viewcamera1.layer.borderWidth = 1
@@ -144,9 +168,9 @@ class InspectionReportIssueViewController: UIViewController,GMSMapViewDelegate,C
         viewtextdescription.layer.borderWidth = 1
         viewtextdescription.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         
-        btnissue.layer.cornerRadius = 3
-        btnissue.layer.borderWidth = 1
+        btnissue.layer.cornerRadius = 25
         btnissue.layer.borderColor = #colorLiteral(red: 0.4118635654, green: 0.7550011873, blue: 0.330655843, alpha: 1)
+        btnissue.backgroundColor = #colorLiteral(red: 0.4118635654, green: 0.7550011873, blue: 0.330655843, alpha: 1)
         
         txtdescription.autocapitalizationType = .sentences
         txtdescription.autocapitalizationType = .words
@@ -157,7 +181,7 @@ class InspectionReportIssueViewController: UIViewController,GMSMapViewDelegate,C
         let placeholder = NSMutableAttributedString(
             string: "Choose Subject",
             attributes: [.font: UIFont(name: "Helvetica", size: 15.0)!,
-                         .foregroundColor: UIColor.gray
+                         .foregroundColor: #colorLiteral(red: 0.4118635654, green: 0.7550011873, blue: 0.330655843, alpha: 1)
                          ])
         txtsubject.attributedPlaceholder = placeholder
         
@@ -176,6 +200,48 @@ class InspectionReportIssueViewController: UIViewController,GMSMapViewDelegate,C
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
+        }
+        
+
+        
+    
+        if onoff == "on"{
+            
+            btnissue.layer.cornerRadius = 25
+            btnissue.backgroundColor = #colorLiteral(red: 0.4118635654, green: 0.7550011873, blue: 0.330655843, alpha: 1)
+            
+            txtFirstName.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            txtaddress.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            txtLastName.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            txtContectNumber.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            
+        
+            txtFirstName.layer.shadowColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            txtaddress.layer.shadowColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            txtLastName.layer.shadowColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            txtContectNumber.layer.shadowColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            
+            txtFirstName.attributedPlaceholder = NSAttributedString(string: "First Name",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            txtaddress.attributedPlaceholder = NSAttributedString(string: "Email Address (optional)",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            txtLastName.attributedPlaceholder = NSAttributedString(string: "Last Name",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            txtContectNumber.attributedPlaceholder = NSAttributedString(string: "Contact Number",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+
+            mainDropDown.rowBackgroundColor = AppConstant.ViewColor
+            viewAddress.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            lblAddress.textColor = AppConstant.LabelWhiteColor
+            lblDemerit.textColor = AppConstant.LabelWhiteColor
+            
+            lbllimit.textColor = AppConstant.LabelWhiteColor
+            
+  
+        }else if onoff == "off"{
+            
+        }else{
+            
         }
         
     }
@@ -298,7 +364,7 @@ class InspectionReportIssueViewController: UIViewController,GMSMapViewDelegate,C
  
     func ShowLocation(lath:Double,Longh:Double){
         
-            let camera = GMSCameraPosition.camera(withLatitude: lath, longitude: Longh, zoom: 32.0)
+            let camera = GMSCameraPosition.camera(withLatitude: lath, longitude: Longh, zoom: 10.0)
                 CustomMapView.animate(to: camera)
             
             let sourceMarker = GMSMarker()
@@ -333,9 +399,15 @@ class InspectionReportIssueViewController: UIViewController,GMSMapViewDelegate,C
     
     @IBAction func submit(_ sender: UIButton) {
         
-        if validateFoodSafety(){
-            InspectionReportIssueApicall()
+        if Reachability.isConnectedToNetwork(){
+            if validateFoodSafety(){
+                InspectionReportIssueApicall()
+            }
+        }else{
+            self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
         }
+        
+
         
     }
     

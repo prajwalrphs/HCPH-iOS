@@ -105,6 +105,7 @@
 		EFA279E22580EF5D008F1681 /* DeadbirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA279E12580EF5D008F1681 /* DeadbirdViewController.swift */; };
 		EFA279E42580EF76008F1681 /* deadbirdCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA279E32580EF76008F1681 /* deadbirdCollectionViewCell.swift */; };
 		EFACA24D25C80589009496B1 /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFACA24C25C80589009496B1 /* PrivacyPolicyViewController.swift */; };
+		EFB9B6982615AD3E00F81A9C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EFB9B6972615AD3E00F81A9C /* GoogleService-Info.plist */; };
 		EFC67053257F572900854BD2 /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC67052257F572900854BD2 /* DownloadManager.swift */; };
 		EFEB25E625712FD600E20DE5 /* ContactallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEB25E525712FD600E20DE5 /* ContactallTableViewCell.swift */; };
 		EFFE326825936DF300415DCD /* MosquitoBreedingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFE326725936DF300415DCD /* MosquitoBreedingViewController.swift */; };
@@ -244,6 +245,7 @@
 		EFA279E12580EF5D008F1681 /* DeadbirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadbirdViewController.swift; sourceTree = "<group>"; };
 		EFA279E32580EF76008F1681 /* deadbirdCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = deadbirdCollectionViewCell.swift; sourceTree = "<group>"; };
 		EFACA24C25C80589009496B1 /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
+		EFB9B6972615AD3E00F81A9C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		EFC67052257F572900854BD2 /* DownloadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
 		EFEB25E525712FD600E20DE5 /* ContactallTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactallTableViewCell.swift; sourceTree = "<group>"; };
 		EFFE326725936DF300415DCD /* MosquitoBreedingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosquitoBreedingViewController.swift; sourceTree = "<group>"; };
@@ -518,6 +520,7 @@
 				EF9C7128256CEA3A008D3A05 /* Assets.xcassets */,
 				EF9C712A256CEA3A008D3A05 /* LaunchScreen.storyboard */,
 				EF9C712D256CEA3A008D3A05 /* Info.plist */,
+				EFB9B6972615AD3E00F81A9C /* GoogleService-Info.plist */,
 				EF9C7125256CEA38008D3A05 /* HCPL.xcdatamodeld */,
 			);
 			path = HCPL;
@@ -666,6 +669,7 @@
 				EF9C7129256CEA3A008D3A05 /* Assets.xcassets in Resources */,
 				EF9C7124256CEA38008D3A05 /* Main.storyboard in Resources */,
 				EF62BE192602732F000036E7 /* VPAutoCompleteViewCell.xib in Resources */,
+				EFB9B6982615AD3E00F81A9C /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1094,17 +1098,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = D42N54EC4S;
+				CURRENT_PROJECT_VERSION = 5;
+				DEVELOPMENT_TEAM = S3SAGN2DFC;
 				INFOPLIST_FILE = HCPL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 4.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = gov.harriscountytx.harriscountypublichealth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1114,17 +1120,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = D42N54EC4S;
+				CURRENT_PROJECT_VERSION = 5;
+				DEVELOPMENT_TEAM = S3SAGN2DFC;
 				INFOPLIST_FILE = HCPL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 4.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = gov.harriscountytx.harriscountypublichealth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

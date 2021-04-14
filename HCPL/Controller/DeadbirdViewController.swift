@@ -23,6 +23,8 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
 
     var images: [Image] = []
     
+    var CheckMB = [Int]()
+    
     var arrayimage = [String]()
     
     @IBOutlet weak var birdcollection: UICollectionView!
@@ -73,7 +75,11 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        CheckMB.removeAll()
+        arrayimage.removeAll()
+        
         self.contacttext.delegate = self
+        self.emailtext.delegate = self
         
         self.addimageview.layer.cornerRadius = 5
         self.addimageview.layer.borderWidth = 1
@@ -204,9 +210,21 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
         }
     }
     
+    var MAX_LENGHTEmail = 110
+    func Emaillenght(_ textField : UITextField){
+        if let text = textField.text, text.count >= MAX_LENGHTEmail {
+            textField.text = String(text.dropLast(text.count - MAX_LENGHTEmail))
+            return
+        }
+    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == contacttext{
             let MAX_LENGTH = 10
+            let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            return updatedString.count <= MAX_LENGTH
+        }else if textField == emailtext{
+            let MAX_LENGTH = 110
             let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
             return updatedString.count <= MAX_LENGTH
         }else{
@@ -217,6 +235,9 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
          if textField == self.contacttext{
             self.Phonelenght(self.contacttext)
+            return true
+        }else if textField == self.emailtext{
+            self.Emaillenght(self.emailtext)
             return true
         }
       
@@ -255,12 +276,56 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     @IBAction func Submit(_ sender: UIButton) {
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
-            if validate(){
-                DeadbirdAPICall()
+            
+            if CLLocationManager.locationServicesEnabled() == true {
+                if CLLocationManager.locationServicesEnabled() {
+                    switch CLLocationManager.authorizationStatus() {
+                        case .notDetermined, .restricted, .denied:
+                            print("No access")
+                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                //Redirect to Settings app
+                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                            })
+
+                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                            alertController.addAction(cancelAction)
+
+                            alertController.addAction(okAction)
+
+                            self.present(alertController, animated: true, completion: nil)
+                        case .authorizedAlways, .authorizedWhenInUse:
+                            print("Access")
+                            if validate(){
+                                DeadbirdAPICall()
+                            }
+                        @unknown default:
+                        break
+                    }
+                    } else {
+                        print("Location services are not enabled")
+                }
+
+            }else{
+                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                    //Redirect to Settings app
+                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                })
+
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                alertController.addAction(cancelAction)
+
+                alertController.addAction(okAction)
+
+                self.present(alertController, animated: true, completion: nil)
             }
+            
         }else{
             print("Internet Connection not Available!")
-            self.view.showToast(toastMessage: "Please turn on internet connection to continue.", duration: 0.3)
+            self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
         }
     }
     
@@ -321,7 +386,7 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     SecondaryarrayOfDict.append(dict1 as NSDictionary)
 
     var Address = [NSDictionary]()
-    let AddressDic = ["addressname":"","city":"","zip":""]
+    let AddressDic = ["addressname":"\(AddressCode)","city":"\(CityCode)","zip":"\(ZIpCode)"]
     Address.append(AddressDic as NSDictionary)
 
     var DeadBirdReporter = [NSDictionary]()
@@ -350,6 +415,20 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     // "$$hashKey": ""] as [String : Any]
     BirdConditionList.append(BirdConditionListDic)
 
+    }else{
+        
+        
+        let BirdConditionListDic = ["DataAbbr": "Intact",
+        "DataDesc": "Is the Bird intact ? Is the head attached to the body ?",
+        "IsObserved": false,
+        "$$hashKey": ""] as [String : Any]
+
+        //switch1
+        // let BirdConditionListDic = ["DataAbbr": "Intact",
+        // "DataDesc": "Is the Bird intact ? Is the head attached to the body ?",
+        // "IsObserved": true,
+        // "$$hashKey": ""] as [String : Any]
+        BirdConditionList.append(BirdConditionListDic)
     }
 
     if BirdbeendeadlessBool == "true"{
@@ -369,6 +448,17 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     // "IsObserved": true,
     // "$$hashKey": ""] as [String : Any]
     BirdConditionList.append(BirdConditionListDic2)
+    }else{
+        let BirdConditionListDic2 = ["DataAbbr": "Dead < 24 hrs.",
+        "DataDesc": "Has the Bird been dead less than 24 hrs ?",
+        "IsObserved": false,
+        "$$hashKey": ""] as [String : Any]
+        ////
+        // let BirdConditionListDic2 = ["DataAbbr": "Dead < 24 hrs.",
+        // "DataDesc": "Has the Bird been dead less than 24 hrs ?",
+        // "IsObserved": true,
+        // "$$hashKey": ""] as [String : Any]
+        BirdConditionList.append(BirdConditionListDic2)
     }
 
     if maggotsorantsBool == "true"{
@@ -387,6 +477,17 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     // "IsObserved": true,
     // "$$hashKey": ""] as [String : Any]
     BirdConditionList.append(BirdConditionListDic3)
+    }else{
+        let BirdConditionListDic3 = ["DataAbbr": "Dead > 24 hrs.",
+        "DataDesc": "Are there any maggots or ants on the Bird ?",
+        "IsObserved": false,
+        "$$hashKey": ""] as [String : Any]
+
+        // let BirdConditionListDic3 = ["DataAbbr": "Dead > 24 hrs.",
+        // "DataDesc": "Are there any maggots or ants on the Bird ?",
+        // "IsObserved": true,
+        // "$$hashKey": ""] as [String : Any]
+        BirdConditionList.append(BirdConditionListDic3)
     }
 
     if birdappeartobeillorinjuredBool == "true"{
@@ -406,6 +507,17 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     // "IsObserved": true,
     // "$$hashKey": ""] as [String : Any]
     BirdConditionList.append(BirdConditionListDic4)
+    }else{
+        let BirdConditionListDic4 = ["DataAbbr": "Sick",
+        "DataDesc": "Does the bird appear ill or injured ?",
+        "IsObserved": false,
+        "$$hashKey": ""] as [String : Any]
+        //
+        // let BirdConditionListDic4 = ["DataAbbr": "Sick",
+        // "DataDesc": "Does the bird appear ill or injured ?",
+        // "IsObserved": true,
+        // "$$hashKey": ""] as [String : Any]
+        BirdConditionList.append(BirdConditionListDic4)
     }
 
 
@@ -433,11 +545,13 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     "ImageList":arrayimage
     ]
 
+        let URLset = "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddDeadBirdReport?SecondaryAddress=" + "\(AddressCode)" + "&City=" + "\(CityCode)" + "&ZipCode=" + "\(ZIpCode)" + "&IsExternalRequest=true"
 
-     let url = URL(string: "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddDeadBirdReport?SecondaryAddress=" + "\(AddressCode)" + "&City=" + "\(CityCode)" + "&ZipCode=" + "\(ZIpCode)" + "&IsExternalRequest=true")!
-     print("urlurlurl==>\(url)")
+//     let url = URL(string: "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddDeadBirdReport?SecondaryAddress=" + "\(AddressCode)" + "&City=" + "\(CityCode)" + "&ZipCode=" + "\(ZIpCode)" + "&IsExternalRequest=true")!
+     print("urlurlurl==>\(URLset)")
+        print("objParameters==>\(objParameters)")
 
-    AF.request(url,method: .post, parameters:objParameters, encoding: JSONEncoding.default
+    AF.request(URLset,method: .post, parameters:objParameters, encoding: JSONEncoding.default
     , headers: headers)
     .responseJSON { response in
     print("StatusCode==>\(response.response?.statusCode ?? 0)")
@@ -445,7 +559,7 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     case .success(let JSON):
     print("Success with JSON: \(JSON)")
         if response.response?.statusCode == 200{
-            
+
             DispatchQueue.main.async {
 
             self.hud.hide(animated: true)
@@ -469,7 +583,7 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     self.view.showToast(toastMessage: "Fail", duration: 0.5)
     }
     }
-    
+
     }
 
     }
@@ -489,50 +603,107 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
 
         if let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
 
-            let image = Image(imageData: selectedImage.pngData()!)
-            images.append(image)
-            Image.saveImages(images)
             
-            Image.saveImages(images)
-            dismiss(animated: true, completion: nil)
-            self.birdcollection.reloadData()
+            if let data = selectedImage.pngData() {
+            //print("There were \(data.count) bytes")
+            let bcf = ByteCountFormatter()
+            bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
+            bcf.countStyle = .file
+            let string = bcf.string(fromByteCount: Int64(data.count))
+                print("formatted result: \(string)")
+                
+                let myInt3 = (string as NSString).integerValue
+                CheckMB.append(myInt3)
+            }
             
-            let imageData: Data? = selectedImage.jpegData(compressionQuality: 0.4)
-            let imageStr = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
-            print("imageStr====>\(imageStr)")
-            self.arrayimage.append(imageStr)
+            let total = CheckMB.reduce(0, +)
+//            let imageData: Data? = selectedImage.jpegData(compressionQuality: 0.4)
+//            let imageStr = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
+            //print("imageStr====>\(imageStr)")
+            
+            
+        
+            
+            if total < 20{
+   
+                let image = Image(imageData: selectedImage.pngData()!)
+                images.append(image)
+                Image.saveImages(images)
+                
+                dismiss(animated: true, completion: nil)
+                self.birdcollection.reloadData()
+                
+                let imageData2:Data =  selectedImage.pngData()!
+                let base64String2 = imageData2.base64EncodedString()
+                
+                self.arrayimage.append(base64String2)
+                
+            
+            }else{
+                dismiss(animated: true, completion: nil)
+                print("less not")
+                
+                
+                let when = DispatchTime.now() + 1
+                DispatchQueue.main.asyncAfter(deadline: when){
+                  // your code with delay
+                    
+                let alertController = UIAlertController(title: "HCPH", message: "All image size must be less than 20 MB.", preferredStyle: UIAlertController.Style.alert)
+                    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                    alertController.addAction(cancelAction)
+                    self.present(alertController, animated: true, completion: nil)
+                
+                }
+            }
                         
       }
         
     }
     
     @IBAction func addimages(_ sender: UIButton) {
-        let imagePicker = UIImagePickerController()
-                imagePicker.delegate = self
-                
-                let alertViewController = UIAlertController(title: "Choose Image Source", message: nil, preferredStyle: .actionSheet)
-                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-                
-                if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-                    let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default, handler: { action in
-                        imagePicker.sourceType = .photoLibrary
-                        self.present(imagePicker, animated: true, completion: nil)
-                    })
-                    let CameraLibraryAction = UIAlertAction(title: "Camera", style: .default, handler: { action in
-                        //self.galleryVideo()
-                        imagePicker.sourceType = .camera
-                        self.present(imagePicker, animated: true, completion: nil)
-                    })
+        
+        
+        if arrayimage.count == 5{
+            print("Count 5 Done!")
+            let alertController = UIAlertController(title: "HCPH", message: "You can attach maximum five images.", preferredStyle: UIAlertController.Style.alert)
 
-                    alertViewController.addAction(CameraLibraryAction)
-                    alertViewController.addAction(photoLibraryAction)
-                }
-        alertViewController.addAction(cancelAction)
-                present(alertViewController, animated: true, completion: nil)
-                
-                alertViewController.view.subviews.flatMap({$0.constraints}).filter{ (one: NSLayoutConstraint)-> (Bool)  in
-                    return (one.constant < 0) && (one.secondItem == nil) &&  (one.firstAttribute == .width)
-                    }.first?.isActive = false
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+            alertController.addAction(cancelAction)
+
+
+            self.present(alertController, animated: true, completion: nil)
+        }else{
+            let imagePicker = UIImagePickerController()
+                    imagePicker.delegate = self
+                    
+                    let alertViewController = UIAlertController(title: "Choose Image Source", message: nil, preferredStyle: .actionSheet)
+                    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                    
+                    if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                        let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default, handler: { action in
+                            imagePicker.sourceType = .photoLibrary
+                            imagePicker.allowsEditing = true
+                            self.present(imagePicker, animated: true, completion: nil)
+                        })
+                        let CameraLibraryAction = UIAlertAction(title: "Camera", style: .default, handler: { action in
+                            //self.galleryVideo()
+                            imagePicker.sourceType = .camera
+                            imagePicker.allowsEditing = true
+                            self.present(imagePicker, animated: true, completion: nil)
+                        })
+
+                        alertViewController.addAction(CameraLibraryAction)
+                        alertViewController.addAction(photoLibraryAction)
+                    }
+            alertViewController.addAction(cancelAction)
+                    present(alertViewController, animated: true, completion: nil)
+                    
+                    alertViewController.view.subviews.flatMap({$0.constraints}).filter{ (one: NSLayoutConstraint)-> (Bool)  in
+                        return (one.constant < 0) && (one.secondItem == nil) &&  (one.firstAttribute == .width)
+                        }.first?.isActive = false
+        }
+        
+ 
     }
         
         @IBAction func back(_ sender: UIButton) {
@@ -574,6 +745,7 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     func remove(index: Int) {
         images.remove(at: index)
         self.arrayimage.remove(at: index)
+        CheckMB.remove(at: index)
 
         let indexPath = IndexPath(row: index, section: 0)
         birdcollection.performBatchUpdates({
@@ -587,10 +759,16 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-             
-    textField.resignFirstResponder()
-    return true
-   }
+
+            if textField == emailtext {
+                contacttext.becomeFirstResponder()
+            } else if textField == contacttext {
+                contacttext.resignFirstResponder()
+            }else{
+                contacttext.resignFirstResponder()
+            }
+            return true
+        }
          
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
              

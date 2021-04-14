@@ -11,6 +11,8 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
     var images: [Image] = []
     var hud: MBProgressHUD = MBProgressHUD()
     
+    var CheckMB = [Int]()
+    
     @IBOutlet weak var submitoutlate: UIButton!
     @IBOutlet weak var viewmain: UIView!
     @IBOutlet weak var Mosquitocollection: UICollectionView!
@@ -56,6 +58,9 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        CheckMB.removeAll()
+        arrayimage.removeAll()
+                
         OtherText.delegate = self
         self.OtherText.isHidden = true
         
@@ -68,6 +73,7 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
         OtherText.textColor = UIColor.lightGray
         
         txtcontactofpersonrepoting.delegate = self
+        txtemailofpersonrepoting.delegate = self
         let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
         print("onoff==>\(onoff ?? "")")
         
@@ -134,7 +140,7 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
 
         
         self.hideKeyboardTappedAround()
-        
+                
         self.locationManager.requestAlwaysAuthorization()
 
         // For use in foreground
@@ -203,17 +209,57 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
 
         if let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
 
-            let image = Image(imageData: selectedImage.pngData()!)
-            print("image get video==>\(image)")
-            images.append(image)
-            Image.saveImages(images)
-            dismiss(animated: true, completion: nil)
-            self.Mosquitocollection.reloadData()
+            if let data = selectedImage.pngData() {
+            //print("There were \(data.count) bytes")
+            let bcf = ByteCountFormatter()
+            bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
+            bcf.countStyle = .file
+            let string = bcf.string(fromByteCount: Int64(data.count))
+                print("formatted result: \(string)")
+                
+                let myInt3 = (string as NSString).integerValue
+                CheckMB.append(myInt3)
+            }
             
-            let imageData: Data? = selectedImage.jpegData(compressionQuality: 0.4)
-            let imageStr = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
-            print("imageStr====>\(imageStr)")
-            self.arrayimage.append(imageStr)
+            let total = CheckMB.reduce(0, +)
+            
+            
+            if total < 20{
+   
+                let image = Image(imageData: selectedImage.pngData()!)
+                images.append(image)
+                Image.saveImages(images)
+                dismiss(animated: true, completion: nil)
+                self.Mosquitocollection.reloadData()
+                
+//                let imageData: Data? = selectedImage.jpegData(compressionQuality: 0.4)
+//                let imageStr = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
+//                self.arrayimage.append(imageStr)
+                
+                let imageData2:Data =  selectedImage.pngData()!
+                let base64String2 = imageData2.base64EncodedString()
+                
+                self.arrayimage.append(base64String2)
+                
+            
+            }else{
+                dismiss(animated: true, completion: nil)
+                print("less not")
+                
+                
+                let when = DispatchTime.now() + 1
+                DispatchQueue.main.asyncAfter(deadline: when){
+                  // your code with delay
+                    
+                let alertController = UIAlertController(title: "HCPH", message: "All image size must be less than 20 MB.", preferredStyle: UIAlertController.Style.alert)
+                    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                    alertController.addAction(cancelAction)
+                    self.present(alertController, animated: true, completion: nil)
+                
+                }
+            }
+            
+
      }
         
     }
@@ -221,12 +267,56 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
     @IBAction func submitaction(_ sender: UIButton) {
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
-            if validate(){
-                MosquitoBreedingAPICall()
+            
+            if CLLocationManager.locationServicesEnabled() == true {
+                if CLLocationManager.locationServicesEnabled() {
+                    switch CLLocationManager.authorizationStatus() {
+                        case .notDetermined, .restricted, .denied:
+                            print("No access")
+                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                //Redirect to Settings app
+                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                            })
+
+                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                            alertController.addAction(cancelAction)
+
+                            alertController.addAction(okAction)
+
+                            self.present(alertController, animated: true, completion: nil)
+                        case .authorizedAlways, .authorizedWhenInUse:
+                            print("Access")
+                            if validate(){
+                                MosquitoBreedingAPICall()
+                            }
+                        @unknown default:
+                        break
+                    }
+                    } else {
+                        print("Location services are not enabled")
+                }
+
+            }else{
+                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                    //Redirect to Settings app
+                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                })
+
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                alertController.addAction(cancelAction)
+
+                alertController.addAction(okAction)
+
+                self.present(alertController, animated: true, completion: nil)
             }
+            
         }else{
             print("Internet Connection not Available!")
-            self.view.showToast(toastMessage: "Please turn on internet connection to continue.", duration: 0.3)
+            self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
         }
     }
     
@@ -256,7 +346,7 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
     @IBAction func Ditcheswithwater(_ sender: UISwitch) {
         if (sender.isOn == true){
             print("on")
-            self.Switch3 = "false"
+            self.Switch3 = "true"
         }
         else{
             print("off")
@@ -268,7 +358,7 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
         if (sender.isOn == true){
             print("on")
             self.OtherText.isHidden = false
-            self.Switch4 = "false"
+            self.Switch4 = "true"
         }
         else{
             print("off")
@@ -306,9 +396,21 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
         }
     }
     
+    var MAX_LENGHTEmail = 110
+    func Emaillenght(_ textField : UITextField){
+        if let text = textField.text, text.count >= MAX_LENGHTEmail {
+            textField.text = String(text.dropLast(text.count - MAX_LENGHTEmail))
+            return
+        }
+    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == txtcontactofpersonrepoting{
             let MAX_LENGTH = 10
+            let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            return updatedString.count <= MAX_LENGTH
+        }else if textField == txtemailofpersonrepoting{
+            let MAX_LENGTH = 110
             let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
             return updatedString.count <= MAX_LENGTH
         }else{
@@ -319,6 +421,9 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
          if textField == self.txtcontactofpersonrepoting{
             self.Phonelenght(self.txtcontactofpersonrepoting)
+            return true
+        }else if textField == self.txtemailofpersonrepoting{
+            self.Emaillenght(self.txtemailofpersonrepoting)
             return true
         }
       
@@ -404,9 +509,11 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
 
 
 
-    let url = URL(string: "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddExtCitizenRequest?title=")!
+//    let url = URL(string: "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddExtCitizenRequest?title=")!
+        
+        let URLset = "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddExtCitizenRequest?title="
 
-    AF.request(url,method: .post, parameters:objParameters, encoding: JSONEncoding.default
+    AF.request(URLset,method: .post, parameters:objParameters, encoding: JSONEncoding.default
     , headers: headers)
     .responseJSON { response in
     print("StatusCode==>\(response.response?.statusCode ?? 0)")
@@ -448,32 +555,45 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
     }
     
     @IBAction func addimage(_ sender: UIButton) {
-        let imagePicker = UIImagePickerController()
-                imagePicker.delegate = self
-                
-                let alertViewController = UIAlertController(title: "Choose Image Source", message: nil, preferredStyle: .actionSheet)
-                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-                
-                if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-                    let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default, handler: { action in
-                        imagePicker.sourceType = .photoLibrary
-                        self.present(imagePicker, animated: true, completion: nil)
-                    })
-                    let CameraLibraryAction = UIAlertAction(title: "Camera", style: .default, handler: { action in
-                        //self.galleryVideo()
-                        imagePicker.sourceType = .camera
-                        self.present(imagePicker, animated: true, completion: nil)
-                    })
+        if arrayimage.count == 5{
+            print("Count 5 Done!")
+            let alertController = UIAlertController(title: "HCPH", message: "You can attach maximum five images.", preferredStyle: UIAlertController.Style.alert)
 
-                    alertViewController.addAction(CameraLibraryAction)
-                    alertViewController.addAction(photoLibraryAction)
-                }
-        alertViewController.addAction(cancelAction)
-                present(alertViewController, animated: true, completion: nil)
-                
-                alertViewController.view.subviews.flatMap({$0.constraints}).filter{ (one: NSLayoutConstraint)-> (Bool)  in
-                    return (one.constant < 0) && (one.secondItem == nil) &&  (one.firstAttribute == .width)
-                    }.first?.isActive = false
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+            alertController.addAction(cancelAction)
+
+
+            self.present(alertController, animated: true, completion: nil)
+        }else{
+            let imagePicker = UIImagePickerController()
+                    imagePicker.delegate = self
+                    
+                    let alertViewController = UIAlertController(title: "Choose Image Source", message: nil, preferredStyle: .actionSheet)
+                    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                    
+                    if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                        let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default, handler: { action in
+                            imagePicker.sourceType = .photoLibrary
+                            imagePicker.allowsEditing = true
+                            self.present(imagePicker, animated: true, completion: nil)
+                        })
+                        let CameraLibraryAction = UIAlertAction(title: "Camera", style: .default, handler: { action in
+                            //self.galleryVideo()
+                            imagePicker.sourceType = .camera
+                            imagePicker.allowsEditing = true
+                            self.present(imagePicker, animated: true, completion: nil)
+                        })
+
+                        alertViewController.addAction(CameraLibraryAction)
+                        alertViewController.addAction(photoLibraryAction)
+                    }
+            alertViewController.addAction(cancelAction)
+                    present(alertViewController, animated: true, completion: nil)
+                    
+                    alertViewController.view.subviews.flatMap({$0.constraints}).filter{ (one: NSLayoutConstraint)-> (Bool)  in
+                        return (one.constant < 0) && (one.secondItem == nil) &&  (one.firstAttribute == .width)
+                        }.first?.isActive = false
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -510,6 +630,7 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
     func remove(index: Int) {
         images.remove(at: index)
         self.arrayimage.remove(at: index)
+        CheckMB.remove(at: index)
 
         let indexPath = IndexPath(row: index, section: 0)
         Mosquitocollection.performBatchUpdates({
@@ -524,8 +645,14 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
              
-    textField.resignFirstResponder()
-    return true
+        if textField == txtemailofpersonrepoting {
+            txtcontactofpersonrepoting.becomeFirstResponder()
+        } else if textField == txtcontactofpersonrepoting {
+            txtcontactofpersonrepoting.resignFirstResponder()
+        }else{
+            txtcontactofpersonrepoting.resignFirstResponder()
+        }
+        return true
    }
          
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

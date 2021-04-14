@@ -14,11 +14,23 @@ class PrivacyPolicyViewController: UIViewController,WKNavigationDelegate,TabItem
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var lbltitle: UILabel!
     
+    @IBOutlet var loadrefresh: UIButton!
+    
     var strUrl : String! = nil
     var strTitle : String! = nil
     
     var datastr:String!
     var receivedTitle:String!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print("viewWillAppear")
+        LoadLink()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        print("viewWillDisappear")
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,18 +52,58 @@ class PrivacyPolicyViewController: UIViewController,WKNavigationDelegate,TabItem
              }
         }
         
-        datastr = "http://publichealth.harriscountytx.gov/About/Privacy"
-        receivedTitle = "Privacy Policy"
+        LoadLink()
         
-        lbltitle.text  = receivedTitle
+//        datastr = "http://publichealth.harriscountytx.gov/About/Privacy"
+//        receivedTitle = "Privacy Policy"
+//
+//        lbltitle.text  = receivedTitle
+//
+//        let urlget = datastr ?? ""
+//        let url = NSURL(string: urlget)
+//        let request = NSURLRequest(url: url! as URL)
+//
+//        webView.navigationDelegate = self
+//        webView.load(request as URLRequest)
+        
+    }
+    
+    @IBAction func RefreshBtn(_ sender: UIButton) {
+        LoadLink()
+    }
+    
+    
+    func LoadLink(){
+        if Reachability.isConnectedToNetwork(){
+            //self.loadrefresh.isHidden = true
+            self.activityIndicator.isHidden = false
 
-        let urlget = datastr ?? ""
-        let url = NSURL(string: urlget)
-        let request = NSURLRequest(url: url! as URL)
-                               
-        webView.navigationDelegate = self
-        webView.load(request as URLRequest)
-        
+            datastr = "http://publichealth.harriscountytx.gov/About/Privacy"
+            receivedTitle = "Privacy Policy"
+            
+            lbltitle.text  = receivedTitle
+
+            let urlget = datastr ?? ""
+            let url = NSURL(string: urlget)
+            let request = NSURLRequest(url: url! as URL)
+                                   
+            webView.navigationDelegate = self
+            webView.load(request as URLRequest)
+            
+        }else{
+            
+            let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+            navigate.selectdtab = 2
+            self.navigationController?.pushViewController(navigate, animated: true)
+         
+            //self.loadrefresh.isHidden = false
+            self.activityIndicator.isHidden = true
+            let alertController = UIAlertController(title: "Internet Connection", message: "Please turn on your device internet connection to continue.", preferredStyle: UIAlertController.Style.alert)
+            let cancelAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel)
+            alertController.addAction(cancelAction)
+            self.present(alertController, animated: true, completion: nil)
+          
+        }
     }
     
     @IBAction func Backbuttonaction(_ sender: UIButton) {

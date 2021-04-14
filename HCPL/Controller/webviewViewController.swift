@@ -15,6 +15,16 @@ class webviewViewController: UIViewController,WKNavigationDelegate {
     var datastr:String!
     var receivedTitle:String!
     
+    override func viewWillAppear(_ animated: Bool) {
+        print("viewWillAppear")
+        LoadLink()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        print("viewWillDisappear")
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,18 +45,49 @@ class webviewViewController: UIViewController,WKNavigationDelegate {
              }
         }
         
-        datastr = strUrl
-        receivedTitle = strTitle
+        LoadLink()
         
-        lbltitle.text  = receivedTitle
+//        datastr = strUrl
+//        receivedTitle = strTitle
+//
+//        lbltitle.text  = receivedTitle
+//
+//        let urlget = datastr ?? ""
+//        let url = NSURL(string: urlget)
+//        let request = NSURLRequest(url: url! as URL)
+//
+//        webView.navigationDelegate = self
+//        webView.load(request as URLRequest)
+        
+    }
+    
+    func LoadLink(){
+        if Reachability.isConnectedToNetwork(){
+            //self.loadrefresh.isHidden = true
+            self.activityIndicator.isHidden = false
 
-        let urlget = datastr ?? ""
-        let url = NSURL(string: urlget)
-        let request = NSURLRequest(url: url! as URL)
-                               
-        webView.navigationDelegate = self
-        webView.load(request as URLRequest)
-        
+            datastr = strUrl
+            receivedTitle = strTitle
+            
+            lbltitle.text  = receivedTitle
+
+            let urlget = datastr ?? ""
+            let url = NSURL(string: urlget)
+            let request = NSURLRequest(url: url! as URL)
+                                   
+            webView.navigationDelegate = self
+            webView.load(request as URLRequest)
+            
+        }else{
+         
+            //self.loadrefresh.isHidden = false
+            self.activityIndicator.isHidden = true
+            let alertController = UIAlertController(title: "Internet Connection", message: "Please turn on your device internet connection to continue.", preferredStyle: UIAlertController.Style.alert)
+            let cancelAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel)
+            alertController.addAction(cancelAction)
+            self.present(alertController, animated: true, completion: nil)
+          
+        }
     }
     
     @IBAction func Backbuttonaction(_ sender: UIButton) {

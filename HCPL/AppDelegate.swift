@@ -51,8 +51,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate,CLLocationManagerDelegate 
         GMSServices.provideAPIKey(AppConstant.googleApiKey)
         
         AGSArcGISRuntimeEnvironment.apiKey = "AAPK7369e57cb9ef4b58967beda270b251cdzdmK1GUiCL4htVQXyVP0MbYgA0I8rXzleRIMGMrZLbeJzHFtXDm8jBjO1HvvA5R4"
-//      AGSArcGISRuntimeEnvironment.setLicenseKey("runtimelite,1000,rud2361000057,none,TRB3LNBHPDH4F5KHT180")
+      //AGSArcGISRuntimeEnvironment.setLicenseKey("runtimelite,1000,rud2361000057,none,TRB3LNBHPDH4F5KHT180")
 
+        do{
+            let result =  try AGSArcGISRuntimeEnvironment.setLicenseKey("runtimelite,1000,rud2361000057,none,TRB3LNBHPDH4F5KHT180")
+            print("License Result : \(result.licenseStatus)")
+        }catch{
+            print("License Not Set")
+        }
+        
+
+       
+       
         
         
         //AGSArcGISRuntimeEnvironment.setLicense("runtimelite,1000,rud2361000057,none,TRB3LNBHPDH4F5KHT180");

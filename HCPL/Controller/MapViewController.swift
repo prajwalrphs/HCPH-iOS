@@ -13,6 +13,9 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
     @IBOutlet weak var mapview: AGSMapView!
     @IBOutlet weak var titletext: UILabel!
     @IBOutlet var SearchText: UISearchBar!
+    @IBOutlet var imgsearch: UIImageView!
+    @IBOutlet var imginfo: UIImageView!
+    @IBOutlet var imggpslocation: UIButton!
     
     var hud: MBProgressHUD = MBProgressHUD()
     
@@ -26,17 +29,63 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
     let locationOverlay = AGSGraphicsOverlay()
     let locatorTask = AGSLocatorTask(url: URL(string: "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer")!)
     
+    private let featureServiceURL = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/PoolPermits/FeatureServer/0"
+    
     var ZIpCodeMain = String()
-    var viewDidLoadcall = String()
     
     var demos: [(UIViewController & Demoable).Type] = [
         ResizingDemo.self,
     ].sorted(by: { $0.name < $1.name })
     
     var alertController = UIAlertController()
+
+    weak var locationDisplay: AGSLocationDisplay? {
+         didSet {
+            locationDisplay?.start { [weak self] (error: Error?) in
+                 if let error = error {
+                     // show the error if one occurred
+                 }
+             }
+         }
+     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        let image = UIImage(named: "gps")?.withRenderingMode(.alwaysTemplate)
+        imggpslocation.setImage(image, for: .normal)
+        imggpslocation.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+        
+        imgsearch.image = imgsearch.image?.withRenderingMode(.alwaysTemplate)
+        imgsearch.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+        
+        imginfo.image = imginfo.image?.withRenderingMode(.alwaysTemplate)
+        imginfo.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+        
+        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+        print("onoff==>\(onoff ?? "")")
+        
+        //SearchText.inputView = self.LastdatePicker
+
+        let toolBar = UIToolbar()
+        toolBar.barStyle = .default
+        toolBar.isTranslucent = true
+        toolBar.backgroundColor = #colorLiteral(red: 0.4118635654, green: 0.7550011873, blue: 0.330655843, alpha: 1)
+       
+         if onoff == "on"{
+             toolBar.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+         }else{
+             toolBar.tintColor = #colorLiteral(red: 0.4118635654, green: 0.7550011873, blue: 0.330655843, alpha: 1)
+         }
+        toolBar.sizeToFit()
+
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneClickLast))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelClickLast))
+        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        SearchText.inputAccessoryView = toolBar
         
         alertController = UIAlertController(title: "Notice:", message: "Please note that the disease may not be found in the complete area of your zip code.", preferredStyle: UIAlertController.Style.alert)
         let cancelAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel)
@@ -51,14 +100,9 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
           // your code with delay
             self.alertController.dismiss(animated: true, completion: nil)
             
-            for demo in self.demos {
-                self.viewDidLoadcall = "ViewDidLoad"
-                self.addButton(for: demo)
-            }
         }
         
-        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
-        print("onoff==>\(onoff ?? "")")
+
         
         if onoff == "on"{
             UIApplication.shared.windows.forEach { window in
@@ -102,20 +146,96 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
 
     }
     
+    @objc func doneClickLast() {
+        
+        if CLLocationManager.locationServicesEnabled() == true {
+            if CLLocationManager.locationServicesEnabled() {
+                switch CLLocationManager.authorizationStatus() {
+                    case .notDetermined, .restricted, .denied:
+                        print("No access")
+                        let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                        let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                            //Redirect to Settings app
+                            UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                        })
+
+                        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                        alertController.addAction(cancelAction)
+
+                        alertController.addAction(okAction)
+
+                        self.present(alertController, animated: true, completion: nil)
+                    case .authorizedAlways, .authorizedWhenInUse:
+                        print("Access")
+                        if SearchText.text?.isEmpty == true{
+                            DispatchQueue.main.async {
+                                self.SearchText.resignFirstResponder()
+                            }
+                            self.view.showToast(toastMessage: "Enter zip code", duration: 0.3)
+                        }else{
+                            DispatchQueue.main.async {
+                                self.SearchText.resignFirstResponder()
+                            }
+                            self.searchBarSearchButtonClicked(SearchText)
+                        }
+                    @unknown default:
+                    break
+                }
+                } else {
+                    print("Location services are not enabled")
+            }
+
+        }else{
+            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                //Redirect to Settings app
+                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+            })
+
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+            alertController.addAction(cancelAction)
+
+            alertController.addAction(okAction)
+
+            self.present(alertController, animated: true, completion: nil)
+        }
+        
+    }
+    
+   @objc func cancelClickLast() {
+    SearchText.resignFirstResponder()
+    }
+    
     @objc func alertControllerBackgroundTapped()
     {
         self.dismiss(animated: true, completion: nil)
-        for demo in self.demos {
-            self.viewDidLoadcall = "ViewDidLoad"
-            self.addButton(for: demo)
-        }
+
     }
+      
     
     private func setupMapLoad() {
 
          let map = AGSMap(
-             basemapStyle: .arcGISTopographic
+            basemapStyle: .arcGISTopographic
          )
+            
+        let featureTable = AGSServiceFeatureTable(url: URL(string: featureServiceURL)!)
+        //set the request mode
+        featureTable.featureRequestMode = AGSFeatureRequestMode.onInteractionCache
+        let featureLayer = AGSFeatureLayer(featureTable: featureTable)
+        //add the feature layer to the map
+        map.operationalLayers.add(featureLayer)
+        
+    
+        locationDisplay?.start { [weak self] (error: Error?) in
+            if let error = error {
+                // show the error if one occurred
+            }else{
+                
+            }
+        }
 
         mapview.map = map
 
@@ -160,12 +280,72 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
      }
     
     @IBAction func Searchaction(_ sender: UIButton) {
-        if SearchText.text?.isEmpty == true{
-            self.view.showToast(toastMessage: "Enter zip code", duration: 0.3)
-        }else{
-            self.searchBarSearchButtonClicked(SearchText)
-        }
         
+        if Reachability.isConnectedToNetwork(){
+            print("Internet Connection Available!")
+            
+            if CLLocationManager.locationServicesEnabled() == true {
+                
+                if CLLocationManager.locationServicesEnabled() {
+                    switch CLLocationManager.authorizationStatus() {
+                        case .notDetermined, .restricted, .denied:
+                            print("No access")
+                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                //Redirect to Settings app
+                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                            })
+
+                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                            alertController.addAction(cancelAction)
+
+                            alertController.addAction(okAction)
+
+                            self.present(alertController, animated: true, completion: nil)
+                        case .authorizedAlways, .authorizedWhenInUse:
+                            if SearchText.text?.isEmpty == true{
+                                DispatchQueue.main.async {
+                                    self.SearchText.resignFirstResponder()
+                                }
+                                self.view.showToast(toastMessage: "Enter zip code", duration: 0.3)
+                            }else{
+                                DispatchQueue.main.async {
+                                    self.SearchText.resignFirstResponder()
+                                }
+                                self.searchBarSearchButtonClicked(SearchText)
+                            }
+                        @unknown default:
+                        break
+                    }
+                    } else {
+                        print("Location services are not enabled")
+                }
+
+                
+            }else {
+                
+                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                    //Redirect to Settings app
+                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                })
+
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                alertController.addAction(cancelAction)
+
+                alertController.addAction(okAction)
+
+                self.present(alertController, animated: true, completion: nil)
+                
+                
+             }
+            
+        }else{
+            print("Internet Connection not Available!")
+            self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
+        }
     }
     
     @IBAction func iaction(_ sender: UIButton) {
@@ -182,7 +362,63 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
     
     @IBAction func GPSopen(_ sender: UIButton) {
         
-        setupMap()
+        if Reachability.isConnectedToNetwork(){
+            print("Internet Connection Available!")
+            
+            if CLLocationManager.locationServicesEnabled() == true {
+                
+                if CLLocationManager.locationServicesEnabled() {
+                    switch CLLocationManager.authorizationStatus() {
+                        case .notDetermined, .restricted, .denied:
+                            print("No access")
+                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                //Redirect to Settings app
+                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                            })
+
+                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                            alertController.addAction(cancelAction)
+
+                            alertController.addAction(okAction)
+
+                            self.present(alertController, animated: true, completion: nil)
+                        case .authorizedAlways, .authorizedWhenInUse:
+                            print("Access")
+                            setupMap()
+                        @unknown default:
+                        break
+                    }
+                    } else {
+                        print("Location services are not enabled")
+                }
+                
+                
+            }else {
+                
+                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                    //Redirect to Settings app
+                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                })
+
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                alertController.addAction(cancelAction)
+
+                alertController.addAction(okAction)
+
+                self.present(alertController, animated: true, completion: nil)
+                
+                
+             }
+            
+        }else{
+            print("Internet Connection not Available!")
+            self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
+        }
+        
     }
     
     func addButton(for demo: (UIViewController & Demoable).Type) {
@@ -190,20 +426,22 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
         //self.viewDidLoadcall = "ViewDidLoad"
         //self.viewDidLoadcall = "SearchLoad"
         
-        if viewDidLoadcall == "ViewDidLoad"{
-            print("ViewDidLoad")
-            let defaults = UserDefaults.standard
-            defaults.removeObject(forKey: AppConstant.ZIPCODE)
-            UserDefaults.standard.set(ZIpCodeMain, forKey: AppConstant.ZIPCODE)
-            UserDefaults.standard.set(TitleHead, forKey: AppConstant.TITLE)
-            demo.openDemo(from: self, in: nil,Name: "",title: "")
-        }else{
-            let defaults = UserDefaults.standard
-            defaults.removeObject(forKey: AppConstant.ZIPCODE)
-            UserDefaults.standard.set(SearchText.text, forKey: AppConstant.ZIPCODE)
-            UserDefaults.standard.set(TitleHead, forKey: AppConstant.TITLE)
-            demo.openDemo(from: self, in: nil,Name: "",title: "")
-        }
+//        let defaults = UserDefaults.standard
+//        defaults.removeObject(forKey: AppConstant.ZIPCODE)
+        UserDefaults.standard.set(ZIpCodeMain, forKey: AppConstant.ZIPCODE)
+        UserDefaults.standard.set(TitleHead, forKey: AppConstant.TITLE)
+        demo.openDemo(from: self, in: nil,Name: "",title: "")
+        
+//        if viewDidLoadcall == "ViewDidLoad"{
+//            print("ViewDidLoad")
+//            let defaults = UserDefaults.standard
+//            defaults.removeObject(forKey: AppConstant.ZIPCODE)
+//            UserDefaults.standard.set(ZIpCodeMain, forKey: AppConstant.ZIPCODE)
+//            UserDefaults.standard.set(TitleHead, forKey: AppConstant.TITLE)
+//            demo.openDemo(from: self, in: nil,Name: "",title: "")
+//        }else{
+//
+//        }
       
 
 
@@ -271,6 +509,9 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
             )
             
             let GetLatlon = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+            
+            print("GetLatlon==>\(GetLatlon.latitude)")
+            print("GetLatlon==>\(GetLatlon.longitude)")
            
           let locationmain = AGSPoint(clLocationCoordinate2D: CLLocationCoordinate2D(latitude: lat, longitude: lon))
            
@@ -342,11 +583,12 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
         hud.customView?.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
         hud.show(animated: true)
         guard let searchText = searchBar.text else { return }
-        
+        self.ZIpCodeMain = searchText
         locationOverlay.graphics.removeAllObjects()
         
         locatorTask.geocode(withSearchText: searchText) { [weak self] (results, error) in
             
+    
             guard let self = self else { return }
             
             if let error = error{
@@ -369,8 +611,8 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
                     self.hud.hide(animated: true)
                 }
                 self.locationOverlay.graphics.add(graphic)
+                
                 for demo in self.demos {
-                    self.viewDidLoadcall = "SearchLoad"
                     self.addButton(for: demo)
                 }
                 

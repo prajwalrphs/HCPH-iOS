@@ -19,6 +19,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     
     var CommercialPools:CommercialPoolsWelcome?
     
+    var CheckMB = [Int]()
     
     @IBOutlet weak var Statetxt: UITextField!
     @IBOutlet weak var mainDropDown: DropDown!
@@ -36,6 +37,8 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     @IBOutlet var viewfour: UIView!
     @IBOutlet var viewfive: UIView!
     
+    
+    @IBOutlet var testimage: UIImageView!
     
     @IBOutlet weak var txtdescription: UITextView!
     @IBOutlet weak var viewaddimage: UIView!
@@ -65,7 +68,8 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     override func viewDidLoad() {
         super.viewDidLoad()
                 
-        txtcontactnumber.delegate = self
+        CheckMB.removeAll()
+        arrayimage.removeAll()
         
         self.viewaddimage.layer.cornerRadius = 5
         self.viewaddimage.layer.borderWidth = 1
@@ -152,6 +156,10 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
 
         
         self.txtnameaddress.delegate = self
+        txtcontactnumber.delegate = self
+        txtemailaddress.delegate = self
+        txtfirstname.delegate = self
+        txtlastname.delegate = self
         self.hideKeyboardTappedAround()
         
         //self.updateCharacterCount()
@@ -170,7 +178,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
             let placeholder = NSMutableAttributedString(
                 string: PlaceholderGet,
                 attributes: [.font: UIFont(name: "Helvetica", size: 15.0)!,
-                             .foregroundColor: UIColor.gray
+                             .foregroundColor: #colorLiteral(red: 0.4118635654, green: 0.7550011873, blue: 0.330655843, alpha: 1)
                              ])
             Statetxt.attributedPlaceholder = placeholder
             
@@ -184,10 +192,10 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
             let placeholder = NSMutableAttributedString(
                 string: PlaceholderGet,
                 attributes: [.font: UIFont(name: "Helvetica", size: 15.0)!,
-                             .foregroundColor: UIColor.gray
+                             .foregroundColor: #colorLiteral(red: 0.4118635654, green: 0.7550011873, blue: 0.330655843, alpha: 1)
                              ])
             Statetxt.attributedPlaceholder = placeholder
-            
+            Statetxt.textColor = #colorLiteral(red: 0.4118635654, green: 0.7550011873, blue: 0.330655843, alpha: 1)
             
             mainDropDown.didSelect{(selectedText , index , id) in
                 self.Statetxt.text = selectedText
@@ -228,33 +236,135 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
         }
     }
     
+    var MAX_LENGHTEmail = 110
+    func Emaillenght(_ textField : UITextField){
+        if let text = textField.text, text.count >= MAX_LENGHTEmail {
+            textField.text = String(text.dropLast(text.count - MAX_LENGHTEmail))
+            return
+        }
+    }
+    
+    var MAX_LENGHTFirstname = 110
+    func Firstnamelenght(_ textField : UITextField){
+        if let text = textField.text, text.count >= MAX_LENGHTFirstname {
+            textField.text = String(text.dropLast(text.count - MAX_LENGHTFirstname))
+            return
+        }
+    }
+    
+    var MAX_LENGHTLastname = 110
+    func Lastnamelenght(_ textField : UITextField){
+        if let text = textField.text, text.count >= MAX_LENGHTLastname {
+            textField.text = String(text.dropLast(text.count - MAX_LENGHTLastname))
+            return
+        }
+    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == txtcontactnumber{
             let MAX_LENGTH = 10
             let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
             return updatedString.count <= MAX_LENGTH
+        }else if textField == txtemailaddress{
+            let MAX_LENGTH = 110
+            let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            return updatedString.count <= MAX_LENGTH
+        }else if textField == txtfirstname{
+            let MAX_LENGTH = 110
+            let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            return updatedString.count <= MAX_LENGTH
+        }else if textField == txtlastname{
+            let MAX_LENGTH = 110
+            let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            return updatedString.count <= MAX_LENGTH
         }else{
             return true
         }
+        
         }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField == self.txtnameaddress {
             
             if Reachability.isConnectedToNetwork(){
-                print("Internet Connection Available!")
-                let controller = storyboard?.instantiateViewController(withIdentifier: "FindLocationViewController") as! FindLocationViewController
-                controller.modalPresentationStyle = .pageSheet
-                controller.modalTransitionStyle = .coverVertical
-                present(controller, animated: true, completion: nil)
                 
+                if CLLocationManager.locationServicesEnabled() == true {
+                    if CLLocationManager.locationServicesEnabled() {
+                        switch CLLocationManager.authorizationStatus() {
+                            case .notDetermined, .restricted, .denied:
+                                print("No access")
+                                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                    //Redirect to Settings app
+                                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                                })
+
+                                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                                alertController.addAction(cancelAction)
+
+                                alertController.addAction(okAction)
+
+                                self.present(alertController, animated: true, completion: nil)
+                            case .authorizedAlways, .authorizedWhenInUse:
+                                print("Access")
+                                let controller = storyboard?.instantiateViewController(withIdentifier: "FindLocationViewController") as! FindLocationViewController
+                                controller.modalPresentationStyle = .pageSheet
+                                controller.modalTransitionStyle = .coverVertical
+                                present(controller, animated: true, completion: nil)
+                            @unknown default:
+                            break
+                        }
+                        } else {
+                            print("Location services are not enabled")
+                    }
+
+                }else {
+                    
+                    DispatchQueue.main.async {
+                        self.txtnameaddress.resignFirstResponder()
+                    }
+                    
+                    let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                    let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                        //Redirect to Settings app
+                        UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                    })
+
+                    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                    alertController.addAction(cancelAction)
+
+                    alertController.addAction(okAction)
+
+                    self.present(alertController, animated: true, completion: nil)
+                    
+                    
+                 }
+            
             }else{
+                
+                DispatchQueue.main.async {
+                    self.txtnameaddress.resignFirstResponder()
+                }
+                
                 print("Internet Connection not Available!")
-                self.view.showToast(toastMessage: "Please turn on internet connection to continue.", duration: 0.3)
+                self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
+               
             }
+            
             return true
         }else if textField == self.txtcontactnumber{
             self.Phonelenght(self.txtcontactnumber)
+            return true
+        }else if textField == self.txtemailaddress{
+            self.Emaillenght(self.txtemailaddress)
+            return true
+        }else if textField == self.txtfirstname{
+            self.Firstnamelenght(self.txtfirstname)
+            return true
+        }else if textField == self.txtlastname{
+            self.Lastnamelenght(self.txtlastname)
             return true
         }
       
@@ -393,10 +503,12 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     
     func validateFoodSafety() -> Bool {
         
-    if self.Statetxt.text?.isEmpty ?? true {
-        self.view.showToast(toastMessage: "Please choose subject", duration: 0.3)
-                return false
-    }else if self.txtnameaddress.text?.isEmpty ?? true {
+//        if self.Statetxt.text?.isEmpty ?? true {
+//            self.view.showToast(toastMessage: "Please choose subject", duration: 0.3)
+//                    return false
+//        }else
+        
+     if self.txtnameaddress.text?.isEmpty ?? true {
       self.view.showToast(toastMessage: "Please select location.", duration: 0.3)
                 return false
     }else if self.txtfirstname.text?.isEmpty ?? true {
@@ -518,44 +630,83 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
 
     }
     
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 
+        
+        
         if let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-
+            
             let image = Image(imageData: selectedImage.pngData()!)
             images.append(image)
             
 //            let imageData:NSData = selectedImage.pngData()! as NSData
 //            let imageStr = imageData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
 //            print("imageStr==>\(imageStr)")
-            
-            Image.saveImages(images)
-            dismiss(animated: true, completion: nil)
-            self.imagecollection.reloadData()
-            
-            let imageData: Data? = selectedImage.jpegData(compressionQuality: 0.4)
-            let imageStr = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
-            //print("imageStr====>\(imageStr)")
-            self.arrayimage.append(imageStr)
-            
-            if arrayimage.count == 1{
-                print("Count 1")
-                ImageBytesone = imageStr
-            }else if arrayimage.count == 2{
-                print("Count 2")
-                ImageBytestwo = imageStr
-            }else if arrayimage.count == 3{
-                print("Count 3")
-                ImageBytesthree = imageStr
-            }else if arrayimage.count == 4{
-                print("Count 4")
-                ImageBytesfour = imageStr
-            }else if arrayimage.count == 5{
-                print("Count 5")
-                ImageBytesfive = imageStr
+ 
+            if let data = selectedImage.pngData() {
+            //print("There were \(data.count) bytes")
+            let bcf = ByteCountFormatter()
+            bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
+            bcf.countStyle = .file
+            let string = bcf.string(fromByteCount: Int64(data.count))
+                print("formatted result: \(string)")
+                
+                let myInt3 = (string as NSString).integerValue
+                CheckMB.append(myInt3)
             }
             
-    }
+            let total = CheckMB.reduce(0, +)
+            
+            
+            if total < 20{
+                print("less")
+                Image.saveImages(images)
+                dismiss(animated: true, completion: nil)
+                self.imagecollection.reloadData()
+                
+                let imageData2:Data =  selectedImage.pngData()!
+                let base64String2 = imageData2.base64EncodedString()
+                //print(base64String2)
+                
+                //let imageData: Data? = selectedImage.jpegData(compressionQuality: 0.4)
+                //let imageStr = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
+                
+                self.arrayimage.append(base64String2)
+                
+                if arrayimage.count == 1{
+                    print("Count 1")
+                    ImageBytesone = base64String2
+                }else if arrayimage.count == 2{
+                    print("Count 2")
+                    ImageBytestwo = base64String2
+                }else if arrayimage.count == 3{
+                    print("Count 3")
+                    ImageBytesthree = base64String2
+                }else if arrayimage.count == 4{
+                    print("Count 4")
+                    ImageBytesfour = base64String2
+                }else if arrayimage.count == 5{
+                    print("Count 5")
+                    ImageBytesfive = base64String2
+                }
+            }else{
+                dismiss(animated: true, completion: nil)
+                print("less not")
+                
+                
+                let when = DispatchTime.now() + 1
+                DispatchQueue.main.asyncAfter(deadline: when){
+                  // your code with delay
+                    
+                let alertController = UIAlertController(title: "HCPH", message: "All image size must be less than 20 MB.", preferredStyle: UIAlertController.Style.alert)
+                    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                    alertController.addAction(cancelAction)
+                    self.present(alertController, animated: true, completion: nil)
+                
+                }
+            }
+        }
         
     }
     
@@ -584,11 +735,13 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                     if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
                         let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default, handler: { action in
                             imagePicker.sourceType = .photoLibrary
+                            imagePicker.allowsEditing = true
                             self.present(imagePicker, animated: true, completion: nil)
                         })
                         let CameraLibraryAction = UIAlertAction(title: "Camera", style: .default, handler: { action in
                             //self.galleryVideo()
                             imagePicker.sourceType = .camera
+                            imagePicker.allowsEditing = true
                             self.present(imagePicker, animated: true, completion: nil)
                         })
 
@@ -609,20 +762,66 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
         if Reachability.isConnectedToNetwork(){
             print("Internet Connection Available!")
             
-            if Title == "Food Safety"{
-                if validateFoodSafety(){
-                    CommercialPoolsApicall()
+            if CLLocationManager.locationServicesEnabled() == true {
+                
+                if CLLocationManager.locationServicesEnabled() {
+                    switch CLLocationManager.authorizationStatus() {
+                        case .notDetermined, .restricted, .denied:
+                            print("No access")
+                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                //Redirect to Settings app
+                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                            })
+
+                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                            alertController.addAction(cancelAction)
+
+                            alertController.addAction(okAction)
+
+                            self.present(alertController, animated: true, completion: nil)
+                        case .authorizedAlways, .authorizedWhenInUse:
+                            print("Access")
+                            if Title == "Food Safety"{
+                                if validateFoodSafety(){
+                                    CommercialPoolsApicall()
+                                }
+                            }else{
+                                if validate(){
+                                    CommercialPoolsApicall()
+                                }
+                            }
+                        @unknown default:
+                        break
+                    }
+                    } else {
+                        print("Location services are not enabled")
                 }
-            }else{
-                if validate(){
-                    CommercialPoolsApicall()
-                }
-            }
-            
+
+                
+            }else {
+                
+                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                    //Redirect to Settings app
+                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                })
+
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                alertController.addAction(cancelAction)
+
+                alertController.addAction(okAction)
+
+                self.present(alertController, animated: true, completion: nil)
+                
+                
+             }
             
         }else{
             print("Internet Connection not Available!")
-            self.view.showToast(toastMessage: "Please turn on internet connection to continue.", duration: 0.3)
+            self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
         }
       
     }
@@ -661,6 +860,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     
     func remove(index: Int) {
         images.remove(at: index)
+        CheckMB.remove(at: index)
         self.arrayimage.remove(at: index)
 
         let indexPath = IndexPath(row: index, section: 0)
@@ -675,11 +875,19 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-             
-    textField.resignFirstResponder()
-    return true
-   }
-         
+
+            if textField == txtemailaddress {
+                txtfirstname.becomeFirstResponder()
+            } else if textField == txtfirstname {
+                txtlastname.becomeFirstResponder()
+            } else if textField == txtlastname {
+                txtcontactnumber.becomeFirstResponder()
+            } else if textField == txtcontactnumber {
+                txtcontactnumber.resignFirstResponder()
+            }
+            return true
+        }
+    
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
              
      self.view.endEditing(true)

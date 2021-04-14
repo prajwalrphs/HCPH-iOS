@@ -29,7 +29,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
     var AnimalServiceArr = ["Shelter Animals","Report Animal Cruelty","VPH maps","Events Calendar","Wish List","Visit Our Website"]
     var MosquitoConcernsArr = ["Dead Bird","Mosquito Breeding Site","Disease Activity","Spray Area","Visit Our Website"]
     var EnvironmentalArr = ["Built Environment","Pools","Drinking Water","Neighborhood Nuisance","Lead Abatement","Visit Our Website"]
-    var FoodServicesArr = ["Search Establishments","Permit Renewals","New Customer","Events and Markets","FAQ","Nutrition & Healthy Living","Report issues"]
+    var FoodServicesArr = ["Search Establishments","Permit Renewals","New Customer","Events and Markets","FAQ","Nutrition & Healthy Living"]
     
     var MedicalClinicsArr = ["Locations","Hours","Dental"]
     var MedicalClinicsLabel = "Health and Wellness Clinic Services"
@@ -60,6 +60,8 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
     var Foodids = [1,2,3,4]
     var FoodTitle = "Food Safety"
     
+    var CountCheck = 0
+    
     var settings = SideMenuSettings()
     
 
@@ -69,7 +71,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+                        
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
@@ -100,7 +102,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
         
         selectedList.removeAll()
         setupSideMenu()
-        timer = Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(slidetoNext), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 40.0, target: self, selector: #selector(slidetoNext), userInfo: nil, repeats: true)
         mypagecontrol.numberOfPages = Sliderimagearr.count
         
         viewConfigrations()
@@ -150,6 +152,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
         }else{
             currentcellindex = 0
         }
+        //print("currentcellindex==>\(currentcellindex)")
         mypagecontrol.currentPage = currentcellindex
         slidercollectionview.scrollToItem(at: IndexPath(item: currentcellindex, section: 0), at: .right, animated: true)
     }
@@ -267,10 +270,17 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
 
             }else{
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! ImageCell
+                
+                
                 cell.wallpaperImageView.image = Sliderimagearr[indexPath.row]
                 cell.lbl.text = SliderLabelarr[indexPath.row]
                 cell.cornerview.layer.cornerRadius = 15
                 cell.cornerview.clipsToBounds = true
+                
+//                let DotCount = indexPath.row
+//
+//                mypagecontrol.currentPage = DotCount - 1
+                
 //                cell.lbl.layer.cornerRadius = 10
 //                cell.lbl.clipsToBounds = true
 //                cell.wallpaperImageView.layer.cornerRadius = 10
@@ -292,6 +302,27 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
         cellSize.height = cellSize.width
         
         return cellSize
+    }
+    
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        
+   
+            targetContentOffset.pointee = scrollView.contentOffset
+            var indexes = self.slidercollectionview.indexPathsForVisibleItems
+            indexes.sort()
+            var index = indexes.first!
+            let cell = self.slidercollectionview.cellForItem(at: index)!
+            let position = self.slidercollectionview.contentOffset.x - cell.frame.origin.x
+            if position > cell.frame.size.width/2{
+               index.row = index.row+1
+            }
+            print("index==>===>\(index)")
+            print("indexrow==>===>\(index.row)")
+            mypagecontrol.currentPage = index.row
+            self.slidercollectionview.scrollToItem(at: index, at: .right, animated: true )
+        
+    
     }
     
     
@@ -424,385 +455,606 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
         return cell
     }
     
+    //808
+    //432
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     
-        if CLLocationManager.locationServicesEnabled() == true {
+        if Reachability.isConnectedToNetwork(){
          
-            if TableArr == ClinicServicesArr{
-                print("is Equal")
-                if indexPath.row == 0{
+            if CLLocationManager.locationServicesEnabled() == true {
+             
+                if TableArr == ClinicServicesArr{
+                    print("is Equal")
+                    if indexPath.row == 0{
+                        
+                        let naviagte:AllTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "AllTableViewController") as! AllTableViewController
+                        
+                        naviagte.TableArr = MedicalClinicsArr
+                        naviagte.TitleName = MedicalClinicsLabel
+                        naviagte.Titlehead = "Medical Clinics"
+                        
+                        
+                        self.navigationController?.pushViewController(naviagte, animated: true)
+                        
+                    }else if indexPath.row == 1{
+                        
+                        let naviagte:AllTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "AllTableViewController") as! AllTableViewController
+                        
+                        naviagte.TableArr = RefugeeClinicsArr
+                        naviagte.TitleName = RefugeeClinicsLabel
+                        naviagte.Titlehead = "Refugee Clinics"
+                        
+                        self.navigationController?.pushViewController(naviagte, animated: true)
+                        
+                    }else if indexPath.row == 2{
+                        
+                        let naviagte:AllTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "AllTableViewController") as! AllTableViewController
+                        
+                        naviagte.TableArr = DentalClinicsArr
+                        naviagte.TitleName = DentalClinicsLabel
+                        naviagte.Titlehead = "Dental Clinics"
+                        
+                        self.navigationController?.pushViewController(naviagte, animated: true)
+                        
+                    }else if indexPath.row == 3{
+                        
+                        let naviagte:AllTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "AllTableViewController") as! AllTableViewController
+                        
+                        naviagte.TableArr = WICArr
+                        naviagte.TitleName = WICLabel
+                        naviagte.Titlehead = "WIC"
+                        
+                        self.navigationController?.pushViewController(naviagte, animated: true)
+                        
+                    }else if indexPath.row == 4{
+                        let naviagte:MobileClinicsViewController = self.storyboard?.instantiateViewController(withIdentifier: "MobileClinicsViewController") as! MobileClinicsViewController
+                        
+                        self.navigationController?.pushViewController(naviagte, animated: true)
+                    }
+                }else if TableArr == AnimalServiceArr{
+                    if indexPath.row == 0{
+                        openAppStore()
+    //                    if let url = URL(string: "https://apps.apple.com/in/app/petharbor-mobile/id989353019") {
+    //                        UIApplication.shared.open(url)
+    //                    }
+                    }else if indexPath.row == 1{
+                        print("one click")
+                        //ReportanimalViewController
+                        let naviagte:ReportanimalViewController = self.storyboard?.instantiateViewController(withIdentifier: "ReportanimalViewController") as! ReportanimalViewController
+                        
+                        self.navigationController?.pushViewController(naviagte, animated: true)
+                    }else if indexPath.row == 2{
+                        let alert = UIAlertController(title: "",
+                            message: "",
+                            preferredStyle: .alert)
+                        
+                        let attribMsg = NSAttributedString(string: "What are you trying to locate?",
+                                                           attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 23.0)])
+         
+                        alert.setValue(attribMsg, forKey: "attributedTitle")
+                        
+                        let action1 = UIAlertAction(title: "Vet Clinic Location", style: .default, handler: { (action) -> Void in
+                                print("ACTION 1 selected!")
+                                self.naviGetTo(url: "http://harriscounty.maps.arcgis.com/apps/webappviewer/index.html?id=4c596ce857ef4b50930c603f2fdef55e", title: "Vet Clinic")
+                            })
+                         
+                            let action2 = UIAlertAction(title: "Dangerous Animal's Location", style: .default, handler: { (action) -> Void in
+                                print("ACTION 2 selected!")
+                                self.naviGetTo(url: "http://harriscounty.maps.arcgis.com/apps/webappviewer/index.html?id=bc063b6062ec4d86a282b13a0c566a7a", title: "Dangerous Animal's")
+                            })
+                         
+                            let action3 = UIAlertAction(title: "Rabies Outbreak Location", style: .default, handler: { (action) -> Void in
+                                print("ACTION 3 selected!")
+                                self.naviGetTo(url: "http://harriscounty.maps.arcgis.com/apps/webappviewer/index.html?id=4c596ce857ef4b50930c603f2fdef55e", title: "Rabies Outbreak")
+                            })
+                             
+                            // Cancel button
+                            let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
+                        
+                        // Restyle the view of the Alert
+                        
+                        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+                        print("onoff==>\(onoff ?? "")")
+                        
+                        if onoff == "on"{
+                            alert.view.tintColor = AppConstant.LabelWhiteColor
+                        }else{
+                            alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+                        }
+                        
+                        
+                        alert.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+                        alert.view.layer.cornerRadius = 25
+                        
+                        alert.addAction(action1)
+                        alert.addAction(action2)
+                        alert.addAction(action3)
+                        alert.addAction(cancel)
+                        present(alert, animated: true, completion: nil)
+                        
+                    }else if indexPath.row == 3{
+                        self.naviGetTo(url: "http://countypets.com/Event-Calendar", title: "Event Calendar")
+                    }else if indexPath.row == 4{
+                        //UIApplication.shared.open(URL(string: "https://www.amazon.com/hz/wishlist/ls/14I5Q47TPD5CE?&")!, options: [:], completionHandler: nil)
+                        self.naviGetTo(url: "https://www.amazon.com/hz/wishlist/ls/14I5Q47TPD5CE?&", title: "Wish List")
+                    }else if indexPath.row == 5{
+                        self.naviGetTo(url: "https://www.countypets.com", title: "Website")
+                                              
+                    }
                     
-                    let naviagte:AllTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "AllTableViewController") as! AllTableViewController
+                }else if TableArr == MosquitoConcernsArr{
+                    if indexPath.row == 0{
+                        
+                        if CLLocationManager.locationServicesEnabled() == true {
+                            if CLLocationManager.locationServicesEnabled() {
+                                switch CLLocationManager.authorizationStatus() {
+                                    case .notDetermined, .restricted, .denied:
+                                        print("No access")
+                                        let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                                        let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                            //Redirect to Settings app
+                                            UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                                        })
+
+                                        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                                        alertController.addAction(cancelAction)
+
+                                        alertController.addAction(okAction)
+
+                                        self.present(alertController, animated: true, completion: nil)
+                                    case .authorizedAlways, .authorizedWhenInUse:
+                                        print("Access")
+                                        let naviagte:DeadbirdViewController = self.storyboard?.instantiateViewController(withIdentifier: "DeadbirdViewController") as! DeadbirdViewController
+                                        self.navigationController?.pushViewController(naviagte, animated: true)
+                                    @unknown default:
+                                    break
+                                }
+                                } else {
+                                    print("Location services are not enabled")
+                            }
+
+                        }else{
+                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                //Redirect to Settings app
+                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                            })
+
+                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                            alertController.addAction(cancelAction)
+
+                            alertController.addAction(okAction)
+
+                            self.present(alertController, animated: true, completion: nil)
+                        }
+                                      
+
+                        
+                    }else if indexPath.row == 1{
+                        
+                        
+                        if CLLocationManager.locationServicesEnabled() == true {
+                            if CLLocationManager.locationServicesEnabled() {
+                                switch CLLocationManager.authorizationStatus() {
+                                    case .notDetermined, .restricted, .denied:
+                                        print("No access")
+                                        let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                                        let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                            //Redirect to Settings app
+                                            UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                                        })
+
+                                        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                                        alertController.addAction(cancelAction)
+
+                                        alertController.addAction(okAction)
+
+                                        self.present(alertController, animated: true, completion: nil)
+                                    case .authorizedAlways, .authorizedWhenInUse:
+                                        print("Access")
+                                        let naviagte:MosquitoBreedingViewController = self.storyboard?.instantiateViewController(withIdentifier: "MosquitoBreedingViewController") as! MosquitoBreedingViewController
+                                        self.navigationController?.pushViewController(naviagte, animated: true)
+                                    @unknown default:
+                                    break
+                                }
+                                } else {
+                                    print("Location services are not enabled")
+                            }
+
+                        }else{
+                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                //Redirect to Settings app
+                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                            })
+
+                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                            alertController.addAction(cancelAction)
+
+                            alertController.addAction(okAction)
+
+                            self.present(alertController, animated: true, completion: nil)
+                        }
+
+                           
+                    }else if indexPath.row == 2{
+                        
+                        
+                        if CLLocationManager.locationServicesEnabled() == true {
+                            if CLLocationManager.locationServicesEnabled() {
+                                switch CLLocationManager.authorizationStatus() {
+                                    case .notDetermined, .restricted, .denied:
+                                        print("No access")
+                                        let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                                        let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                            //Redirect to Settings app
+                                            UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                                        })
+
+                                        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                                        alertController.addAction(cancelAction)
+
+                                        alertController.addAction(okAction)
+
+                                        self.present(alertController, animated: true, completion: nil)
+                                    case .authorizedAlways, .authorizedWhenInUse:
+                                        print("Access")
+                                        let naviagte:MapViewController = self.storyboard?.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
+                                        naviagte.TitleHead = "Disease Activity"
+                                        self.navigationController?.pushViewController(naviagte, animated: true)
+                                    @unknown default:
+                                    break
+                                }
+                                } else {
+                                    print("Location services are not enabled")
+                            }
+
+                        }else{
+                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                //Redirect to Settings app
+                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                            })
+
+                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                            alertController.addAction(cancelAction)
+
+                            alertController.addAction(okAction)
+
+                            self.present(alertController, animated: true, completion: nil)
+                        }
+                        
                     
-                    naviagte.TableArr = MedicalClinicsArr
-                    naviagte.TitleName = MedicalClinicsLabel
-                    naviagte.Titlehead = "Medical Clinics"
-                    
-                    
-                    self.navigationController?.pushViewController(naviagte, animated: true)
-                    
-                }else if indexPath.row == 1{
-                    
-                    let naviagte:AllTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "AllTableViewController") as! AllTableViewController
-                    
-                    naviagte.TableArr = RefugeeClinicsArr
-                    naviagte.TitleName = RefugeeClinicsLabel
-                    naviagte.Titlehead = "Refugee Clinics"
-                    
-                    self.navigationController?.pushViewController(naviagte, animated: true)
-                    
-                }else if indexPath.row == 2{
-                    
-                    let naviagte:AllTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "AllTableViewController") as! AllTableViewController
-                    
-                    naviagte.TableArr = DentalClinicsArr
-                    naviagte.TitleName = DentalClinicsLabel
-                    naviagte.Titlehead = "Dental Clinics"
-                    
-                    self.navigationController?.pushViewController(naviagte, animated: true)
-                    
-                }else if indexPath.row == 3{
-                    
-                    let naviagte:AllTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "AllTableViewController") as! AllTableViewController
-                    
-                    naviagte.TableArr = WICArr
-                    naviagte.TitleName = WICLabel
-                    naviagte.Titlehead = "WIC"
-                    
-                    self.navigationController?.pushViewController(naviagte, animated: true)
-                    
-                }else if indexPath.row == 4{
-                    let naviagte:MobileClinicsViewController = self.storyboard?.instantiateViewController(withIdentifier: "MobileClinicsViewController") as! MobileClinicsViewController
-                    
-                    self.navigationController?.pushViewController(naviagte, animated: true)
-                }
-            }else if TableArr == AnimalServiceArr{
-                if indexPath.row == 0{
-                    openAppStore()
-//                    if let url = URL(string: "https://apps.apple.com/in/app/petharbor-mobile/id989353019") {
-//                        UIApplication.shared.open(url)
+                        
+                    }else if indexPath.row == 3{
+                        
+                        
+                        
+                        if CLLocationManager.locationServicesEnabled() == true {
+                            if CLLocationManager.locationServicesEnabled() {
+                                switch CLLocationManager.authorizationStatus() {
+                                    case .notDetermined, .restricted, .denied:
+                                        print("No access")
+                                        let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                                        let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                            //Redirect to Settings app
+                                            UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                                        })
+
+                                        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                                        alertController.addAction(cancelAction)
+
+                                        alertController.addAction(okAction)
+
+                                        self.present(alertController, animated: true, completion: nil)
+                                    case .authorizedAlways, .authorizedWhenInUse:
+                                        print("Access")
+                                        let naviagte:MapViewController = self.storyboard?.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
+                                        naviagte.TitleHead = "Spray Area"
+                                        self.navigationController?.pushViewController(naviagte, animated: true)
+                                    @unknown default:
+                                    break
+                                }
+                                } else {
+                                    print("Location services are not enabled")
+                            }
+
+                        }else{
+                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                //Redirect to Settings app
+                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                            })
+
+                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                            alertController.addAction(cancelAction)
+
+                            alertController.addAction(okAction)
+
+                            self.present(alertController, animated: true, completion: nil)
+                        }
+                        
+                      
+                           
+                    }else if indexPath.row == 4{
+                        
+                        self.naviGetTo(url: "https://www.countypets.com", title: "Website")
+                        
+                    }else if indexPath.row == 5{
+                        
+               
+                        let alert = UIAlertController(title: "",
+                            message: "",
+                            preferredStyle: .alert)
+                        
+                        let attribMsg = NSAttributedString(string: "What would you like to report?",
+                                                           attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 23.0)])
+         
+                        alert.setValue(attribMsg, forKey: "attributedTitle")
+                        
+                        let action1 = UIAlertAction(title: "Dead Birds", style: .default, handler: { (action) -> Void in
+                            let naviagte:DeadbirdViewController = self.storyboard?.instantiateViewController(withIdentifier: "DeadbirdViewController") as! DeadbirdViewController
+                            self.navigationController?.pushViewController(naviagte, animated: true)
+                            })
+                         
+                        let action2 = UIAlertAction(title: "Mosquito Breeding Site", style: .default, handler: { (action) -> Void in
+                            let naviagte:MosquitoBreedingViewController = self.storyboard?.instantiateViewController(withIdentifier: "MosquitoBreedingViewController") as! MosquitoBreedingViewController
+                            self.navigationController?.pushViewController(naviagte, animated: true)
+                            })
+                         
+                             
+                            // Cancel button
+                            let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
+                        
+                        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+                        print("onoff==>\(onoff ?? "")")
+                        
+                        if onoff == "on"{
+                            alert.view.tintColor = AppConstant.LabelWhiteColor
+                        }else{
+                            alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+                        }
+                        // Restyle the view of the Alert
+                        alert.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)  // change background color
+                        alert.view.layer.cornerRadius = 25
+                        
+                        alert.addAction(action1)
+                        alert.addAction(action2)
+                        alert.addAction(cancel)
+                        present(alert, animated: true, completion: nil)
+                        
+                    }
+                }else if TableArr == EnvironmentalArr{
+                    if indexPath.row == 0{
+                        self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/Programs/Built-Environment-Program", title: "Built Environment")
+                    }else if indexPath.row == 1{
+                        self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Programs/Pool-Permits-and-Water-Safety", title: "Pools")
+                    }else if indexPath.row == 2{
+                        self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Drinking-Water", title: "Drinking Water")
+                    }else if indexPath.row == 3{
+                        self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/Services/NeighborhoodNuisance", title: "Neighborhood Nuisance")
+                    }else if indexPath.row == 4{
+                        self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/Programs/Lead-Hazard-Control", title: "Lead Abatement")
+                    }else{
+                        self.naviGetTo(url: "https://publichealth.harriscountytx.gov/About/Organization-Offices/Environmental-Public-Health", title:"Website")
+                    }
+                }else if TableArr == FoodServicesArr{
+                    if indexPath.row == 0{
+                        
+                        if CLLocationManager.locationServicesEnabled() {
+                            switch CLLocationManager.authorizationStatus() {
+                                case .notDetermined, .restricted, .denied:
+                                    print("No access")
+                                    let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                                    let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                        //Redirect to Settings app
+                                        UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                                    })
+
+                                    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                                    alertController.addAction(cancelAction)
+
+                                    alertController.addAction(okAction)
+
+                                    self.present(alertController, animated: true, completion: nil)
+                                case .authorizedAlways, .authorizedWhenInUse:
+                                    print("Access")
+                                    let naviagte:SearchEstablishmentsViewController = self.storyboard?.instantiateViewController(withIdentifier: "SearchEstablishmentsViewController") as! SearchEstablishmentsViewController
+                                    naviagte.TitleHead = "Search Establishments"
+                                    self.navigationController?.pushViewController(naviagte, animated: true)
+                                @unknown default:
+                                break
+                            }
+                            } else {
+                                print("Location services are not enabled")
+                        }
+                        
+                    }else if indexPath.row == 1{
+                        let alert = UIAlertController(title: "",
+                            message: "",
+                            preferredStyle: .alert)
+                        
+                        let attribMsg = NSAttributedString(string: "Permit Renewal",
+                                                           attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 23.0)])
+         
+                        alert.setValue(attribMsg, forKey: "attributedTitle")
+                        
+                        let action1 = UIAlertAction(title: "Fixed Food Establishments", style: .default, handler: { (action) -> Void in
+                                print("ACTION 1 selected!")
+                                self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Fixed-Food-Establishments", title: "Permit Renewal")
+                            })
+                         
+                            let action2 = UIAlertAction(title: "Mobile Units New", style: .default, handler: { (action) -> Void in
+                                print("ACTION 2 selected!")
+                                self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Mobile-Units-Renewal", title: "Permit Renewal")
+                            })
+                         
+                            let action3 = UIAlertAction(title: "Chnage Of Ownership", style: .default, handler: { (action) -> Void in
+                                print("ACTION 3 selected!")
+                                self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Change-of-Ownership", title: "Permit Renewal")
+                            })
+                             
+                            // Cancel button
+                            let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
+                        
+                        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+                        print("onoff==>\(onoff ?? "")")
+                        
+                        if onoff == "on"{
+                            alert.view.tintColor = AppConstant.LabelWhiteColor
+                        }else{
+                            alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+                        }
+                        // Restyle the view of the Alert
+                        alert.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)  // change background color
+                        alert.view.layer.cornerRadius = 25
+                        
+                        alert.addAction(action1)
+                        alert.addAction(action2)
+                        alert.addAction(action3)
+                        alert.addAction(cancel)
+                        present(alert, animated: true, completion: nil)
+                    }else if indexPath.row == 2{
+                        let alert = UIAlertController(title: "",
+                            message: "",
+                            preferredStyle: .alert)
+                        
+                        let attribMsg = NSAttributedString(string: "New Customer",
+                                                           attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 23.0)])
+         
+                        alert.setValue(attribMsg, forKey: "attributedTitle")
+                        
+                        let action1 = UIAlertAction(title: "Fixed Food Establishments", style: .default, handler: { (action) -> Void in
+                                print("ACTION 1 selected!")
+                                self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Fixed-Food-Establishments", title: "New Customer")
+                            })
+                         
+                            let action2 = UIAlertAction(title: "Mobile Units New", style: .default, handler: { (action) -> Void in
+                                print("ACTION 2 selected!")
+                                self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Mobile-Units-Renewal", title: "New Customer")
+                            })
+                         
+                            let action3 = UIAlertAction(title: "Chnage Of Ownership", style: .default, handler: { (action) -> Void in
+                                print("ACTION 3 selected!")
+                                self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Change-of-Ownership", title: "New Customer")
+                            })
+                             
+                            // Cancel button
+                            let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
+                        
+                        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+                        print("onoff==>\(onoff ?? "")")
+                        
+                        if onoff == "on"{
+                            alert.view.tintColor = AppConstant.LabelWhiteColor
+                        }else{
+                            alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+                        }
+                        // Restyle the view of the Alert
+                        alert.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)  // change background color
+                        alert.view.layer.cornerRadius = 25
+                        
+                        alert.addAction(action1)
+                        alert.addAction(action2)
+                        alert.addAction(action3)
+                        alert.addAction(cancel)
+                        present(alert, animated: true, completion: nil)
+                    }else if indexPath.row == 3{
+                        let alert = UIAlertController(title: "",
+                            message: "",
+                            preferredStyle: .alert)
+                        
+                        let attribMsg = NSAttributedString(string: "Events and Markets",
+                                                           attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 23.0)])
+         
+                        alert.setValue(attribMsg, forKey: "attributedTitle")
+                        
+                        let action1 = UIAlertAction(title: "Farmers Market Vendor", style: .default, handler: { (action) -> Void in
+                                print("ACTION 1 selected!")
+                                self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Events-and-Markets/Farmers-Market-Vendors", title: "Events and Markets")
+                            })
+                         
+                            let action2 = UIAlertAction(title: "Food Sample Permit", style: .default, handler: { (action) -> Void in
+                                print("ACTION 2 selected!")
+                                self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Events-and-Markets/Food-Sample-Permit", title: "Events and Markets")
+                            })
+                         
+                            let action3 = UIAlertAction(title: "Temporary Event Permit", style: .default, handler: { (action) -> Void in
+                                print("ACTION 3 selected!")
+                                self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Events-and-Markets/Temporary-Event", title: "Events and Markets")
+                            })
+                             
+                            // Cancel button
+                            let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
+                        
+                        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+                        print("onoff==>\(onoff ?? "")")
+                        
+                        if onoff == "on"{
+                            alert.view.tintColor = AppConstant.LabelWhiteColor
+                        }else{
+                            alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+                        }
+                        // Restyle the view of the Alert
+                        alert.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)  // change background color
+                        alert.view.layer.cornerRadius = 25
+                        
+                        alert.addAction(action1)
+                        alert.addAction(action2)
+                        alert.addAction(action3)
+                        alert.addAction(cancel)
+                        present(alert, animated: true, completion: nil)
+                    }else if indexPath.row == 4{
+                        self.naviGetTo(url: "http://publichealth.harriscountytx.gov/About/Organization-Offices/EPH/Food-Safety", title: "FAQ")
+                    }else if indexPath.row == 5{
+                        self.naviGetTo(url: "https://publichealth.harriscountytx.gov/about/Organization/NCDP", title: "Nutrition & Healthy Living")
+                    }
+//                    else{
+//                        let navigate:CommercialPoolsViewController = self.storyboard?.instantiateViewController(identifier: "CommercialPoolsViewController") as! CommercialPoolsViewController
+//                        navigate.CommercialArray = FoodSafetyArray
+//                        navigate.ids = Foodids
+//                        navigate.Title = FoodTitle
+//                        navigate.PlaceholderGet = "Choose Subject"
+//                        self.navigationController?.pushViewController(navigate, animated: true)
 //                    }
-                }else if indexPath.row == 1{
-                    print("one click")
-                    //ReportanimalViewController
-                    let naviagte:ReportanimalViewController = self.storyboard?.instantiateViewController(withIdentifier: "ReportanimalViewController") as! ReportanimalViewController
-                    
-                    self.navigationController?.pushViewController(naviagte, animated: true)
-                }else if indexPath.row == 2{
-                    let alert = UIAlertController(title: "",
-                        message: "",
-                        preferredStyle: .alert)
-                    
-                    let attribMsg = NSAttributedString(string: "What are you trying to locate?",
-                                                       attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 23.0)])
-     
-                    alert.setValue(attribMsg, forKey: "attributedTitle")
-                    
-                    let action1 = UIAlertAction(title: "Vet Clinic Location", style: .default, handler: { (action) -> Void in
-                            print("ACTION 1 selected!")
-                            self.naviGetTo(url: "http://harriscounty.maps.arcgis.com/apps/webappviewer/index.html?id=4c596ce857ef4b50930c603f2fdef55e", title: "Vet Clinic")
-                        })
-                     
-                        let action2 = UIAlertAction(title: "Dangerous Animal's Location", style: .default, handler: { (action) -> Void in
-                            print("ACTION 2 selected!")
-                            self.naviGetTo(url: "http://harriscounty.maps.arcgis.com/apps/webappviewer/index.html?id=bc063b6062ec4d86a282b13a0c566a7a", title: "Dangerous Animal's")
-                        })
-                     
-                        let action3 = UIAlertAction(title: "Rabies Outbreak Location", style: .default, handler: { (action) -> Void in
-                            print("ACTION 3 selected!")
-                            self.naviGetTo(url: "http://harriscounty.maps.arcgis.com/apps/webappviewer/index.html?id=4c596ce857ef4b50930c603f2fdef55e", title: "Rabies Outbreak")
-                        })
-                         
-                        // Cancel button
-                        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
-                    
-                    // Restyle the view of the Alert
-                    
-                    let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
-                    print("onoff==>\(onoff ?? "")")
-                    
-                    if onoff == "on"{
-                        alert.view.tintColor = AppConstant.LabelWhiteColor
-                    }else{
-                        alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-                    }
-                    
-                    
-                    alert.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-                    alert.view.layer.cornerRadius = 25
-                    
-                    alert.addAction(action1)
-                    alert.addAction(action2)
-                    alert.addAction(action3)
-                    alert.addAction(cancel)
-                    present(alert, animated: true, completion: nil)
-                    
-                }else if indexPath.row == 3{
-                    self.naviGetTo(url: "http://countypets.com/Event-Calendar", title: "Event Calendar")
-                }else if indexPath.row == 4{
-                    UIApplication.shared.open(URL(string: "https://www.amazon.com/hz/wishlist/ls/14I5Q47TPD5CE?&")!, options: [:], completionHandler: nil)
-                    //self.naviGetTo(url: "https://www.amazon.com/hz/wishlist/ls/14I5Q47TPD5CE?&", title: "Wish List")
-                }else if indexPath.row == 5{
-                    self.naviGetTo(url: "https://www.countypets.com", title: "Website")
                 }
+            
+             } else {
+             
+                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                    //Redirect to Settings app
+                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                })
+
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                alertController.addAction(cancelAction)
+
+                alertController.addAction(okAction)
+
+                self.present(alertController, animated: true, completion: nil)
                 
-            }else if TableArr == MosquitoConcernsArr{
-                if indexPath.row == 0{
-                                  
-                 let naviagte:DeadbirdViewController = self.storyboard?.instantiateViewController(withIdentifier: "DeadbirdViewController") as! DeadbirdViewController
-                 self.navigationController?.pushViewController(naviagte, animated: true)
-                    
-                }else if indexPath.row == 1{
-                    
-                    let naviagte:MosquitoBreedingViewController = self.storyboard?.instantiateViewController(withIdentifier: "MosquitoBreedingViewController") as! MosquitoBreedingViewController
-                    self.navigationController?.pushViewController(naviagte, animated: true)
-                       
-                }else if indexPath.row == 2{
-                    
-                    let naviagte:MapViewController = self.storyboard?.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
-                    naviagte.TitleHead = "Disease Activity"
-                    self.navigationController?.pushViewController(naviagte, animated: true)
-                    
-                }else if indexPath.row == 3{
-                    
-                    let naviagte:MapViewController = self.storyboard?.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
-                    naviagte.TitleHead = "Spray Area"
-                    self.navigationController?.pushViewController(naviagte, animated: true)
-                       
-                }else if indexPath.row == 4{
-                    
-                    self.naviGetTo(url: "http://publichealth.harriscountytx.gov/About/Organization-Offices/Mosquito-and-Vector-Control", title: "Website")
-                    
-                }else if indexPath.row == 5{
-                    
-           
-                    let alert = UIAlertController(title: "",
-                        message: "",
-                        preferredStyle: .alert)
-                    
-                    let attribMsg = NSAttributedString(string: "What would you like to report?",
-                                                       attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 23.0)])
+                
+             }
+            
+        }else{
      
-                    alert.setValue(attribMsg, forKey: "attributedTitle")
-                    
-                    let action1 = UIAlertAction(title: "Dead Birds", style: .default, handler: { (action) -> Void in
-                        let naviagte:DeadbirdViewController = self.storyboard?.instantiateViewController(withIdentifier: "DeadbirdViewController") as! DeadbirdViewController
-                        self.navigationController?.pushViewController(naviagte, animated: true)
-                        })
-                     
-                    let action2 = UIAlertAction(title: "Mosquito Breeding Site", style: .default, handler: { (action) -> Void in
-                        let naviagte:MosquitoBreedingViewController = self.storyboard?.instantiateViewController(withIdentifier: "MosquitoBreedingViewController") as! MosquitoBreedingViewController
-                        self.navigationController?.pushViewController(naviagte, animated: true)
-                        })
-                     
-                         
-                        // Cancel button
-                        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
-                    
-                    let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
-                    print("onoff==>\(onoff ?? "")")
-                    
-                    if onoff == "on"{
-                        alert.view.tintColor = AppConstant.LabelWhiteColor
-                    }else{
-                        alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-                    }
-                    // Restyle the view of the Alert
-                    alert.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)  // change background color
-                    alert.view.layer.cornerRadius = 25
-                    
-                    alert.addAction(action1)
-                    alert.addAction(action2)
-                    alert.addAction(cancel)
-                    present(alert, animated: true, completion: nil)
-                    
-                }
-            }else if TableArr == EnvironmentalArr{
-                if indexPath.row == 0{
-                    self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/Programs/Built-Environment-Program", title: "Built Environment")
-                }else if indexPath.row == 1{
-                    self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Programs/Pool-Permits-and-Water-Safety", title: "Pools")
-                }else if indexPath.row == 2{
-                    self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Drinking-Water", title: "Drinking Water")
-                }else if indexPath.row == 3{
-                    self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/Services/NeighborhoodNuisance", title: "Neighborhood Nuisance")
-                }else if indexPath.row == 4{
-                    self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/Programs/Lead-Hazard-Control", title: "Lead Abatement")
-                }else{
-                    self.naviGetTo(url: "https://publichealth.harriscountytx.gov/About/Organization-Offices/Environmental-Public-Health", title:"Website")
-                }
-            }else if TableArr == FoodServicesArr{
-                if indexPath.row == 0{
-                    let naviagte:SearchEstablishmentsViewController = self.storyboard?.instantiateViewController(withIdentifier: "SearchEstablishmentsViewController") as! SearchEstablishmentsViewController
-                    naviagte.TitleHead = "Search Establishments"
-                    self.navigationController?.pushViewController(naviagte, animated: true)
-                }else if indexPath.row == 1{
-                    let alert = UIAlertController(title: "",
-                        message: "",
-                        preferredStyle: .alert)
-                    
-                    let attribMsg = NSAttributedString(string: "Permit Renewal",
-                                                       attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 23.0)])
-     
-                    alert.setValue(attribMsg, forKey: "attributedTitle")
-                    
-                    let action1 = UIAlertAction(title: "Fixed Food Establishments", style: .default, handler: { (action) -> Void in
-                            print("ACTION 1 selected!")
-                            self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Fixed-Food-Establishments", title: "Permit Renewal")
-                        })
-                     
-                        let action2 = UIAlertAction(title: "Mobile Units New", style: .default, handler: { (action) -> Void in
-                            print("ACTION 2 selected!")
-                            self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Mobile-Units-Renewal", title: "Permit Renewal")
-                        })
-                     
-                        let action3 = UIAlertAction(title: "Chnage Of Ownership", style: .default, handler: { (action) -> Void in
-                            print("ACTION 3 selected!")
-                            self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Change-of-Ownership", title: "Permit Renewal")
-                        })
-                         
-                        // Cancel button
-                        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
-                    
-                    let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
-                    print("onoff==>\(onoff ?? "")")
-                    
-                    if onoff == "on"{
-                        alert.view.tintColor = AppConstant.LabelWhiteColor
-                    }else{
-                        alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-                    }
-                    // Restyle the view of the Alert
-                    alert.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)  // change background color
-                    alert.view.layer.cornerRadius = 25
-                    
-                    alert.addAction(action1)
-                    alert.addAction(action2)
-                    alert.addAction(action3)
-                    alert.addAction(cancel)
-                    present(alert, animated: true, completion: nil)
-                }else if indexPath.row == 2{
-                    let alert = UIAlertController(title: "",
-                        message: "",
-                        preferredStyle: .alert)
-                    
-                    let attribMsg = NSAttributedString(string: "New Customer",
-                                                       attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 23.0)])
-     
-                    alert.setValue(attribMsg, forKey: "attributedTitle")
-                    
-                    let action1 = UIAlertAction(title: "Fixed Food Establishments", style: .default, handler: { (action) -> Void in
-                            print("ACTION 1 selected!")
-                            self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Fixed-Food-Establishments", title: "New Customer")
-                        })
-                     
-                        let action2 = UIAlertAction(title: "Mobile Units New", style: .default, handler: { (action) -> Void in
-                            print("ACTION 2 selected!")
-                            self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Mobile-Units-Renewal", title: "New Customer")
-                        })
-                     
-                        let action3 = UIAlertAction(title: "Chnage Of Ownership", style: .default, handler: { (action) -> Void in
-                            print("ACTION 3 selected!")
-                            self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Change-of-Ownership", title: "New Customer")
-                        })
-                         
-                        // Cancel button
-                        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
-                    
-                    let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
-                    print("onoff==>\(onoff ?? "")")
-                    
-                    if onoff == "on"{
-                        alert.view.tintColor = AppConstant.LabelWhiteColor
-                    }else{
-                        alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-                    }
-                    // Restyle the view of the Alert
-                    alert.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)  // change background color
-                    alert.view.layer.cornerRadius = 25
-                    
-                    alert.addAction(action1)
-                    alert.addAction(action2)
-                    alert.addAction(action3)
-                    alert.addAction(cancel)
-                    present(alert, animated: true, completion: nil)
-                }else if indexPath.row == 3{
-                    let alert = UIAlertController(title: "",
-                        message: "",
-                        preferredStyle: .alert)
-                    
-                    let attribMsg = NSAttributedString(string: "Events and Markets",
-                                                       attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 23.0)])
-     
-                    alert.setValue(attribMsg, forKey: "attributedTitle")
-                    
-                    let action1 = UIAlertAction(title: "Farmers Market Vendor", style: .default, handler: { (action) -> Void in
-                            print("ACTION 1 selected!")
-                            self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Events-and-Markets/Farmers-Market-Vendors", title: "Events and Markets")
-                        })
-                     
-                        let action2 = UIAlertAction(title: "Food Sample Permit", style: .default, handler: { (action) -> Void in
-                            print("ACTION 2 selected!")
-                            self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Events-and-Markets/Food-Sample-Permit", title: "Events and Markets")
-                        })
-                     
-                        let action3 = UIAlertAction(title: "Temporary Event Permit", style: .default, handler: { (action) -> Void in
-                            print("ACTION 3 selected!")
-                            self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Events-and-Markets/Temporary-Event", title: "Events and Markets")
-                        })
-                         
-                        // Cancel button
-                        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
-                    
-                    let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
-                    print("onoff==>\(onoff ?? "")")
-                    
-                    if onoff == "on"{
-                        alert.view.tintColor = AppConstant.LabelWhiteColor
-                    }else{
-                        alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-                    }
-                    // Restyle the view of the Alert
-                    alert.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)  // change background color
-                    alert.view.layer.cornerRadius = 25
-                    
-                    alert.addAction(action1)
-                    alert.addAction(action2)
-                    alert.addAction(action3)
-                    alert.addAction(cancel)
-                    present(alert, animated: true, completion: nil)
-                }else if indexPath.row == 4{
-                    self.naviGetTo(url: "http://publichealth.harriscountytx.gov/About/Organization-Offices/EPH/Food-Safety", title: "FAQ")
-                }else if indexPath.row == 5{
-                    self.naviGetTo(url: "https://publichealth.harriscountytx.gov/about/Organization/NCDP", title: "Nutrition & Healthy Living")
-                }else{
-                    let navigate:CommercialPoolsViewController = self.storyboard?.instantiateViewController(identifier: "CommercialPoolsViewController") as! CommercialPoolsViewController
-                    navigate.CommercialArray = FoodSafetyArray
-                    navigate.ids = Foodids
-                    navigate.Title = FoodTitle
-                    navigate.PlaceholderGet = "Choose Subject"
-                    self.navigationController?.pushViewController(navigate, animated: true)
-                }
-            }
+            print("Internet Connection not Available!")
+            self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
+        }
         
-         } else {
-         
-            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
 
-            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
-                //Redirect to Settings app
-                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
-            })
-
-            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
-            alertController.addAction(cancelAction)
-
-            alertController.addAction(okAction)
-
-            self.present(alertController, animated: true, completion: nil)
-            
-            
-         }
     }
     
     func openAppStore() {

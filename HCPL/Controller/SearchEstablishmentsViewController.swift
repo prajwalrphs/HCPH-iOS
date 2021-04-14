@@ -33,6 +33,12 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
     @IBOutlet var lblmapDemerits: UILabel!
     @IBOutlet var lblmapdate: UILabel!
     
+    @IBOutlet var view1: UIView!
+    @IBOutlet var view2: UIView!
+    @IBOutlet var view3: UIView!
+    
+    @IBOutlet var GPSLocationoutlate: UIButton!
+    
     var sortedArray: [String] = []
     
     var MapLat:String!
@@ -45,6 +51,11 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
     var currentSort = "namedown"
     var currentSort2 = "namedown"
     var currentSort3 = "namedown"
+    
+    var SwitchCheckon:String!
+    var SwitchCheckoff:String!
+    
+    var CheckPlusminus = 1
     
     var SwitchTag:String!
     var hud: MBProgressHUD = MBProgressHUD()
@@ -84,7 +95,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         self.parksList?.removeAll()
         
         bottomviewmap.isHidden = true
@@ -102,7 +113,13 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         txtzipnamesearch.autocapitalizationType = .sentences
         txtzipnamesearch.autocapitalizationType = .words
         
-        MapOncreateApicall()
+        if Reachability.isConnectedToNetwork(){
+            MapOncreateApicall()
+        }else{
+            self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
+        }
+        
+        
         Searchimage.image = Searchimage.image?.withRenderingMode(.alwaysTemplate)
         Searchimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
         
@@ -120,10 +137,26 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         print("onoff==>\(onoff ?? "")")
         
         if onoff == "on"{
+            self.view1.backgroundColor = #colorLiteral(red: 0.262745098, green: 0.3725490196, blue: 0.4666666667, alpha: 1)
+            self.view2.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+            self.view3.backgroundColor = #colorLiteral(red: 0.262745098, green: 0.3725490196, blue: 0.4666666667, alpha: 1)
+            
+            let image = UIImage(named: "gps")?.withRenderingMode(.alwaysTemplate)
+            GPSLocationoutlate.setImage(image, for: .normal)
+            GPSLocationoutlate.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+            GPSLocationoutlate.layer.cornerRadius = 0.5 * GPSLocationoutlate.bounds.size.width
+            GPSLocationoutlate.layer.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            GPSLocationoutlate.clipsToBounds = true
+            
             UIApplication.shared.windows.forEach { window in
                  window.overrideUserInterfaceStyle = .dark
              }
         }else if onoff == "off"{
+            let image = UIImage(named: "gps")?.withRenderingMode(.alwaysTemplate)
+            GPSLocationoutlate.setImage(image, for: .normal)
+            GPSLocationoutlate.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+            GPSLocationoutlate.layer.cornerRadius = 0.5 * GPSLocationoutlate.bounds.size.width
+            GPSLocationoutlate.clipsToBounds = true
             UIApplication.shared.windows.forEach { window in
                  window.overrideUserInterfaceStyle = .light
              }
@@ -158,7 +191,9 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         hud.show(animated: true)
         
         
-        let url = URL(string: "https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/EstablishmentLocationByDistance/lat=23.1926178&lon=72.6134964&distance=3&error=0.01")!
+//        let url = URL(string: "https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&distance=3&error=0.01")!
+        
+        let url = URL(string: "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&distance=3&error=0.01")!
         
             
         var request = URLRequest(url: url)
@@ -210,26 +245,61 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == txtzipnamesearch{
-            let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            if CLLocationManager.locationServicesEnabled() {
+                switch CLLocationManager.authorizationStatus() {
+                    case .notDetermined, .restricted, .denied:
+                        print("No access")
+                        DispatchQueue.main.async {
+                            self.txtzipnamesearch.resignFirstResponder()
+                        }
+                        let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                        let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                            //Redirect to Settings app
+                            UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                        })
+
+                        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                        alertController.addAction(cancelAction)
+
+                        alertController.addAction(okAction)
+
+                        self.present(alertController, animated: true, completion: nil)
+                    case .authorizedAlways, .authorizedWhenInUse:
+                        print("Access")
+                        let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+                                    
+                        let count = self.txtzipnamesearch.text?.count ?? 0 + string.count
                         
-            let count = self.txtzipnamesearch.text?.count ?? 0 + string.count
-            
-                         if count >= 2{
-                            VPAutoDropTable.isHidden = false
-                            let when = DispatchTime.now() + 2
-                            DispatchQueue.main.asyncAfter(deadline: when){
-                                self.SearchApicalltwo(Find: self.txtzipnamesearch.text ?? "")
-                                print("LastPin==>\(self.txtzipnamesearch.text ?? "")")
-                            }
-                         }else if count <= 1{
-                            VPAutoDropTable.isHidden = true
-                            print("LastPin1==>")
-                            return true
-                         }else{
-                            VPAutoDropTable.isHidden = true
-                            print("LastPin2==>")
-                            return true
-                         }
+                                     if count >= 2{
+                                        //VPAutoDropTable.isHidden = false
+                                        let when = DispatchTime.now() + 2
+                                        DispatchQueue.main.asyncAfter(deadline: when){
+                                            if Reachability.isConnectedToNetwork(){
+                                                self.SearchApicalltwo(Find: self.txtzipnamesearch.text ?? "")
+                                                print("LastPin==>\(self.txtzipnamesearch.text ?? "")")
+                                            }else{
+                                                self.VPAutoDropTable.isHidden = true
+                                                self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
+                                            }
+                                            
+                                        }
+                                     }else if count <= 1{
+                                        VPAutoDropTable.isHidden = true
+                                        print("LastPin1==>")
+                                        return true
+                                     }else{
+                                        VPAutoDropTable.isHidden = true
+                                        print("LastPin2==>")
+                                        return true
+                                     }
+                    @unknown default:
+                    break
+                }
+                } else {
+                    print("Location services are not enabled")
+            }
+
     
             return true
         }else{
@@ -244,7 +314,10 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
 //        hud.customView?.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
 //        hud.show(animated: true)
         
-        let url = URL(string:"https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")
+//        let url = URL(string:"https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")
+        
+        let url = URL(string:"https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")
+        
         var request = URLRequest(url: url!)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -280,6 +353,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
                         let decoder = JSONDecoder()
                         self.SearchGettwo = try decoder.decode(SearchModeltwo.self, from: data)
                         DispatchQueue.main.async {
+                            self.VPAutoDropTable.isHidden = false
                             self.VPAutoDropTable.reloadData()
                         }
                         
@@ -304,7 +378,8 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         hud.customView?.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
         hud.show(animated: true)
         
-        let url = URL(string:"https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")
+//        let url = URL(string:"https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")
+        let url = URL(string:"https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")
         var request = URLRequest(url: url!)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -376,16 +451,23 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
                             }
                         }
                         
-                        if ((self.parksList?.isEmpty) != nil){
-                            DispatchQueue.main.async {
-                                self.hud.hide(animated: true)
-                              }
-                        }else{
+//                        if ((self.parksList?.isEmpty) != nil){
+//                            DispatchQueue.main.async {
+//                                self.hud.hide(animated: true)
+//                              }
+//                        }else{
                             
-                            let data: Data = try Data.init(contentsOf: NSURL(string: "https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(self.Lat ?? "")" + "&lon=" + "\(self.Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")! as URL)
+//                            let data: Data = try Data.init(contentsOf: NSURL(string: "https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(self.Lat ?? "")" + "&lon=" + "\(self.Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")! as URL)
+                            
+                            let data: Data = try Data.init(contentsOf: NSURL(string: "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(self.Lat ?? "")" + "&lon=" + "\(self.Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")! as URL)
+                            
                             let decodedJson = try JSONSerialization.jsonObject(with: data) as? [String: Any]
                             self.parksList = []
                             let tempEstablishmentConversionArray = decodedJson?["data"] as! [[String: Any]]
+                        
+                        self.parksList?.removeAll()
+                        self.filteredParksList?.removeAll()
+                        
                             for temp in tempEstablishmentConversionArray
                             {
                                 var temp1 = temp
@@ -424,10 +506,12 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
                                         temp1[temp2.key] = ""
                                     }
                                 }
+                                
+                                
                                 self.parksList?.append(NSMutableDictionary(dictionary: temp1))
                                 self.filteredParksList = self.parksList
                             }
-                        }
+                        //}
                    
                         DispatchQueue.main.async {
                             self.hud.hide(animated: true)
@@ -463,9 +547,74 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
     
     @IBAction func Close(_ sender: UIButton) {
         
+ 
         if countButton == 1{
             dropdownview.isHidden = true
             Searchlistviewfilter.isHidden = false
+ 
+            if SwitchCheckon == "Assisted Living ON"{
+                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+            }else if SwitchCheckon == "Bakery ON"{
+                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+            }else if SwitchCheckon == "Bar ON"{
+                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+            }else if SwitchCheckon == "Caterer ON"{
+                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+            }else if SwitchCheckon == "Commissary ON"{
+                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+            }else if SwitchCheckon == "Convenience store ON"{
+                Filterimage.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+                //Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+            }else if SwitchCheckon == "Daycare ON"{
+                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+            }else if SwitchCheckon == "Farmer's Market ON"{
+                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+            }else if SwitchCheckon == "Grocery Store ON"{
+                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+            }else if SwitchCheckon == "Hospital ON"{
+                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+            }else if SwitchCheckon == "Mobile Unit ON"{
+                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+            }else if SwitchCheckon == "Restaurant ON"{
+                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+            }else if SwitchCheckon == "School ON"{
+                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+            }else if SwitchCheckon == "Snow cone stand ON"{
+                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+            }else{
+                Filterimage.image = #imageLiteral(resourceName: "filter")
+                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+            }
+            
         }else{
             dropdownview.isHidden = true
         }
@@ -477,19 +626,122 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
     }
     
     @IBAction func GPSopen(_ sender: UIButton) {
-        locationManager.delegate = self
-        locationManager.startUpdatingLocation()
-        CustomMapView.isMyLocationEnabled = true
+        if Reachability.isConnectedToNetwork(){
+            
+            if CLLocationManager.locationServicesEnabled() == true {
+                if CLLocationManager.locationServicesEnabled() {
+                    switch CLLocationManager.authorizationStatus() {
+                        case .notDetermined, .restricted, .denied:
+                            print("No access")
+                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                //Redirect to Settings app
+                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                            })
+
+                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                            alertController.addAction(cancelAction)
+
+                            alertController.addAction(okAction)
+
+                            self.present(alertController, animated: true, completion: nil)
+                        case .authorizedAlways, .authorizedWhenInUse:
+                            print("Access")
+                            locationManager.delegate = self
+                            locationManager.startUpdatingLocation()
+                            CustomMapView.isMyLocationEnabled = true
+                        @unknown default:
+                        break
+                    }
+                    } else {
+                        print("Location services are not enabled")
+                }
+               
+            }else {
+                
+                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                    //Redirect to Settings app
+                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                })
+
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                alertController.addAction(cancelAction)
+
+                alertController.addAction(okAction)
+
+                self.present(alertController, animated: true, completion: nil)
+                
+                
+             }
+        }else{
+            print("Internet Connection not Available!")
+            self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
+        }
     }
     
     @IBAction func searchbutton(_ sender: UIButton) {
-        if txtzipnamesearch.text?.isEmpty == true{
-            self.view.showToast(toastMessage: "Please enter search value", duration: 0.3)
-        }else{
-            self.VPAutoDropTable.isHidden = true
-            SearchApicall(Find: txtzipnamesearch.text ?? "")
-        }
         
+        if Reachability.isConnectedToNetwork(){
+            if CLLocationManager.locationServicesEnabled() == true {
+                if CLLocationManager.locationServicesEnabled() {
+                    switch CLLocationManager.authorizationStatus() {
+                        case .notDetermined, .restricted, .denied:
+                            print("No access")
+                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                //Redirect to Settings app
+                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                            })
+
+                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                            alertController.addAction(cancelAction)
+
+                            alertController.addAction(okAction)
+
+                            self.present(alertController, animated: true, completion: nil)
+                        case .authorizedAlways, .authorizedWhenInUse:
+                            print("Access")
+                            if txtzipnamesearch.text?.isEmpty == true{
+                                self.view.showToast(toastMessage: "Please enter search value", duration: 0.3)
+                            }else{
+                                self.VPAutoDropTable.isHidden = true
+                                DispatchQueue.main.async {
+                                    self.txtzipnamesearch.resignFirstResponder()
+                                }
+                                SearchApicall(Find: txtzipnamesearch.text ?? "")
+                            }
+                        @unknown default:
+                        break
+                    }
+                    } else {
+                        print("Location services are not enabled")
+                }
+
+            }else {
+                
+                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                    //Redirect to Settings app
+                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                })
+
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                alertController.addAction(cancelAction)
+
+                alertController.addAction(okAction)
+
+                self.present(alertController, animated: true, completion: nil)
+                
+                
+             }
+        }else{
+            self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
+        }
     }
     
     @IBAction func filter(_ sender: UIButton) {
@@ -520,8 +772,20 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
 
     @IBAction func establishmentNameSort(_ sender: UIButton) {
         
+        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+        print("onoff==>\(onoff ?? "")")
+        
+            
         if(currentSort == "namedown")
         {
+            if onoff == "on"{
+                self.view1.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+                self.view2.backgroundColor = #colorLiteral(red: 0.262745098, green: 0.3725490196, blue: 0.4666666667, alpha: 1)
+                self.view3.backgroundColor = #colorLiteral(red: 0.262745098, green: 0.3725490196, blue: 0.4666666667, alpha: 1)
+            }else if onoff == "off"{
+                
+            }
+            
             establishmentNameimagesort.isHidden = false
             milesAwayimagesort.isHidden = true
             demeritsimagesort.isHidden = true
@@ -545,6 +809,14 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         }
         else
         {
+            if onoff == "on"{
+                self.view1.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+                self.view2.backgroundColor = #colorLiteral(red: 0.262745098, green: 0.3725490196, blue: 0.4666666667, alpha: 1)
+                self.view3.backgroundColor = #colorLiteral(red: 0.262745098, green: 0.3725490196, blue: 0.4666666667, alpha: 1)
+            }else if onoff == "off"{
+                
+            }
+            
             let image1 = UIImage(systemName: "chevron.down")
             establishmentNameimagesort.image = image1
             currentSort = "namedown"
@@ -566,10 +838,21 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
     }
     
     @IBAction func milesAwaysort(_ sender: UIButton) {
+                
+        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+        print("onoff==>\(onoff ?? "")")
         
         
         if(currentSort2 == "namedown")
         {
+            if onoff == "on"{
+                self.view1.backgroundColor = #colorLiteral(red: 0.262745098, green: 0.3725490196, blue: 0.4666666667, alpha: 1)
+                self.view2.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+                self.view3.backgroundColor = #colorLiteral(red: 0.262745098, green: 0.3725490196, blue: 0.4666666667, alpha: 1)
+            }else if onoff == "off"{
+                
+            }
+            
             establishmentNameimagesort.isHidden = true
             milesAwayimagesort.isHidden = false
             demeritsimagesort.isHidden = true
@@ -592,6 +875,14 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         }
         else
         {
+            if onoff == "on"{
+                self.view1.backgroundColor = #colorLiteral(red: 0.262745098, green: 0.3725490196, blue: 0.4666666667, alpha: 1)
+                self.view2.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+                self.view3.backgroundColor = #colorLiteral(red: 0.262745098, green: 0.3725490196, blue: 0.4666666667, alpha: 1)
+            }else if onoff == "off"{
+                
+            }
+            
             let image1 = UIImage(systemName: "chevron.down")
             milesAwayimagesort.image = image1
             currentSort2 = "namedown"
@@ -613,9 +904,21 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
     }
     
     @IBAction func demeritssort(_ sender: UIButton) {
+                
+        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+        print("onoff==>\(onoff ?? "")")
+        
         
         if(currentSort3 == "namedown")
         {
+            if onoff == "on"{
+                self.view1.backgroundColor = #colorLiteral(red: 0.262745098, green: 0.3725490196, blue: 0.4666666667, alpha: 1)
+                self.view2.backgroundColor = #colorLiteral(red: 0.262745098, green: 0.3725490196, blue: 0.4666666667, alpha: 1)
+                self.view3.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+            }else if onoff == "off"{
+                
+            }
+            
             establishmentNameimagesort.isHidden = true
             milesAwayimagesort.isHidden = true
             demeritsimagesort.isHidden = false
@@ -625,10 +928,10 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
             
             filteredParksList?.sort(){
                 item1, item2 in
-                let date1 = item1["Demerits"] as! String
-                let date2 = item2["Demerits"] as! String
+                let date1 = item1["Demerits"] as! NSString
+                let date2 = item2["Demerits"] as! NSString
 
-                return date1.lowercased() > date2.lowercased()
+                return date1.doubleValue > date2.doubleValue
 
             }
 
@@ -638,16 +941,24 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         }
         else
         {
+            if onoff == "on"{
+                self.view1.backgroundColor = #colorLiteral(red: 0.262745098, green: 0.3725490196, blue: 0.4666666667, alpha: 1)
+                self.view2.backgroundColor = #colorLiteral(red: 0.262745098, green: 0.3725490196, blue: 0.4666666667, alpha: 1)
+                self.view3.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+            }else if onoff == "off"{
+                
+            }
+            
             let image1 = UIImage(systemName: "chevron.down")
             demeritsimagesort.image = image1
             currentSort3 = "namedown"
             
             filteredParksList?.sort(){
                 item1, item2 in
-                let date1 = item1["Demerits"] as! String
-                let date2 = item2["Demerits"] as! String
+                let date1 = item1["Demerits"] as! NSString
+                let date2 = item2["Demerits"] as! NSString
 
-                return date1.lowercased() < date2.lowercased()
+                return date1.doubleValue < date2.doubleValue
 
             }
 
@@ -685,7 +996,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         if currentLocation == nil{
             print("only show map")
         }else{
-            let camera = GMSCameraPosition.camera(withLatitude: currentLocation!.latitude, longitude: currentLocation!.longitude, zoom: 32.0)
+            let camera = GMSCameraPosition.camera(withLatitude: currentLocation!.latitude, longitude: currentLocation!.longitude, zoom: 15.0)
                 CustomMapView.animate(to: camera)
             
             let sourceMarker = GMSMarker()
@@ -694,7 +1005,8 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
             sourceMarker.position = CLLocationCoordinate2D(latitude: CLLocationDegrees(currentLocation!.latitude), longitude: CLLocationDegrees(currentLocation!.longitude))
             sourceMarker.icon = #imageLiteral(resourceName: "mappin")
             sourceMarker.map = self.CustomMapView
-            sourceMarker.snippet = "Current_Location"
+//            sourceMarker.snippet = "Current_Location"
+//            sourceMarker.title = "Current_Location"
         
             print("only show map two")
                 
@@ -717,7 +1029,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         marker.icon = MarkerImage
         marker.position = CLLocationCoordinate2DMake(latDouble,longDouble)
         marker.title = Miles
-        let camera = GMSCameraPosition.camera(withLatitude: lat, longitude: long, zoom: 9.0)
+        let camera = GMSCameraPosition.camera(withLatitude: lat, longitude: long, zoom: 15.0)
         CustomMapView.animate(to: camera)
         //self.view.addSubview(self.viewMap)
         self.CustomMapView.delegate = self
@@ -727,50 +1039,59 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
  
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         print("didTapmarker==>\(marker.title ?? "")")
-     
-        for i in SearchGet!.data{
-            if i.establishmentName == marker.title{
-                self.bottomviewmap.isHidden = false
-                self.lblmaptitle.text = "\(i.establishmentName)"
-                self.lblmapaddress.text = "\(i.streetNumber)" + " \(i.streetAddress)" + " \(i.city)" + ", \(i.establishmentNumber)"
-                self.lblmapmiles.text = "\(i.milesAway)" + "Miles"
-                self.lblmapDemerits.text = "\(i.demerits)"
-                self.lblmapdate.text = "\(convertToString(dateString: i.lastInspection, formatIn: "M/dd/yyyy hh:mm:ss a", formatOut: "MM/dd/yyyy"))"
-                self.MapLat = "\(i.lat)"
-                self.MapLong = "\(i.lon)"
-                
-                if i.facilityType == "Convenience store"{
-                    MapMarkerImage = #imageLiteral(resourceName: "convienent-store-icon22x22")
-                }else if i.facilityType == "Farmer's Market"{
-                    MapMarkerImage = #imageLiteral(resourceName: "farmers-market-icon22x22")
-                }else if i.facilityType == "Mobile Unit"{
-                    MapMarkerImage = #imageLiteral(resourceName: "mobile-unit-icon22x22")
-                }else if i.facilityType == "Hospital"{
-                    MapMarkerImage = #imageLiteral(resourceName: "hospital-icon22x22")
-                }else if i.facilityType == "Bar"{
-                    MapMarkerImage = #imageLiteral(resourceName: "bar-icon22x22")
-                }else if i.facilityType == "Caterer"{
-                    MapMarkerImage = #imageLiteral(resourceName: "catering-icon22x22")
-                }else if i.facilityType == "Commissary"{
-                    MapMarkerImage = #imageLiteral(resourceName: "commissary-icon22x22")
-                }else if i.facilityType == "Daycare Facility"{
-                    MapMarkerImage = #imageLiteral(resourceName: "daycare-icon22x22")
-                }else if i.facilityType == "Restaurant"{
-                    MapMarkerImage = #imageLiteral(resourceName: "restaurant-icon22x22")
-                }else if i.facilityType == "Retail with food prep"{
-                    MapMarkerImage = #imageLiteral(resourceName: "bar-icon22x22")
-                }else if i.facilityType == "Snow cone stand"{
-                    MapMarkerImage = #imageLiteral(resourceName: "snow-cone-icon22x22")
-                }else if i.facilityType == "School"{
-                    MapMarkerImage = #imageLiteral(resourceName: "school-icon22x22")
+        
+        if ((marker.title?.isEmpty) != nil){
+            print("isEmpty")
+            for i in SearchGet!.data{
+                if i.establishmentName == marker.title{
+                    self.bottomviewmap.isHidden = false
+                    self.lblmaptitle.text = "\(i.establishmentName)"
+                    self.lblmapaddress.text = "\(i.streetNumber)" + " \(i.streetAddress)" + " \(i.city)" + ", \(i.establishmentNumber)"
+                    self.lblmapmiles.text = "\(i.milesAway)" + "Miles"
+                    self.lblmapDemerits.text = "\(i.demerits)"
+                    self.lblmapdate.text = "\(convertToString(dateString: i.lastInspection, formatIn: "M/dd/yyyy hh:mm:ss a", formatOut: "MM/dd/yyyy"))"
+                    self.MapLat = "\(i.lat)"
+                    self.MapLong = "\(i.lon)"
+                    
+                    if i.facilityType == "Convenience store"{
+                        MapMarkerImage = #imageLiteral(resourceName: "convienent-store-icon22x22")
+                    }else if i.facilityType == "Farmer's Market"{
+                        MapMarkerImage = #imageLiteral(resourceName: "farmers-market-icon22x22")
+                    }else if i.facilityType == "Mobile Unit"{
+                        MapMarkerImage = #imageLiteral(resourceName: "mobile-unit-icon22x22")
+                    }else if i.facilityType == "Hospital"{
+                        MapMarkerImage = #imageLiteral(resourceName: "hospital-icon22x22")
+                    }else if i.facilityType == "Bar"{
+                        MapMarkerImage = #imageLiteral(resourceName: "bar-icon22x22")
+                    }else if i.facilityType == "Caterer"{
+                        MapMarkerImage = #imageLiteral(resourceName: "catering-icon22x22")
+                    }else if i.facilityType == "Commissary"{
+                        MapMarkerImage = #imageLiteral(resourceName: "commissary-icon22x22")
+                    }else if i.facilityType == "Daycare Facility"{
+                        MapMarkerImage = #imageLiteral(resourceName: "daycare-icon22x22")
+                    }else if i.facilityType == "Restaurant"{
+                        MapMarkerImage = #imageLiteral(resourceName: "restaurant-icon22x22")
+                    }else if i.facilityType == "Retail with food prep"{
+                        MapMarkerImage = #imageLiteral(resourceName: "bar-icon22x22")
+                    }else if i.facilityType == "Snow cone stand"{
+                        MapMarkerImage = #imageLiteral(resourceName: "snow-cone-icon22x22")
+                    }else if i.facilityType == "School"{
+                        MapMarkerImage = #imageLiteral(resourceName: "school-icon22x22")
+                    }else{
+                        MapMarkerImage = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+                    }
+                    
                 }else{
-                    MapMarkerImage = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+                    print("Not get ==>")
                 }
-                
-            }else{
-                print("Not get ==>")
             }
+            
+        }else{
+            print("isEmpty not")
+
         }
+     
+
             
         return true
     }
@@ -788,12 +1109,429 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         if cell.OptionSwitch.tag == Int(SwitchTag.count){
             
             if cell.OptionSwitch.isOn{
-                print("is on==\(SwitchTag ?? "")")
                 
+                if SwitchTag == "Assisted Living"{
+                
+                    self.SwitchCheckon = "Assisted Living OFF"
+                    
+                    let CheckDicObject = parksList?.filter{ ($0["FacilityType"] as! String) == "Assisted Living"}
+                    
+                    if CheckDicObject != nil{
+                        for d in CheckDicObject!{
+                            self.filteredParksList?.append(d)
+                        }
+                        DispatchQueue.main.async {
+                            self.SearchList.reloadData()
+                        }
+                    }else{
+                        print("is nil")
+                    }
+                    
+                }else if SwitchTag == "Bakery"{
+                    
+
+                    self.SwitchCheckoff = "Bakery OFF"
+                    
+                    let CheckDicObject = parksList?.filter{ ($0["FacilityType"] as! String) == "Bakery"}
+                    
+                    if CheckDicObject != nil{
+                        for d in CheckDicObject!{
+                            self.filteredParksList?.append(d)
+                        }
+                        DispatchQueue.main.async {
+                            self.SearchList.reloadData()
+                        }
+                    }else{
+                        print("is nil")
+                    }
+                    
+                }else if SwitchTag == "Bar"{
+                    
+                    self.SwitchCheckoff = "Bar OFF"
+ 
+            
+                    let CheckDicObject = parksList?.filter{ ($0["FacilityType"] as! String) == "Bar"}
+                    
+                    if CheckDicObject != nil{
+                        for d in CheckDicObject!{
+                            self.filteredParksList?.append(d)
+                        }
+                        DispatchQueue.main.async {
+                            self.SearchList.reloadData()
+                        }
+                    }else{
+                        print("is nil")
+                    }
+                    
+                }else if SwitchTag == "Caterer"{
+                    
+
+                    self.SwitchCheckon = "Caterer OFF"
+                    
+                    let CheckDicObject = parksList?.filter{ ($0["FacilityType"] as! String) == "Caterer"}
+                    
+                    if CheckDicObject != nil{
+                        for d in CheckDicObject!{
+                            self.filteredParksList?.append(d)
+                        }
+                        DispatchQueue.main.async {
+                            self.SearchList.reloadData()
+                        }
+                    }else{
+                        print("is nil")
+                    }
+                    
+                }else if SwitchTag == "Commissary"{
+                                        
+
+                    self.SwitchCheckon = "Commissary OFF"
+                    let CheckDicObject = parksList?.filter{ ($0["FacilityType"] as! String) == "Commissary"}
+                    
+                    if CheckDicObject != nil{
+                        for d in CheckDicObject!{
+                            self.filteredParksList?.append(d)
+                        }
+                        DispatchQueue.main.async {
+                            self.SearchList.reloadData()
+                        }
+                    }else{
+                        print("is nil")
+                    }
+                    
+                }else if SwitchTag == "Convenience store"{
+                    
+
+                    self.SwitchCheckon = "Convenience store OFF"
+                    
+                    let CheckDicObject = parksList?.filter{ ($0["FacilityType"] as! String) == "Convenience store"}
+                    
+                    if CheckDicObject != nil{
+                        for d in CheckDicObject!{
+                            self.filteredParksList?.append(d)
+                        }
+                        DispatchQueue.main.async {
+                            self.SearchList.reloadData()
+                        }
+                    }else{
+                        print("is nil")
+                    }
+                    
+
+                }else if SwitchTag == "Daycare"{
+                
+
+                    self.SwitchCheckon = "Daycare OFF"
+                    
+                    let CheckDicObject = parksList?.filter{ ($0["FacilityType"] as! String) == "Daycare"}
+                    
+                    if CheckDicObject != nil{
+                        for d in CheckDicObject!{
+                            self.filteredParksList?.append(d)
+                        }
+                        DispatchQueue.main.async {
+                            self.SearchList.reloadData()
+                        }
+                    }else{
+                        print("is nil")
+                    }
+                    
+                }else if SwitchTag == "Farmer's Market"{
+                                        
+
+                    self.SwitchCheckon = "Farmer's Market OFF"
+                    
+                    let CheckDicObject = parksList?.filter{ ($0["FacilityType"] as! String) == "Farmer's Market"}
+                    
+                    if CheckDicObject != nil{
+                        for d in CheckDicObject!{
+                            self.filteredParksList?.append(d)
+                        }
+                        DispatchQueue.main.async {
+                            self.SearchList.reloadData()
+                        }
+                    }else{
+                        print("is nil")
+                    }
+                    
+                }else if SwitchTag == "Grocery Store"{
+                                        
+
+                    self.SwitchCheckon = "Grocery Store OFF"
+                    
+                    let CheckDicObject = parksList?.filter{ ($0["FacilityType"] as! String) == "Grocery Store"}
+                    
+                    if CheckDicObject != nil{
+                        for d in CheckDicObject!{
+                            self.filteredParksList?.append(d)
+                        }
+                        DispatchQueue.main.async {
+                            self.SearchList.reloadData()
+                        }
+                    }else{
+                        print("is nil")
+                    }
+                    
+                }else if SwitchTag == "Hospital"{
+                                      
+
+                    self.SwitchCheckon = "Hospital OFF"
+                    
+                    let CheckDicObject = parksList?.filter{ ($0["FacilityType"] as! String) == "Hospital"}
+                    
+                    if CheckDicObject != nil{
+                        for d in CheckDicObject!{
+                            self.filteredParksList?.append(d)
+                        }
+                        DispatchQueue.main.async {
+                            self.SearchList.reloadData()
+                        }
+                    }else{
+                        print("is nil")
+                    }
+                    
+                }else if SwitchTag == "Mobile Unit"{
+            
+
+                    self.SwitchCheckon = "Mobile Unit OFF"
+                    
+                    let CheckDicObject = parksList?.filter{ ($0["FacilityType"] as! String) == "Mobile Unit"}
+                    
+                    if CheckDicObject != nil{
+                        for d in CheckDicObject!{
+                            self.filteredParksList?.append(d)
+                        }
+                        DispatchQueue.main.async {
+                            self.SearchList.reloadData()
+                        }
+                    }else{
+                        print("is nil")
+                    }
+
+                }else if SwitchTag == "Restaurant"{
+                    
+
+                    self.SwitchCheckon = "Restaurant OFF"
+                    
+                    let CheckDicObject = parksList?.filter{ ($0["FacilityType"] as! String) == "Restaurant"}
+                    
+                    if CheckDicObject != nil{
+                        for d in CheckDicObject!{
+                            self.filteredParksList?.append(d)
+                        }
+                        DispatchQueue.main.async {
+                            self.SearchList.reloadData()
+                        }
+                    }else{
+                        print("is nil")
+                    }
+                    
+                }else if SwitchTag == "School"{
+                    
+ 
+                    self.SwitchCheckon = "School OFF"
+                    
+                    let CheckDicObject = parksList?.filter{ ($0["FacilityType"] as! String) == "School"}
+                    
+                    if CheckDicObject != nil{
+                        for d in CheckDicObject!{
+                            self.filteredParksList?.append(d)
+                        }
+                        DispatchQueue.main.async {
+                            self.SearchList.reloadData()
+                        }
+                    }else{
+                        print("is nil")
+                    }
+                    
+                }else if SwitchTag == "Snow cone stand"{
+                    
+                    self.SwitchCheckon = "Snow cone stand OFF"
+                    
+                    let CheckDicObject = parksList?.filter{ ($0["FacilityType"] as! String) == "Snow cone stand"}
+                    
+                    if CheckDicObject != nil{
+                        for d in CheckDicObject!{
+                            self.filteredParksList?.append(d)
+                        }
+                        DispatchQueue.main.async {
+                            self.SearchList.reloadData()
+                        }
+                    }else{
+                        print("is nil")
+                    }
+                                    
+                }
             }else{
-                print("is off\(SwitchTag ?? "")")
-//                filteredParksList?.remove(at: 0)
-//                self.SearchList.reloadData()
+                
+                if SwitchTag == "Assisted Living"{
+
+                    self.SwitchCheckon = "Assisted Living ON"
+                    
+                    filteredParksList = filteredParksList?.filter{ ($0["FacilityType"] as! String) != "Assisted Living"}
+ 
+                    DispatchQueue.main.async {
+                        self.SearchList.reloadData()
+                    }
+                    
+                }else if SwitchTag == "Bakery"{
+                    
+                    //self.SwitchCheckoff = "Bakery OFF"
+                    self.SwitchCheckon = "Bakery ON"
+                    
+                    filteredParksList = filteredParksList?.filter{ ($0["FacilityType"] as! String) != "Bakery"}
+ 
+                    DispatchQueue.main.async {
+                        self.SearchList.reloadData()
+                    }
+                    
+                }else if SwitchTag == "Bar"{
+            
+                    //self.SwitchCheckoff = "Bar OFF"
+                    self.SwitchCheckon = "Bar ON"
+                    
+                    filteredParksList = filteredParksList?.filter{ ($0["FacilityType"] as! String) != "Bar"}
+ 
+                    DispatchQueue.main.async {
+                        self.SearchList.reloadData()
+                    }
+                    
+                }else if SwitchTag == "Caterer"{
+                    
+                    //self.SwitchCheckoff = "Caterer OFF"
+                    self.SwitchCheckon = "Caterer ON"
+                    
+                    
+                    filteredParksList = filteredParksList?.filter{ ($0["FacilityType"] as! String) != "Caterer"}
+ 
+                    DispatchQueue.main.async {
+                        self.SearchList.reloadData()
+                    }
+                    
+                }else if SwitchTag == "Commissary"{
+                    
+                    //self.SwitchCheckoff = "Commissary OFF"
+                    self.SwitchCheckon = "Commissary ON"
+                    
+                   
+                    filteredParksList = filteredParksList?.filter{ ($0["FacilityType"] as! String) != "Commissary"}
+ 
+                    DispatchQueue.main.async {
+                        self.SearchList.reloadData()
+                    }
+                    
+                }else if SwitchTag == "Convenience store"{
+                    
+                    //self.SwitchCheckoff = "Convenience store OFF"
+                    self.SwitchCheckon = "Convenience store ON"
+                    
+                    
+                    filteredParksList = filteredParksList?.filter{ ($0["FacilityType"] as! String) != "Convenience store"}
+ 
+                    DispatchQueue.main.async {
+                        self.SearchList.reloadData()
+                    }
+                    
+                }else if SwitchTag == "Daycare"{
+                    
+                    //self.SwitchCheckoff = "Daycare OFF"
+                    self.SwitchCheckon = "Daycare ON"
+                    
+                    
+                    filteredParksList = filteredParksList?.filter{ ($0["FacilityType"] as! String) != "Daycare"}
+ 
+                    DispatchQueue.main.async {
+                        self.SearchList.reloadData()
+                    }
+                    
+                }else if SwitchTag == "Farmer's Market"{
+                    
+                    //self.SwitchCheckoff = "Farmer's Market OFF"
+                    self.SwitchCheckon = "Farmer's Market ON"
+                    
+                    
+                    filteredParksList = filteredParksList?.filter{ ($0["FacilityType"] as! String) != "Farmer's Market"}
+ 
+                    DispatchQueue.main.async {
+                        self.SearchList.reloadData()
+                    }
+                    
+                }else if SwitchTag == "Grocery Store"{
+                    
+                    //self.SwitchCheckoff = "Grocery Store OFF"
+                    self.SwitchCheckon = "Grocery Store ON"
+                    
+  
+                    filteredParksList = filteredParksList?.filter{ ($0["FacilityType"] as! String) != "Grocery Store"}
+ 
+                    DispatchQueue.main.async {
+                        self.SearchList.reloadData()
+                    }
+                    
+                }else if SwitchTag == "Hospital"{
+                    
+                    //self.SwitchCheckoff = "Hospital OFF"
+                    self.SwitchCheckon = "Hospital ON"
+                    
+
+                    
+                    filteredParksList = filteredParksList?.filter{ ($0["FacilityType"] as! String) != "Hospital"}
+ 
+                    DispatchQueue.main.async {
+                        self.SearchList.reloadData()
+                    }
+                    
+                }else if SwitchTag == "Mobile Unit"{
+                    
+                    //self.SwitchCheckoff = "Mobile Unit OFF"
+                    self.SwitchCheckon = "Mobile Unit ON"
+                    
+ 
+                    
+                    filteredParksList = filteredParksList?.filter{ ($0["FacilityType"] as! String) != "Mobile Unit"}
+ 
+                    DispatchQueue.main.async {
+                        self.SearchList.reloadData()
+                    }
+                    
+                }else if SwitchTag == "Restaurant"{
+                    
+                    //self.SwitchCheckoff = "Restaurant OFF"
+                    self.SwitchCheckon = "Restaurant ON"
+                    
+
+                    
+                    filteredParksList = filteredParksList?.filter{ ($0["FacilityType"] as! String) != "Restaurant"}
+ 
+                    DispatchQueue.main.async {
+                        self.SearchList.reloadData()
+                    }
+                    
+                }else if SwitchTag == "School"{
+                    
+                    //self.SwitchCheckoff = "School OFF"
+                    self.SwitchCheckon = "School ON"
+                    
+
+                    
+                    filteredParksList = filteredParksList?.filter{ ($0["FacilityType"] as! String) != "School"}
+ 
+                    DispatchQueue.main.async {
+                        self.SearchList.reloadData()
+                    }
+                    
+                }else if SwitchTag == "Snow cone stand"{
+                    
+                    //self.SwitchCheckoff = "Snow cone stand OFF"
+                    self.SwitchCheckon = "Snow cone stand ON"
+                    
+                    
+                    filteredParksList = filteredParksList?.filter{ ($0["FacilityType"] as! String) != "Snow cone stand"}
+ 
+                    DispatchQueue.main.async {
+                        self.SearchList.reloadData()
+                    }
+                    
+                }
             }
         }
         
@@ -864,7 +1602,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
             let cell:DropDownTableViewCell = tableView.dequeueReusableCell(withIdentifier: "DropDownTableViewCell") as! DropDownTableViewCell
             cell.lbl.text = ArrDropLabel[indexPath.row]
             cell.img.image = ArrDropImage[indexPath.row]
-            cell.OptionSwitch.isOn = true
+            //cell.OptionSwitch.isOn = true
             cell.DropSwitchisOn = self
             SwitchTag = ArrDropLabel[indexPath.row]
             
@@ -900,6 +1638,24 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
             cell.lblmiles.text = "\(park?["MilesAway"] as! String)"
             cell.lblDemerits.text = "\(park?["Demerits"] as! String)"
             cell.lbldate.text = convertToString(dateString:"\(park?["LastInspection"] as! String)", formatIn: "M/dd/yyyy hh:mm:ss a", formatOut: "MM/dd/yyyy")
+            
+            let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+            print("onoff==>\(onoff ?? "")")
+            
+            if onoff == "on"{
+                
+                cell.borderview.backgroundColor = AppConstant.ViewColor
+               
+                cell.lbltitle.textColor = AppConstant.LabelColor
+                cell.lblyork.textColor = AppConstant.LabelColor
+                cell.lblkaty.textColor = AppConstant.LabelColor
+                cell.lblmiles.textColor = AppConstant.LabelColor
+                cell.lblDemerits.textColor = AppConstant.LabelColor
+                cell.lbldate.textColor = AppConstant.LabelColor
+               
+            }else if onoff == "off"{
+                
+            }
             
             return cell
         }
@@ -978,6 +1734,8 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
             navigate.lat = Double("\(park?["Lat"] as! String)")
             navigate.long = Double("\(park?["Lon"] as! String)")
             navigate.demeritsString = "\(park?["Demerits"] as! String)"
+            
+    
             
                 if "\(park?["FacilityType"] as! String)" == "Convenience store"{
                     navigate.MarkerImage = #imageLiteral(resourceName: "convienent-store-icon22x22")

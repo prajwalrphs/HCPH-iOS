@@ -85,12 +85,16 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     //var FirsttoolBar = UIToolbar()
     var FirstdatePicker : UIDatePicker!
     
+    var CheckMB = [Int]()
+    
     //var LasttoolBar = UIToolbar()
     var LastdatePicker : UIDatePicker!
     
     var Reportanimal:CommercialPoolsWelcome?
  
     var images: [Image] = []
+    
+    var arrayimage = [String]()
 
     var VideosongUrl : String!
     
@@ -117,6 +121,9 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        CheckMB.removeAll()
+        arrayimage.removeAll()
         
         self.addimageview.layer.cornerRadius = 5
         self.addimageview.layer.borderWidth = 1
@@ -886,23 +893,27 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
                 
                 if self.checkboxBool == "true"{
                     if self.txtagency.text?.isEmpty ?? true {
-                        self.view.showToast(toastMessage: "Please enter the agency previously report", duration: 0.3)
+                        self.view.showToast(toastMessage: "Please provide agency previously report", duration: 0.3)
                     }else{
                         ReportAnimalApicall()
                     }
-                }else if checkboxstring == "false"{
-                    print("Test")
-                    ReportAnimalApicall()
                 }else{
                     ReportAnimalApicall()
                 }
+                
+//                else if checkboxstring == "false"{
+//                    print("Test")
+//                    //ReportAnimalApicall()
+//                }else{
+//                    //ReportAnimalApicall()
+//                }
               
             }else{
                 print("Testtwo")
             }
         }else{
             print("Internet Connection not Available!")
-            self.view.showToast(toastMessage: "Please turn on internet connection to continue.", duration: 0.3)
+            self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
         }
     }
     
@@ -939,7 +950,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
             "ReporterPhone":txtphone.text as Any,
             "ReporterEmail":txtemail.text as Any,
             "ReceivedDevice":"1",
-            "ImageList":ImagevideoUrl ?? "",
+            "ImageList":arrayimage,
             "ImageBytes5":VideoBase64Url ?? "",
         ] as [String : Any]
 
@@ -1014,51 +1025,105 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     }
     
     @IBAction func addimages(_ sender: UIButton) {
-        let imagePicker = UIImagePickerController()
-                imagePicker.delegate = self
-                
-                let alertViewController = UIAlertController(title: "Choose Image Source", message: nil, preferredStyle: .actionSheet)
-                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-                
-                if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-                    let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default, handler: { action in
-                        imagePicker.sourceType = .photoLibrary
-                        self.present(imagePicker, animated: true, completion: nil)
-                    })
-                    let CameraLibraryAction = UIAlertAction(title: "Camera", style: .default, handler: { action in
-                        //self.galleryVideo()
-                        imagePicker.sourceType = .camera
-                        self.present(imagePicker, animated: true, completion: nil)
-                    })
+        if arrayimage.count == 5{
+            print("Count 5 Done!")
+            let alertController = UIAlertController(title: "HCPH", message: "You can attach maximum five images.", preferredStyle: UIAlertController.Style.alert)
 
-                    alertViewController.addAction(CameraLibraryAction)
-                    alertViewController.addAction(photoLibraryAction)
-                }
-        alertViewController.addAction(cancelAction)
-                present(alertViewController, animated: true, completion: nil)
-                
-                alertViewController.view.subviews.flatMap({$0.constraints}).filter{ (one: NSLayoutConstraint)-> (Bool)  in
-                    return (one.constant < 0) && (one.secondItem == nil) &&  (one.firstAttribute == .width)
-                    }.first?.isActive = false
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+            alertController.addAction(cancelAction)
+
+
+            self.present(alertController, animated: true, completion: nil)
+        }else{
+            let imagePicker = UIImagePickerController()
+                    imagePicker.delegate = self
+                    
+                    let alertViewController = UIAlertController(title: "Choose Image Source", message: nil, preferredStyle: .actionSheet)
+                    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                    
+                    if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                        let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default, handler: { action in
+                            imagePicker.sourceType = .photoLibrary
+                            imagePicker.allowsEditing = true
+                            self.present(imagePicker, animated: true, completion: nil)
+                        })
+                        let CameraLibraryAction = UIAlertAction(title: "Camera", style: .default, handler: { action in
+                            //self.galleryVideo()
+                            imagePicker.sourceType = .camera
+                            imagePicker.allowsEditing = true
+                            self.present(imagePicker, animated: true, completion: nil)
+                        })
+
+                        alertViewController.addAction(CameraLibraryAction)
+                        alertViewController.addAction(photoLibraryAction)
+                    }
+            alertViewController.addAction(cancelAction)
+                    present(alertViewController, animated: true, completion: nil)
+                    
+                    alertViewController.view.subviews.flatMap({$0.constraints}).filter{ (one: NSLayoutConstraint)-> (Bool)  in
+                        return (one.constant < 0) && (one.secondItem == nil) &&  (one.firstAttribute == .width)
+                        }.first?.isActive = false
+        }
+        
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 
         if let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
 
-            let image = Image(imageData: selectedImage.pngData()!)
-            print("image get video==>\(image)")
-            images.append(image)
-            Image.saveImages(images)
-            dismiss(animated: true, completion: nil)
-            self.addimagescollection.reloadData()
+            if let data = selectedImage.pngData() {
+            //print("There were \(data.count) bytes")
+            let bcf = ByteCountFormatter()
+            bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
+            bcf.countStyle = .file
+            let string = bcf.string(fromByteCount: Int64(data.count))
+                print("formatted result: \(string)")
+                
+                let myInt3 = (string as NSString).integerValue
+                CheckMB.append(myInt3)
+            }
             
-            let imageData: Data? = selectedImage.jpegData(compressionQuality: 0.4)
-            let imageStr = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
-            print("imageStr====>\(imageStr)")
-            self.ImagevideoUrl?.append(imageStr)
+            let total = CheckMB.reduce(0, +)
             
-            print("ImagevideoUrl>>====>\(ImagevideoUrl ?? "")")
+            if total < 20{
+   
+                let image = Image(imageData: selectedImage.pngData()!)
+                print("image get video==>\(image)")
+                images.append(image)
+                Image.saveImages(images)
+                dismiss(animated: true, completion: nil)
+                self.addimagescollection.reloadData()
+                
+    //            let imageData: Data? = selectedImage.jpegData(compressionQuality: 0.4)
+    //            let imageStr = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
+    //            self.ImagevideoUrl?.append(imageStr)
+                
+                let imageData2:Data =  selectedImage.pngData()!
+                let base64String2 = imageData2.base64EncodedString()
+                
+                self.arrayimage.append(base64String2)
+                
+                self.ImagevideoUrl?.append(base64String2)
+                
+            
+            }else{
+                dismiss(animated: true, completion: nil)
+                print("less not")
+                
+                
+                let when = DispatchTime.now() + 1
+                DispatchQueue.main.asyncAfter(deadline: when){
+                  // your code with delay
+                    
+                let alertController = UIAlertController(title: "HCPH", message: "All image size must be less than 20 MB.", preferredStyle: UIAlertController.Style.alert)
+                    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                    alertController.addAction(cancelAction)
+                    self.present(alertController, animated: true, completion: nil)
+                
+                }
+            }
+            
+
     }
         
         
@@ -1395,6 +1460,8 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     
     func remove(index: Int) {
         images.remove(at: index)
+        self.arrayimage.remove(at: index)
+        CheckMB.remove(at: index)
 
         let indexPath = IndexPath(row: index, section: 0)
         addimagescollection.performBatchUpdates({
@@ -1440,12 +1507,44 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
       print(error.debugDescription)
     }}
     
-    
- func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-             
-    textField.resignFirstResponder()
-    return true
-   }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+
+            if textField == txtaddress {
+                txtaptnumber.becomeFirstResponder()
+            } else if textField == txtaptnumber {
+                txtgatcode.becomeFirstResponder()
+            } else if textField == txtgatcode {
+                txtcity.becomeFirstResponder()
+            } else if textField == txtcity {
+                Statetxt.becomeFirstResponder()
+            } else if textField == Statetxt {
+                txtzip.becomeFirstResponder()
+            } else if textField == txtzip {
+                txtcountry.becomeFirstResponder()
+            }else if textField == txtcountry{
+                txtneighborhood.becomeFirstResponder()
+            }else if textField == txtneighborhood{
+                txtnumberofanimal.becomeFirstResponder()
+            }else if textField == txtnumberofanimal{
+                txttypeofanimal.becomeFirstResponder()
+            }else if textField == txttypeofanimal{
+                txtcolorofanimal.becomeFirstResponder()
+            }else if textField == txtcolorofanimal{
+                txtanimalslocation.becomeFirstResponder()
+            }else if textField == txtanimalslocation{
+                txtanimalslocation.resignFirstResponder()
+            }else if textField == txtfirstname{
+                txtlastname.becomeFirstResponder()
+            }else if textField == txtlastname{
+                txtemail.becomeFirstResponder()
+            }else if textField == txtemail{
+                txtphone.becomeFirstResponder()
+            }else{
+                txtphone.resignFirstResponder()
+            }
+            return true
+        }
          
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
              
