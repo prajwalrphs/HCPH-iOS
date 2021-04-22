@@ -4,7 +4,6 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -98,7 +97,6 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="QSO-o6-yOH" firstAttribute="trailing" secondItem="fem-tm-f9S" secondAttribute="trailingMargin" id="2Av-Z0-KnF"/>
                                             <constraint firstItem="QSO-o6-yOH" firstAttribute="leading" secondItem="FRS-jy-dqN" secondAttribute="trailing" constant="8" id="3JT-Ud-lJA"/>
@@ -136,7 +134,6 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="phd-vA-g3A" firstAttribute="top" secondItem="Qah-GO-K93" secondAttribute="top" id="2Nv-dH-2ub"/>
                                     <constraint firstAttribute="bottom" secondItem="bOI-pm-H7m" secondAttribute="bottom" constant="31" id="7Q4-pb-g63"/>
@@ -151,7 +148,6 @@
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="oEc-QV-aOy"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Qah-GO-K93" firstAttribute="bottom" secondItem="oEc-QV-aOy" secondAttribute="bottom" id="8Dv-hu-eNS"/>
                             <constraint firstItem="Qah-GO-K93" firstAttribute="trailing" secondItem="oEc-QV-aOy" secondAttribute="trailing" id="GhZ-bB-I6q"/>
@@ -160,7 +156,12 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="lbl1" destination="Cus-sl-nyu" id="jmu-BL-d8H"/>
+                        <outlet property="lbl2" destination="BMs-vy-VpO" id="jV9-fc-BMT"/>
                         <outlet property="txtnote" destination="QSO-o6-yOH" id="hox-jc-M9U"/>
+                        <outlet property="viewone" destination="Qah-GO-K93" id="jhk-1m-L2j"/>
+                        <outlet property="viewthree" destination="fem-tm-f9S" id="iNe-nS-iTU"/>
+                        <outlet property="viewtwo" destination="phd-vA-g3A" id="GyQ-ct-CY5"/>
                         <outlet property="zipcodetext" destination="wYR-fm-ckK" id="WJX-8E-fpe"/>
                     </connections>
                 </viewController>
@@ -171,8 +172,5 @@
     </scenes>
     <resources>
         <image name="info44" width="44" height="44"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>

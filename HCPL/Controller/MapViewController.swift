@@ -53,6 +53,9 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
         super.viewDidLoad()
         
         
+        NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+        
         let image = UIImage(named: "gps")?.withRenderingMode(.alwaysTemplate)
         imggpslocation.setImage(image, for: .normal)
         imggpslocation.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
@@ -144,6 +147,80 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
             locationManager.startUpdatingLocation()
         }
 
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print("view will appear")
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        print("view did appear")
+    }
+
+    // MARK: - Notification oberserver methods
+
+    @objc func didBecomeActive() {
+        print("did become active")
+    }
+
+    @objc func willEnterForeground() {
+        print("will enter foreground")
+        
+        if Reachability.isConnectedToNetwork(){
+            
+            if CLLocationManager.locationServicesEnabled() == true {
+                if CLLocationManager.locationServicesEnabled() {
+                    switch CLLocationManager.authorizationStatus() {
+                        case .notDetermined, .restricted, .denied:
+                            print("No access")
+                            mapview.isHidden = true
+                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                //Redirect to Settings app
+                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                            })
+
+                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                            alertController.addAction(cancelAction)
+
+                            alertController.addAction(okAction)
+
+                            self.present(alertController, animated: true, completion: nil)
+                        case .authorizedAlways, .authorizedWhenInUse:
+                            print("Access")
+                            mapview.isHidden = false
+                            
+                        @unknown default:
+                        break
+                    }
+                    } else {
+                        print("Location services are not enabled")
+                }
+               
+            }else {
+                
+                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                    //Redirect to Settings app
+                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                })
+
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                alertController.addAction(cancelAction)
+
+                alertController.addAction(okAction)
+
+                self.present(alertController, animated: true, completion: nil)
+                
+                
+             }
+        }else{
+            print("Internet Connection not Available!")
+            self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
+        }
+        
     }
     
     @objc func doneClickLast() {
@@ -486,14 +563,27 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
 
         let mapCenter = mapview.visibleArea?.extent.center
         
+        
+        
+
+//        self.mapview.callout.title = "Location"
+//        self.mapview.callout.detail = String(format: "x: %.2f, y: %.2f", mapPoint.x, mapPoint.y)
+//        self.mapview.callout.isAccessoryButtonHidden = true
+//        self.mapview.callout.show(at: mapPoint, screenOffset: CGPoint.zero, rotateOffsetWithMap: false, animated: true)
+//
+//        let x = String(format: "x: %.2f", mapPoint.x)
+//        let y = String(format: "y: %.2f", mapPoint.y)
+//
+//        print("X==>\(x)")
+//        print("Y==>\(y)")
         if let latLon = AGSGeometryEngine.projectGeometry(mapCenter!, to: .wgs84()) as? AGSPoint
         {
             let lat = latLon.y
             let lon = latLon.x
-            
+
             print("latLon.y==>\(lat)")
             print("latLon.x==>\(lon)")
-            
+
             let map = AGSMap(
                 basemapStyle: .arcGISTopographic
             )
@@ -507,34 +597,35 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
                     scale: 42_000
                 )
             )
-            
+
             let GetLatlon = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-            
+
             print("GetLatlon==>\(GetLatlon.latitude)")
             print("GetLatlon==>\(GetLatlon.longitude)")
-           
+
           let locationmain = AGSPoint(clLocationCoordinate2D: CLLocationCoordinate2D(latitude: lat, longitude: lon))
-           
+
             let graphic = AGSGraphic(geometry: locationmain, symbol: AGSSimpleMarkerSymbol(style: .circle, color: .purple, size: 12), attributes: nil)
            self.locationOverlay.graphics.add(graphic)
-            
-            
+
+
             let geocoder = GMSGeocoder()
             geocoder.reverseGeocodeCoordinate(GetLatlon) { response, error in
                 if error != nil {
                     print("reverse geodcode fail: \(error!.localizedDescription)")
                 } else {
+
                     if let places = response?.results() {
                         if let place = places.first {
                             print(place.lines)
                             print("GEOCODE: Did Select Formatted postalCode: \(place.postalCode ?? "")")
-                           
+
                             self.ZIpCodeMain = place.postalCode ?? ""
-                            
+
                             for demo in self.demos {
                                 self.addButton(for: demo)
                             }
-                        
+
                         } else {
                             print("GEOCODE: nil first in places")
                         }
@@ -543,38 +634,38 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
                     }
                 }
             }
-            
-            
-          
+
+
+
         }
         
-        mapview.identifyLayers(atScreenPoint: screenPoint, tolerance: 20, returnPopupsOnly: false) { [weak self]  (results, error) in
-      
-            guard let self = self else { return }
-            
-      
-            print("screenPoint.x: \(screenPoint.x)")
-            print("screenPoint.y: \(screenPoint.y)")
-            
-            print("mapPoint.x: \(mapPoint.x)")
-            print("mapPoint.y: \(mapPoint.y)")
-           
-            if let error = error{
-                print("Error identifyLayers: \(error.localizedDescription)")
-                return
-            }
-            
-            if let result = results?.first,
-               let feature = result.geoElements.first as? AGSFeature{
-                
-                self.mapview.callout.title = feature.attributes["Name"] as? String
-                self.mapview.callout.detail = feature.attributes["Text_for_Short_Desc_field"] as? String
-                self.mapview.callout.show(for: feature, tapLocation: mapPoint, animated: true)
-            }else{
-                self.mapview.callout.dismiss()
-            }
-      
-        }
+//        mapview.identifyLayers(atScreenPoint: screenPoint, tolerance: 20, returnPopupsOnly: false) { [weak self]  (results, error) in
+//
+//            guard let self = self else { return }
+//
+//
+//            print("screenPoint.x: \(screenPoint.x)")
+//            print("screenPoint.y: \(screenPoint.y)")
+//
+//            print("mapPoint.x: \(mapPoint.x)")
+//            print("mapPoint.y: \(mapPoint.y)")
+//
+//            if let error = error{
+//                print("Error identifyLayers: \(error.localizedDescription)")
+//                return
+//            }
+//
+//            if let result = results?.first,
+//               let feature = result.geoElements.first as? AGSFeature{
+//
+//                self.mapview.callout.title = feature.attributes["Name"] as? String
+//                self.mapview.callout.detail = feature.attributes["Text_for_Short_Desc_field"] as? String
+//                self.mapview.callout.show(for: feature, tapLocation: mapPoint, animated: true)
+//            }else{
+//                self.mapview.callout.dismiss()
+//            }
+//
+//        }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

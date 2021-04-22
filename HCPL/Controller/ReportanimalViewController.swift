@@ -119,9 +119,12 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     
     var hud: MBProgressHUD = MBProgressHUD()
     
+
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         CheckMB.removeAll()
         arrayimage.removeAll()
         
@@ -949,13 +952,13 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
             "ReporterLastName":txtlastname.text as Any,
             "ReporterPhone":txtphone.text as Any,
             "ReporterEmail":txtemail.text as Any,
-            "ReceivedDevice":"1",
-            "ImageList":arrayimage,
-            "ImageBytes5":VideoBase64Url ?? "",
+            "ReceivedDevice":"0",
+            "ImageList":"\(arrayimage)",
+            "ImageBytes5": "",
         ] as [String : Any]
 
-        print("checkboxstring==>\(checkboxstring ?? "")")
-        print("parameters==>\(parameters)")
+//        print("checkboxstring==>\(checkboxstring ?? "")")
+//        print("parameters==>\(parameters)")
         
         
         let jsonData = try? JSONSerialization.data(withJSONObject: parameters)
@@ -1103,7 +1106,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
                 
                 self.arrayimage.append(base64String2)
                 
-                self.ImagevideoUrl?.append(base64String2)
+                //self.ImagevideoUrl?.append(base64String2)
                 
             
             }else{

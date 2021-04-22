@@ -95,6 +95,11 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+
                 
         self.parksList?.removeAll()
         
@@ -182,7 +187,80 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        print("view will appear")
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        print("view did appear")
+    }
+
+    // MARK: - Notification oberserver methods
+
+    @objc func didBecomeActive() {
+        print("did become active")
+    }
+
+    @objc func willEnterForeground() {
+        print("will enter foreground")
         
+        if Reachability.isConnectedToNetwork(){
+            
+            if CLLocationManager.locationServicesEnabled() == true {
+                if CLLocationManager.locationServicesEnabled() {
+                    switch CLLocationManager.authorizationStatus() {
+                        case .notDetermined, .restricted, .denied:
+                            print("No access")
+                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                //Redirect to Settings app
+                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                            })
+
+                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                            alertController.addAction(cancelAction)
+
+                            alertController.addAction(okAction)
+
+                            self.present(alertController, animated: true, completion: nil)
+                        case .authorizedAlways, .authorizedWhenInUse:
+                            print("Access")
+                            locationManager.delegate = self
+                            locationManager.startUpdatingLocation()
+                            CustomMapView.isMyLocationEnabled = true
+                        @unknown default:
+                        break
+                    }
+                    } else {
+                        print("Location services are not enabled")
+                }
+               
+            }else {
+                
+                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                    //Redirect to Settings app
+                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                })
+
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                alertController.addAction(cancelAction)
+
+                alertController.addAction(okAction)
+
+                self.present(alertController, animated: true, completion: nil)
+                
+                
+             }
+        }else{
+            print("Internet Connection not Available!")
+            self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
+        }
+        
+    }
+   
     func MapOncreateApicall() {
         
         hud = MBProgressHUD.showAdded(to: self.view, animated: true)
@@ -316,9 +394,11 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         
 //        let url = URL(string:"https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")
         
-        let url = URL(string:"https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")
+        let TestUrl = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25"
         
-        var request = URLRequest(url: url!)
+        guard let url = URL(string:TestUrl) else { return }
+        
+        var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
@@ -342,11 +422,15 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
                     
                     let gettost = "\(messageTost)"
                     
-                    if statusisSuccess == "false"{
+                    if statusisSuccess == false{
 
                         DispatchQueue.main.async {
                             self.view.showToast(toastMessage: gettost, duration: 0.3)
                             //self.hud.hide(animated: true)
+                            self.VPAutoDropTable.isHidden = true
+                            DispatchQueue.main.async {
+                                self.txtzipnamesearch.resignFirstResponder()
+                            }
                         }
                 
                     }else{
@@ -399,11 +483,15 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
                     print("statusisSuccess==>\(statusisSuccess)")
                     print("gettost==>\(gettost)")
                     
-                    if statusisSuccess == "false"{
+                    if statusisSuccess == false{
 
                         DispatchQueue.main.async {
                             self.view.showToast(toastMessage: gettost, duration: 0.3)
                             self.hud.hide(animated: true)
+                            self.VPAutoDropTable.isHidden = true
+                            DispatchQueue.main.async {
+                                self.txtzipnamesearch.resignFirstResponder()
+                            }
                         }
                 
                     }else{

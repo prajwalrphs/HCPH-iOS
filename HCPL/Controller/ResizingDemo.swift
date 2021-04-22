@@ -6,6 +6,13 @@ class ResizingDemo: UIViewController, Demoable {
     @IBOutlet var zipcodetext: UILabel!
     @IBOutlet var txtnote: UILabel!
     
+    @IBOutlet var viewone: UIView!
+    @IBOutlet var viewtwo: UIView!
+    @IBOutlet var viewthree: UIView!
+    
+    @IBOutlet var lbl1: UILabel!
+    @IBOutlet var lbl2: UILabel!
+    
     var navigationClass:webviewViewController!
 
     static var name: String { "Resize buttons" }
@@ -19,6 +26,27 @@ class ResizingDemo: UIViewController, Demoable {
         zipcodetext.text = Zipcode
         
         print("Zipcode==>\(Zipcode ?? "")")
+        
+        let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
+        print("onoff==>\(onoff ?? "")")
+        
+        if onoff == "on"{
+          
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .dark
+             }
+            
+            self.viewone.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            self.viewthree.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            self.lbl1.textColor = AppConstant.LabelColor
+            self.lbl2.textColor = AppConstant.LabelColor
+        }else if onoff == "off"{
+        
+            UIApplication.shared.windows.forEach { window in
+                 window.overrideUserInterfaceStyle = .light
+             }
+            
+        }
     }
     
     var code:String!
