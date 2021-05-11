@@ -85,6 +85,12 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     //var FirsttoolBar = UIToolbar()
     var FirstdatePicker : UIDatePicker!
     
+    var ImageBytesone = String()
+    var ImageBytestwo = String()
+    var ImageBytesthree = String()
+    var ImageBytesfour = String()
+    var ImageBytesfive = String()
+    
     var CheckMB = [Int]()
     
     //var LasttoolBar = UIToolbar()
@@ -928,6 +934,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
         hud.customView?.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
         hud.show(animated: true)
         
+        
         let parameters = [
             "violatorAddress":txtaddress.text as Any,
             "violatorAptNum":txtaptnumber.text as Any,
@@ -950,80 +957,84 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
             "PreviousAgencyDesc":txtagency.text as Any,
             "ReporterFirstName":txtfirstname.text as Any,
             "ReporterLastName":txtlastname.text as Any,
-            "ReporterPhone":txtphone.text as Any,
-            "ReporterEmail":txtemail.text as Any,
+            "reporterphone":txtphone.text as Any,
+            "reporteremail":txtemail.text as Any,
             "ReceivedDevice":"0",
-            "ImageList":"\(arrayimage)",
-            "ImageBytes5": "",
+            "ImageBytes":ImageBytesone,
+            "ImageBytes2":ImageBytestwo,
+            "ImageBytes3":ImageBytesthree,
+            "ImageBytes4":ImageBytesfour,
+            "ImageBytes5":ImageBytesfive,
         ] as [String : Any]
+        
 
 //        print("checkboxstring==>\(checkboxstring ?? "")")
-//        print("parameters==>\(parameters)")
+        print("parameters==>\(parameters)")
         
-        
-        let jsonData = try? JSONSerialization.data(withJSONObject: parameters)
-        
-
-        let url = URL(string: "https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/UploadVPHComplaint")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.httpBody = jsonData
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                 
-                 guard let data = data else { return }
-                 do{
-                     let json = try JSON(data:data)
-                     print("ReportAnimalApicall==> \(json)")
-                    
-                    let statusisSuccess = json["isSuccess"]
-                    let messageTost = json["message"]
-                    
-                    let gettost = "\(messageTost)"
-                    
-                    print("statusisSuccess==>\(statusisSuccess)")
-                    print("gettost==>\(gettost)")
-                    
-                    if statusisSuccess == "false"{
-
-                        DispatchQueue.main.async {
-                            self.view.showToast(toastMessage: gettost, duration: 0.3)
-                            self.hud.hide(animated: true)
-                        }
-                
-                    }else{
-                        let decoder = JSONDecoder()
-                        self.Reportanimal = try decoder.decode(CommercialPoolsWelcome.self, from: data)
-                        
-                        
-                        DispatchQueue.main.async {
-                          
-                              self.hud.hide(animated: true)
-                          
-                          self.view.showToast(toastMessage: "Form Successfully Submitted", duration: 0.3)
-                          
-                          DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                              // your code here
-                              let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
-                              navigate.selectdtab = 4
-                              self.navigationController?.pushViewController(navigate, animated: true)
-                          }
-                          
-
-                                  
-                          }
-                    }
-                 }catch{
-                     print(error.localizedDescription)
-                    DispatchQueue.main.async {
-                        self.hud.hide(animated: true)
-                    }
-                 }
-                 
-                 }
-
-        task.resume()
+//
+//        let jsonData = try? JSONSerialization.data(withJSONObject: parameters)
+//
+//
+//        let url = URL(string: "https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/UploadVPHComplaint")!
+//        var request = URLRequest(url: url)
+//        request.httpMethod = "POST"
+//        request.httpBody = jsonData
+//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+//
+//        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+//
+//                 guard let data = data else { return }
+//                 do{
+//                     let json = try JSON(data:data)
+//                     print("ReportAnimalApicall==> \(json)")
+//
+//                    let statusisSuccess = json["isSuccess"]
+//                    let messageTost = json["message"]
+//
+//                    let gettost = "\(messageTost)"
+//
+//                    print("statusisSuccess==>\(statusisSuccess)")
+//                    print("gettost==>\(gettost)")
+//
+//                    if statusisSuccess == "false"{
+//
+//                        DispatchQueue.main.async {
+//                            self.view.showToast(toastMessage: gettost, duration: 0.3)
+//                            self.hud.hide(animated: true)
+//                        }
+//
+//                    }else{
+//                        let decoder = JSONDecoder()
+//                        self.Reportanimal = try decoder.decode(CommercialPoolsWelcome.self, from: data)
+//
+//
+//                        DispatchQueue.main.async {
+//
+//                              self.hud.hide(animated: true)
+//
+//                          self.view.showToast(toastMessage: "Form Successfully Submitted", duration: 0.3)
+//
+//                          DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+//                              // your code here
+//                              let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+//                              navigate.selectdtab = 4
+//                              self.navigationController?.pushViewController(navigate, animated: true)
+//                          }
+//
+//
+//
+//                          }
+//                    }
+//                 }catch{
+//                     print(error.localizedDescription)
+//                    DispatchQueue.main.async {
+//                        self.hud.hide(animated: true)
+//                    }
+//                 }
+//
+//                 }
+//
+//        task.resume()
 
     }
     
@@ -1107,6 +1118,23 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
                 self.arrayimage.append(base64String2)
                 
                 //self.ImagevideoUrl?.append(base64String2)
+                
+                if arrayimage.count == 1{
+                    print("Count 1")
+                    ImageBytesone = "hjbsvdjkbwejdwdwhjqdhjwqhdjqwkdwqd"
+                }else if arrayimage.count == 2{
+                    print("Count 2")
+                    ImageBytestwo = "kwbhqdkjwqdbmwqdwkjqdkjwqdwqd"
+                }else if arrayimage.count == 3{
+                    print("Count 3")
+                    ImageBytesthree = "kqwbdkjwqbdjwqdqwhjdkjwqbdkjbwqkjdb wqkjd qw"
+                }else if arrayimage.count == 4{
+                    print("Count 4")
+                    ImageBytesfour = "kbdwjkqwdjkwqndkjnwqd"
+                }else if arrayimage.count == 5{
+                    print("Count 5")
+                    ImageBytesfive = "kjbwdjkwqbdkjwqbdjk"
+                }
                 
             
             }else{

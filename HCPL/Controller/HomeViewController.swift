@@ -536,7 +536,13 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                         
                         let action1 = UIAlertAction(title: "Vet Clinic Location", style: .default, handler: { (action) -> Void in
                                 print("ACTION 1 selected!")
-                                self.naviGetTo(url: "http://harriscounty.maps.arcgis.com/apps/webappviewer/index.html?id=4c596ce857ef4b50930c603f2fdef55e", title: "Vet Clinic")
+                            
+                            //Android Bhatti
+                            //http://harriscounty.maps.arcgis.com/apps/webappviewer/index.html?id=eab1cd0f94b34f2ca8c08fec6aeacf1b
+                            
+//                                self.naviGetTo(url: "http://harriscounty.maps.arcgis.com/apps/webappviewer/index.html?id=4c596ce857ef4b50930c603f2fdef55e", title: "Vet Clinic")
+                            
+                            self.naviGetTo(url: "http://harriscounty.maps.arcgis.com/apps/webappviewer/index.html?id=eab1cd0f94b34f2ca8c08fec6aeacf1b", title: "Vet Clinic")
                             })
                          
                             let action2 = UIAlertAction(title: "Dangerous Animal's Location", style: .default, handler: { (action) -> Void in

@@ -163,8 +163,6 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
 
         self.submitoutlate.layer.cornerRadius = 25
         
-
-
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool{

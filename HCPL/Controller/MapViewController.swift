@@ -52,6 +52,8 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        SearchText.setImage(UIImage(), for: .search, state: .normal)
+        
         
         NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
@@ -83,12 +85,12 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
          }
         toolBar.sizeToFit()
 
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneClickLast))
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelClickLast))
-        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
-        toolBar.isUserInteractionEnabled = true
-        SearchText.inputAccessoryView = toolBar
+//        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneClickLast))
+//        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+//        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelClickLast))
+//        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+//        toolBar.isUserInteractionEnabled = true
+//        SearchText.inputAccessoryView = toolBar
         
         alertController = UIAlertController(title: "Notice:", message: "Please note that the disease may not be found in the complete area of your zip code.", preferredStyle: UIAlertController.Style.alert)
         let cancelAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel)

@@ -736,9 +736,10 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
                             self.present(alertController, animated: true, completion: nil)
                         case .authorizedAlways, .authorizedWhenInUse:
                             print("Access")
-                            locationManager.delegate = self
-                            locationManager.startUpdatingLocation()
-                            CustomMapView.isMyLocationEnabled = true
+//                            locationManager.delegate = self
+//                            locationManager.startUpdatingLocation()
+//                            CustomMapView.isMyLocationEnabled = true
+                            ShowLocation()
                         @unknown default:
                         break
                     }
@@ -1084,7 +1085,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         if currentLocation == nil{
             print("only show map")
         }else{
-            let camera = GMSCameraPosition.camera(withLatitude: currentLocation!.latitude, longitude: currentLocation!.longitude, zoom: 15.0)
+            let camera = GMSCameraPosition.camera(withLatitude: currentLocation!.latitude, longitude: currentLocation!.longitude, zoom: 23.0)
                 CustomMapView.animate(to: camera)
             
             let sourceMarker = GMSMarker()
@@ -1117,7 +1118,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         marker.icon = MarkerImage
         marker.position = CLLocationCoordinate2DMake(latDouble,longDouble)
         marker.title = Miles
-        let camera = GMSCameraPosition.camera(withLatitude: lat, longitude: long, zoom: 15.0)
+        let camera = GMSCameraPosition.camera(withLatitude: lat, longitude: long, zoom: 23.0)
         CustomMapView.animate(to: camera)
         //self.view.addSubview(self.viewMap)
         self.CustomMapView.delegate = self

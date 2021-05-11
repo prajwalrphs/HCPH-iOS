@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "hospital-icon22x22.png",
+      "filename" : "hospital-icon66x66.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "hospital-icon44x44.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "hospital-icon66x66.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
