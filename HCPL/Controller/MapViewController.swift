@@ -16,6 +16,7 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
     @IBOutlet var imgsearch: UIImageView!
     @IBOutlet var imginfo: UIImageView!
     @IBOutlet var imggpslocation: UIButton!
+    @IBOutlet var Searchbuttonview: UIView!
     
     var hud: MBProgressHUD = MBProgressHUD()
     
@@ -79,18 +80,26 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
         toolBar.backgroundColor = #colorLiteral(red: 0.4118635654, green: 0.7550011873, blue: 0.330655843, alpha: 1)
        
          if onoff == "on"{
+            //SearchText.tintColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+            //SearchText.barTintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+            SearchText.layer.cornerRadius = 10
+            SearchText.clipsToBounds = true
+            SearchText.barTintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            
+            
+            Searchbuttonview.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
              toolBar.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
          }else{
              toolBar.tintColor = #colorLiteral(red: 0.4118635654, green: 0.7550011873, blue: 0.330655843, alpha: 1)
          }
         toolBar.sizeToFit()
 
-//        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneClickLast))
-//        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-//        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelClickLast))
-//        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
-//        toolBar.isUserInteractionEnabled = true
-//        SearchText.inputAccessoryView = toolBar
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneClickLast))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelClickLast))
+        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        SearchText.inputAccessoryView = toolBar
         
         alertController = UIAlertController(title: "Notice:", message: "Please note that the disease may not be found in the complete area of your zip code.", preferredStyle: UIAlertController.Style.alert)
         let cancelAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel)
@@ -163,6 +172,68 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
 
     @objc func didBecomeActive() {
         print("did become active")
+        if Reachability.isConnectedToNetwork(){
+            
+            if CLLocationManager.locationServicesEnabled() == true {
+                if CLLocationManager.locationServicesEnabled() {
+                    switch CLLocationManager.authorizationStatus() {
+                    case .notDetermined:
+                        self.locationManager.requestWhenInUseAuthorization()
+                    case .restricted, .denied:
+                            print("No access")
+                            mapview.isHidden = true
+                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                //Redirect to Settings app
+                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                            })
+
+                        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {(cAlertAction) in
+                            //Redirect to Settings app
+                            let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                            navigate.selectdtab = 2
+                            self.navigationController?.pushViewController(navigate, animated: true)
+                        })
+                        
+                            alertController.addAction(cancelAction)
+
+                            alertController.addAction(okAction)
+
+                            self.present(alertController, animated: true, completion: nil)
+                        case .authorizedAlways, .authorizedWhenInUse:
+                            print("Access")
+                            mapview.isHidden = false
+                            
+                        @unknown default:
+                        break
+                    }
+                    } else {
+                        print("Location services are not enabled")
+                }
+               
+            }else {
+                
+                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                    //Redirect to Settings app
+                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                })
+
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                alertController.addAction(cancelAction)
+
+                alertController.addAction(okAction)
+
+                self.present(alertController, animated: true, completion: nil)
+                
+                
+             }
+        }else{
+            print("Internet Connection not Available!")
+            self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
+        }
     }
 
     @objc func willEnterForeground() {
@@ -173,7 +244,9 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
             if CLLocationManager.locationServicesEnabled() == true {
                 if CLLocationManager.locationServicesEnabled() {
                     switch CLLocationManager.authorizationStatus() {
-                        case .notDetermined, .restricted, .denied:
+                    case .notDetermined:
+                        self.locationManager.requestWhenInUseAuthorization()
+                    case .restricted, .denied:
                             print("No access")
                             mapview.isHidden = true
                             let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
@@ -183,7 +256,13 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
                                 UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
                             })
 
-                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {(cAlertAction) in
+                            //Redirect to Settings app
+                            let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                            navigate.selectdtab = 2
+                            self.navigationController?.pushViewController(navigate, animated: true)
+                        })
+                        
                             alertController.addAction(cancelAction)
 
                             alertController.addAction(okAction)

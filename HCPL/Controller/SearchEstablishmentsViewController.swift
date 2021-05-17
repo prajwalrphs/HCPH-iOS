@@ -22,6 +22,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
     @IBOutlet var Filterimage: UIImageView!
     @IBOutlet var Listimage: UIImageView!
     @IBOutlet var txtzipnamesearch: UITextField!
+    @IBOutlet var txtzipnamesearchtwo: UITextField!
     @IBOutlet var establishmentNameimagesort: UIImageView!
     @IBOutlet var milesAwayimagesort: UIImageView!
     @IBOutlet var demeritsimagesort: UIImageView!
@@ -32,6 +33,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
     @IBOutlet var lblmapmiles: UILabel!
     @IBOutlet var lblmapDemerits: UILabel!
     @IBOutlet var lblmapdate: UILabel!
+    @IBOutlet var Searchbuttonview: UIView!
     
     @IBOutlet var view1: UIView!
     @IBOutlet var view2: UIView!
@@ -96,7 +98,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        txtzipnamesearchtwo.isHidden = true
         NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
 
@@ -114,9 +116,13 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         demeritsimagesort.isHidden = true
         
         txtzipnamesearch.delegate = self
+        txtzipnamesearchtwo.delegate = self
         
         txtzipnamesearch.autocapitalizationType = .sentences
         txtzipnamesearch.autocapitalizationType = .words
+        
+        txtzipnamesearchtwo.autocapitalizationType = .sentences
+        txtzipnamesearchtwo.autocapitalizationType = .words
         
         if Reachability.isConnectedToNetwork(){
             MapOncreateApicall()
@@ -145,6 +151,14 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
             self.view1.backgroundColor = #colorLiteral(red: 0.262745098, green: 0.3725490196, blue: 0.4666666667, alpha: 1)
             self.view2.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
             self.view3.backgroundColor = #colorLiteral(red: 0.262745098, green: 0.3725490196, blue: 0.4666666667, alpha: 1)
+            
+            Searchbuttonview.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            txtzipnamesearchtwo.backgroundColor = AppConstant.ViewColor
+            txtzipnamesearch.backgroundColor = AppConstant.ViewColor
+            
+            txtzipnamesearchtwo.attributedPlaceholder = NSAttributedString(string: "Search by Name, Address or Zip",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            
+            txtzipnamesearch.attributedPlaceholder = NSAttributedString(string: "Search by Name, Address or Zip",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
             
             let image = UIImage(named: "gps")?.withRenderingMode(.alwaysTemplate)
             GPSLocationoutlate.setImage(image, for: .normal)
@@ -199,8 +213,12 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
 
     @objc func didBecomeActive() {
         print("did become active")
+//        let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+//        navigate.selectdtab = 2
+//        self.navigationController?.pushViewController(navigate, animated: true)
     }
-
+    
+        
     @objc func willEnterForeground() {
         print("will enter foreground")
         
@@ -209,16 +227,30 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
             if CLLocationManager.locationServicesEnabled() == true {
                 if CLLocationManager.locationServicesEnabled() {
                     switch CLLocationManager.authorizationStatus() {
-                        case .notDetermined, .restricted, .denied:
+                    case .notDetermined:
+                        //self.locationManager.requestAlwaysAuthorization()
+
+                        self.locationManager.requestWhenInUseAuthorization()
+                    case .restricted, .denied:
                             print("No access")
+                        //self.locationManager.requestWhenInUseAuthorization()
                             let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
 
                             let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
                                 //Redirect to Settings app
                                 UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
                             })
+                        
+                        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {(cAlertAction) in
+                            //Redirect to Settings app
+                            let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                            navigate.selectdtab = 2
+                            self.navigationController?.pushViewController(navigate, animated: true)
+                        })
 
-                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                            //let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                        
+                        
                             alertController.addAction(cancelAction)
 
                             alertController.addAction(okAction)
@@ -293,7 +325,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
                     print("statusisSuccess==>\(statusisSuccess)")
                     print("gettost==>\(gettost)")
                     
-                    if statusisSuccess == "false"{
+                    if statusisSuccess == false{
 
                         DispatchQueue.main.async {
                             self.view.showToast(toastMessage: gettost, duration: 0.3)
@@ -321,6 +353,133 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
 
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool{
+        print("Serch")
+        
+        if textField == txtzipnamesearch{
+            if Reachability.isConnectedToNetwork(){
+                if CLLocationManager.locationServicesEnabled() == true {
+                    if CLLocationManager.locationServicesEnabled() {
+                        switch CLLocationManager.authorizationStatus() {
+                            case .notDetermined, .restricted, .denied:
+                                print("No access")
+                                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                    //Redirect to Settings app
+                                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                                })
+
+                                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                                alertController.addAction(cancelAction)
+
+                                alertController.addAction(okAction)
+
+                                self.present(alertController, animated: true, completion: nil)
+                            case .authorizedAlways, .authorizedWhenInUse:
+                                print("Access")
+                                if txtzipnamesearch.text?.isEmpty == true{
+                                    self.view.showToast(toastMessage: "Please enter search value", duration: 0.3)
+                                }else{
+                                    self.VPAutoDropTable.isHidden = true
+                                    DispatchQueue.main.async {
+                                        self.txtzipnamesearch.resignFirstResponder()
+                                    }
+                                    SearchApicall(Find: txtzipnamesearch.text ?? "")
+                                }
+                            @unknown default:
+                            break
+                        }
+                        } else {
+                            print("Location services are not enabled")
+                    }
+
+                }else {
+                    
+                    let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                    let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                        //Redirect to Settings app
+                        UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                    })
+
+                    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                    alertController.addAction(cancelAction)
+
+                    alertController.addAction(okAction)
+
+                    self.present(alertController, animated: true, completion: nil)
+                    
+                    
+                 }
+            }else{
+                self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
+            }
+        }else if textField == txtzipnamesearchtwo{
+            if Reachability.isConnectedToNetwork(){
+                if CLLocationManager.locationServicesEnabled() == true {
+                    if CLLocationManager.locationServicesEnabled() {
+                        switch CLLocationManager.authorizationStatus() {
+                            case .notDetermined, .restricted, .denied:
+                                print("No access")
+                                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                    //Redirect to Settings app
+                                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                                })
+
+                                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                                alertController.addAction(cancelAction)
+
+                                alertController.addAction(okAction)
+
+                                self.present(alertController, animated: true, completion: nil)
+                            case .authorizedAlways, .authorizedWhenInUse:
+                                print("Access")
+                                if txtzipnamesearchtwo.text?.isEmpty == true{
+                                    self.view.showToast(toastMessage: "Please enter search value", duration: 0.3)
+                                }else{
+                                    self.VPAutoDropTable.isHidden = true
+                                    DispatchQueue.main.async {
+                                        self.txtzipnamesearchtwo.resignFirstResponder()
+                                    }
+                                    SearchApicall(Find: txtzipnamesearchtwo.text ?? "")
+                                }
+                            @unknown default:
+                            break
+                        }
+                        } else {
+                            print("Location services are not enabled")
+                    }
+
+                }else {
+                    
+                    let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                    let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                        //Redirect to Settings app
+                        UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                    })
+
+                    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                    alertController.addAction(cancelAction)
+
+                    alertController.addAction(okAction)
+
+                    self.present(alertController, animated: true, completion: nil)
+                    
+                    
+                 }
+            }else{
+                self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
+            }
+        }
+        
+        return true
+    }
+    
+   
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == txtzipnamesearch{
             if CLLocationManager.locationServicesEnabled() {
@@ -362,6 +521,8 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
                                             }
                                             
                                         }
+                                        
+                                        
                                      }else if count <= 1{
                                         VPAutoDropTable.isHidden = true
                                         print("LastPin1==>")
@@ -383,7 +544,11 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         }else{
             return true
         }
+        return true
         }
+    
+    
+    
     
     func SearchApicalltwo(Find:String) {
         
@@ -456,6 +621,10 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
     }
     
     func SearchApicall(Find:String) {
+       
+            self.hud.hide(animated: true)
+        
+        
         
         hud = MBProgressHUD.showAdded(to: self.view, animated: true)
         hud.bezelView.color = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
@@ -773,64 +942,127 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
     
     @IBAction func searchbutton(_ sender: UIButton) {
         
-        if Reachability.isConnectedToNetwork(){
-            if CLLocationManager.locationServicesEnabled() == true {
-                if CLLocationManager.locationServicesEnabled() {
-                    switch CLLocationManager.authorizationStatus() {
-                        case .notDetermined, .restricted, .denied:
-                            print("No access")
-                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+        if countButton == 1{
+            if Reachability.isConnectedToNetwork(){
+                if CLLocationManager.locationServicesEnabled() == true {
+                    if CLLocationManager.locationServicesEnabled() {
+                        switch CLLocationManager.authorizationStatus() {
+                            case .notDetermined, .restricted, .denied:
+                                print("No access")
+                                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
 
-                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
-                                //Redirect to Settings app
-                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
-                            })
+                                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                    //Redirect to Settings app
+                                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                                })
 
-                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
-                            alertController.addAction(cancelAction)
+                                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                                alertController.addAction(cancelAction)
 
-                            alertController.addAction(okAction)
+                                alertController.addAction(okAction)
 
-                            self.present(alertController, animated: true, completion: nil)
-                        case .authorizedAlways, .authorizedWhenInUse:
-                            print("Access")
-                            if txtzipnamesearch.text?.isEmpty == true{
-                                self.view.showToast(toastMessage: "Please enter search value", duration: 0.3)
-                            }else{
-                                self.VPAutoDropTable.isHidden = true
-                                DispatchQueue.main.async {
-                                    self.txtzipnamesearch.resignFirstResponder()
+                                self.present(alertController, animated: true, completion: nil)
+                            case .authorizedAlways, .authorizedWhenInUse:
+                                print("Access")
+                                if txtzipnamesearchtwo.text?.isEmpty == true{
+                                    self.view.showToast(toastMessage: "Please enter search value", duration: 0.3)
+                                }else{
+                                    self.VPAutoDropTable.isHidden = true
+                                    DispatchQueue.main.async {
+                                        self.txtzipnamesearchtwo.resignFirstResponder()
+                                    }
+                                    SearchApicall(Find: txtzipnamesearchtwo.text ?? "")
                                 }
-                                SearchApicall(Find: txtzipnamesearch.text ?? "")
-                            }
-                        @unknown default:
-                        break
+                            @unknown default:
+                            break
+                        }
+                        } else {
+                            print("Location services are not enabled")
                     }
-                    } else {
-                        print("Location services are not enabled")
-                }
 
-            }else {
-                
-                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+                }else {
+                    
+                    let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
 
-                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
-                    //Redirect to Settings app
-                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
-                })
+                    let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                        //Redirect to Settings app
+                        UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                    })
 
-                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
-                alertController.addAction(cancelAction)
+                    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                    alertController.addAction(cancelAction)
 
-                alertController.addAction(okAction)
+                    alertController.addAction(okAction)
 
-                self.present(alertController, animated: true, completion: nil)
-                
-                
-             }
+                    self.present(alertController, animated: true, completion: nil)
+                    
+                    
+                 }
+            }else{
+                self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
+            }
         }else{
-            self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
+            if Reachability.isConnectedToNetwork(){
+                if CLLocationManager.locationServicesEnabled() == true {
+                    if CLLocationManager.locationServicesEnabled() {
+                        switch CLLocationManager.authorizationStatus() {
+                            case .notDetermined, .restricted, .denied:
+                                print("No access")
+                                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                    //Redirect to Settings app
+                                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                                })
+
+                                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                                alertController.addAction(cancelAction)
+
+                                alertController.addAction(okAction)
+
+                                self.present(alertController, animated: true, completion: nil)
+                            case .authorizedAlways, .authorizedWhenInUse:
+                                print("Access")
+                                if txtzipnamesearch.text?.isEmpty == true{
+                                    self.view.showToast(toastMessage: "Please enter search value", duration: 0.3)
+                                }else{
+                                    self.VPAutoDropTable.isHidden = true
+                                    DispatchQueue.main.async {
+                                        self.txtzipnamesearch.resignFirstResponder()
+                                    }
+                                    SearchApicall(Find: txtzipnamesearch.text ?? "")
+                                }
+                            @unknown default:
+                            break
+                        }
+                        } else {
+                            print("Location services are not enabled")
+                    }
+
+                }else {
+                    
+                    let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                    let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                        //Redirect to Settings app
+                        UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                    })
+
+                    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                    alertController.addAction(cancelAction)
+
+                    alertController.addAction(okAction)
+
+                    self.present(alertController, animated: true, completion: nil)
+                    
+                    
+                 }
+            }else{
+                self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
+            }
         }
+        
+        
     }
     
     @IBAction func filter(_ sender: UIButton) {
@@ -846,6 +1078,8 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
             Listimage.image = Listimage.image?.withRenderingMode(.alwaysTemplate)
             Listimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
             Searchlistviewfilter.isHidden = false
+            txtzipnamesearch.isHidden =  true
+            txtzipnamesearchtwo.isHidden = false
             countButton = 1
         }else if countButton == 1{
             Listimage.image = #imageLiteral(resourceName: "listviewicon")
@@ -853,6 +1087,9 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
             Listimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
             Searchlistviewfilter.isHidden = true
             VPAutoDropTable.isHidden = true
+            txtzipnamesearchtwo.isHidden = true
+            txtzipnamesearch.isHidden = false
+            
             countButton = 0
             
         }
@@ -1069,6 +1306,79 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         locationManager.stopUpdatingLocation()
         ShowLocation()
         locationManager.delegate = nil
+        
+        let geocoder = GMSGeocoder()
+        geocoder.reverseGeocodeCoordinate(locValue) { response, error in
+            if error != nil {
+                print("reverse geodcode fail: \(error!.localizedDescription)")
+            } else {
+                if let places = response?.results() {
+                    if let place = places.first {
+                        print(place.lines)
+                        print("GEOCODE: Formatted postalCode: \(place.postalCode ?? "")")
+                       
+                        
+                        if Reachability.isConnectedToNetwork(){
+                            if CLLocationManager.locationServicesEnabled() == true {
+                                if CLLocationManager.locationServicesEnabled() {
+                                    switch CLLocationManager.authorizationStatus() {
+                                        case .notDetermined, .restricted, .denied:
+                                            print("No access")
+                                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                                //Redirect to Settings app
+                                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                                            })
+
+                                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                                            alertController.addAction(cancelAction)
+
+                                            alertController.addAction(okAction)
+
+                                            self.present(alertController, animated: true, completion: nil)
+                                        case .authorizedAlways, .authorizedWhenInUse:
+                                            print("Access")
+                                            self.SearchApicall(Find: place.postalCode ?? "")
+                                        @unknown default:
+                                        break
+                                    }
+                                    } else {
+                                        print("Location services are not enabled")
+                                }
+
+                            }else {
+                                
+                                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                    //Redirect to Settings app
+                                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                                })
+
+                                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                                alertController.addAction(cancelAction)
+
+                                alertController.addAction(okAction)
+
+                                self.present(alertController, animated: true, completion: nil)
+                                
+                                
+                             }
+                        }else{
+                            self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
+                        }
+                       
+                        
+                    
+                    } else {
+                        print("GEOCODE: nil first in places")
+                    }
+                } else {
+                    print("GEOCODE: nil in places")
+                }
+            }
+        }
 
     }
     
@@ -1085,7 +1395,8 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         if currentLocation == nil{
             print("only show map")
         }else{
-            let camera = GMSCameraPosition.camera(withLatitude: currentLocation!.latitude, longitude: currentLocation!.longitude, zoom: 23.0)
+            
+            let camera = GMSCameraPosition.camera(withLatitude: currentLocation!.latitude, longitude: currentLocation!.longitude, zoom: 17.0)
                 CustomMapView.animate(to: camera)
             
             let sourceMarker = GMSMarker()
@@ -1118,7 +1429,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         marker.icon = MarkerImage
         marker.position = CLLocationCoordinate2DMake(latDouble,longDouble)
         marker.title = Miles
-        let camera = GMSCameraPosition.camera(withLatitude: lat, longitude: long, zoom: 23.0)
+        let camera = GMSCameraPosition.camera(withLatitude: lat, longitude: long, zoom: 17.0)
         CustomMapView.animate(to: camera)
         //self.view.addSubview(self.viewMap)
         self.CustomMapView.delegate = self

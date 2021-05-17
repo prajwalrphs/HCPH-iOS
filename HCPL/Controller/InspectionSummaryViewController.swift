@@ -62,7 +62,7 @@ class InspectionSummaryViewController: UIViewController,GMSMapViewDelegate,CLLoc
     var inspectionstatusarrayimage = [#imageLiteral(resourceName: "certifiedmanageronsite66x66_opacity"),#imageLiteral(resourceName: "citationissues66x66_opacity"),#imageLiteral(resourceName: "correctedonsite66x66_opacity"),#imageLiteral(resourceName: "complaintbased66x66_opacity"),#imageLiteral(resourceName: "foodborneillnessinvestigation66x66_opacity"),#imageLiteral(resourceName: "fooddestroyed66x66_opacity")]
     var currentstatusarrayimage = [#imageLiteral(resourceName: "closure66x66_opacity"),#imageLiteral(resourceName: "redtagissued66x66_opacity"),#imageLiteral(resourceName: "foodsafetyaward66x66_opacity"),#imageLiteral(resourceName: "redtagremoved66x66_opacity"),#imageLiteral(resourceName: "foodconferenceparticipant66x66_opacity")]
     
-    var inspectionstatusarraylabel = ["Certifield Manage on Site","Citation Issued","Corrected On Site","Complaint Based","Foodborne Illness Investigation","Food Destroyed"]
+    var inspectionstatusarraylabel = ["Certified Manage on Site","Citation Issued","Corrected On Site","Complaint Based","Foodborne Illness Investigation","Food Destroyed"]
     var currentstatusarraylabel = ["Closure","Red Tag Issued","Food Safety Award","Red Tag Removed","Food Conference Participant"]
     
     var TitleAddress:String!
@@ -241,43 +241,43 @@ class InspectionSummaryViewController: UIViewController,GMSMapViewDelegate,CLLoc
                     let messageTost = json["message"]
                     let gettost = "\(messageTost)"
                                         
-                    let MeinData = json["data"]
+                    //let MeinData = json["data"]
                                         
-                    for (key, value) in MeinData {
-                    
-                        for (keyy, value) in value{
-                            
-                            print("keyykeyy==>\(keyy)")
-                            print("value==>\(value)")
-                            
-                            if keyy == "citationsIssued"{
-                                self.CitationsIssued = "citationsIssued"
-                            
-                            }else if keyy == "certifiedManagers"{
-                                self.CertifiedManagers = "certifiedManagers"
-                                
-                            }else if keyy == "correctedOnSite"{
-                                self.CorrectedOnSite = "correctedOnSite"
-                                
-                            }else if keyy == "complaintDriven"{
-                                self.ComplaintDriven = "complaintDriven"
-                               
-                            }else if keyy == "foodborneIllnesInvestigation"{
-                                self.FoodborneIllnesInvestigation = "foodborneIllnesInvestigation"
-                                
-                            }else if keyy == "pounds_of_food_destroyed"{
-                                self.Pounds_of_food_destroyed = "pounds_of_food_destroyed"
-                                
-                            }
-                            
-                        }
-                    }
+//                    for (key, value) in MeinData {
+//
+//                        for (keyy, value) in value{
+//
+//                            print("keyykeyy==>\(keyy)")
+//                            print("value==>\(value)")
+//
+//                            if keyy == "citationsIssued"{
+//                                self.CitationsIssued = "citationsIssued"
+//
+//                            }else if keyy == "certifiedManagers"{
+//                                self.CertifiedManagers = "certifiedManagers"
+//
+//                            }else if keyy == "correctedOnSite"{
+//                                self.CorrectedOnSite = "correctedOnSite"
+//
+//                            }else if keyy == "complaintDriven"{
+//                                self.ComplaintDriven = "complaintDriven"
+//
+//                            }else if keyy == "foodborneIllnesInvestigation"{
+//                                self.FoodborneIllnesInvestigation = "foodborneIllnesInvestigation"
+//
+//                            }else if keyy == "pounds_of_food_destroyed"{
+//                                self.Pounds_of_food_destroyed = "pounds_of_food_destroyed"
+//
+//                            }
+//
+//                        }
+//                    }
                     
                     DispatchQueue.main.async {
                         self.inspectioncurrentcollection.reloadData()
                     }
                     
-                    if statusisSuccess == "false"{
+                    if statusisSuccess == false{
 
                         DispatchQueue.main.async {
                             self.view.showToast(toastMessage: gettost, duration: 0.3)
@@ -373,7 +373,7 @@ class InspectionSummaryViewController: UIViewController,GMSMapViewDelegate,CLLoc
                     print("statusisSuccess==>\(statusisSuccess)")
                     print("gettost==>\(gettost)")
                     
-                    if statusisSuccess == "false"{
+                    if statusisSuccess == false{
 
                         DispatchQueue.main.async {
                             self.view.showToast(toastMessage: gettost, duration: 0.3)
@@ -384,7 +384,48 @@ class InspectionSummaryViewController: UIViewController,GMSMapViewDelegate,CLLoc
                         let decoder = JSONDecoder()
                         self.ViolationsGet = try decoder.decode(Violations.self, from: data)
                         
+                        for i in self.ViolationsGet!.data{
+                            
+                            if i.certifiedManagers == "Yes"{
+                                self.CertifiedManagers = "certifiedManagers"
+                            }else{
+                                self.CertifiedManagers = ""
+                            }
+                            
+                            if i.citationsIssued == "0"{
+                                self.CitationsIssued = ""
+                            }else{
+                                self.CitationsIssued = "citationsIssued"
+                            }
+                            
+                            if i.correctedOnSite == "No"{
+                                self.CorrectedOnSite = ""
+                            }else{
+                                self.CorrectedOnSite = "correctedOnSite"
+                            }
+                            
+                            if i.complaintDriven == "No"{
+                                self.ComplaintDriven = ""
+                            }else{
+                                self.ComplaintDriven = "complaintDriven"
+                            }
+                            
+                            if i.foodborneIllnesInvestigation == "No"{
+                                self.FoodborneIllnesInvestigation = ""
+                            }else{
+                                self.FoodborneIllnesInvestigation = "foodborneIllnesInvestigation"
+                            }
+                            
+                            if i.poundsOfFoodDestroyed == "0"{
+                                self.FoodborneIllnesInvestigation = ""
+                            }else{
+                                self.FoodborneIllnesInvestigation = "pounds_of_food_destroyed"
+                            }
+                            
+                        }
+                        
                         DispatchQueue.main.async {
+                            self.inspectioncurrentcollection.reloadData()
                             self.inspectioncurrenttableview.reloadData()
                             self.hud.hide(animated: true)
                           }
@@ -511,7 +552,7 @@ class InspectionSummaryViewController: UIViewController,GMSMapViewDelegate,CLLoc
         
         if Reachability.isConnectedToNetwork(){
             
-            naviGetTo(url: "https://apps.harriscountytx.gov/PublicHealthPortal/Charts/" + "\(establishmentNumberApi ?? "")", title: "Score History")
+            naviGetToBottomViewopen(url: "https://apps.harriscountytx.gov/PublicHealthPortal/Charts/" + "\(establishmentNumberApi ?? "")", title: "Score History",Check: "ScoreHistory")
         
         }else{
             
@@ -526,7 +567,8 @@ class InspectionSummaryViewController: UIViewController,GMSMapViewDelegate,CLLoc
         
         if Reachability.isConnectedToNetwork(){
             
-            naviGetTo(url: "https://secure.hcphes.org/InspectionReport/" + "\(inspectionNumberLink ?? "")", title: "View Report")
+           
+            naviGetToBottomViewopen(url: "https://secure.hcphes.org/InspectionReport/" + "\(inspectionNumberLink ?? "")", title: "View Report", Check: "ViewReport")
         
         }else{
             
@@ -1167,6 +1209,17 @@ class InspectionSummaryViewController: UIViewController,GMSMapViewDelegate,CLLoc
         
         navigate.strUrl = url
         navigate.strTitle = title
+        
+        self.navigationController?.pushViewController(navigate, animated: true)
+        
+    }
+    
+    func naviGetToBottomViewopen(url:String, title:String, Check:String){
+        let navigate:webviewViewController = self.storyboard?.instantiateViewController(withIdentifier: "webviewViewController") as! webviewViewController
+        
+        navigate.strUrl = url
+        navigate.strTitle = title
+        navigate.CheckCondition = Check
         
         self.navigationController?.pushViewController(navigate, animated: true)
         

@@ -158,7 +158,7 @@ class AllTableViewController: UIViewController,UITableViewDelegate,UITableViewDa
                 let navigate:HoursViewController = self.storyboard?.instantiateViewController(withIdentifier: "HoursViewController") as! HoursViewController
                 navigate.WeekArray = DantalWeekArray
                 navigate.Timearray = DantalTimearray
-                navigate.TitleTopBar = "Dantal"
+                navigate.TitleTopBar = "Dental"
                 self.navigationController?.pushViewController(navigate, animated: true)
             }
         }

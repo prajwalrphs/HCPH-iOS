@@ -55,6 +55,8 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
     var InspectionItemResult = [Any]()
     //var InspectionItemResult = [NSDictionary]()
     
+    var bytes = Array<UInt8>()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -230,12 +232,16 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
                 dismiss(animated: true, completion: nil)
                 self.Mosquitocollection.reloadData()
                 
+                let dataa = selectedImage.pngData()
+                bytes = getArrayOfBytesFromImage(imageData: dataa! as NSData)
+                let datos: NSData = NSData(bytes: bytes, length: bytes.count)
+                
 //                let imageData: Data? = selectedImage.jpegData(compressionQuality: 0.4)
 //                let imageStr = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
 //                self.arrayimage.append(imageStr)
                 
-                let imageData2:Data =  selectedImage.pngData()!
-                let base64String2 = imageData2.base64EncodedString()
+                //let imageData2:Data =  selectedImage.pngData()!
+                let base64String2 = datos.base64EncodedString()
                 
                 self.arrayimage.append(base64String2)
                 
@@ -260,6 +266,29 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
 
      }
         
+    }
+    
+    func getArrayOfBytesFromImage(imageData:NSData) -> Array<UInt8>
+    {
+
+      // the number of elements:
+      let count = imageData.length / MemoryLayout<Int8>.size
+
+      // create array of appropriate length:
+      var bytes = [UInt8](repeating: 0, count: count)
+
+      // copy bytes into array
+      imageData.getBytes(&bytes, length:count * MemoryLayout<Int8>.size)
+
+      var byteArray:Array = Array<UInt8>()
+
+      for i in 0 ..< count {
+        byteArray.append(bytes[i])
+      }
+
+      return byteArray
+
+
     }
     
     @IBAction func submitaction(_ sender: UIButton) {

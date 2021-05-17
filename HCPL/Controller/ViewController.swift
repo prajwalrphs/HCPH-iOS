@@ -24,7 +24,7 @@ class ViewController: AMTabsViewController {
         if onoff == "on"{
             AMTabView.settings.ballColor = #colorLiteral(red: 0.4235294118, green: 0.7490196078, blue: 0.3529411765, alpha: 1)
             AMTabView.settings.tabColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-            AMTabView.settings.selectedTabTintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            AMTabView.settings.selectedTabTintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
             AMTabView.settings.unSelectedTabTintColor = #colorLiteral(red: 0.4235294118, green: 0.7490196078, blue: 0.3529411765, alpha: 1)
 
             // Chnage the animation duration

@@ -125,6 +125,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     
     var hud: MBProgressHUD = MBProgressHUD()
     
+    var bytes = Array<UInt8>()
 
     
     
@@ -1112,8 +1113,12 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     //            let imageStr = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
     //            self.ImagevideoUrl?.append(imageStr)
                 
-                let imageData2:Data =  selectedImage.pngData()!
-                let base64String2 = imageData2.base64EncodedString()
+                let dataa = selectedImage.pngData()
+                bytes = getArrayOfBytesFromImage(imageData: dataa! as NSData)
+                let datos: NSData = NSData(bytes: bytes, length: bytes.count)
+                
+                //let imageData2:Data =  selectedImage.pngData()!
+                let base64String2 = datos.base64EncodedString()
                 
                 self.arrayimage.append(base64String2)
                 
@@ -1121,19 +1126,19 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
                 
                 if arrayimage.count == 1{
                     print("Count 1")
-                    ImageBytesone = "hjbsvdjkbwejdwdwhjqdhjwqhdjqwkdwqd"
+                    ImageBytesone = base64String2
                 }else if arrayimage.count == 2{
                     print("Count 2")
-                    ImageBytestwo = "kwbhqdkjwqdbmwqdwkjqdkjwqdwqd"
+                    ImageBytestwo = base64String2
                 }else if arrayimage.count == 3{
                     print("Count 3")
-                    ImageBytesthree = "kqwbdkjwqbdjwqdqwhjdkjwqbdkjbwqkjdb wqkjd qw"
+                    ImageBytesthree = base64String2
                 }else if arrayimage.count == 4{
                     print("Count 4")
-                    ImageBytesfour = "kbdwjkqwdjkwqndkjnwqd"
+                    ImageBytesfour = base64String2
                 }else if arrayimage.count == 5{
                     print("Count 5")
-                    ImageBytesfive = "kjbwdjkwqbdkjwqbdjk"
+                    ImageBytesfive = base64String2
                 }
                 
             
@@ -1156,6 +1161,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
             
 
     }
+        
         
         
         if let videoUrl = info[UIImagePickerController.InfoKey.mediaURL] as? NSURL{
@@ -1218,6 +1224,29 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
         
         
         
+    }
+    
+    func getArrayOfBytesFromImage(imageData:NSData) -> Array<UInt8>
+    {
+
+      // the number of elements:
+      let count = imageData.length / MemoryLayout<Int8>.size
+
+      // create array of appropriate length:
+      var bytes = [UInt8](repeating: 0, count: count)
+
+      // copy bytes into array
+      imageData.getBytes(&bytes, length:count * MemoryLayout<Int8>.size)
+
+      var byteArray:Array = Array<UInt8>()
+
+      for i in 0 ..< count {
+        byteArray.append(bytes[i])
+      }
+
+      return byteArray
+
+
     }
     
     

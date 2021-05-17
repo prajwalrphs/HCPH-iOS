@@ -25,8 +25,8 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
     
     var ServicesPrograms = ["Clinical Services","Animal Services","Mosquito Concerns","Environmental","Food Services"]
     
-    var ClinicServicesArr = ["Medical Clinics","Refugee Clinics","Dental Clinics","WIC","Mobile clinics"]
-    var AnimalServiceArr = ["Shelter Animals","Report Animal Cruelty","VPH maps","Events Calendar","Wish List","Visit Our Website"]
+    var ClinicServicesArr = ["Medical Clinics","Refugee Clinics","Dental Clinics","WIC","Mobile Clinics"]
+    var AnimalServiceArr = ["Shelter Animals","Report Animal Cruelty","VPH Maps","Events Calendar","Wish List","Visit Our Website"]
     var MosquitoConcernsArr = ["Dead Bird","Mosquito Breeding Site","Disease Activity","Spray Area","Visit Our Website"]
     var EnvironmentalArr = ["Built Environment","Pools","Drinking Water","Neighborhood Nuisance","Lead Abatement","Visit Our Website"]
     var FoodServicesArr = ["Search Establishments","Permit Renewals","New Customer","Events and Markets","FAQ","Nutrition & Healthy Living"]
@@ -102,7 +102,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
         
         selectedList.removeAll()
         setupSideMenu()
-        timer = Timer.scheduledTimer(timeInterval: 40.0, target: self, selector: #selector(slidetoNext), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(slidetoNext), userInfo: nil, repeats: true)
         mypagecontrol.numberOfPages = Sliderimagearr.count
         
         viewConfigrations()
@@ -897,7 +897,10 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                         
                         let action1 = UIAlertAction(title: "Fixed Food Establishments", style: .default, handler: { (action) -> Void in
                                 print("ACTION 1 selected!")
-                                self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Fixed-Food-Establishments", title: "Permit Renewal")
+//                                self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Fixed-Food-Establishments", title: "Permit Renewal")
+                            self.naviGetTo(url: "https://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/New-Customers/Fixed-Food-Establishments", title: "Permit Renewal")
+                            
+                            
                             })
                          
                             let action2 = UIAlertAction(title: "Mobile Units New", style: .default, handler: { (action) -> Void in
@@ -905,7 +908,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                                 self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Mobile-Units-Renewal", title: "Permit Renewal")
                             })
                          
-                            let action3 = UIAlertAction(title: "Chnage Of Ownership", style: .default, handler: { (action) -> Void in
+                            let action3 = UIAlertAction(title: "Change Of Ownership", style: .default, handler: { (action) -> Void in
                                 print("ACTION 3 selected!")
                                 self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Change-of-Ownership", title: "Permit Renewal")
                             })
@@ -942,7 +945,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                         
                         let action1 = UIAlertAction(title: "Fixed Food Establishments", style: .default, handler: { (action) -> Void in
                                 print("ACTION 1 selected!")
-                                self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Fixed-Food-Establishments", title: "New Customer")
+                                self.naviGetTo(url: "https://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/New-Customers/Fixed-Food-Establishments", title: "New Customer")
                             })
                          
                             let action2 = UIAlertAction(title: "Mobile Units New", style: .default, handler: { (action) -> Void in
@@ -950,7 +953,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                                 self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Mobile-Units-Renewal", title: "New Customer")
                             })
                          
-                            let action3 = UIAlertAction(title: "Chnage Of Ownership", style: .default, handler: { (action) -> Void in
+                            let action3 = UIAlertAction(title: "Change Of Ownership", style: .default, handler: { (action) -> Void in
                                 print("ACTION 3 selected!")
                                 self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Change-of-Ownership", title: "New Customer")
                             })

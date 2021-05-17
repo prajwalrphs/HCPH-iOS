@@ -4,21 +4,35 @@ import Foundation
 
 struct Violations: Codable {
     let isSuccess: Bool
-    let data: [ViolationsDatum]
+    let errorDetails: JSONNull?
     let message: String
-    let createdID, pageIndex, pageSize, totalCount: Int
-    let totalPageCount: Int
-    let hasPreviousPage, hasNextPage: Bool
+    let data: [ViolationsDatum]
+    let pageIndex, totalPageCount: Int
+    let hasNextPage: Bool
+    let pageSize: Int
+    let hasPreviousPage: Bool
+    let createdID, totalCount: Int
 }
 
 // MARK: - Datum
 struct ViolationsDatum: Codable {
-    let violationNumber, assignedDemerits, violationDescription: String
+    let assignedDemerits, inspectionType, shortViolationDescription, accessToilet300Ft: String
+    let complaintDriven, inspectionDate, violationDescription, toiletWrittenPerm: String
+    let correctedOnSite, citationsIssued, establishmentNumber, foodborneIllnesInvestigation: String
+    let followUpRequired, poundsOfFoodDestroyed, certifiedManagers, permissionLetter: String
+    let sumOfDemerits, removeVoluntaryClosure, redTagsIssued, warningsIssued: String
+    let inspectionNumber, violationNumber, violation, voluntaryClosure: String
+    let redTagRemoved: String
 
     enum CodingKeys: String, CodingKey {
-        case violationNumber
         case assignedDemerits = "assigned_demerits"
-        case violationDescription
+        case inspectionType, shortViolationDescription
+        case accessToilet300Ft = "accessToilet300ft"
+        case complaintDriven, inspectionDate, violationDescription, toiletWrittenPerm, correctedOnSite, citationsIssued, establishmentNumber, foodborneIllnesInvestigation, followUpRequired
+        case poundsOfFoodDestroyed = "pounds_of_food_destroyed"
+        case certifiedManagers, permissionLetter
+        case sumOfDemerits = "sum_of_Demerits"
+        case removeVoluntaryClosure, redTagsIssued, warningsIssued, inspectionNumber, violationNumber, violation, voluntaryClosure, redTagRemoved
     }
 }
 

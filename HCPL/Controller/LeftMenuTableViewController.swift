@@ -22,6 +22,7 @@ class LeftMenuTableViewController: UIViewController,UITableViewDelegate,UITableV
             UIApplication.shared.windows.forEach { window in
                  window.overrideUserInterfaceStyle = .dark
              }
+            sidetable.backgroundColor = #colorLiteral(red: 0.1882352941, green: 0.1882352941, blue: 0.1882352941, alpha: 1)
         }else if onoff == "off"{
             UIApplication.shared.windows.forEach { window in
                  window.overrideUserInterfaceStyle = .light
@@ -49,6 +50,12 @@ class LeftMenuTableViewController: UIViewController,UITableViewDelegate,UITableV
         
         let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
         print("onoff==>\(onoff ?? "")")
+        
+        if onoff == "on"{
+            cell.backgroundColor = #colorLiteral(red: 0.1882352941, green: 0.1882352941, blue: 0.1882352941, alpha: 1)
+        }else{
+            
+        }
         
         if indexPath.row == 5{
             
@@ -111,25 +118,59 @@ class LeftMenuTableViewController: UIViewController,UITableViewDelegate,UITableV
                
         if cell.darklightmode.tag == Int(SwitchTag.count){
             
+            
+            
             if cell.darklightmode.isOn{
                 print("is on")
-                UserDefaults.standard.set("on", forKey: AppConstant.ISONISOFF)
-                UIApplication.shared.windows.forEach { window in
-                     window.overrideUserInterfaceStyle = .dark
-                 }
-                let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
-                navigate.selectdtab = 2
-                self.navigationController?.pushViewController(navigate, animated: true)
+                
+                let alertController = UIAlertController(title: "Dear User", message: "Do you really want to chnage app theme?", preferredStyle: UIAlertController.Style.alert)
+
+                let okAction = UIAlertAction(title: "OK", style: .default, handler: {(cAlertAction) in
+                    UserDefaults.standard.set("on", forKey: AppConstant.ISONISOFF)
+                    UIApplication.shared.windows.forEach { window in
+                         window.overrideUserInterfaceStyle = .dark
+                     }
+                    let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                    navigate.selectdtab = 2
+                    self.navigationController?.pushViewController(navigate, animated: true)
+                })
+            
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+            
+            
+                alertController.addAction(cancelAction)
+
+                alertController.addAction(okAction)
+
+                self.present(alertController, animated: true, completion: nil)
+                
+                
             }else{
-                print("of")
-                print("is off")
-                UserDefaults.standard.set("off", forKey: AppConstant.ISONISOFF)
-                UIApplication.shared.windows.forEach { window in
-                     window.overrideUserInterfaceStyle = .light
-                 }
-                let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
-                navigate.selectdtab = 2
-                self.navigationController?.pushViewController(navigate, animated: true)
+                
+                let alertController = UIAlertController(title: "Dear User", message: "Do you really want to chnage app theme?", preferredStyle: UIAlertController.Style.alert)
+
+                let okAction = UIAlertAction(title: "OK", style: .default, handler: {(cAlertAction) in
+                    print("of")
+                    print("is off")
+                    UserDefaults.standard.set("off", forKey: AppConstant.ISONISOFF)
+                    UIApplication.shared.windows.forEach { window in
+                         window.overrideUserInterfaceStyle = .light
+                     }
+                    let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                    navigate.selectdtab = 2
+                    self.navigationController?.pushViewController(navigate, animated: true)
+                })
+            
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+            
+            
+                alertController.addAction(cancelAction)
+
+                alertController.addAction(okAction)
+
+                self.present(alertController, animated: true, completion: nil)
+                
+                
             }
         }
       

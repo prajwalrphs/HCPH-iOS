@@ -268,7 +268,8 @@ class ContectViewController: UIViewController,TabItem,UITableViewDelegate,UITabl
                 cell.btnlocation.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
                 
                 cell.btnlocationsecond.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-                cell.btnlocation.setTitleColor(AppConstant.NormalTextColor, for: .normal)
+                cell.btnlocation.setTitleColor(AppConstant.LabelColor, for: .normal)
+                cell.btnlocationsecond.setTitleColor(AppConstant.LabelColor, for: .normal)
             }else if onoff == "off"{
                 
             }else{
@@ -348,7 +349,7 @@ class ContectViewController: UIViewController,TabItem,UITableViewDelegate,UITabl
                 cell.btnlocation.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
                 
                 cell.btnlocationsecond.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-                cell.btnlocation.setTitleColor(AppConstant.NormalTextColor, for: .normal)
+                cell.btnlocation.setTitleColor(AppConstant.LabelColor, for: .normal)
                
             }else if onoff == "off"{
                 

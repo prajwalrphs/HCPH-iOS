@@ -72,6 +72,8 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     var CityCode = String()
     var AddressCode = String()
     
+    var bytes = Array<UInt8>()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -633,8 +635,14 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
                 dismiss(animated: true, completion: nil)
                 self.birdcollection.reloadData()
                 
-                let imageData2:Data =  selectedImage.pngData()!
-                let base64String2 = imageData2.base64EncodedString()
+                let dataa = selectedImage.pngData()
+                bytes = getArrayOfBytesFromImage(imageData: dataa! as NSData)
+                let datos: NSData = NSData(bytes: bytes, length: bytes.count)
+                
+                //let imageData2:Data =  selectedImage.pngData()!
+                let base64String2 = datos.base64EncodedString()
+                
+                
                 
                 self.arrayimage.append(base64String2)
                 
@@ -658,6 +666,29 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
                         
       }
         
+    }
+    
+    func getArrayOfBytesFromImage(imageData:NSData) -> Array<UInt8>
+    {
+
+      // the number of elements:
+      let count = imageData.length / MemoryLayout<Int8>.size
+
+      // create array of appropriate length:
+      var bytes = [UInt8](repeating: 0, count: count)
+
+      // copy bytes into array
+      imageData.getBytes(&bytes, length:count * MemoryLayout<Int8>.size)
+
+      var byteArray:Array = Array<UInt8>()
+
+      for i in 0 ..< count {
+        byteArray.append(bytes[i])
+      }
+
+      return byteArray
+
+
     }
     
     @IBAction func addimages(_ sender: UIButton) {

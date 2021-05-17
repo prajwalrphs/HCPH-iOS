@@ -10,7 +10,7 @@ class EnvironmentalViewController: UIViewController,UITableViewDelegate,UITableV
     var MainTitle:String!
     
     var ArrofEnvironment = ["Built Environment","Pools","Drinking Water","Neighborhood Nuisance","Lead Abatement","Visit Our Website"]
-    var ArrofServices = ["Shelter Animals","Report Animal Cruelty","VPH maps","Events Calendar","Wish List","Visit Our Website"]
+    var ArrofServices = ["Shelter Animals","Report Animal Cruelty","VPH Maps","Events Calendar","Wish List","Visit Our Website"]
     var ArrofFoodServices = ["Search Establishments","Permit Renewals","New Customer","Events and Markets","FAQ","Nutrition & Healthy Living"]
     
     var TableArrScroll = [String]()
@@ -379,7 +379,7 @@ class EnvironmentalViewController: UIViewController,UITableViewDelegate,UITableV
                         self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Mobile-Units-Renewal", title: "Permit Renewal")
                     })
                  
-                    let action3 = UIAlertAction(title: "Chnage Of Ownership", style: .default, handler: { (action) -> Void in
+                    let action3 = UIAlertAction(title: "Change Of Ownership", style: .default, handler: { (action) -> Void in
                         print("ACTION 3 selected!")
                         self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Change-of-Ownership", title: "Permit Renewal")
                     })
@@ -423,7 +423,7 @@ class EnvironmentalViewController: UIViewController,UITableViewDelegate,UITableV
                         self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Mobile-Units-Renewal", title: "New Customer")
                     })
                  
-                    let action3 = UIAlertAction(title: "Chnage Of Ownership", style: .default, handler: { (action) -> Void in
+                    let action3 = UIAlertAction(title: "Change Of Ownership", style: .default, handler: { (action) -> Void in
                         print("ACTION 3 selected!")
                         self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Change-of-Ownership", title: "New Customer")
                     })

@@ -87,7 +87,7 @@
                                                     <action selector="DiseaseActivity:" destination="dui-vS-nsA" eventType="touchUpInside" id="Azs-We-Ud8"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No spray data available" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BMs-vy-VpO">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No disease data available" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BMs-vy-VpO">
                                                 <rect key="frame" x="8" y="173" width="398" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="nbs-62-v2E"/>

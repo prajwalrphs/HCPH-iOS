@@ -88,6 +88,7 @@ class AboutUsViewController: UIViewController,TabItem,WKNavigationDelegate {
             let url = NSURL(string: urlget)
             let request = NSURLRequest(url: url! as URL)
                                    
+            print("url1==>\(urlget ?? "")")
             webView.navigationDelegate = self
             webView.load(request as URLRequest)
             
