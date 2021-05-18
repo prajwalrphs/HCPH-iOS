@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "bar-icon66x66.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "bar-icon44x44.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

@@ -121,7 +121,7 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bOI-pm-H7m">
-                                        <rect key="frame" x="8" y="714" width="398" height="73"/>
+                                        <rect key="frame" x="8" y="705" width="398" height="73"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="73" id="fXG-tU-s9s"/>
                                         </constraints>
@@ -136,7 +136,7 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="phd-vA-g3A" firstAttribute="top" secondItem="Qah-GO-K93" secondAttribute="top" id="2Nv-dH-2ub"/>
-                                    <constraint firstAttribute="bottom" secondItem="bOI-pm-H7m" secondAttribute="bottom" constant="31" id="7Q4-pb-g63"/>
+                                    <constraint firstAttribute="bottom" secondItem="bOI-pm-H7m" secondAttribute="bottom" constant="40" id="7Q4-pb-g63"/>
                                     <constraint firstAttribute="trailing" secondItem="bOI-pm-H7m" secondAttribute="trailing" constant="8" id="E7P-66-sgY"/>
                                     <constraint firstItem="fem-tm-f9S" firstAttribute="top" secondItem="phd-vA-g3A" secondAttribute="bottom" id="LMA-i9-I9v"/>
                                     <constraint firstAttribute="trailing" secondItem="phd-vA-g3A" secondAttribute="trailing" id="Mtt-0u-4pm"/>

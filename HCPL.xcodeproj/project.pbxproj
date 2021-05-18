@@ -560,7 +560,6 @@
 			buildConfigurationList = EF9C7146256CEA3B008D3A05 /* Build configuration list for PBXNativeTarget "HCPL" */;
 			buildPhases = (
 				D49D8E58FFECC630BD9140AD /* [CP] Check Pods Manifest.lock */,
-				EEB1B0936F33EE9770BEF145 /* [CP] Prepare Artifacts */,
 				EF9C7115256CEA38008D3A05 /* Sources */,
 				EF9C7116256CEA38008D3A05 /* Frameworks */,
 				EF9C7117256CEA38008D3A05 /* Resources */,
@@ -600,7 +599,6 @@
 			buildConfigurationList = EF9C714C256CEA3B008D3A05 /* Build configuration list for PBXNativeTarget "HCPLUITests" */;
 			buildPhases = (
 				8ED96FCBC8FA5EA7B6F7443B /* [CP] Check Pods Manifest.lock */,
-				3079BB9EAD8E88415BCAB750 /* [CP] Prepare Artifacts */,
 				EF9C7139256CEA3A008D3A05 /* Sources */,
 				EF9C713A256CEA3A008D3A05 /* Frameworks */,
 				EF9C713B256CEA3A008D3A05 /* Resources */,
@@ -692,23 +690,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3079BB9EAD8E88415BCAB750 /* [CP] Prepare Artifacts */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-HCPL-HCPLUITests/Pods-HCPL-HCPLUITests-artifacts-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Prepare Artifacts";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-HCPL-HCPLUITests/Pods-HCPL-HCPLUITests-artifacts-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HCPL-HCPLUITests/Pods-HCPL-HCPLUITests-artifacts.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		4450FCD74E2BDC7FB93C1218 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -824,23 +805,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EEB1B0936F33EE9770BEF145 /* [CP] Prepare Artifacts */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-HCPL/Pods-HCPL-artifacts-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Prepare Artifacts";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-HCPL/Pods-HCPL-artifacts-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HCPL/Pods-HCPL-artifacts.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F2979414D6721CC71FAE8C3B /* [CP] Copy Pods Resources */ = {
@@ -1134,7 +1098,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = D42N54EC4S;
+				DEVELOPMENT_TEAM = S3SAGN2DFC;
 				INFOPLIST_FILE = HCPL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1142,10 +1106,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = gov.harriscountrytx.harriescounnntypublichealth;
+				PRODUCT_BUNDLE_IDENTIFIER = gov.harriscountytx.harriscountypublichealth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1155,7 +1119,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = D42N54EC4S;
+				DEVELOPMENT_TEAM = S3SAGN2DFC;
 				INFOPLIST_FILE = HCPL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1163,10 +1127,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = gov.harriscountrytx.harriescounnntypublichealth;
+				PRODUCT_BUNDLE_IDENTIFIER = gov.harriscountytx.harriscountypublichealth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

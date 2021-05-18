@@ -86,7 +86,7 @@ class PrivacyPolicyViewController: UIViewController,WKNavigationDelegate,TabItem
             let urlget = datastr ?? ""
             let url = NSURL(string: urlget)
             let request = NSURLRequest(url: url! as URL)
-            print("url3==>\(urlget ?? "")")
+                                   
             webView.navigationDelegate = self
             webView.load(request as URLRequest)
             

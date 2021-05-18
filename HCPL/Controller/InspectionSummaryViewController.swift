@@ -62,7 +62,7 @@ class InspectionSummaryViewController: UIViewController,GMSMapViewDelegate,CLLoc
     var inspectionstatusarrayimage = [#imageLiteral(resourceName: "certifiedmanageronsite66x66_opacity"),#imageLiteral(resourceName: "citationissues66x66_opacity"),#imageLiteral(resourceName: "correctedonsite66x66_opacity"),#imageLiteral(resourceName: "complaintbased66x66_opacity"),#imageLiteral(resourceName: "foodborneillnessinvestigation66x66_opacity"),#imageLiteral(resourceName: "fooddestroyed66x66_opacity")]
     var currentstatusarrayimage = [#imageLiteral(resourceName: "closure66x66_opacity"),#imageLiteral(resourceName: "redtagissued66x66_opacity"),#imageLiteral(resourceName: "foodsafetyaward66x66_opacity"),#imageLiteral(resourceName: "redtagremoved66x66_opacity"),#imageLiteral(resourceName: "foodconferenceparticipant66x66_opacity")]
     
-    var inspectionstatusarraylabel = ["Certified Manage on Site","Citation Issued","Corrected On Site","Complaint Based","Foodborne Illness Investigation","Food Destroyed"]
+    var inspectionstatusarraylabel = ["Certified Manager on Site","Citation Issued","Corrected On Site","Complaint Based","Foodborne Illness Investigation","Food Destroyed"]
     var currentstatusarraylabel = ["Closure","Red Tag Issued","Food Safety Award","Red Tag Removed","Food Conference Participant"]
     
     var TitleAddress:String!

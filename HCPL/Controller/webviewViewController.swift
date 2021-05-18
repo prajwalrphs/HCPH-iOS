@@ -111,8 +111,7 @@ class webviewViewController: UIViewController,WKNavigationDelegate {
             let urlget = datastr ?? ""
             let url = NSURL(string: urlget)
             let request = NSURLRequest(url: url! as URL)
-                         
-            print("url2==>\(urlget ?? "")")
+                                   
             webView.navigationDelegate = self
             webView.load(request as URLRequest)
             

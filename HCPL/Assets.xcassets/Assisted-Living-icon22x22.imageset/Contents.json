@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "Assisted-Living-icon66x66.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "Assisted-Living-icon44x44.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

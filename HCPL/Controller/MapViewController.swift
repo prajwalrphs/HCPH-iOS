@@ -28,7 +28,7 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
     let locationManager = CLLocationManager()
     
     let locationOverlay = AGSGraphicsOverlay()
-    let locatorTask = AGSLocatorTask(url: URL(string: "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer")!)
+    var locatorTask = AGSLocatorTask(url: URL(string: "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer")!)
     
     private let featureServiceURL = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/PoolPermits/FeatureServer/0"
     
@@ -49,6 +49,49 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
              }
          }
      }
+    
+    private var map:AGSMap?
+    private var hcMap:AGSMap?
+    private var mapImageLayer:AGSArcGISMapImageLayer!
+    private var popover:UIPopoverPresentationController!
+    
+    //Locator task for searching zipcode
+    private var geocodeParameters: AGSGeocodeParameters!
+    //private let locatorURL = "https://www.gis.hctx.net/arcgis/rest/services/Locator/Harris_County_Address_Points/GeocodeServer"
+    private let locatorURL = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
+    
+    private var mapFeatureLayer:AGSFeatureLayer!
+    private var featureLayer0:AGSFeatureLayer?
+    private var featureLayer1:AGSFeatureLayer?
+    private var featureLayer2:AGSFeatureLayer?
+    private var featureLayer3:AGSFeatureLayer?
+    private var featureLayer4:AGSFeatureLayer?
+    private var featureLayer5:AGSFeatureLayer?
+    private var featureLayer6:AGSFeatureLayer?
+    private var featureLayer7:AGSFeatureLayer?
+    private var featureLayer8:AGSFeatureLayer?
+    private var featureLayer9:AGSFeatureLayer?
+    
+    private var graphicsOverlay: AGSGraphicsOverlay!
+    
+    private var screenPoint:CGPoint!
+    private var legendHidden = true
+    
+    private var disclaimerVisible = false
+    private var reportPopupClicked = false
+    private weak var activeSelectionQuery:AGSCancelable?
+    
+    
+    let bottom = CGAffineTransform(translationX: 0, y: 0)
+    let bottom2 = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height * 1.15)
+    var top = CGAffineTransform(translationX: 0, y: -117 )
+    var topTop = CGAffineTransform(translationX: 0, y: -200)
+    
+    private var animator: UIDynamicAnimator!
+    
+    private var snapSpotBottom: CGPoint!
+    private var snapSpotHidden: CGPoint!
+    private var popupLocation = "hidden" //hidden, top, middle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,12 +123,8 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
         toolBar.backgroundColor = #colorLiteral(red: 0.4118635654, green: 0.7550011873, blue: 0.330655843, alpha: 1)
        
          if onoff == "on"{
-            //SearchText.tintColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-            //SearchText.barTintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
-            SearchText.layer.cornerRadius = 10
-            SearchText.clipsToBounds = true
-            SearchText.barTintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
             
+            SearchText.setTextField(color: AppConstant.ViewColor)
             
             Searchbuttonview.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
              toolBar.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
@@ -94,7 +133,7 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
          }
         toolBar.sizeToFit()
 
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneClickLast))
+        let doneButton = UIBarButtonItem(title: "Search", style: .plain, target: self, action: #selector(doneClickLast))
         let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelClickLast))
         toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
@@ -158,6 +197,77 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
             locationManager.startUpdatingLocation()
         }
 
+        
+        
+        do {
+            let result = try AGSArcGISRuntimeEnvironment.setLicenseKey("runtimelite,1000,rud2361000057,none,TRB3LNBHPDH4F5KHT180")
+            print("License Result : \(result.licenseStatus)")
+        }
+        catch let error as NSError {
+            print("error: \(error)")
+        }
+        
+
+        self.graphicsOverlay = AGSGraphicsOverlay()
+        self.mapview.graphicsOverlays.add(self.graphicsOverlay)
+        
+
+        self.locatorTask = AGSLocatorTask(url: URL(string: self.locatorURL)!)
+        
+        self.geocodeParameters = AGSGeocodeParameters()
+        self.geocodeParameters.resultAttributeNames.append(contentsOf: ["*"])
+        self.geocodeParameters.minScore = 75
+        
+        
+        let map3 = AGSMap(basemap: .topographic())
+        
+        //let hcBoundaryLayer = AGSFeatureLayer(featureTable: hcBoundaryMask)
+        
+        let featureTable0 = AGSServiceFeatureTable(url: URL(string: "https://www.gis.hctx.net/arcgis/rest/services/HCPHES/Mobile_Mosquito_Disease_Last7days/MapServer/0")!)
+
+        let featureTable7 = AGSServiceFeatureTable(url: URL(string: "https://www.gis.hctx.net/arcgis/rest/services/HCPHES/MVCD_ConfirmedMosquitoActivity_OpAreas_Public_MapService/MapServer/7")!)
+        
+      
+        self.featureLayer0 = AGSFeatureLayer(featureTable: featureTable0)
+        self.featureLayer7 = AGSFeatureLayer(featureTable: featureTable7)
+
+        map3.operationalLayers.add(featureLayer0!)
+        map3.operationalLayers.add(featureLayer7!)
+
+        self.mapview.map = map3
+       
+        self.mapview.locationDisplay.autoPanMode = AGSLocationDisplayAutoPanMode.off
+        self.mapview.locationDisplay.start { (error:Error?) -> Void in
+            if let error = error {
+                //self.presentAlert(error: error)
+                
+                //update context sheet to Stop
+                //self.sheet.selectedIndex = 0
+            }
+        }
+        var locationManager = CLLocationManager()
+        
+        var myLocationPoint = AGSPoint(clLocationCoordinate2D: (locationManager.location?.coordinate)!)
+        self.mapview.setViewpointCenter(myLocationPoint, scale: 6000, completion: nil)
+        
+        self.mapview.selectionProperties.color = .cyan
+        //self.searchTextField.isHidden = true
+        self.mapview.layerViewStateChangedHandler = { (layer:AGSLayer, state:AGSLayerViewState) in
+            switch state.status {
+            case AGSLayerViewStatus.active:
+                if(layer.name == "Zip Codes")
+                {
+                    //self.searchTextField.isHidden = false
+                }
+                print("Active - ", layer.name)
+            case AGSLayerViewStatus.notVisible:print("Not Visible - ", layer.name)
+            case AGSLayerViewStatus.outOfScale:print("Out of Scale - ", layer.name)
+            case AGSLayerViewStatus.loading:print("Loading - ", layer.name)
+            case AGSLayerViewStatus.error:print("Error - ", layer.name)
+            default:print("Unknown - ", layer.name)
+            }
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -803,5 +913,19 @@ extension AGSPoint {
 
     var longitude: Double {
         return (AGSGeometryEngine.projectGeometry(self, to: .wgs84()) as? AGSPoint)?.x ?? 0
+    }
+}
+
+extension UISearchBar {
+    func getTextField() -> UITextField? { return value(forKey: "searchField") as? UITextField }
+    func setTextField(color: UIColor) {
+        guard let textField = getTextField() else { return }
+        switch searchBarStyle {
+        case .minimal:
+            textField.layer.backgroundColor = color.cgColor
+            textField.layer.cornerRadius = 6
+        case .prominent, .default: textField.backgroundColor = color
+        @unknown default: break
+        }
     }
 }

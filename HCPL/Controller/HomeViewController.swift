@@ -897,20 +897,17 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                         
                         let action1 = UIAlertAction(title: "Fixed Food Establishments", style: .default, handler: { (action) -> Void in
                                 print("ACTION 1 selected!")
-//                                self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Fixed-Food-Establishments", title: "Permit Renewal")
-                            self.naviGetTo(url: "https://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/New-Customers/Fixed-Food-Establishments", title: "Permit Renewal")
-                            
-                            
+                                self.naviGetTo(url: "https://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/New-Customers/Fixed-Food-Establishments", title: "Permit Renewal")
                             })
                          
                             let action2 = UIAlertAction(title: "Mobile Units New", style: .default, handler: { (action) -> Void in
                                 print("ACTION 2 selected!")
-                                self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Mobile-Units-Renewal", title: "Permit Renewal")
+                                self.naviGetTo(url: "https://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/New-Customers/Mobile-Units-New", title: "Permit Renewal")
                             })
                          
                             let action3 = UIAlertAction(title: "Change Of Ownership", style: .default, handler: { (action) -> Void in
                                 print("ACTION 3 selected!")
-                                self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Change-of-Ownership", title: "Permit Renewal")
+                                self.naviGetTo(url: "https://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/New-Customers/Change-of-Ownership", title: "Permit Renewal")
                             })
                              
                             // Cancel button
@@ -950,12 +947,12 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                          
                             let action2 = UIAlertAction(title: "Mobile Units New", style: .default, handler: { (action) -> Void in
                                 print("ACTION 2 selected!")
-                                self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Mobile-Units-Renewal", title: "New Customer")
+                                self.naviGetTo(url: "https://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/New-Customers/Mobile-Units-New", title: "New Customer")
                             })
                          
                             let action3 = UIAlertAction(title: "Change Of Ownership", style: .default, handler: { (action) -> Void in
                                 print("ACTION 3 selected!")
-                                self.naviGetTo(url: "http://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/Food-Permit-Renewals/Change-of-Ownership", title: "New Customer")
+                                self.naviGetTo(url: "https://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/New-Customers/Change-of-Ownership", title: "New Customer")
                             })
                              
                             // Cancel button
