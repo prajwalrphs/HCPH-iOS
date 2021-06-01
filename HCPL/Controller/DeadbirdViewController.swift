@@ -301,6 +301,7 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
                             print("Access")
                             if validate(){
                                 DeadbirdAPICall()
+                                //CommercialPoolsApicall()
                             }
                         @unknown default:
                         break
@@ -401,7 +402,6 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     self.birdappeartobeillorinjuredText = "Does the bird appear ill or injured ?"
 
     var BirdConditionList = [Any]()
-    let testbool = true
 
     if birdheadattachedBool == "true"{
 
@@ -532,7 +532,7 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     print("onoff==>\(CurrentDate ?? "")")
 
 
-    let objParameters: Parameters = [
+        var objParameters: Parameters = [
     "BirdFoundDt":CurrentDate ?? "",
     "CallRecordedDt":CurrentDate ?? "",
     "CallRecordedTime":CurrentDate ?? "",
@@ -544,16 +544,23 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     "Latitude":LatitudeString ?? "",
     "Longitude":LongitudeString ?? "",
     "BirdConditionList":BirdConditionList,
-    "ImageList":arrayimage
+    //"ImageList":arrayimage
     ]
+        
+        objParameters.updateValue(arrayimage as AnyObject, forKey: "ImageList")
 
-        let URLset = "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddDeadBirdReport?SecondaryAddress=" + "\(AddressCode)" + "&City=" + "\(CityCode)" + "&ZipCode=" + "\(ZIpCode)" + "&IsExternalRequest=true"
+        let URLset = "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddDeadBirdReport?SecondaryAddress=" + AddressCode + "&City=" + CityCode + "&ZipCode=" + ZIpCode + "&IsExternalRequest=true"
+        
+//        let URLset = "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddDeadBirdReport/SecondaryAddress=Houston%20Texas%20United%20States&City=Houston&ZipCode=77027&IsExternalRequest=true"
+        
 
 //     let url = URL(string: "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddDeadBirdReport?SecondaryAddress=" + "\(AddressCode)" + "&City=" + "\(CityCode)" + "&ZipCode=" + "\(ZIpCode)" + "&IsExternalRequest=true")!
      print("urlurlurl==>\(URLset)")
-        print("objParameters==>\(objParameters)")
-
-    AF.request(URLset,method: .post, parameters:objParameters, encoding: JSONEncoding.default
+        
+        
+        let urlString = URLset.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        print("urlString==>\(urlString ?? "")")
+        AF.request(urlString!,method: .post, parameters:objParameters, encoding: JSONEncoding.default
     , headers: headers)
     .responseJSON { response in
     print("StatusCode==>\(response.response?.statusCode ?? 0)")
@@ -606,7 +613,22 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
         if let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
 
             
-            if let data = selectedImage.pngData() {
+            let image = Image(imageData: selectedImage.pngData()!)
+            images.append(image)
+            
+//            if let data = selectedImage.pngData() {
+//            //print("There were \(data.count) bytes")
+//            let bcf = ByteCountFormatter()
+//            bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
+//            bcf.countStyle = .file
+//            let string = bcf.string(fromByteCount: Int64(data.count))
+//                print("formatted result: \(string)")
+//
+//                let myInt3 = (string as NSString).integerValue
+//                CheckMB.append(myInt3)
+//            }
+            
+            if let data = selectedImage.jpegData(compressionQuality: 0.4){
             //print("There were \(data.count) bytes")
             let bcf = ByteCountFormatter()
             bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
@@ -628,20 +650,20 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
             
             if total < 20{
    
-                let image = Image(imageData: selectedImage.pngData()!)
-                images.append(image)
                 Image.saveImages(images)
-                
                 dismiss(animated: true, completion: nil)
                 self.birdcollection.reloadData()
                 
-                let dataa = selectedImage.pngData()
+//                let dataa = selectedImage.pngData()
+//                bytes = getArrayOfBytesFromImage(imageData: dataa! as NSData)
+//                let datos: NSData = NSData(bytes: bytes, length: bytes.count)
+                
+                let dataa = selectedImage.jpegData(compressionQuality: 0.4)
                 bytes = getArrayOfBytesFromImage(imageData: dataa! as NSData)
                 let datos: NSData = NSData(bytes: bytes, length: bytes.count)
                 
                 //let imageData2:Data =  selectedImage.pngData()!
                 let base64String2 = datos.base64EncodedString()
-                
                 
                 
                 self.arrayimage.append(base64String2)

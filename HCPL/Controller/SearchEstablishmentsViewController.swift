@@ -12,6 +12,7 @@ import Alamofire
 class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource,DropSwitch,GMSMapViewDelegate,CLLocationManagerDelegate,reportanissue,UITextFieldDelegate{
 
     
+    
     @IBOutlet weak var titletext: UILabel!
     @IBOutlet weak var CustomMapView: GMSMapView!
     @IBOutlet var dropdownview: UIView!
@@ -636,7 +637,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         var request = URLRequest(url: url!)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
+        print("TestLog==>\(url)")
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
                  
                  guard let data = data else { return }
@@ -809,68 +810,68 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
             dropdownview.isHidden = true
             Searchlistviewfilter.isHidden = false
  
-            if SwitchCheckon == "Assisted Living ON"{
-                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-            }else if SwitchCheckon == "Bakery ON"{
-                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-            }else if SwitchCheckon == "Bar ON"{
-                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-            }else if SwitchCheckon == "Caterer ON"{
-                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-            }else if SwitchCheckon == "Commissary ON"{
-                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-            }else if SwitchCheckon == "Convenience store ON"{
-                Filterimage.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-                //Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-            }else if SwitchCheckon == "Daycare ON"{
-                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-            }else if SwitchCheckon == "Farmer's Market ON"{
-                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-            }else if SwitchCheckon == "Grocery Store ON"{
-                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-            }else if SwitchCheckon == "Hospital ON"{
-                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-            }else if SwitchCheckon == "Mobile Unit ON"{
-                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-            }else if SwitchCheckon == "Restaurant ON"{
-                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-            }else if SwitchCheckon == "School ON"{
-                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-            }else if SwitchCheckon == "Snow cone stand ON"{
-                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-            }else{
-                Filterimage.image = #imageLiteral(resourceName: "filter")
-                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-            }
+//            if SwitchCheckon == "Assisted Living ON"{
+//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+//            }else if SwitchCheckon == "Bakery ON"{
+//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+//            }else if SwitchCheckon == "Bar ON"{
+//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+//            }else if SwitchCheckon == "Caterer ON"{
+//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+//            }else if SwitchCheckon == "Commissary ON"{
+//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+//            }else if SwitchCheckon == "Convenience store ON"{
+//                Filterimage.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+//                //Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+//            }else if SwitchCheckon == "Daycare ON"{
+//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+//            }else if SwitchCheckon == "Farmer's Market ON"{
+//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+//            }else if SwitchCheckon == "Grocery Store ON"{
+//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+//            }else if SwitchCheckon == "Hospital ON"{
+//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+//            }else if SwitchCheckon == "Mobile Unit ON"{
+//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+//            }else if SwitchCheckon == "Restaurant ON"{
+//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+//            }else if SwitchCheckon == "School ON"{
+//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+//            }else if SwitchCheckon == "Snow cone stand ON"{
+//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
+//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+//            }else{
+//                Filterimage.image = #imageLiteral(resourceName: "filter")
+//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
+//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
+//            }
             
         }else{
             dropdownview.isHidden = true
@@ -879,7 +880,16 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
     }
     
     @IBAction func Back(_ sender: UIButton) {
-        self.navigationController?.popViewController(animated: true)
+        
+        if countButton == 1{
+            print("Back")
+            Searchlistviewfilter.isHidden = true
+            countButton = 0
+        }else if countButton == 0{
+            self.navigationController?.popViewController(animated: true)
+            print("Back Two")
+        }
+        
     }
     
     @IBAction func GPSopen(_ sender: UIButton) {
@@ -1396,7 +1406,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
             print("only show map")
         }else{
             
-            let camera = GMSCameraPosition.camera(withLatitude: currentLocation!.latitude, longitude: currentLocation!.longitude, zoom: 17.0)
+            let camera = GMSCameraPosition.camera(withLatitude: currentLocation!.latitude, longitude: currentLocation!.longitude, zoom: 11.0)
                 CustomMapView.animate(to: camera)
             
             let sourceMarker = GMSMarker()
@@ -1429,7 +1439,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         marker.icon = MarkerImage
         marker.position = CLLocationCoordinate2DMake(latDouble,longDouble)
         marker.title = Miles
-        let camera = GMSCameraPosition.camera(withLatitude: lat, longitude: long, zoom: 17.0)
+        let camera = GMSCameraPosition.camera(withLatitude: lat, longitude: long, zoom: 11.0)
         CustomMapView.animate(to: camera)
         //self.view.addSubview(self.viewMap)
         self.CustomMapView.delegate = self

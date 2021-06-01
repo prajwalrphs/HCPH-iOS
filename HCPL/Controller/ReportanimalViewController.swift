@@ -82,6 +82,13 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     @IBOutlet var view18: UIView!
     @IBOutlet var view19: UIView!
     
+    @IBOutlet var agencypreviouslyview: UIView!
+    @IBOutlet var reportinformationview: UIView!
+    @IBOutlet var alltextview: UIView!
+    @IBOutlet var addimagevideoview: UIView!
+    
+    @IBOutlet var viewhideshow: UIView!
+    
     //var FirsttoolBar = UIToolbar()
     var FirstdatePicker : UIDatePicker!
     
@@ -253,7 +260,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
             
             txtfirstdate.attributedPlaceholder = NSAttributedString(string: "Date First Observed",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
             
-            txtlastdate.attributedPlaceholder = NSAttributedString(string: "Date last Observed",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
+            txtlastdate.attributedPlaceholder = NSAttributedString(string: "Date Last Observed",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
             
 //            txtdescription.attributedPlaceholder = NSAttributedString(string: "  Description of Cruelty (Please fill out information in this field)",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
             
@@ -340,7 +347,11 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
            self.FirstdatePicker = UIDatePicker(frame:CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 216))
            self.FirstdatePicker.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
            self.FirstdatePicker.datePickerMode = UIDatePicker.Mode.date
-           self.FirstdatePicker?.preferredDatePickerStyle = .wheels
+        if #available(iOS 13.4, *) {
+            self.FirstdatePicker?.preferredDatePickerStyle = .wheels
+        } else {
+            // Fallback on earlier versions
+        }
            //self.FirstdatePicker.tintColor = #colorLiteral(red: 0.1688283401, green: 0.6115575723, blue: 1, alpha: 1)
 
            textField.inputView = self.FirstdatePicker
@@ -386,7 +397,11 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
            self.LastdatePicker = UIDatePicker(frame:CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 216))
            self.LastdatePicker.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
            self.LastdatePicker.datePickerMode = UIDatePicker.Mode.date
-           self.LastdatePicker?.preferredDatePickerStyle = .wheels
+        if #available(iOS 13.4, *) {
+            self.LastdatePicker?.preferredDatePickerStyle = .wheels
+        } else {
+            // Fallback on earlier versions
+        }
            //self.LastdatePicker.tintColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 1)
 
            textField.inputView = self.LastdatePicker
@@ -869,10 +884,42 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
         print("agencybutton value change: \(sender.isSelected)")
         if sender.isSelected == true{
             self.checkboxBool = "true"
+            txtagency.isHidden = false
+            viewhideshow.isHidden = false
+            DownView()
         }else{
             print("false")
             self.checkboxBool = "false"
+            txtagency.isHidden = true
+            viewhideshow.isHidden = true
+            UpView()
         }
+    }
+    
+    func UpView(){
+
+        UIView.animate(withDuration: 1, delay: 0, options: [.beginFromCurrentState],
+                          animations: {
+                         
+                        self.agencypreviouslyview.frame.origin.y = 1152
+                        self.reportinformationview.frame.origin.y = 1151
+                        self.alltextview.frame.origin.y = 1205
+                        self.addimagevideoview.frame.origin.y = 1460
+                        self.view.layoutIfNeeded()
+           }, completion: nil)
+    }
+    
+    func DownView(){
+
+        UIView.animate(withDuration: 1, delay: 0, options: [.beginFromCurrentState],
+                          animations: {
+                         
+                        self.agencypreviouslyview.frame.origin.y = 1152
+                        self.reportinformationview.frame.origin.y = 1205
+                        self.alltextview.frame.origin.y = 1258
+                        self.addimagevideoview.frame.origin.y = 1508
+                        self.view.layoutIfNeeded()
+           }, completion: nil)
     }
     
     func validate() -> Bool {
@@ -970,72 +1017,71 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
         
 
 //        print("checkboxstring==>\(checkboxstring ?? "")")
-        print("parameters==>\(parameters)")
         
-//
-//        let jsonData = try? JSONSerialization.data(withJSONObject: parameters)
-//
-//
-//        let url = URL(string: "https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/UploadVPHComplaint")!
-//        var request = URLRequest(url: url)
-//        request.httpMethod = "POST"
-//        request.httpBody = jsonData
-//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//
-//        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-//
-//                 guard let data = data else { return }
-//                 do{
-//                     let json = try JSON(data:data)
-//                     print("ReportAnimalApicall==> \(json)")
-//
-//                    let statusisSuccess = json["isSuccess"]
-//                    let messageTost = json["message"]
-//
-//                    let gettost = "\(messageTost)"
-//
-//                    print("statusisSuccess==>\(statusisSuccess)")
-//                    print("gettost==>\(gettost)")
-//
-//                    if statusisSuccess == "false"{
-//
-//                        DispatchQueue.main.async {
-//                            self.view.showToast(toastMessage: gettost, duration: 0.3)
-//                            self.hud.hide(animated: true)
-//                        }
-//
-//                    }else{
-//                        let decoder = JSONDecoder()
-//                        self.Reportanimal = try decoder.decode(CommercialPoolsWelcome.self, from: data)
-//
-//
-//                        DispatchQueue.main.async {
-//
-//                              self.hud.hide(animated: true)
-//
-//                          self.view.showToast(toastMessage: "Form Successfully Submitted", duration: 0.3)
-//
-//                          DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-//                              // your code here
-//                              let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
-//                              navigate.selectdtab = 4
-//                              self.navigationController?.pushViewController(navigate, animated: true)
-//                          }
-//
-//
-//
-//                          }
-//                    }
-//                 }catch{
-//                     print(error.localizedDescription)
-//                    DispatchQueue.main.async {
-//                        self.hud.hide(animated: true)
-//                    }
-//                 }
-//
-//                 }
-//
-//        task.resume()
+
+        let jsonData = try? JSONSerialization.data(withJSONObject: parameters)
+
+
+        let url = URL(string: "https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/UploadVPHComplaint")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.httpBody = jsonData
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+
+                 guard let data = data else { return }
+                 do{
+                     let json = try JSON(data:data)
+                     print("ReportAnimalApicall==> \(json)")
+
+                    let statusisSuccess = json["isSuccess"]
+                    let messageTost = json["message"]
+
+                    let gettost = "\(messageTost)"
+
+                    print("statusisSuccess==>\(statusisSuccess)")
+                    print("gettost==>\(gettost)")
+
+                    if statusisSuccess == "false"{
+
+                        DispatchQueue.main.async {
+                            self.view.showToast(toastMessage: gettost, duration: 0.3)
+                            self.hud.hide(animated: true)
+                        }
+
+                    }else{
+                        let decoder = JSONDecoder()
+                        self.Reportanimal = try decoder.decode(CommercialPoolsWelcome.self, from: data)
+
+
+                        DispatchQueue.main.async {
+
+                              self.hud.hide(animated: true)
+
+                          self.view.showToast(toastMessage: "Form Successfully Submitted", duration: 0.3)
+
+                          DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                              // your code here
+                              let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                              navigate.selectdtab = 4
+                              self.navigationController?.pushViewController(navigate, animated: true)
+                          }
+
+
+
+                          }
+                    }
+                 }catch{
+                     print(error.localizedDescription)
+                    DispatchQueue.main.async {
+                        self.hud.hide(animated: true)
+                    }
+                 }
+
+                 }
+
+        task.resume()
 
     }
     
@@ -1086,7 +1132,10 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
 
         if let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
 
-            if let data = selectedImage.pngData() {
+            let image = Image(imageData: selectedImage.pngData()!)
+            images.append(image)
+            
+            if let data = selectedImage.jpegData(compressionQuality: 0.4){
             //print("There were \(data.count) bytes")
             let bcf = ByteCountFormatter()
             bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
@@ -1101,10 +1150,8 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
             let total = CheckMB.reduce(0, +)
             
             if total < 20{
-   
-                let image = Image(imageData: selectedImage.pngData()!)
-                print("image get video==>\(image)")
-                images.append(image)
+                
+               
                 Image.saveImages(images)
                 dismiss(animated: true, completion: nil)
                 self.addimagescollection.reloadData()
@@ -1113,10 +1160,11 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     //            let imageStr = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
     //            self.ImagevideoUrl?.append(imageStr)
                 
-                let dataa = selectedImage.pngData()
+                let dataa = selectedImage.jpegData(compressionQuality: 0.4)
                 bytes = getArrayOfBytesFromImage(imageData: dataa! as NSData)
                 let datos: NSData = NSData(bytes: bytes, length: bytes.count)
                 
+               
                 //let imageData2:Data =  selectedImage.pngData()!
                 let base64String2 = datos.base64EncodedString()
                 
@@ -1609,6 +1657,20 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
              
      self.view.endEditing(true)
+    }
+    
+    func saveImageToDocumentDirectory(image: UIImage ) {
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let fileName = "image001.png" // name of the image to be saved
+        let fileURL = documentsDirectory.appendingPathComponent(fileName)
+        if let data = image.jpegData(compressionQuality: 1.0),!FileManager.default.fileExists(atPath: fileURL.path){
+            do {
+                try data.write(to: fileURL)
+                print("file saved")
+            } catch {
+                print("error saving file:", error)
+            }
+        }
     }
     
 }

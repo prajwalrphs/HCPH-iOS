@@ -60,6 +60,10 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.lbladdimages.frame.origin.y = 470
+         self.viewmain.frame.origin.y = 495
+         self.lblBulklabel.frame.origin.y = 590
+        
         CheckMB.removeAll()
         arrayimage.removeAll()
                 
@@ -209,7 +213,22 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
 
         if let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
 
-            if let data = selectedImage.pngData() {
+//            if let data = selectedImage.pngData() {
+//            //print("There were \(data.count) bytes")
+//            let bcf = ByteCountFormatter()
+//            bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
+//            bcf.countStyle = .file
+//            let string = bcf.string(fromByteCount: Int64(data.count))
+//                print("formatted result: \(string)")
+//
+//                let myInt3 = (string as NSString).integerValue
+//                CheckMB.append(myInt3)
+//            }
+            
+            let image = Image(imageData: selectedImage.pngData()!)
+            images.append(image)
+            
+            if let data = selectedImage.jpegData(compressionQuality: 0.4){
             //print("There were \(data.count) bytes")
             let bcf = ByteCountFormatter()
             bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
@@ -226,13 +245,16 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
             
             if total < 20{
    
-                let image = Image(imageData: selectedImage.pngData()!)
-                images.append(image)
+                
                 Image.saveImages(images)
                 dismiss(animated: true, completion: nil)
                 self.Mosquitocollection.reloadData()
                 
-                let dataa = selectedImage.pngData()
+//                let dataa = selectedImage.pngData()
+//                bytes = getArrayOfBytesFromImage(imageData: dataa! as NSData)
+//                let datos: NSData = NSData(bytes: bytes, length: bytes.count)
+                
+                let dataa = selectedImage.jpegData(compressionQuality: 0.4)
                 bytes = getArrayOfBytesFromImage(imageData: dataa! as NSData)
                 let datos: NSData = NSData(bytes: bytes, length: bytes.count)
                 
@@ -384,15 +406,57 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
     @IBAction func Other(_ sender: UISwitch) {
         if (sender.isOn == true){
             print("on")
+            DOWNView()
             self.OtherText.isHidden = false
             self.Switch4 = "true"
         }
         else{
             print("off")
+            UPView()
             self.OtherText.isHidden = true
             self.Switch4 = "false"
         }
     }
+    
+    func UPView(){
+//        let originalX = lbladdimages.frame.origin.x
+//        if(originalX < 0){
+//            bringIntoFrame()
+//        }
+//        else{
+//            lbladdimages.frame.offsetBy(dx: -50, dy: 0)
+//        }
+        
+        UIView.animate(withDuration: 1, delay: 0, options: [.beginFromCurrentState],
+                          animations: {
+                           //self.lbladdimages.frame.origin.x += 300
+                           self.lbladdimages.frame.origin.y = 470
+                            self.viewmain.frame.origin.y = 495
+                            self.lblBulklabel.frame.origin.y = 590
+                           self.view.layoutIfNeeded()
+           }, completion: nil)
+    }
+    
+    func DOWNView(){
+//        let originalX = lbladdimages.frame.origin.x
+//        if(originalX < 0){
+//            bringIntoFrame()
+//        }
+//        else{
+//            lbladdimages.frame.offsetBy(dx: -50, dy: 0)
+//        }
+        
+        UIView.animate(withDuration: 1, delay: 0, options: [.beginFromCurrentState],
+                          animations: {
+                           //self.lbladdimages.frame.origin.x += 300
+                           self.lbladdimages.frame.origin.y = 550
+                            self.viewmain.frame.origin.y = 571
+                            self.lblBulklabel.frame.origin.y = 671
+                           self.view.layoutIfNeeded()
+           }, completion: nil)
+    }
+    
+   
 
     func validate() -> Bool {
      if self.txtemailofpersonrepoting.text?.isEmpty ?? true {
@@ -525,15 +589,17 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
     "InspectionConduction":false,
     "RequestDt":"2018-07-20 03:03 33",
     "locationofproblem":"",
-    "othersite":OtherText.text ?? "",
+    "OtherSite":OtherText.text ?? "",
     "address":AddressDic,
     "requestor":RequestorDic,
     "Latitude":LatitudeString ?? "",
     "Longitude":LongitudeString ?? "",
     "InspectionItemResult":InspectionItemResult,
-    "ImageList":arrayimage
+    "ImageList":"arrayimage"
     ]
 
+        
+    print("objParameters==>\(objParameters)")
 
 
 //    let url = URL(string: "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddExtCitizenRequest?title=")!

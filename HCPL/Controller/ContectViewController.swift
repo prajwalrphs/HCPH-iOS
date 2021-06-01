@@ -189,6 +189,8 @@ class ContectViewController: UIViewController,TabItem,UITableViewDelegate,UITabl
                 cell.heightconstraint.constant = 460
             }else if modelNameOrignal == "iPhone 11 Pro"{
                 cell.heightconstraint.constant = 455
+            }else if modelNameOrignal == "iPhone Xs"{
+                cell.heightconstraint.constant = 455
             }else{
                 cell.heightconstraint.constant = 390
             }
@@ -287,6 +289,8 @@ class ContectViewController: UIViewController,TabItem,UITableViewDelegate,UITabl
             if modelNameOrignal == "iPhone 8"{
                 cell.heightconstraint.constant = 220
             }else if modelNameOrignal == "iPhone 11 Pro"{
+                cell.heightconstraint.constant = 215
+            }else if modelNameOrignal == "iPhone Xs"{
                 cell.heightconstraint.constant = 215
             }else{
                 cell.heightconstraint.constant = 185

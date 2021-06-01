@@ -8,6 +8,11 @@ import GoogleMaps
 import GooglePlaces
 import GooglePlacePicker
 
+private struct AttributeKeys {
+    static let placeAddress = "Texas"
+    static let placeName = "Houston"
+}
+
 class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarDelegate,AGSGeoViewTouchDelegate {
     
     @IBOutlet weak var mapview: AGSMapView!
@@ -30,7 +35,11 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
     let locationOverlay = AGSGraphicsOverlay()
     var locatorTask = AGSLocatorTask(url: URL(string: "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer")!)
     
-    private let featureServiceURL = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/PoolPermits/FeatureServer/0"
+    //private let featureServiceURL = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/PoolPermits/FeatureServer/0"
+    
+    let featureTable0 = AGSServiceFeatureTable(url: URL(string: "https://www.gis.hctx.net/arcgis/rest/services/HCPHES/Mobile_Mosquito_Disease_Last7days/MapServer/0")!)
+
+    let featureTable7 = AGSServiceFeatureTable(url: URL(string: "https://www.gis.hctx.net/arcgis/rest/services/HCPHES/MVCD_ConfirmedMosquitoActivity_OpAreas_Public_MapService/MapServer/7")!)
     
     var ZIpCodeMain = String()
     
@@ -50,6 +59,12 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
          }
      }
     
+    var sprayItems: Array<String>!
+    var diseaseItems: Array<Array<String>>!
+    var mapDetailItems: Array<NSMutableDictionary>!
+    
+    
+    
     private var map:AGSMap?
     private var hcMap:AGSMap?
     private var mapImageLayer:AGSArcGISMapImageLayer!
@@ -58,7 +73,7 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
     //Locator task for searching zipcode
     private var geocodeParameters: AGSGeocodeParameters!
     //private let locatorURL = "https://www.gis.hctx.net/arcgis/rest/services/Locator/Harris_County_Address_Points/GeocodeServer"
-    private let locatorURL = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
+    //private let locatorURL = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
     
     private var mapFeatureLayer:AGSFeatureLayer!
     private var featureLayer0:AGSFeatureLayer?
@@ -95,7 +110,7 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+         
         SearchText.setImage(UIImage(), for: .search, state: .normal)
         
         
@@ -212,7 +227,7 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
         self.mapview.graphicsOverlays.add(self.graphicsOverlay)
         
 
-        self.locatorTask = AGSLocatorTask(url: URL(string: self.locatorURL)!)
+        //self.locatorTask = self.locatorTask
         
         self.geocodeParameters = AGSGeocodeParameters()
         self.geocodeParameters.resultAttributeNames.append(contentsOf: ["*"])
@@ -270,6 +285,12 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
         
     }
     
+    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let totalCharacters = (searchBar.text?.appending(text).count ?? 0) - range.length
+        return totalCharacters <= 5
+    }
+    
+
     override func viewWillAppear(_ animated: Bool) {
         print("view will appear")
     }
@@ -421,6 +442,7 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
                 switch CLLocationManager.authorizationStatus() {
                     case .notDetermined, .restricted, .denied:
                         print("No access")
+                        
                         let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
 
                         let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
@@ -489,10 +511,10 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
             basemapStyle: .arcGISTopographic
          )
             
-        let featureTable = AGSServiceFeatureTable(url: URL(string: featureServiceURL)!)
+        //let featureTable = AGSServiceFeatureTable(url: URL(string: featureServiceURL)!)
         //set the request mode
-        featureTable.featureRequestMode = AGSFeatureRequestMode.onInteractionCache
-        let featureLayer = AGSFeatureLayer(featureTable: featureTable)
+        featureTable0.featureRequestMode = AGSFeatureRequestMode.onInteractionCache
+        let featureLayer = AGSFeatureLayer(featureTable: featureTable0)
         //add the feature layer to the map
         map.operationalLayers.add(featureLayer)
         
@@ -826,6 +848,73 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
                 }
             }
 
+            
+            do {
+                let result = try AGSArcGISRuntimeEnvironment.setLicenseKey("runtimelite,1000,rud2361000057,none,TRB3LNBHPDH4F5KHT180")
+                print("License Result : \(result.licenseStatus)")
+            }
+            catch let error as NSError {
+                print("error: \(error)")
+            }
+            
+
+            self.graphicsOverlay = AGSGraphicsOverlay()
+            self.mapview.graphicsOverlays.add(graphicsOverlay)
+            
+
+            //self.locatorTask = AGSLocatorTask(url: URL(string: self.locatorURL)!)
+            
+            self.geocodeParameters = AGSGeocodeParameters()
+            self.geocodeParameters.resultAttributeNames.append(contentsOf: ["*"])
+            self.geocodeParameters.minScore = 75
+            
+            
+            let map3 = AGSMap(basemap: .topographic())
+            
+            //let hcBoundaryLayer = AGSFeatureLayer(featureTable: hcBoundaryMask)
+            
+           
+            
+          
+            self.featureLayer0 = AGSFeatureLayer(featureTable: featureTable0)
+            self.featureLayer7 = AGSFeatureLayer(featureTable: featureTable7)
+
+            map3.operationalLayers.add(featureLayer0!)
+            map3.operationalLayers.add(featureLayer7!)
+
+            self.mapview.map = map3
+           
+            self.mapview.locationDisplay.autoPanMode = AGSLocationDisplayAutoPanMode.off
+            self.mapview.locationDisplay.start { (error:Error?) -> Void in
+                if error != nil {
+                    //self.presentAlert(error: error)
+                    
+                    //update context sheet to Stop
+                    //self.sheet.selectedIndex = 0
+                }
+            }
+            let locationManager = CLLocationManager()
+            
+            let myLocationPoint = AGSPoint(clLocationCoordinate2D: (locationManager.location?.coordinate)!)
+            self.mapview.setViewpointCenter(myLocationPoint, scale: 6000, completion: nil)
+            
+            self.mapview.selectionProperties.color = .cyan
+            //self.searchTextField.isHidden = true
+            self.mapview.layerViewStateChangedHandler = { (layer:AGSLayer, state:AGSLayerViewState) in
+                switch state.status {
+                case AGSLayerViewStatus.active:
+                    if(layer.name == "Zip Codes")
+                    {
+                        //self.searchTextField.isHidden = false
+                    }
+                    print("Active - ", layer.name)
+                case AGSLayerViewStatus.notVisible:print("Not Visible - ", layer.name)
+                case AGSLayerViewStatus.outOfScale:print("Out of Scale - ", layer.name)
+                case AGSLayerViewStatus.loading:print("Loading - ", layer.name)
+                case AGSLayerViewStatus.error:print("Error - ", layer.name)
+                default:print("Unknown - ", layer.name)
+                }
+            }
 
 
         }
@@ -858,6 +947,46 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
 //
 //        }
     }
+        
+    func searchTextdemo(text: String!)
+    {
+        if(text.count == 0 || text.count == nil)
+        {
+            
+        }
+        else if(text.count < 5 && text.count > 0)
+        {
+           // self.presentAlert(message: NSLocalizedString("Invalid Zip Code", comment:"Invalid Zip Code"))
+        }
+        else
+        {
+            self.locatorTask.geocode(withSearchText: text, parameters: self.geocodeParameters, completion: { [weak self] (results: [AGSGeocodeResult]?, error: Error?) in
+                guard let self = self else {
+                    return
+                }
+                
+                if let error = error {
+                    //self.presentAlert(error: error)
+                    self.view.showToast(toastMessage: "No results found", duration: 0.3)
+                } else if let result = results?.first {
+                    
+                    //create a graphic for the first result and add to the graphics overlay
+                    let graphic = graphicForPoint(result.displayLocation!, attributes: result.attributes as [String: AnyObject]?)
+                    self.graphicsOverlay.graphics.removeAllObjects()
+                    self.graphicsOverlay.graphics.add(graphic)
+                    //zoom to the extent of the result
+                    if let extent = result.extent {
+                        self.mapview.setViewpointGeometry(extent, completion: nil)
+                    }
+                    //self.showPopup(mapPoint: result.displayLocation!)
+                } else {
+                    //provide feedback in case of failure
+                   // self.presentAlert(message: NSLocalizedString("No results found", comment:"No results found"))
+                    self.view.showToast(toastMessage: "No results found", duration: 0.3)
+                }
+            })
+        }
+    }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         hud = MBProgressHUD.showAdded(to: self.view, animated: true)
@@ -868,11 +997,13 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
         self.ZIpCodeMain = searchText
         locationOverlay.graphics.removeAllObjects()
         
+        //searchTextdemo(text: searchText)
+        
         locatorTask.geocode(withSearchText: searchText) { [weak self] (results, error) in
-            
-    
+
+
             guard let self = self else { return }
-            
+
             if let error = error{
                 print("Error geocoding: \(error.localizedDescription)")
                 DispatchQueue.main.async {
@@ -880,30 +1011,62 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
                 }
                 return
             }
-            
+
             guard let result = results?.first else { return }
             
-            if let extent = result.extent{
-                self.mapview.setViewpoint(AGSViewpoint(targetExtent: extent))
-            }
+            print(
+                        """
+                        Found \(result.label)
+                        at \(result.displayLocation.debugDescription)
+                        with score \(result.score)
+                        """
+                    )
             
-            if let location  = result.displayLocation{
-                let graphic = AGSGraphic(geometry: location, symbol: AGSSimpleMarkerSymbol(style: .circle, color: .red, size: 12), attributes: nil)
+            if result.label.contains("Texas") || result.label.contains("Alabama") || result.label.contains("Alaska") || result.label.contains("Arizona") || result.label.contains("Arkansas") || result.label.contains("California") || result.label.contains("Colorado") || result.label.contains("Connecticut") || result.label.contains("Delaware") || result.label.contains("District Of Columbia") || result.label.contains("Florida") || result.label.contains("Georgia") || result.label.contains("Hawaii") || result.label.contains("Idaho") || result.label.contains("Illinois") || result.label.contains("Indiana") || result.label.contains("Iowa") || result.label.contains("Kansas") || result.label.contains("Kentucky") || result.label.contains("Louisiana") || result.label.contains("Maine") || result.label.contains("Marshall Islands") || result.label.contains("Maryland") || result.label.contains("Massachusetts") || result.label.contains("Michigan") || result.label.contains("Minnesota") || result.label.contains("Mississippi") || result.label.contains("Missouri") || result.label.contains("Montana") || result.label.contains("Nebraska") || result.label.contains("Nevada") || result.label.contains("New Hampshire") || result.label.contains("New Jersey") || result.label.contains("New Mexico") || result.label.contains("New York") || result.label.contains("North Carolina") || result.label.contains("North Dakota") || result.label.contains("Ohio") || result.label.contains("Oklahoma") || result.label.contains("Oregon") || result.label.contains("Pennsylvania") || result.label.contains("Rhode Island") || result.label.contains("South Carolina") || result.label.contains("South Dakota") || result.label.contains("Tennessee") || result.label.contains("Utah") || result.label.contains("Vermont") || result.label.contains("Virginia") || result.label.contains("Washington") || result.label.contains("West Virginia") || result.label.contains("Wisconsin") || result.label.contains("Wyoming"){
+                print("exists")
+                
+                if let extent = result.extent{
+                    self.mapview.setViewpoint(AGSViewpoint(targetExtent: extent))
+                }
+
+                if let location  = result.displayLocation{
+
+                    let graphic = graphicForPoint(location, attributes: result.attributes as [String: AnyObject]?)
+
+    //                let graphic = AGSGraphic(geometry: location, symbol: AGSSimpleMarkerSymbol(style: .circle, color: .red, size: 12), attributes: nil)
+                    DispatchQueue.main.async {
+                        self.hud.hide(animated: true)
+                    }
+                    self.locationOverlay.graphics.add(graphic)
+
+                    for demo in self.demos {
+                        self.addButton(for: demo)
+                    }
+
+                }
+
+                searchBar.resignFirstResponder()
+                
+            }else{
                 DispatchQueue.main.async {
                     self.hud.hide(animated: true)
                 }
-                self.locationOverlay.graphics.add(graphic)
-                
-                for demo in self.demos {
-                    self.addButton(for: demo)
-                }
+                self.view.showToast(toastMessage: "No results found", duration: 0.3)
                 
             }
-            
-            searchBar.resignFirstResponder()
         }
     }
+    
+    
 
+}
+
+private func graphicForPoint(_ point: AGSPoint, attributes: [String: AnyObject]?) -> AGSGraphic {
+    let markerImage = UIImage(named: "mappin")!
+    let symbol = AGSPictureMarkerSymbol(image: markerImage)
+    
+    let graphic = AGSGraphic(geometry: point, symbol: symbol, attributes: attributes)
+    return graphic
 }
 
 extension AGSPoint {

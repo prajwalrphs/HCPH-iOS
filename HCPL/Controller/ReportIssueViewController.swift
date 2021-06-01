@@ -11,7 +11,7 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
     
     @IBOutlet weak var reporttable: UITableView!
     
-    var Arrofname = ["Commercial Pools","Dead Bird","Drinking Water","Mosquito Breading Site","Neighborhood Nuisance","Animal Report Cruelty"]
+    var Arrofname = ["Commercial Pools","Dead Bird","Drinking Water","Mosquito Breeding Site","Neighborhood Nuisance","Report Animal Cruelty"]
     
     var CommercialArray = ["Commercial Pools"]
     var ids = [1]

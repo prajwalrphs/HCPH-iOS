@@ -383,7 +383,10 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                 naviGetTo(url: "https://publichealth.harriscountytx.gov/Resources/2019-Novel-Coronavirus", title: "Covid-19 Resources")
             }
             if indexPath.row == 1{
-                naviGetTo(url: "https://harriscounty.maps.arcgis.com/apps/opsdashboard/index.html#/c0de71f8ea484b85bb5efcb7c07c6914", title: "Covid-19 Screening tool")
+//                naviGetTo(url: "https://harriscounty.maps.arcgis.com/apps/opsdashboard/index.html#/c0de71f8ea484b85bb5efcb7c07c6914", title: "Covid-19 Screening tool")
+                
+                naviGetTo(url: "https://covid-harriscounty.hub.arcgis.com", title: "Covid-19 Screening tool")
+                
             }
             if indexPath.row == 2{
                 let naviagte:MosquitoConcernsViewController = self.storyboard?.instantiateViewController(withIdentifier: "MosquitoConcernsViewController") as! MosquitoConcernsViewController

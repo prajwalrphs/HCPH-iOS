@@ -248,6 +248,8 @@ class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewD
                 cell.heightconstraint.constant = 205
             }else if modelNameOrignal == "iPhone 11 Pro"{
                 cell.heightconstraint.constant = 210
+            }else if modelNameOrignal == "iPhone Xs"{
+                cell.heightconstraint.constant = 205
             }else{
                 cell.heightconstraint.constant = 185
             }
@@ -515,6 +517,8 @@ class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewD
                 cell.heightconstraint.constant = 205
             }else if modelNameOrignal == "iPhone 11 Pro"{
                 cell.heightconstraint.constant = 200
+            }else if modelNameOrignal == "iPhone Xs"{
+                cell.heightconstraint.constant = 205
             }else{
                 cell.heightconstraint.constant = 185
             }
@@ -609,6 +613,8 @@ class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewD
 //            }
             
              if modelNameOrignal == "iPhone 11 Pro"{
+                cell.heightconstraint.constant = 185
+            }else if modelNameOrignal == "iPhone Xs"{
                 cell.heightconstraint.constant = 185
             }else{
                 cell.heightconstraint.constant = 175

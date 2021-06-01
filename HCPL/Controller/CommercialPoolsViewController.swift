@@ -38,7 +38,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     @IBOutlet var viewfive: UIView!
     
     
-    @IBOutlet var testimage: UIImageView!
+    @IBOutlet var yourImageView: UIImageView!
     
     @IBOutlet weak var txtdescription: UITextView!
     @IBOutlet weak var viewaddimage: UIView!
@@ -550,7 +550,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
             "LastName":txtlastname.text ?? "",
             "Place":txtnameaddress.text ?? "",
             "ReceivedDevice":"1",
-            "Section":"0",
+            "Section":"Report Issue",
             "Subject":Statetxt.text ?? "",
             "GPSX":LatitudeString ?? "",
             "GPSY":LongitudeString ?? "",
@@ -645,8 +645,10 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
 //            let imageData:NSData = selectedImage.pngData()! as NSData
 //            let imageStr = imageData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
 //            print("imageStr==>\(imageStr)")
+            
+            //if let data = selectedImage.pngData()
  
-            if let data = selectedImage.pngData() {
+            if let data = selectedImage.jpegData(compressionQuality: 0.4){
             //print("There were \(data.count) bytes")
             let bcf = ByteCountFormatter()
             bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
@@ -667,14 +669,15 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                 dismiss(animated: true, completion: nil)
                 self.imagecollection.reloadData()
                 
-                let dataa = selectedImage.pngData()
+                
+                //let dataa = selectedImage.pngData()
+                let dataa = selectedImage.jpegData(compressionQuality: 0.4)
                 bytes = getArrayOfBytesFromImage(imageData: dataa! as NSData)
                 let datos: NSData = NSData(bytes: bytes, length: bytes.count)
                 
                 //let imageData2:Data =  selectedImage.pngData()!
                 let base64String2 = datos.base64EncodedString()
                 //print("base64String2===>\(base64String2)")
-                
                 
                 
                 //let imageData: Data? = selectedImage.jpegData(compressionQuality: 0.4)
@@ -685,18 +688,55 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                 if arrayimage.count == 1{
                     print("Count 1")
                     ImageBytesone = base64String2
+                    
+                    let dataDecoded:NSData = NSData(base64Encoded: base64String2, options: NSData.Base64DecodingOptions(rawValue: 0))!
+                    let decodedimage:UIImage = UIImage(data: dataDecoded as Data)!
+                    //print(decodedimage)
+                    yourImageView.image = decodedimage
+                    
+                    saveImageToDocumentDirectory(image: yourImageView.image!)
+                    
                 }else if arrayimage.count == 2{
                     print("Count 2")
                     ImageBytestwo = base64String2
+                    
+                    let dataDecoded:NSData = NSData(base64Encoded: base64String2, options: NSData.Base64DecodingOptions(rawValue: 0))!
+                    let decodedimage:UIImage = UIImage(data: dataDecoded as Data)!
+                    //print(decodedimage)
+                    yourImageView.image = decodedimage
+                    
+                    saveImageToDocumentDirectory(image: yourImageView.image!)
+                    
                 }else if arrayimage.count == 3{
                     print("Count 3")
                     ImageBytesthree = base64String2
+                    
+                    let dataDecoded:NSData = NSData(base64Encoded: base64String2, options: NSData.Base64DecodingOptions(rawValue: 0))!
+                    let decodedimage:UIImage = UIImage(data: dataDecoded as Data)!
+                    //print(decodedimage)
+                    yourImageView.image = decodedimage
+                    
+                    saveImageToDocumentDirectory(image: yourImageView.image!)
                 }else if arrayimage.count == 4{
                     print("Count 4")
                     ImageBytesfour = base64String2
+                    
+                    let dataDecoded:NSData = NSData(base64Encoded: base64String2, options: NSData.Base64DecodingOptions(rawValue: 0))!
+                    let decodedimage:UIImage = UIImage(data: dataDecoded as Data)!
+                    //print(decodedimage)
+                    yourImageView.image = decodedimage
+                    
+                    saveImageToDocumentDirectory(image: yourImageView.image!)
                 }else if arrayimage.count == 5{
                     print("Count 5")
                     ImageBytesfive = base64String2
+                    
+                    let dataDecoded:NSData = NSData(base64Encoded: base64String2, options: NSData.Base64DecodingOptions(rawValue: 0))!
+                    let decodedimage:UIImage = UIImage(data: dataDecoded as Data)!
+                    //print(decodedimage)
+                    yourImageView.image = decodedimage
+                    
+                    saveImageToDocumentDirectory(image: yourImageView.image!)
                 }
             }else{
                 dismiss(animated: true, completion: nil)
@@ -887,6 +927,20 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
         alert.addAction(deleteAction)
 
         present(alert, animated: true, completion: nil)
+    }
+    
+    func saveImageToDocumentDirectory(image: UIImage ) {
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let fileName = "image001.png" // name of the image to be saved
+        let fileURL = documentsDirectory.appendingPathComponent(fileName)
+        if let data = image.jpegData(compressionQuality: 1.0),!FileManager.default.fileExists(atPath: fileURL.path){
+            do {
+                try data.write(to: fileURL)
+                print("file saved")
+            } catch {
+                print("error saving file:", error)
+            }
+        }
     }
     
     func remove(index: Int) {
