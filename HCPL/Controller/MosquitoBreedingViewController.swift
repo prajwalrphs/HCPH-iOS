@@ -209,86 +209,6 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
         self.LongitudeString = "\(locValue.longitude)"
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-
-        if let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-
-//            if let data = selectedImage.pngData() {
-//            //print("There were \(data.count) bytes")
-//            let bcf = ByteCountFormatter()
-//            bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
-//            bcf.countStyle = .file
-//            let string = bcf.string(fromByteCount: Int64(data.count))
-//                print("formatted result: \(string)")
-//
-//                let myInt3 = (string as NSString).integerValue
-//                CheckMB.append(myInt3)
-//            }
-            
-            let image = Image(imageData: selectedImage.pngData()!)
-            images.append(image)
-            
-            if let data = selectedImage.jpegData(compressionQuality: 0.4){
-            //print("There were \(data.count) bytes")
-            let bcf = ByteCountFormatter()
-            bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
-            bcf.countStyle = .file
-            let string = bcf.string(fromByteCount: Int64(data.count))
-                print("formatted result: \(string)")
-                
-                let myInt3 = (string as NSString).integerValue
-                CheckMB.append(myInt3)
-            }
-            
-            let total = CheckMB.reduce(0, +)
-            
-            
-            if total < 20{
-   
-                
-                Image.saveImages(images)
-                dismiss(animated: true, completion: nil)
-                self.Mosquitocollection.reloadData()
-                
-//                let dataa = selectedImage.pngData()
-//                bytes = getArrayOfBytesFromImage(imageData: dataa! as NSData)
-//                let datos: NSData = NSData(bytes: bytes, length: bytes.count)
-                
-                let dataa = selectedImage.jpegData(compressionQuality: 0.4)
-                bytes = getArrayOfBytesFromImage(imageData: dataa! as NSData)
-                let datos: NSData = NSData(bytes: bytes, length: bytes.count)
-                
-//                let imageData: Data? = selectedImage.jpegData(compressionQuality: 0.4)
-//                let imageStr = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
-//                self.arrayimage.append(imageStr)
-                
-                //let imageData2:Data =  selectedImage.pngData()!
-                let base64String2 = datos.base64EncodedString()
-                
-                self.arrayimage.append(base64String2)
-                
-            
-            }else{
-                dismiss(animated: true, completion: nil)
-                print("less not")
-                
-                
-                let when = DispatchTime.now() + 1
-                DispatchQueue.main.asyncAfter(deadline: when){
-                  // your code with delay
-                    
-                let alertController = UIAlertController(title: "HCPH", message: "All image size must be less than 20 MB.", preferredStyle: UIAlertController.Style.alert)
-                    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
-                    alertController.addAction(cancelAction)
-                    self.present(alertController, animated: true, completion: nil)
-                
-                }
-            }
-            
-
-     }
-        
-    }
     
     func getArrayOfBytesFromImage(imageData:NSData) -> Array<UInt8>
     {
@@ -568,9 +488,17 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
 
     if Switch4 == "true"{
     //switch4
-    let switchfour = ["CallRequestId": "0","isChecked": true,"ItemObservedDescription": OtherText.text ?? "","InspectionItemId":"93","ItemDescription": "","InspectionItemType": "","CreatedBy": "","CreatedDt": "","LastModifiedBy": "","LastModifiedDt": "","DeletedFg": "","ItemOrder": ""] as [String : Any]
+        
+        if OtherText.text == "Please describe the breeding site."{
+            let switchfour = ["CallRequestId": "0","isChecked": true,"ItemObservedDescription":"","InspectionItemId":"93","ItemDescription": "","InspectionItemType": "","CreatedBy": "","CreatedDt": "","LastModifiedBy": "","LastModifiedDt": "","DeletedFg": "","ItemOrder": ""] as [String : Any]
 
-    InspectionItemResult.append(switchfour)
+            InspectionItemResult.append(switchfour)
+        }else{
+            let switchfour = ["CallRequestId": "0","isChecked": true,"ItemObservedDescription": OtherText.text ?? "","InspectionItemId":"93","ItemDescription": "","InspectionItemType": "","CreatedBy": "","CreatedDt": "","LastModifiedBy": "","LastModifiedDt": "","DeletedFg": "","ItemOrder": ""] as [String : Any]
+
+            InspectionItemResult.append(switchfour)
+        }
+   
     }
 
     let headers: HTTPHeaders = ["Content-Type": "application/json"]
@@ -578,69 +506,214 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
 
     let CurrentDate = UserDefaults.standard.string(forKey: AppConstant.DATE)
     print("onoff==>\(CurrentDate ?? "")")
-
-
-    let objParameters: Parameters = [
-    "FirstName":"",
-    "LastName":"",
-    "RequestTypeId":1,
-    "FromExternalWebSite":true,
-    "MosquitoBiteTimeOfDay":Timeofday.text ?? "",
-    "InspectionConduction":false,
-    "RequestDt":"2018-07-20 03:03 33",
-    "locationofproblem":"",
-    "OtherSite":OtherText.text ?? "",
-    "address":AddressDic,
-    "requestor":RequestorDic,
-    "Latitude":LatitudeString ?? "",
-    "Longitude":LongitudeString ?? "",
-    "InspectionItemResult":InspectionItemResult,
-    "ImageList":"arrayimage"
-    ]
-
         
-    print("objParameters==>\(objParameters)")
-
-
-//    let url = URL(string: "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddExtCitizenRequest?title=")!
         
-        let URLset = "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddExtCitizenRequest?title="
+        if OtherText.text == "Please describe the breeding site."{
+            let objParameters: Parameters = [
+            "FirstName":"",
+            "LastName":"",
+            "RequestTypeId":1,
+            "FromExternalWebSite":true,
+            "MosquitoBiteTimeOfDay":Timeofday.text ?? "",
+            "InspectionConduction":false,
+            "RequestDt":"2018-07-20 03:03 33",
+            "locationofproblem":"",
+            "OtherSite":"",
+            "address":AddressDic,
+            "requestor":RequestorDic,
+            "Latitude":LatitudeString ?? "",
+            "Longitude":LongitudeString ?? "",
+            "InspectionItemResult":InspectionItemResult,
+            "ImageList":arrayimage
+            ]
 
-    AF.request(URLset,method: .post, parameters:objParameters, encoding: JSONEncoding.default
-    , headers: headers)
-    .responseJSON { response in
-    print("StatusCode==>\(response.response?.statusCode ?? 0)")
-    switch response.result{
-    case .success(let JSON):
-    print("Success with JSON: \(JSON)")
+                
+        //    let url = URL(string: "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddExtCitizenRequest?title=")!
+                
+                let URLset = "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddExtCitizenRequest?title="
 
-    if response.response?.statusCode == 200{
-    DispatchQueue.main.async {
+            AF.request(URLset,method: .post, parameters:objParameters, encoding: JSONEncoding.default
+            , headers: headers)
+            .responseJSON { response in
+            print("StatusCode==>\(response.response?.statusCode ?? 0)")
+            switch response.result{
+            case .success(let JSON):
+            print("Success with JSON: \(JSON)")
 
-    self.hud.hide(animated: true)
-    self.view.showToast(toastMessage: "Form Successfully Submitted", duration: 0.3)
+            if response.response?.statusCode == 200{
+            DispatchQueue.main.async {
 
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-    // your code here
-    let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
-    navigate.selectdtab = 4
-    self.navigationController?.pushViewController(navigate, animated: true)
+            self.hud.hide(animated: true)
+            self.view.showToast(toastMessage: "Form Successfully Submitted", duration: 0.3)
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+            // your code here
+            let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+            navigate.selectdtab = 4
+            self.navigationController?.pushViewController(navigate, animated: true)
+            }
+                
+            }
+            }
+
+            case .failure(let error):
+            print(error.localizedDescription)
+            DispatchQueue.main.async {
+            self.hud.hide(animated: true)
+            self.view.showToast(toastMessage: "Fail", duration: 0.5)
+            }
+            }
+            print("DeadBirdResponse==>\(response)")
+
+            }
+        }else{
+            let objParameters: Parameters = [
+            "FirstName":"",
+            "LastName":"",
+            "RequestTypeId":1,
+            "FromExternalWebSite":true,
+            "MosquitoBiteTimeOfDay":Timeofday.text ?? "",
+            "InspectionConduction":false,
+            "RequestDt":"2018-07-20 03:03 33",
+            "locationofproblem":"",
+            "OtherSite":OtherText.text ?? "",
+            "address":AddressDic,
+            "requestor":RequestorDic,
+            "Latitude":LatitudeString ?? "",
+            "Longitude":LongitudeString ?? "",
+            "InspectionItemResult":InspectionItemResult,
+            "ImageList":arrayimage
+            ]
+
+                
+        //    let url = URL(string: "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddExtCitizenRequest?title=")!
+                
+                let URLset = "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddExtCitizenRequest?title="
+
+            AF.request(URLset,method: .post, parameters:objParameters, encoding: JSONEncoding.default
+            , headers: headers)
+            .responseJSON { response in
+            print("StatusCode==>\(response.response?.statusCode ?? 0)")
+            switch response.result{
+            case .success(let JSON):
+            print("Success with JSON: \(JSON)")
+
+            if response.response?.statusCode == 200{
+            DispatchQueue.main.async {
+
+            self.hud.hide(animated: true)
+            self.view.showToast(toastMessage: "Form Successfully Submitted", duration: 0.3)
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+            // your code here
+            let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+            navigate.selectdtab = 4
+            self.navigationController?.pushViewController(navigate, animated: true)
+            }
+                
+            }
+            }
+
+            case .failure(let error):
+            print(error.localizedDescription)
+            DispatchQueue.main.async {
+            self.hud.hide(animated: true)
+            self.view.showToast(toastMessage: "Fail", duration: 0.5)
+            }
+            }
+            //print("DeadBirdResponse==>\(response)")
+
+            }
+        }
     }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+
+        if let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+
+//            if let data = selectedImage.pngData() {
+//            //print("There were \(data.count) bytes")
+//            let bcf = ByteCountFormatter()
+//            bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
+//            bcf.countStyle = .file
+//            let string = bcf.string(fromByteCount: Int64(data.count))
+//                print("formatted result: \(string)")
+//
+//                let myInt3 = (string as NSString).integerValue
+//                CheckMB.append(myInt3)
+//            }
+            
+            let image = Image(imageData: selectedImage.pngData()!)
+            images.append(image)
+            
+            if let data = selectedImage.jpegData(compressionQuality: 0.4){
+            //print("There were \(data.count) bytes")
+            let bcf = ByteCountFormatter()
+            bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
+            bcf.countStyle = .file
+            let string = bcf.string(fromByteCount: Int64(data.count))
+                print("formatted result: \(string)")
+                
+                let myInt3 = (string as NSString).integerValue
+                CheckMB.append(myInt3)
+            }
+            
+            let total = CheckMB.reduce(0, +)
+            
+            
+            if total < 20{
+   
+                
+                Image.saveImages(images)
+                dismiss(animated: true, completion: nil)
+                self.Mosquitocollection.reloadData()
+                
+//                let dataa = selectedImage.pngData()
+//                bytes = getArrayOfBytesFromImage(imageData: dataa! as NSData)
+//                let datos: NSData = NSData(bytes: bytes, length: bytes.count)
+                
+                let dataa = selectedImage.jpegData(compressionQuality: 0.4)
+                
+//                let options: NSDictionary =     [:]
+//                let convertToBmp = selectedImage.toData(options: options, type: .bmp)
+//                guard convertToBmp != nil else {
+//                    print("😡 ERROR: could not convert image to a bitmap bmpData var.")
+//                    return
+//                }
+                
+                bytes = getArrayOfBytesFromImage(imageData: dataa! as NSData)
+                let datos: NSData = NSData(bytes: bytes, length: bytes.count)
+                
+//                let imageData: Data? = selectedImage.jpegData(compressionQuality: 0.4)
+//                let imageStr = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
+//                self.arrayimage.append(imageStr)
+                
+                //let imageData2:Data =  selectedImage.pngData()!
+                let base64String2 = datos.base64EncodedString()
+                
+                self.arrayimage.append(base64String2)
+                
+            
+            }else{
+                dismiss(animated: true, completion: nil)
+                print("less not")
+                
+                
+                let when = DispatchTime.now() + 1
+                DispatchQueue.main.asyncAfter(deadline: when){
+                  // your code with delay
+                    
+                let alertController = UIAlertController(title: "HCPH", message: "All image size must be less than 20 MB.", preferredStyle: UIAlertController.Style.alert)
+                    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                    alertController.addAction(cancelAction)
+                    self.present(alertController, animated: true, completion: nil)
+                
+                }
+            }
+            
+
+     }
         
-    }
-    }
-
-    case .failure(let error):
-    print(error.localizedDescription)
-    DispatchQueue.main.async {
-    self.hud.hide(animated: true)
-    self.view.showToast(toastMessage: "Fail", duration: 0.5)
-    }
-    }
-    print("DeadBirdResponse==>\(response)")
-
-    }
-
     }
     
     @IBAction func Back(_ sender: UIButton) {

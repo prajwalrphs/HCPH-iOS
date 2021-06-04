@@ -92,11 +92,11 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     //var FirsttoolBar = UIToolbar()
     var FirstdatePicker : UIDatePicker!
     
-    var ImageBytesone = String()
-    var ImageBytestwo = String()
-    var ImageBytesthree = String()
-    var ImageBytesfour = String()
-    var ImageBytesfive = String()
+    var ImageBytesone:String?
+    var ImageBytestwo:String?
+    var ImageBytesthree:String?
+    var ImageBytesfour:String?
+    var ImageBytesfive:String?
     
     var CheckMB = [Int]()
     
@@ -982,106 +982,203 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
         hud.customView?.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
         hud.show(animated: true)
         
-        
-        let parameters = [
-            "violatorAddress":txtaddress.text as Any,
-            "violatorAptNum":txtaptnumber.text as Any,
-            "ViolatorGateCode":txtgatcode.text as Any,
-            "ViolatorCity":txtcity.text as Any,
-            "ViolatorState":Statetxt.text as Any,
-            "ViolatorZip":txtzip.text as Any,
-            "ViolatorCounty":txtcountry.text as Any,
-            "ViolatorNeighborhood":txtneighborhood.text as Any,
-            "TypeOfAnimals":txttypeofanimal.text as Any,
-            "NumberOfAnimals":txtnumberofanimal.text as Any,
-            "ColorOfAnimals":txtcolorofanimal.text as Any,
-            "PropertyLocation":txtanimalslocation.text as Any,
-            "FirstObservationDt":txtfirstdate.text as Any,
-            "LastObservationDt":txtlastdate.text as Any,
-            "CrueltyOngoing":checkboxongoingBool as Any,
-            "CrueltyType":checkboxstring as Any,
-            "CrueltyDesc":txtdescription.text as Any,
-            "PreviousReport":checkboxBool as Any,
-            "PreviousAgencyDesc":txtagency.text as Any,
-            "ReporterFirstName":txtfirstname.text as Any,
-            "ReporterLastName":txtlastname.text as Any,
-            "reporterphone":txtphone.text as Any,
-            "reporteremail":txtemail.text as Any,
-            "ReceivedDevice":"0",
-            "ImageBytes":ImageBytesone,
-            "ImageBytes2":ImageBytestwo,
-            "ImageBytes3":ImageBytesthree,
-            "ImageBytes4":ImageBytesfour,
-            "ImageBytes5":ImageBytesfive,
-        ] as [String : Any]
-        
-
-//        print("checkboxstring==>\(checkboxstring ?? "")")
-        
-
-        let jsonData = try? JSONSerialization.data(withJSONObject: parameters)
+        if txtdescription.text == "Description of Cruelty (Please fill out information in this field)"{
+            let parameters = [
+                "violatorAddress":txtaddress.text as Any,
+                "violatorAptNum":txtaptnumber.text as Any,
+                "ViolatorGateCode":txtgatcode.text as Any,
+                "ViolatorCity":txtcity.text as Any,
+                "ViolatorState":Statetxt.text as Any,
+                "ViolatorZip":txtzip.text as Any,
+                "ViolatorCounty":txtcountry.text as Any,
+                "ViolatorNeighborhood":txtneighborhood.text as Any,
+                "TypeOfAnimals":txttypeofanimal.text as Any,
+                "NumberOfAnimals":txtnumberofanimal.text as Any,
+                "ColorOfAnimals":txtcolorofanimal.text as Any,
+                "PropertyLocation":txtanimalslocation.text as Any,
+                "FirstObservationDt":txtfirstdate.text as Any,
+                "LastObservationDt":txtlastdate.text as Any,
+                "CrueltyOngoing":checkboxongoingBool as Any,
+                "CrueltyType":checkboxstring as Any,
+                "CrueltyDesc":"",
+                "PreviousReport":checkboxBool as Any,
+                "PreviousAgencyDesc":txtagency.text as Any,
+                "ReporterFirstName":txtfirstname.text as Any,
+                "ReporterLastName":txtlastname.text as Any,
+                "reporterphone":txtphone.text as Any,
+                "reporteremail":txtemail.text as Any,
+                "ReceivedDevice":"0",
+                "ImageBytes":ImageBytesone ?? "",
+                "ImageBytes2":ImageBytestwo ?? "",
+                "ImageBytes3":ImageBytesthree ?? "",
+                "ImageBytes4":ImageBytesfour ?? "",
+                "ImageBytes5":ImageBytesfive ?? "",
+            ] as [String : Any]
+            
+            
+            let jsonData = try? JSONSerialization.data(withJSONObject: parameters)
 
 
-        let url = URL(string: "https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/UploadVPHComplaint")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.httpBody = jsonData
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            let url = URL(string: "https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/UploadVPHComplaint")!
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.httpBody = jsonData
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
 
-                 guard let data = data else { return }
-                 do{
-                     let json = try JSON(data:data)
-                     print("ReportAnimalApicall==> \(json)")
+                     guard let data = data else { return }
+                     do{
+                         let json = try JSON(data:data)
+                         print("ReportAnimalApicall==> \(json)")
 
-                    let statusisSuccess = json["isSuccess"]
-                    let messageTost = json["message"]
+                        let statusisSuccess = json["isSuccess"]
+                        let messageTost = json["message"]
 
-                    let gettost = "\(messageTost)"
+                        let gettost = "\(messageTost)"
 
-                    print("statusisSuccess==>\(statusisSuccess)")
-                    print("gettost==>\(gettost)")
+                        print("statusisSuccess==>\(statusisSuccess)")
+                        print("gettost==>\(gettost)")
 
-                    if statusisSuccess == "false"{
+                        if statusisSuccess == "false"{
 
+                            DispatchQueue.main.async {
+                                self.view.showToast(toastMessage: gettost, duration: 0.3)
+                                self.hud.hide(animated: true)
+                            }
+
+                        }else{
+                            let decoder = JSONDecoder()
+                            self.Reportanimal = try decoder.decode(CommercialPoolsWelcome.self, from: data)
+
+
+                            DispatchQueue.main.async {
+
+                                  self.hud.hide(animated: true)
+
+                              self.view.showToast(toastMessage: "Form Successfully Submitted", duration: 0.3)
+
+                              DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                                  // your code here
+                                  let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                                  navigate.selectdtab = 4
+                                  self.navigationController?.pushViewController(navigate, animated: true)
+                              }
+
+
+
+                              }
+                        }
+                     }catch{
+                         print(error.localizedDescription)
                         DispatchQueue.main.async {
-                            self.view.showToast(toastMessage: gettost, duration: 0.3)
                             self.hud.hide(animated: true)
                         }
+                     }
 
-                    }else{
-                        let decoder = JSONDecoder()
-                        self.Reportanimal = try decoder.decode(CommercialPoolsWelcome.self, from: data)
+                     }
+
+            task.resume()
+        }else{
+            let parameters = [
+                "violatorAddress":txtaddress.text as Any,
+                "violatorAptNum":txtaptnumber.text as Any,
+                "ViolatorGateCode":txtgatcode.text as Any,
+                "ViolatorCity":txtcity.text as Any,
+                "ViolatorState":Statetxt.text as Any,
+                "ViolatorZip":txtzip.text as Any,
+                "ViolatorCounty":txtcountry.text as Any,
+                "ViolatorNeighborhood":txtneighborhood.text as Any,
+                "TypeOfAnimals":txttypeofanimal.text as Any,
+                "NumberOfAnimals":txtnumberofanimal.text as Any,
+                "ColorOfAnimals":txtcolorofanimal.text as Any,
+                "PropertyLocation":txtanimalslocation.text as Any,
+                "FirstObservationDt":txtfirstdate.text as Any,
+                "LastObservationDt":txtlastdate.text as Any,
+                "CrueltyOngoing":checkboxongoingBool as Any,
+                "CrueltyType":checkboxstring as Any,
+                "CrueltyDesc":txtdescription.text as Any,
+                "PreviousReport":checkboxBool as Any,
+                "PreviousAgencyDesc":txtagency.text as Any,
+                "ReporterFirstName":txtfirstname.text as Any,
+                "ReporterLastName":txtlastname.text as Any,
+                "reporterphone":txtphone.text as Any,
+                "reporteremail":txtemail.text as Any,
+                "ReceivedDevice":"0",
+                "ImageBytes":ImageBytesone ?? "",
+                "ImageBytes2":ImageBytestwo ?? "",
+                "ImageBytes3":ImageBytesthree ?? "",
+                "ImageBytes4":ImageBytesfour ?? "",
+                "ImageBytes5":ImageBytesfive ?? "",
+            ] as [String : Any]
+            
+            
+            let jsonData = try? JSONSerialization.data(withJSONObject: parameters)
 
 
+            let url = URL(string: "https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/UploadVPHComplaint")!
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.httpBody = jsonData
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+
+                     guard let data = data else { return }
+                     do{
+                         let json = try JSON(data:data)
+                         print("ReportAnimalApicall==> \(json)")
+
+                        let statusisSuccess = json["isSuccess"]
+                        let messageTost = json["message"]
+
+                        let gettost = "\(messageTost)"
+
+                        print("statusisSuccess==>\(statusisSuccess)")
+                        print("gettost==>\(gettost)")
+
+                        if statusisSuccess == "false"{
+
+                            DispatchQueue.main.async {
+                                self.view.showToast(toastMessage: gettost, duration: 0.3)
+                                self.hud.hide(animated: true)
+                            }
+
+                        }else{
+                            let decoder = JSONDecoder()
+                            self.Reportanimal = try decoder.decode(CommercialPoolsWelcome.self, from: data)
+
+
+                            DispatchQueue.main.async {
+
+                                  self.hud.hide(animated: true)
+
+                              self.view.showToast(toastMessage: "Form Successfully Submitted", duration: 0.3)
+
+                              DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                                  // your code here
+                                  let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                                  navigate.selectdtab = 4
+                                  self.navigationController?.pushViewController(navigate, animated: true)
+                              }
+
+
+
+                              }
+                        }
+                     }catch{
+                         print(error.localizedDescription)
                         DispatchQueue.main.async {
+                            self.hud.hide(animated: true)
+                        }
+                     }
 
-                              self.hud.hide(animated: true)
+                     }
 
-                          self.view.showToast(toastMessage: "Form Successfully Submitted", duration: 0.3)
-
-                          DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                              // your code here
-                              let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
-                              navigate.selectdtab = 4
-                              self.navigationController?.pushViewController(navigate, animated: true)
-                          }
-
-
-
-                          }
-                    }
-                 }catch{
-                     print(error.localizedDescription)
-                    DispatchQueue.main.async {
-                        self.hud.hide(animated: true)
-                    }
-                 }
-
-                 }
-
-        task.resume()
+            task.resume()
+        }
+        
+        
 
     }
     
@@ -1160,8 +1257,16 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     //            let imageStr = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
     //            self.ImagevideoUrl?.append(imageStr)
                 
-                let dataa = selectedImage.jpegData(compressionQuality: 0.4)
-                bytes = getArrayOfBytesFromImage(imageData: dataa! as NSData)
+                //let dataa = selectedImage.jpegData(compressionQuality: 0.4)
+                
+                let options: NSDictionary =     [:]
+                let convertToBmp = selectedImage.toData(options: options, type: .bmp)
+                guard convertToBmp != nil else {
+                    print("😡 ERROR: could not convert image to a bitmap bmpData var.")
+                    return
+                }
+                
+                bytes = getArrayOfBytesFromImage(imageData: convertToBmp! as NSData)
                 let datos: NSData = NSData(bytes: bytes, length: bytes.count)
                 
                
@@ -1740,3 +1845,5 @@ extension String {
         return nil
     }
 }
+
+

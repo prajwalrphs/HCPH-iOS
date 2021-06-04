@@ -30,6 +30,7 @@ public class AppConstant {
     static let DATE = "date"
     static let TITLE = "title"
     static let ZIPCODE = "zipcode"
+    static let ZIPCODETWO = "zipcode"
     static let ViewColor = #colorLiteral(red: 0.2588235294, green: 0.2588235294, blue: 0.2588235294, alpha: 1)
     static let LabelColor = #colorLiteral(red: 0.8078431373, green: 0.8078431373, blue: 0.8078431373, alpha: 1)
     static let NormalTextColor = #colorLiteral(red: 0.4784313725, green: 0.4823529412, blue: 0.4941176471, alpha: 1)

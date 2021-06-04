@@ -54,6 +54,7 @@
 		EF66ED43256FBB1700A9E9EE /* SidemenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF66ED42256FBB1700A9E9EE /* SidemenuTableViewCell.swift */; };
 		EF66ED49256FE21500A9E9EE /* ServicesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF66ED48256FE21500A9E9EE /* ServicesTableViewCell.swift */; };
 		EF67380D25CAD1A9006FAEEB /* SearchEstablishmentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF67380C25CAD1A9006FAEEB /* SearchEstablishmentsViewController.swift */; };
+		EF689B9926621EE400A0B5AC /* BackgroundApicall.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF689B9826621EE400A0B5AC /* BackgroundApicall.swift */; };
 		EF6CD73725E8FAC9001491FF /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6CD73625E8FAC9001491FF /* Reachability.swift */; };
 		EF7408DF2604DCE0004B5CE2 /* InspectionReportIssueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7408DE2604DCE0004B5CE2 /* InspectionReportIssueViewController.swift */; };
 		EF75E84025790E3F00479F5B /* AllTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF75E83F25790E3F00479F5B /* AllTableViewCell.swift */; };
@@ -79,6 +80,7 @@
 		EF8477D9256D4CD20061BEB2 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8477D8256D4CD20061BEB2 /* ForgotPasswordViewController.swift */; };
 		EF8B6C85257E2269004DBF17 /* ReportCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8B6C84257E2269004DBF17 /* ReportCollectionViewCell.swift */; };
 		EF8B6C87257E6D27004DBF17 /* videoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8B6C86257E6D27004DBF17 /* videoCollectionViewCell.swift */; };
+		EF9A3F472667862D0055BCFA /* imagebitmap.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9A3F462667862D0055BCFA /* imagebitmap.swift */; };
 		EF9A9736259460D40048545A /* HoursViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9A9735259460D40048545A /* HoursViewController.swift */; };
 		EF9A973B259461570048545A /* WeekTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9A973A259461570048545A /* WeekTableViewCell.swift */; };
 		EF9A97402594617D0048545A /* CallforAppointmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9A973F2594617D0048545A /* CallforAppointmentTableViewCell.swift */; };
@@ -187,6 +189,7 @@
 		EF66ED48256FE21500A9E9EE /* ServicesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesTableViewCell.swift; sourceTree = "<group>"; };
 		EF67380325CA83AB006FAEEB /* ArcGIS.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ArcGIS.xcframework; path = "Pods/ArcGIS-Runtime-SDK-iOS/ArcGIS.xcframework"; sourceTree = "<group>"; };
 		EF67380C25CAD1A9006FAEEB /* SearchEstablishmentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEstablishmentsViewController.swift; sourceTree = "<group>"; };
+		EF689B9826621EE400A0B5AC /* BackgroundApicall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundApicall.swift; sourceTree = "<group>"; };
 		EF6CD73625E8FAC9001491FF /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		EF7408DE2604DCE0004B5CE2 /* InspectionReportIssueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectionReportIssueViewController.swift; sourceTree = "<group>"; };
 		EF75E83F25790E3F00479F5B /* AllTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTableViewCell.swift; sourceTree = "<group>"; };
@@ -213,6 +216,7 @@
 		EF8477D8256D4CD20061BEB2 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		EF8B6C84257E2269004DBF17 /* ReportCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCollectionViewCell.swift; sourceTree = "<group>"; };
 		EF8B6C86257E6D27004DBF17 /* videoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = videoCollectionViewCell.swift; sourceTree = "<group>"; };
+		EF9A3F462667862D0055BCFA /* imagebitmap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = imagebitmap.swift; sourceTree = "<group>"; };
 		EF9A9735259460D40048545A /* HoursViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursViewController.swift; sourceTree = "<group>"; };
 		EF9A973A259461570048545A /* WeekTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekTableViewCell.swift; sourceTree = "<group>"; };
 		EF9A973F2594617D0048545A /* CallforAppointmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallforAppointmentTableViewCell.swift; sourceTree = "<group>"; };
@@ -425,6 +429,8 @@
 				EF5B401A25BAFB140068EDEE /* commercialpoolmodel.swift */,
 				EF55A95525D2AADC004A55AC /* CheckDevice.swift */,
 				EF6CD73625E8FAC9001491FF /* Reachability.swift */,
+				EF689B9826621EE400A0B5AC /* BackgroundApicall.swift */,
+				EF9A3F462667862D0055BCFA /* imagebitmap.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -899,6 +905,7 @@
 				EF55A95625D2AADC004A55AC /* CheckDevice.swift in Sources */,
 				EF9A974F259496C90048545A /* RepostissueTableViewCell.swift in Sources */,
 				EFFE326825936DF300415DCD /* MosquitoBreedingViewController.swift in Sources */,
+				EF9A3F472667862D0055BCFA /* imagebitmap.swift in Sources */,
 				EF13004D257A45300066F712 /* ReportanimalViewController.swift in Sources */,
 				EF9A9736259460D40048545A /* HoursViewController.swift in Sources */,
 				EF8477CE256D481C0061BEB2 /* IQInvocation.swift in Sources */,
@@ -907,6 +914,7 @@
 				EF62BE182602732F000036E7 /* VPAutoComplete.swift in Sources */,
 				EF9A975E2594B94D0048545A /* MosquitoBreedingCollectionViewCell.swift in Sources */,
 				EF9A97592594B8DB0048545A /* CommercialPoolsCollectionViewCell.swift in Sources */,
+				EF689B9926621EE400A0B5AC /* BackgroundApicall.swift in Sources */,
 				EF8477D7256D481C0061BEB2 /* IQNSArray+Sort.swift in Sources */,
 				EF62BE1A2602732F000036E7 /* VPAutoCompleteViewCell.swift in Sources */,
 				EF9A974A259496B70048545A /* ReportIssueViewController.swift in Sources */,
@@ -1098,7 +1106,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = S3SAGN2DFC;
 				INFOPLIST_FILE = HCPL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
@@ -1106,11 +1113,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.1.3;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = gov.harriscountytx.harriscountypublichealth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1120,7 +1127,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = S3SAGN2DFC;
 				INFOPLIST_FILE = HCPL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
@@ -1128,11 +1134,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.1.3;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = gov.harriscountytx.harriscountypublichealth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

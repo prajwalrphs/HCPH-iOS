@@ -12,7 +12,6 @@ import Alamofire
 class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource,DropSwitch,GMSMapViewDelegate,CLLocationManagerDelegate,reportanissue,UITextFieldDelegate{
 
     
-    
     @IBOutlet weak var titletext: UILabel!
     @IBOutlet weak var CustomMapView: GMSMapView!
     @IBOutlet var dropdownview: UIView!
@@ -338,6 +337,39 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
                         self.MapModel = try decoder.decode(Maponcreate.self, from: data)
                         
                         DispatchQueue.main.async {
+                            for i in self.SearchGet!.data{
+                                if i.facilityType == "Convenience store"{
+                                    self.ShowLocationtwo(lat: Double("\(i.lat)")!, long: Double("\(i.lon)")!, MarkerImage: #imageLiteral(resourceName: "convienent-store-icon22x22"), Miles: i.establishmentName)
+                                }else if i.facilityType == "Farmer's Market"{
+                                    self.ShowLocationtwo(lat: Double("\(i.lat)")!, long: Double("\(i.lon)")!, MarkerImage: #imageLiteral(resourceName: "farmers-market-icon22x22"), Miles: i.establishmentName)
+                                }else if i.facilityType == "Mobile Unit"{
+                                    self.ShowLocationtwo(lat: Double("\(i.lat)")!, long: Double("\(i.lon)")!, MarkerImage: #imageLiteral(resourceName: "mobile-unit-icon22x22"), Miles: i.establishmentName)
+                                }else if i.facilityType == "Hospital"{
+                                    self.ShowLocationtwo(lat: Double("\(i.lat)")!, long: Double("\(i.lon)")!, MarkerImage: #imageLiteral(resourceName: "hospital-icon22x22"), Miles: i.establishmentName)
+                                }else if i.facilityType == "Bar"{
+                                    self.ShowLocationtwo(lat: Double("\(i.lat)")!, long: Double("\(i.lon)")!, MarkerImage: #imageLiteral(resourceName: "bar-icon22x22"), Miles: i.establishmentName)
+                                }else if i.facilityType == "Caterer"{
+                                    self.ShowLocationtwo(lat: Double("\(i.lat)")!, long: Double("\(i.lon)")!, MarkerImage: #imageLiteral(resourceName: "catering-icon22x22"), Miles: i.establishmentName)
+                                }else if i.facilityType == "Commissary"{
+                                    self.ShowLocationtwo(lat: Double("\(i.lat)")!, long: Double("\(i.lon)")!, MarkerImage: #imageLiteral(resourceName: "commissary-icon22x22"), Miles: i.establishmentName)
+                                }else if i.facilityType == "Daycare Facility"{
+                                    self.ShowLocationtwo(lat: Double("\(i.lat)")!, long: Double("\(i.lon)")!, MarkerImage: #imageLiteral(resourceName: "daycare-icon22x22"), Miles: i.establishmentName)
+                                }else if i.facilityType == "Restaurant"{
+                                    self.ShowLocationtwo(lat: Double("\(i.lat)")!, long: Double("\(i.lon)")!, MarkerImage: #imageLiteral(resourceName: "restaurant-icon22x22"), Miles: i.establishmentName)
+                                }else if i.facilityType == "Retail with food prep"{
+                                    self.ShowLocationtwo(lat: Double("\(i.lat)")!, long: Double("\(i.lon)")!, MarkerImage: #imageLiteral(resourceName: "bar-icon22x22"), Miles: i.establishmentName)
+                                }else if i.facilityType == "Snow cone stand"{
+                                    self.ShowLocationtwo(lat: Double("\(i.lat)")!, long: Double("\(i.lon)")!, MarkerImage: #imageLiteral(resourceName: "snow-cone-icon22x22"), Miles: i.establishmentName)
+                                }else if i.facilityType == "School"{
+                                    self.ShowLocationtwo(lat: Double("\(i.lat)")!, long: Double("\(i.lon)")!, MarkerImage: #imageLiteral(resourceName: "school-icon22x22"), Miles: i.establishmentName)
+                                }else{
+                                    self.ShowLocationtwo(lat: Double("\(i.lat)")!, long: Double("\(i.lon)")!, MarkerImage: #imageLiteral(resourceName: "Assisted-Living-icon22x22"), Miles: i.establishmentName)
+                                }
+
+                            }
+                        }
+                        
+                        DispatchQueue.main.async {
                             self.hud.hide(animated: true)
                           }
                     }
@@ -637,7 +669,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         var request = URLRequest(url: url!)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        print("TestLog==>\(url)")
+        
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
                  
                  guard let data = data else { return }
@@ -1317,6 +1349,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         ShowLocation()
         locationManager.delegate = nil
         
+        
         let geocoder = GMSGeocoder()
         geocoder.reverseGeocodeCoordinate(locValue) { response, error in
             if error != nil {
@@ -1349,7 +1382,10 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
                                             self.present(alertController, animated: true, completion: nil)
                                         case .authorizedAlways, .authorizedWhenInUse:
                                             print("Access")
-                                            self.SearchApicall(Find: place.postalCode ?? "")
+                                            //self.SearchApicall(Find: place.postalCode ?? "")
+                                            
+                                            self.MapOncreateApicall()
+                                            
                                         @unknown default:
                                         break
                                     }

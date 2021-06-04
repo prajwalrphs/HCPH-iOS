@@ -89,14 +89,45 @@ struct SearchDatum: Codable {
     let numInspections: Int
 }
 
+//struct Maponcreate: Codable {
+//    let isSuccess: Bool
+//    let data: [JSONAny]
+//    let message: String
+//    let errorDetails: JSONNull?
+//    let createdID, pageIndex, pageSize, totalCount: Int
+//    let totalPageCount: Int
+//    let hasPreviousPage, hasNextPage: Bool
+//}
+
 struct Maponcreate: Codable {
     let isSuccess: Bool
-    let data: [JSONAny]
+    let createdID, pageSize: Int
+    let hasPreviousPage: Bool
+    let pageIndex, totalCount: Int
     let message: String
-    let errorDetails: JSONNull?
-    let createdID, pageIndex, pageSize, totalCount: Int
+    let data: [Datum]
+    let hasNextPage: Bool
     let totalPageCount: Int
-    let hasPreviousPage, hasNextPage: Bool
+}
+
+// MARK: - Datum
+struct Datum: Codable {
+    let permitExpireDate, lastInspection, demerits, establishmentName: String
+    let streetAddress: String
+    let numInspections: Int
+    let establishmentNumber, streetNumber: String
+    let city: City
+    let zipCode, lon, facilityType, lat: String
+    let milesAway: String
+    let count: Int
+}
+
+enum City: String, Codable {
+    case houston = "HOUSTON"
+    case southsidePlace = "SOUTHSIDE PLACE"
+    case wUniversity = "W. University"
+    case westUniversity = "West University"
+    case westUniversityPlace = "WEST UNIVERSITY PLACE"
 }
 
 

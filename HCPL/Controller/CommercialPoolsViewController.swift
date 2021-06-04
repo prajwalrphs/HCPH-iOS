@@ -9,6 +9,9 @@ import MaterialComponents.MaterialTextControls_FilledTextFields
 import MaterialComponents.MaterialTextControls_OutlinedTextAreas
 import MaterialComponents.MaterialTextControls_OutlinedTextFields
 import CoreLocation
+import GoogleMaps
+import GooglePlaces
+import GooglePlacePicker
 
 class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UIImagePickerControllerDelegate, UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate,CLLocationManagerDelegate {
 
@@ -18,6 +21,12 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     var hud: MBProgressHUD = MBProgressHUD()
     
     var CommercialPools:CommercialPoolsWelcome?
+    
+    var BackgroundPools:BackgroundApicall?
+    
+    //var ZIPCode:String?
+    
+    
     
     var CheckMB = [Int]()
     
@@ -62,14 +71,33 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     var Title:String!
     var PlaceholderGet:String!
     
-    var LatitudeString:String!
-    var LongitudeString:String!
+//    var LatitudeString:String!
+//    var LongitudeString:String!
     let locationManager = CLLocationManager()
     
+    var currentlat = UserDefaults.standard.string(forKey: AppConstant.CURRENTLAT)
+    var currentlong = UserDefaults.standard.string(forKey: AppConstant.CURRENTLONG)
+    var zipcodetwo = UserDefaults.standard.string(forKey: AppConstant.ZIPCODETWO)
     
+    var latti:String!
+    var Longi:String!
+    var postal:String!
+    
+    var Establishmentnumber:String?
+        
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
+        latti = currentlat
+        Longi = currentlong
+        postal = zipcodetwo
+        
+        if Reachability.isConnectedToNetwork(){
+            self.BackgroundApiCallApicall(Find: postal)
+        }else{
+            self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
+        }
+        
         CheckMB.removeAll()
         arrayimage.removeAll()
         
@@ -223,11 +251,33 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         //print("locations = \(locValue.latitude) \(locValue.longitude)")
-        self.LatitudeString = "\(locValue.latitude)"
-        self.LongitudeString = "\(locValue.longitude)"
+       
+        let geocoder = GMSGeocoder()
+        geocoder.reverseGeocodeCoordinate(locValue) { response, error in
+            if error != nil {
+                print("reverse geodcode fail: \(error!.localizedDescription)")
+                self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
+            } else {
+                if let places = response?.results() {
+                    if let place = places.first {
+                       // print(place.lines)
+//                        print("GEOCODE: Formatted postalCode: \(place.postalCode ?? "")")
+//                        print("GEOCODE: Formatted locality: \(place.locality ?? "")")
+//                        print("GEOCODE: Formatted subLocality: \(place.subLocality ?? "")")
+//                        print("GEOCODE: Formatted administrativeArea: \(place.administrativeArea ?? "")")
+//                        print("GEOCODE: Formatted country: \(place.country ?? "")")
+//
+                       
+                    } else {
+                        print("GEOCODE: nil first in places")
+                    }
+                } else {
+                    print("GEOCODE: nil in places")
+                }
+            }
+        }
         
-        print("LatitudeString==>\(LatitudeString ?? "")")
-        print("LongitudeString==>\(LongitudeString ?? "")")
+        
     }
     
     var MAX_LENGHTPhone = 10
@@ -534,43 +584,20 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
         return emailTest.evaluate(with: testStr)
     }
     
-    func CommercialPoolsApicall() {
+    
+
+    func BackgroundApiCallApicall(Find:String) {
         
-        hud = MBProgressHUD.showAdded(to: self.view, animated: true)
-        hud.bezelView.color = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
-        hud.customView?.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
-        hud.show(animated: true)
+                
+        
+        let StringURL = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + latti + "&lon=" + Longi + "&text=" + postal + "&max=1"
+                
+//        let StringURL = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + LatitudeString + "&lon=" + LongitudeString + "&distance=1&error=0.1"
+        
   
-        let parameters = [
-            "ContactNumber":txtcontactnumber.text ?? "",
-            "Description":txtdescription.text ?? "",
-            "Email":txtemailaddress.text ?? "",
-            "EstablishmentNumber":"0",
-            "FirstName":txtfirstname.text ?? "",
-            "LastName":txtlastname.text ?? "",
-            "Place":txtnameaddress.text ?? "",
-            "ReceivedDevice":"1",
-            "Section":"Report Issue",
-            "Subject":Statetxt.text ?? "",
-            "GPSX":LatitudeString ?? "",
-            "GPSY":LongitudeString ?? "",
-            "ImageBytes":ImageBytesone,
-            "ImageBytes2":ImageBytestwo,
-            "ImageBytes3":ImageBytesthree,
-            "ImageBytes4":ImageBytesfour,
-            "ImageBytes5":ImageBytesfive,
-        ] as [String : Any]
-        
-        print("LatitudeString==>\(LatitudeString ?? "")")
-        print("LongitudeString==>\(LongitudeString ?? "")")
-
-        
-        let jsonData = try? JSONSerialization.data(withJSONObject: parameters)
-
-        let url = URL(string: "https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/UploadServiceRequest")!
+        let url = URL(string: StringURL)!
         var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.httpBody = jsonData
+        request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
@@ -578,7 +605,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                  guard let data = data else { return }
                  do{
                      let json = try JSON(data:data)
-                     print("CommercialPoolsApicall==> \(json)")
+                     print("BackgroundApiCallApicall==> \(json)")
                                         
                     let statusisSuccess = json["isSuccess"]
                     let messageTost = json["message"]
@@ -588,7 +615,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                     print("statusisSuccess==>\(statusisSuccess)")
                     print("gettost==>\(gettost)")
                     
-                    if statusisSuccess == "false"{
+                    if statusisSuccess == false{
 
                         DispatchQueue.main.async {
                             self.hud.hide(animated: true)
@@ -598,26 +625,9 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                 
                     }else{
                         let decoder = JSONDecoder()
-                        self.CommercialPools = try decoder.decode(CommercialPoolsWelcome.self, from: data)
-                           
-                  DispatchQueue.main.async {
-                    
-                        self.hud.hide(animated: true)
-                    
+                        self.BackgroundPools = try decoder.decode(BackgroundApicall.self, from: data)
+                        self.Establishmentnumber = self.BackgroundPools?.data[0].establishmentName
 
-                    
-                    self.view.showToast(toastMessage: "Form Successfully Submitted", duration: 0.3)
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                        // your code here
-                        let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
-                        navigate.selectdtab = 4
-                        self.navigationController?.pushViewController(navigate, animated: true)
-                    }
-                    
-
-                            
-                    }
                     }
                     
 
@@ -631,6 +641,256 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
         task.resume()
 
     }
+    
+    func BackgroundApiCallApicall2(Find:String) {
+        
+       
+        let StringURL = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + latti + "&lon=" + Longi + "&text=" + postal + "&max=1"
+                
+//        let StringURL = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + LatitudeString + "&lon=" + LongitudeString + "&distance=1&error=0.1"
+        
+  
+        let url = URL(string: StringURL)!
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                 
+                 guard let data = data else { return }
+                 do{
+                     let json = try JSON(data:data)
+                     print("BackgroundApiCallApicall==> \(json)")
+                                        
+                    let statusisSuccess = json["isSuccess"]
+                    let messageTost = json["message"]
+                    
+                    let gettost = "\(messageTost)"
+                    
+                    print("statusisSuccess==>\(statusisSuccess)")
+                    print("gettost==>\(gettost)")
+                    
+                    if statusisSuccess == false{
+
+                        DispatchQueue.main.async {
+                            self.hud.hide(animated: true)
+                            //self.view.showToast(toastMessage: gettost, duration: 0.3)
+                            
+                        }
+                        self.CommercialPoolsApicall()
+                
+                    }else{
+                        let decoder = JSONDecoder()
+                        self.BackgroundPools = try decoder.decode(BackgroundApicall.self, from: data)
+                        self.Establishmentnumber = self.BackgroundPools?.data[0].establishmentName
+                        
+                        DispatchQueue.main.async {
+                            self.hud.hide(animated: true)
+                            //self.view.showToast(toastMessage: gettost, duration: 0.3)
+                            
+                        }
+                        self.CommercialPoolsApicall()
+                    }
+                    
+
+                     
+                 }catch{
+                     print(error.localizedDescription)
+                    DispatchQueue.main.async {
+                        self.hud.hide(animated: true)
+                        //self.view.showToast(toastMessage: gettost, duration: 0.3)
+                        
+                    }
+                 }
+                 
+                 }
+
+        task.resume()
+
+    }
+    
+    func CommercialPoolsApicall() {
+            
+            
+            hud = MBProgressHUD.showAdded(to: self.view, animated: true)
+            hud.bezelView.color = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
+            hud.customView?.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
+            hud.show(animated: true)
+            
+            if txtdescription.text == "Please describe the complaint in as much detail as possible, including: date, time, address(if not already entered), and any other information that will help our investigation."{
+                let parameters = [
+                    "ContactNumber":txtcontactnumber.text ?? "",
+                    "Description":"0",
+                    "Email":txtemailaddress.text ?? "",
+                    "EstablishmentNumber": Establishmentnumber ?? "0",
+                    "FirstName":txtfirstname.text ?? "",
+                    "LastName":txtlastname.text ?? "",
+                    "Place":txtnameaddress.text ?? "",
+                    "ReceivedDevice":"1",
+                    "Section":"Report Issue",
+                    "Subject":Statetxt.text ?? "",
+                    "GPSX":latti ?? "",
+                    "GPSY":Longi ?? "",
+                    "ImageBytes":ImageBytesone,
+                    "ImageBytes2":ImageBytestwo,
+                    "ImageBytes3":ImageBytesthree,
+                    "ImageBytes4":ImageBytesfour,
+                    "ImageBytes5":ImageBytesfive,
+                ] as [String : Any]
+                
+                let jsonData = try? JSONSerialization.data(withJSONObject: parameters)
+
+                let url = URL(string: "https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/UploadServiceRequest")!
+                var request = URLRequest(url: url)
+                request.httpMethod = "POST"
+                request.httpBody = jsonData
+                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                
+                let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                         
+                         guard let data = data else { return }
+                         do{
+                             let json = try JSON(data:data)
+                             print("CommercialPoolsApicall==> \(json)")
+                                                
+                            let statusisSuccess = json["isSuccess"]
+                            let messageTost = json["message"]
+                            
+                            let gettost = "\(messageTost)"
+                            
+                            print("statusisSuccess==>\(statusisSuccess)")
+                            print("gettost==>\(gettost)")
+                            
+                            if statusisSuccess == "false"{
+
+                                DispatchQueue.main.async {
+                                    self.hud.hide(animated: true)
+                                    self.view.showToast(toastMessage: gettost, duration: 0.3)
+                                    
+                                }
+                        
+                            }else{
+                                let decoder = JSONDecoder()
+                                self.CommercialPools = try decoder.decode(CommercialPoolsWelcome.self, from: data)
+                                   
+                          DispatchQueue.main.async {
+                            
+                                self.hud.hide(animated: true)
+                            
+                            self.view.showToast(toastMessage: "Form Successfully Submitted", duration: 0.3)
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                                // your code here
+                                let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                                navigate.selectdtab = 4
+                                self.navigationController?.pushViewController(navigate, animated: true)
+                            }
+                            
+
+                                    
+                            }
+                            }
+                            
+
+                             
+                         }catch{
+                             print(error.localizedDescription)
+                         }
+                         
+                         }
+
+                task.resume()
+
+            }else{
+                let parameters = [
+                    "ContactNumber":txtcontactnumber.text ?? "",
+                    "Description":txtdescription.text ?? "",
+                    "Email":txtemailaddress.text ?? "",
+                    "EstablishmentNumber":Establishmentnumber ?? "0",
+                    "FirstName":txtfirstname.text ?? "",
+                    "LastName":txtlastname.text ?? "",
+                    "Place":txtnameaddress.text ?? "",
+                    "ReceivedDevice":"1",
+                    "Section":"Report Issue",
+                    "Subject":Statetxt.text ?? "",
+                    "GPSX":latti ?? "",
+                    "GPSY":Longi ?? "",
+                    "ImageBytes":ImageBytesone,
+                    "ImageBytes2":ImageBytestwo,
+                    "ImageBytes3":ImageBytesthree,
+                    "ImageBytes4":ImageBytesfour,
+                    "ImageBytes5":ImageBytesfive,
+                ] as [String : Any]
+                
+                let jsonData = try? JSONSerialization.data(withJSONObject: parameters)
+
+                let url = URL(string: "https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/UploadServiceRequest")!
+                var request = URLRequest(url: url)
+                request.httpMethod = "POST"
+                request.httpBody = jsonData
+                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                
+                let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                         
+                         guard let data = data else { return }
+                         do{
+                             let json = try JSON(data:data)
+                             print("CommercialPoolsApicall==> \(json)")
+                                                
+                            let statusisSuccess = json["isSuccess"]
+                            let messageTost = json["message"]
+                            
+                            let gettost = "\(messageTost)"
+                            
+                            print("statusisSuccess==>\(statusisSuccess)")
+                            print("gettost==>\(gettost)")
+                            
+                            if statusisSuccess == "false"{
+
+                                DispatchQueue.main.async {
+                                    self.hud.hide(animated: true)
+                                    self.view.showToast(toastMessage: gettost, duration: 0.3)
+                                    
+                                }
+                        
+                            }else{
+                                let decoder = JSONDecoder()
+                                self.CommercialPools = try decoder.decode(CommercialPoolsWelcome.self, from: data)
+                                   
+                          DispatchQueue.main.async {
+                            
+                                self.hud.hide(animated: true)
+                            
+
+                            
+                            self.view.showToast(toastMessage: "Form Successfully Submitted", duration: 0.3)
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                                // your code here
+                                let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                                navigate.selectdtab = 4
+                                self.navigationController?.pushViewController(navigate, animated: true)
+                            }
+                            
+
+                                    
+                            }
+                            }
+                            
+
+                             
+                         }catch{
+                             print(error.localizedDescription)
+                         }
+                         
+                         }
+
+                task.resume()
+            }
+      
+        }
+    
+    var textLog = TextLog()
     
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -671,8 +931,19 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                 
                 
                 //let dataa = selectedImage.pngData()
-                let dataa = selectedImage.jpegData(compressionQuality: 0.4)
-                bytes = getArrayOfBytesFromImage(imageData: dataa! as NSData)
+                //let dataa = selectedImage.jpegData(compressionQuality: 0.4)
+                
+                let options: NSDictionary =     [:]
+                
+                //let dataimages = selectedImage.pngData()
+                
+                let convertToBmp = selectedImage.toData(options: options, type: .bmp)
+                guard convertToBmp != nil else {
+                    print("😡 ERROR: could not convert image to a bitmap bmpData var.")
+                    return
+                }
+                
+                bytes = getArrayOfBytesFromImage(imageData: convertToBmp! as NSData)
                 let datos: NSData = NSData(bytes: bytes, length: bytes.count)
                 
                 //let imageData2:Data =  selectedImage.pngData()!
@@ -695,6 +966,8 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                     yourImageView.image = decodedimage
                     
                     saveImageToDocumentDirectory(image: yourImageView.image!)
+                    
+                    textLog.write(base64String2)
                     
                 }else if arrayimage.count == 2{
                     print("Count 2")
@@ -860,7 +1133,19 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                                 }
                             }else{
                                 if validate(){
-                                    CommercialPoolsApicall()
+                                    
+//                                    if self.BackgroundPools?.data[0].establishmentNumber.isEmpty ?? true  && self.BackgroundPools?.data[0].establishmentNumber == "0"{
+//                                        BackgroundApiCallApicall2(Find:postal ?? "0")
+//                                    }else{
+//                                        CommercialPoolsApicall()
+//                                    }
+                                    
+                                    if self.BackgroundPools?.isSuccess == false{
+                                        BackgroundApiCallApicall2(Find:postal ?? "0")
+                                    }else{
+                                        CommercialPoolsApicall()
+                                    }
+                              
                                 }
                             }
                         @unknown default:
@@ -995,3 +1280,28 @@ extension CommercialPoolsViewController{
 }
 
 
+struct TextLog: TextOutputStream {
+
+    /// Appends the given string to the stream.
+    mutating func write(_ string: String) {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .allDomainsMask)
+        let documentDirectoryPath = paths.first!
+        let log = documentDirectoryPath.appendingPathComponent("log.txt")
+
+        do {
+            let handle = try FileHandle(forWritingTo: log)
+            handle.seekToEndOfFile()
+            handle.write(string.data(using: .utf8)!)
+            handle.closeFile()
+        } catch {
+            print(error.localizedDescription)
+            do {
+                try string.data(using: .utf8)?.write(to: log)
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+
+    }
+
+}
