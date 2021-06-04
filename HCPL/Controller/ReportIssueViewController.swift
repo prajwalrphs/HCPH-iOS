@@ -80,12 +80,12 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
             } else {
                 if let places = response?.results() {
                     if let place = places.first {
-                        print(place.lines)
-                        print("GEOCODE: Formatted postalCode: \(place.postalCode ?? "")")
-                        print("GEOCODE: Formatted locality: \(place.locality ?? "")")
-                        print("GEOCODE: Formatted subLocality: \(place.subLocality ?? "")")
-                        print("GEOCODE: Formatted administrativeArea: \(place.administrativeArea ?? "")")
-                        print("GEOCODE: Formatted country: \(place.country ?? "")")
+//                        print(place.lines)
+//                        print("GEOCODE: Formatted postalCode: \(place.postalCode ?? "")")
+//                        print("GEOCODE: Formatted locality: \(place.locality ?? "")")
+//                        print("GEOCODE: Formatted subLocality: \(place.subLocality ?? "")")
+//                        print("GEOCODE: Formatted administrativeArea: \(place.administrativeArea ?? "")")
+//                        print("GEOCODE: Formatted country: \(place.country ?? "")")
                         
                         UserDefaults.standard.set(place.postalCode ?? "", forKey: AppConstant.ZIPCODETWO)
                         

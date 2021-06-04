@@ -13,7 +13,22 @@ import GoogleMaps
 import GooglePlaces
 import GooglePlacePicker
 
-class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UIImagePickerControllerDelegate, UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate,CLLocationManagerDelegate {
+class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UIImagePickerControllerDelegate, UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate,CLLocationManagerDelegate,GMSAutocompleteViewControllerDelegate {
+    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
+        print("Place name: \(place.name)")
+           print("Place ID: \(place.placeID)")
+           print("Place attributions: \(place.attributions)")
+           dismiss(animated: true, completion: nil)
+    }
+    
+    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
+        print("Error: ", error.localizedDescription)
+    }
+    
+    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
 
 
     var images: [Image] = []
@@ -26,6 +41,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     
     //var ZIPCode:String?
     
+    let imagePicker = UIImagePickerController()
     
     
     var CheckMB = [Int]()
@@ -364,6 +380,22 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                                 controller.modalPresentationStyle = .pageSheet
                                 controller.modalTransitionStyle = .coverVertical
                                 present(controller, animated: true, completion: nil)
+                        
+//                                let autocompleteController = GMSAutocompleteViewController()
+//                                   autocompleteController.delegate = self
+//
+//                                   // Specify the place data types to return.
+//                                   let fields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.name.rawValue) |
+//                                     UInt(GMSPlaceField.placeID.rawValue))!
+//                                   autocompleteController.placeFields = fields
+//
+//                                   // Specify a filter.
+//                                   let filter = GMSAutocompleteFilter()
+//                                   filter.type = .address
+//                                   autocompleteController.autocompleteFilter = filter
+//
+//                                   // Display the autocomplete view controller.
+//                                   present(autocompleteController, animated: true, completion: nil)
                             @unknown default:
                             break
                         }
@@ -584,12 +616,16 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
         return emailTest.evaluate(with: testStr)
     }
     
+    var checksuccess:Bool?
     
 
     func BackgroundApiCallApicall(Find:String) {
         
-                
-        
+        hud = MBProgressHUD.showAdded(to: self.view, animated: true)
+        hud.bezelView.color = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
+        hud.customView?.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
+        hud.show(animated: true)
+   
         let StringURL = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + latti + "&lon=" + Longi + "&text=" + postal + "&max=1"
                 
 //        let StringURL = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + LatitudeString + "&lon=" + LongitudeString + "&distance=1&error=0.1"
@@ -615,11 +651,14 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                     print("statusisSuccess==>\(statusisSuccess)")
                     print("gettost==>\(gettost)")
                     
+                    self.checksuccess = Bool(statusisSuccess.boolValue)
+                    print("checksuccess==>\(self.checksuccess ?? true)")
+                    
                     if statusisSuccess == false{
 
                         DispatchQueue.main.async {
                             self.hud.hide(animated: true)
-                            self.view.showToast(toastMessage: gettost, duration: 0.3)
+                            //self.view.showToast(toastMessage: gettost, duration: 0.3)
                             
                         }
                 
@@ -627,13 +666,18 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                         let decoder = JSONDecoder()
                         self.BackgroundPools = try decoder.decode(BackgroundApicall.self, from: data)
                         self.Establishmentnumber = self.BackgroundPools?.data[0].establishmentName
-
+                        DispatchQueue.main.async {
+                            self.hud.hide(animated: true)
+                        }
                     }
                     
 
                      
                  }catch{
                      print(error.localizedDescription)
+                    DispatchQueue.main.async {
+                        self.hud.hide(animated: true)
+                    }
                  }
                  
                  }
@@ -670,14 +714,17 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                     print("statusisSuccess==>\(statusisSuccess)")
                     print("gettost==>\(gettost)")
                     
+                    self.checksuccess = Bool(statusisSuccess.boolValue)
+                    print("checksuccess==>\(self.checksuccess ?? true)")
+                    
                     if statusisSuccess == false{
 
                         DispatchQueue.main.async {
                             self.hud.hide(animated: true)
                             //self.view.showToast(toastMessage: gettost, duration: 0.3)
-                            
+                            self.CommercialPoolsApicall()
                         }
-                        self.CommercialPoolsApicall()
+                        
                 
                     }else{
                         let decoder = JSONDecoder()
@@ -687,9 +734,9 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                         DispatchQueue.main.async {
                             self.hud.hide(animated: true)
                             //self.view.showToast(toastMessage: gettost, duration: 0.3)
-                            
+                            self.CommercialPoolsApicall()
                         }
-                        self.CommercialPoolsApicall()
+                        
                     }
                     
 
@@ -907,7 +954,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
 //            print("imageStr==>\(imageStr)")
             
             //if let data = selectedImage.pngData()
- 
+       
             if let data = selectedImage.jpegData(compressionQuality: 0.4){
             //print("There were \(data.count) bytes")
             let bcf = ByteCountFormatter()
@@ -915,9 +962,15 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
             bcf.countStyle = .file
             let string = bcf.string(fromByteCount: Int64(data.count))
                 print("formatted result: \(string)")
-                
                 let myInt3 = (string as NSString).integerValue
                 CheckMB.append(myInt3)
+                
+                hud = MBProgressHUD.showAdded(to: self.view, animated: true)
+                hud.bezelView.color = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
+                hud.customView?.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
+                hud.show(animated: true)
+                
+                
             }
             
             let total = CheckMB.reduce(0, +)
@@ -933,84 +986,100 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                 //let dataa = selectedImage.pngData()
                 //let dataa = selectedImage.jpegData(compressionQuality: 0.4)
                 
-                let options: NSDictionary =     [:]
+                let options: NSDictionary = [:]
                 
                 //let dataimages = selectedImage.pngData()
                 
-                let convertToBmp = selectedImage.toData(options: options, type: .bmp)
-                guard convertToBmp != nil else {
-                    print("😡 ERROR: could not convert image to a bitmap bmpData var.")
-                    return
+                //let convertToBmp = selectedImage.toData(options: options, type: .bmp)
+//                guard convertToBmp != nil else {
+//                    print("😡 ERROR: could not convert image to a bitmap bmpData var.")
+//                    return
+//                }
+                let dataa = selectedImage.jpegData(compressionQuality: 0.4)
+                
+                dismiss(animated: true, completion: nil)
+                imagePicker.dismiss(animated: true, completion: nil)
+                
+                let when = DispatchTime.now() + 1
+                DispatchQueue.main.asyncAfter(deadline: when){
+                  // your code with delay
+                    
+                    self.bytes = self.getArrayOfBytesFromImage(imageData: dataa! as NSData)
+                    let datos: NSData = NSData(bytes: self.bytes, length: self.bytes.count)
+                    
+                    //let imageData2:Data =  selectedImage.pngData()!
+                    let base64String2 = datos.base64EncodedString()
+                    //print("base64String2===>\(base64String2)")
+                    
+                    
+                    //let imageData: Data? = selectedImage.jpegData(compressionQuality: 0.4)
+                    //let imageStr = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
+                    
+                    self.arrayimage.append(base64String2)
+                    
+                    if self.arrayimage.count == 1{
+                        print("Count 1")
+                        self.ImageBytesone = base64String2
+                        DispatchQueue.main.async {
+                            self.hud.hide(animated: true)
+                        }
+                     
+                   
+    //                    let dataDecoded:NSData = NSData(base64Encoded: base64String2, options: NSData.Base64DecodingOptions(rawValue: 0))!
+    //                    let decodedimage:UIImage = UIImage(data: dataDecoded as Data)!
+    //                    //print(decodedimage)
+    //                    yourImageView.image = decodedimage
+    //
+    //                    saveImageToDocumentDirectory(image: yourImageView.image!)
+    //
+    //                    textLog.write(base64String2)
+                        
+                    }else if self.arrayimage.count == 2{
+                        print("Count 2")
+                        self.ImageBytestwo = base64String2
+                      
+    //                    let dataDecoded:NSData = NSData(base64Encoded: base64String2, options: NSData.Base64DecodingOptions(rawValue: 0))!
+    //                    let decodedimage:UIImage = UIImage(data: dataDecoded as Data)!
+    //                    //print(decodedimage)
+    //                    yourImageView.image = decodedimage
+    //
+    //                    saveImageToDocumentDirectory(image: yourImageView.image!)
+                        
+                    }else if self.arrayimage.count == 3{
+                        print("Count 3")
+                        self.ImageBytesthree = base64String2
+                        
+    //                    let dataDecoded:NSData = NSData(base64Encoded: base64String2, options: NSData.Base64DecodingOptions(rawValue: 0))!
+    //                    let decodedimage:UIImage = UIImage(data: dataDecoded as Data)!
+    //                    //print(decodedimage)
+    //                    yourImageView.image = decodedimage
+    //
+    //                    saveImageToDocumentDirectory(image: yourImageView.image!)
+                    }else if self.arrayimage.count == 4{
+                        print("Count 4")
+                        self.ImageBytesfour = base64String2
+                        
+    //                    let dataDecoded:NSData = NSData(base64Encoded: base64String2, options: NSData.Base64DecodingOptions(rawValue: 0))!
+    //                    let decodedimage:UIImage = UIImage(data: dataDecoded as Data)!
+    //                    //print(decodedimage)
+    //                    yourImageView.image = decodedimage
+    //
+    //                    saveImageToDocumentDirectory(image: yourImageView.image!)
+                    }else if self.arrayimage.count == 5{
+                        print("Count 5")
+                        self.ImageBytesfive = base64String2
+                        
+    //                    let dataDecoded:NSData = NSData(base64Encoded: base64String2, options: NSData.Base64DecodingOptions(rawValue: 0))!
+    //                    let decodedimage:UIImage = UIImage(data: dataDecoded as Data)!
+    //                    //print(decodedimage)
+    //                    yourImageView.image = decodedimage
+    //
+    //                    saveImageToDocumentDirectory(image: yourImageView.image!)
+                    }
+              
                 }
                 
-                bytes = getArrayOfBytesFromImage(imageData: convertToBmp! as NSData)
-                let datos: NSData = NSData(bytes: bytes, length: bytes.count)
-                
-                //let imageData2:Data =  selectedImage.pngData()!
-                let base64String2 = datos.base64EncodedString()
-                //print("base64String2===>\(base64String2)")
-                
-                
-                //let imageData: Data? = selectedImage.jpegData(compressionQuality: 0.4)
-                //let imageStr = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
-                
-                self.arrayimage.append(base64String2)
-                
-                if arrayimage.count == 1{
-                    print("Count 1")
-                    ImageBytesone = base64String2
-                    
-                    let dataDecoded:NSData = NSData(base64Encoded: base64String2, options: NSData.Base64DecodingOptions(rawValue: 0))!
-                    let decodedimage:UIImage = UIImage(data: dataDecoded as Data)!
-                    //print(decodedimage)
-                    yourImageView.image = decodedimage
-                    
-                    saveImageToDocumentDirectory(image: yourImageView.image!)
-                    
-                    textLog.write(base64String2)
-                    
-                }else if arrayimage.count == 2{
-                    print("Count 2")
-                    ImageBytestwo = base64String2
-                    
-                    let dataDecoded:NSData = NSData(base64Encoded: base64String2, options: NSData.Base64DecodingOptions(rawValue: 0))!
-                    let decodedimage:UIImage = UIImage(data: dataDecoded as Data)!
-                    //print(decodedimage)
-                    yourImageView.image = decodedimage
-                    
-                    saveImageToDocumentDirectory(image: yourImageView.image!)
-                    
-                }else if arrayimage.count == 3{
-                    print("Count 3")
-                    ImageBytesthree = base64String2
-                    
-                    let dataDecoded:NSData = NSData(base64Encoded: base64String2, options: NSData.Base64DecodingOptions(rawValue: 0))!
-                    let decodedimage:UIImage = UIImage(data: dataDecoded as Data)!
-                    //print(decodedimage)
-                    yourImageView.image = decodedimage
-                    
-                    saveImageToDocumentDirectory(image: yourImageView.image!)
-                }else if arrayimage.count == 4{
-                    print("Count 4")
-                    ImageBytesfour = base64String2
-                    
-                    let dataDecoded:NSData = NSData(base64Encoded: base64String2, options: NSData.Base64DecodingOptions(rawValue: 0))!
-                    let decodedimage:UIImage = UIImage(data: dataDecoded as Data)!
-                    //print(decodedimage)
-                    yourImageView.image = decodedimage
-                    
-                    saveImageToDocumentDirectory(image: yourImageView.image!)
-                }else if arrayimage.count == 5{
-                    print("Count 5")
-                    ImageBytesfive = base64String2
-                    
-                    let dataDecoded:NSData = NSData(base64Encoded: base64String2, options: NSData.Base64DecodingOptions(rawValue: 0))!
-                    let decodedimage:UIImage = UIImage(data: dataDecoded as Data)!
-                    //print(decodedimage)
-                    yourImageView.image = decodedimage
-                    
-                    saveImageToDocumentDirectory(image: yourImageView.image!)
-                }
+               
             }else{
                 dismiss(animated: true, completion: nil)
                 print("less not")
@@ -1070,7 +1139,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
 
             self.present(alertController, animated: true, completion: nil)
         }else{
-            let imagePicker = UIImagePickerController()
+            
                     imagePicker.delegate = self
                     
                     let alertViewController = UIAlertController(title: "Choose Image Source", message: nil, preferredStyle: .actionSheet)
@@ -1078,21 +1147,22 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                     
                     if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
                         let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default, handler: { action in
-                            imagePicker.sourceType = .photoLibrary
-                            imagePicker.allowsEditing = true
-                            self.present(imagePicker, animated: true, completion: nil)
+                            self.imagePicker.sourceType = .photoLibrary
+                            self.imagePicker.modalPresentationStyle = .overFullScreen
+                            self.imagePicker.allowsEditing = true
+                            self.present(self.imagePicker, animated: true, completion: nil)
                         })
                         let CameraLibraryAction = UIAlertAction(title: "Camera", style: .default, handler: { action in
                             //self.galleryVideo()
-                            imagePicker.sourceType = .camera
-                            imagePicker.allowsEditing = true
-                            self.present(imagePicker, animated: true, completion: nil)
+                            self.imagePicker.sourceType = .camera
+                            self.imagePicker.allowsEditing = true
+                            self.present(self.imagePicker, animated: true, completion: nil)
                         })
 
                         alertViewController.addAction(CameraLibraryAction)
                         alertViewController.addAction(photoLibraryAction)
                     }
-            alertViewController.addAction(cancelAction)
+                    alertViewController.addAction(cancelAction)
                     present(alertViewController, animated: true, completion: nil)
                     
                     alertViewController.view.subviews.flatMap({$0.constraints}).filter{ (one: NSLayoutConstraint)-> (Bool)  in
@@ -1140,7 +1210,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
 //                                        CommercialPoolsApicall()
 //                                    }
                                     
-                                    if self.BackgroundPools?.isSuccess == false{
+                                    if checksuccess == false{
                                         BackgroundApiCallApicall2(Find:postal ?? "0")
                                     }else{
                                         CommercialPoolsApicall()

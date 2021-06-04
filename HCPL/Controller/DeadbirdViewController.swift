@@ -74,6 +74,8 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     
     var bytes = Array<UInt8>()
     
+    let imagePicker = UIImagePickerController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -187,10 +189,12 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
                         print("GEOCODE: Formatted subLocality: \(place.subLocality ?? "")")
                         print("GEOCODE: Formatted administrativeArea: \(place.administrativeArea ?? "")")
                         print("GEOCODE: Formatted country: \(place.country ?? "")")
+                        print("GEOCODE: Formatted thoroughfare: \(place.thoroughfare ?? "")")
+                        
                        
                         self.ZIpCode = place.postalCode ?? ""
                         self.CityCode = place.locality ?? ""
-                        self.AddressCode = "\(place.locality ?? "")" + " \(place.subLocality ?? "")" + " \(place.administrativeArea ?? "")" + " \(place.country ?? "")"
+                        self.AddressCode = "\(place.thoroughfare ?? "")" + "\(place.locality ?? "")" + " \(place.subLocality ?? "")" + " \(place.administrativeArea ?? "")" + " \(place.country ?? "")"
                     } else {
                         print("GEOCODE: nil first in places")
                     }
@@ -638,6 +642,11 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
                 
                 let myInt3 = (string as NSString).integerValue
                 CheckMB.append(myInt3)
+                
+                hud = MBProgressHUD.showAdded(to: self.view, animated: true)
+                hud.bezelView.color = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
+                hud.customView?.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
+                hud.show(animated: true)
             }
             
             let total = CheckMB.reduce(0, +)
@@ -646,7 +655,6 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
             //print("imageStr====>\(imageStr)")
             
             
-        
             
             if total < 20{
    
@@ -658,15 +666,32 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
 //                bytes = getArrayOfBytesFromImage(imageData: dataa! as NSData)
 //                let datos: NSData = NSData(bytes: bytes, length: bytes.count)
                 
+                //let options: NSDictionary = [:]
+                
+                //let dataimages = selectedImage.pngData()
+                
+                //let convertToBmp = selectedImage.toData(options: options, type: .bmp)
                 let dataa = selectedImage.jpegData(compressionQuality: 0.4)
-                bytes = getArrayOfBytesFromImage(imageData: dataa! as NSData)
-                let datos: NSData = NSData(bytes: bytes, length: bytes.count)
+            
+                dismiss(animated: true, completion: nil)
+                imagePicker.dismiss(animated: true, completion: nil)
                 
-                //let imageData2:Data =  selectedImage.pngData()!
-                let base64String2 = datos.base64EncodedString()
+                let when = DispatchTime.now() + 1
+                DispatchQueue.main.asyncAfter(deadline: when){
+                    //let dataa = selectedImage.jpegData(compressionQuality: 0.4)
+                    self.bytes = self.getArrayOfBytesFromImage(imageData: dataa! as NSData)
+                    let datos: NSData = NSData(bytes: self.bytes, length: self.bytes.count)
+                    
+                    //let imageData2:Data =  selectedImage.pngData()!
+                    let base64String2 = datos.base64EncodedString()
+                    
+                    
+                    self.arrayimage.append(base64String2)
+                    DispatchQueue.main.async {
+                        self.hud.hide(animated: true)
+                    }
+                }
                 
-                
-                self.arrayimage.append(base64String2)
                 
             
             }else{
@@ -726,7 +751,7 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
 
             self.present(alertController, animated: true, completion: nil)
         }else{
-            let imagePicker = UIImagePickerController()
+            
                     imagePicker.delegate = self
                     
                     let alertViewController = UIAlertController(title: "Choose Image Source", message: nil, preferredStyle: .actionSheet)
@@ -734,15 +759,15 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
                     
                     if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
                         let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default, handler: { action in
-                            imagePicker.sourceType = .photoLibrary
-                            imagePicker.allowsEditing = true
-                            self.present(imagePicker, animated: true, completion: nil)
+                            self.imagePicker.sourceType = .photoLibrary
+                            self.imagePicker.allowsEditing = true
+                            self.present(self.imagePicker, animated: true, completion: nil)
                         })
                         let CameraLibraryAction = UIAlertAction(title: "Camera", style: .default, handler: { action in
                             //self.galleryVideo()
-                            imagePicker.sourceType = .camera
-                            imagePicker.allowsEditing = true
-                            self.present(imagePicker, animated: true, completion: nil)
+                            self.imagePicker.sourceType = .camera
+                            self.imagePicker.allowsEditing = true
+                            self.present(self.imagePicker, animated: true, completion: nil)
                         })
 
                         alertViewController.addAction(CameraLibraryAction)

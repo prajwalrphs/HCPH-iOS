@@ -57,6 +57,8 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
     
     var bytes = Array<UInt8>()
     
+    let imagePicker = UIImagePickerController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -621,7 +623,7 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
             self.view.showToast(toastMessage: "Fail", duration: 0.5)
             }
             }
-            //print("DeadBirdResponse==>\(response)")
+            print("DeadBirdResponse==>\(response)")
 
             }
         }
@@ -656,6 +658,11 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
                 
                 let myInt3 = (string as NSString).integerValue
                 CheckMB.append(myInt3)
+                
+                hud = MBProgressHUD.showAdded(to: self.view, animated: true)
+                hud.bezelView.color = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
+                hud.customView?.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
+                hud.show(animated: true)
             }
             
             let total = CheckMB.reduce(0, +)
@@ -681,17 +688,28 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
 //                    return
 //                }
                 
-                bytes = getArrayOfBytesFromImage(imageData: dataa! as NSData)
-                let datos: NSData = NSData(bytes: bytes, length: bytes.count)
+                dismiss(animated: true, completion: nil)
+                imagePicker.dismiss(animated: true, completion: nil)
                 
-//                let imageData: Data? = selectedImage.jpegData(compressionQuality: 0.4)
-//                let imageStr = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
-//                self.arrayimage.append(imageStr)
+                let when = DispatchTime.now() + 1
+                DispatchQueue.main.asyncAfter(deadline: when){
+                    self.bytes = self.getArrayOfBytesFromImage(imageData: dataa! as NSData)
+                    let datos: NSData = NSData(bytes: self.bytes, length: self.bytes.count)
+                    
+    //                let imageData: Data? = selectedImage.jpegData(compressionQuality: 0.4)
+    //                let imageStr = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
+    //                self.arrayimage.append(imageStr)
+                    
+                    //let imageData2:Data =  selectedImage.pngData()!
+                    let base64String2 = datos.base64EncodedString()
+                    
+                    self.arrayimage.append(base64String2)
+                    DispatchQueue.main.async {
+                        self.hud.hide(animated: true)
+                    }
+                }
                 
-                //let imageData2:Data =  selectedImage.pngData()!
-                let base64String2 = datos.base64EncodedString()
-                
-                self.arrayimage.append(base64String2)
+
                 
             
             }else{
@@ -731,7 +749,7 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
 
             self.present(alertController, animated: true, completion: nil)
         }else{
-            let imagePicker = UIImagePickerController()
+            
                     imagePicker.delegate = self
                     
                     let alertViewController = UIAlertController(title: "Choose Image Source", message: nil, preferredStyle: .actionSheet)
@@ -739,15 +757,15 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
                     
                     if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
                         let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default, handler: { action in
-                            imagePicker.sourceType = .photoLibrary
-                            imagePicker.allowsEditing = true
-                            self.present(imagePicker, animated: true, completion: nil)
+                            self.imagePicker.sourceType = .photoLibrary
+                            self.imagePicker.allowsEditing = true
+                            self.present(self.imagePicker, animated: true, completion: nil)
                         })
                         let CameraLibraryAction = UIAlertAction(title: "Camera", style: .default, handler: { action in
                             //self.galleryVideo()
-                            imagePicker.sourceType = .camera
-                            imagePicker.allowsEditing = true
-                            self.present(imagePicker, animated: true, completion: nil)
+                            self.imagePicker.sourceType = .camera
+                            self.imagePicker.allowsEditing = true
+                            self.present(self.imagePicker, animated: true, completion: nil)
                         })
 
                         alertViewController.addAction(CameraLibraryAction)

@@ -126,6 +126,8 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     var VideoBase64Url:String?
     
     var randomnumber:String!
+    
+    let imagePicker = UIImagePickerController()
         
     let countries = ["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","ldaho","illinois","lowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode island","south Carolina","south Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"]
     let ids = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50]
@@ -982,8 +984,16 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
         hud.customView?.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
         hud.show(animated: true)
         
+        var parameters = [String : Any]()
+        
         if txtdescription.text == "Description of Cruelty (Please fill out information in this field)"{
-            let parameters = [
+            
+//            if ImageBytestwo?.isEmpty ?? true{
+//                print("isEmpty true")
+//            }else{
+//                print("Not isEmpty")
+//            }
+             parameters = [
                 "violatorAddress":txtaddress.text as Any,
                 "violatorAptNum":txtaptnumber.text as Any,
                 "ViolatorGateCode":txtgatcode.text as Any,
@@ -1000,7 +1010,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
                 "LastObservationDt":txtlastdate.text as Any,
                 "CrueltyOngoing":checkboxongoingBool as Any,
                 "CrueltyType":checkboxstring as Any,
-                "CrueltyDesc":"",
+                "CrueltyDesc":"0",
                 "PreviousReport":checkboxBool as Any,
                 "PreviousAgencyDesc":txtagency.text as Any,
                 "ReporterFirstName":txtfirstname.text as Any,
@@ -1008,12 +1018,42 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
                 "reporterphone":txtphone.text as Any,
                 "reporteremail":txtemail.text as Any,
                 "ReceivedDevice":"0",
-                "ImageBytes":ImageBytesone ?? "",
-                "ImageBytes2":ImageBytestwo ?? "",
-                "ImageBytes3":ImageBytesthree ?? "",
-                "ImageBytes4":ImageBytesfour ?? "",
-                "ImageBytes5":ImageBytesfive ?? "",
             ] as [String : Any]
+//            "ImageBytes":ImageBytesone ?? "",
+//            "ImageBytes2":ImageBytestwo ?? "",
+//            "ImageBytes3":ImageBytesthree ?? "",
+//            "ImageBytes4":ImageBytesfour ?? "",
+//            "ImageBytes5":ImageBytesfive ?? "",
+            
+            if ImageBytesone?.isEmpty ?? true{
+                parameters.removeValue(forKey: "ImageBytes")
+            }else{
+                parameters.updateValue(ImageBytesone ?? "", forKey: "ImageBytes")
+            }
+
+            if ImageBytestwo?.isEmpty ?? true{
+                parameters.removeValue(forKey: "ImageBytes2")
+            }else{
+                parameters.updateValue(ImageBytestwo ?? "", forKey: "ImageBytes2")
+            }
+
+            if ImageBytesthree?.isEmpty ?? true{
+                parameters.removeValue(forKey: "ImageBytes3")
+            }else{
+                parameters.updateValue(ImageBytesthree ?? "", forKey: "ImageBytes3")
+            }
+
+            if ImageBytesfour?.isEmpty ?? true{
+                parameters.removeValue(forKey: "ImageBytes4")
+            }else{
+                parameters.updateValue(ImageBytesfour ?? "", forKey: "ImageBytes4")
+            }
+
+            if ImageBytesfive?.isEmpty ?? true{
+                parameters.removeValue(forKey: "ImageBytes5")
+            }else{
+                parameters.updateValue(ImageBytesfive ?? "", forKey: "ImageBytes5")
+            }
             
             
             let jsonData = try? JSONSerialization.data(withJSONObject: parameters)
@@ -1080,38 +1120,70 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
 
             task.resume()
         }else{
-            let parameters = [
-                "violatorAddress":txtaddress.text as Any,
-                "violatorAptNum":txtaptnumber.text as Any,
-                "ViolatorGateCode":txtgatcode.text as Any,
-                "ViolatorCity":txtcity.text as Any,
-                "ViolatorState":Statetxt.text as Any,
-                "ViolatorZip":txtzip.text as Any,
-                "ViolatorCounty":txtcountry.text as Any,
-                "ViolatorNeighborhood":txtneighborhood.text as Any,
-                "TypeOfAnimals":txttypeofanimal.text as Any,
-                "NumberOfAnimals":txtnumberofanimal.text as Any,
-                "ColorOfAnimals":txtcolorofanimal.text as Any,
-                "PropertyLocation":txtanimalslocation.text as Any,
-                "FirstObservationDt":txtfirstdate.text as Any,
-                "LastObservationDt":txtlastdate.text as Any,
-                "CrueltyOngoing":checkboxongoingBool as Any,
-                "CrueltyType":checkboxstring as Any,
-                "CrueltyDesc":txtdescription.text as Any,
-                "PreviousReport":checkboxBool as Any,
-                "PreviousAgencyDesc":txtagency.text as Any,
-                "ReporterFirstName":txtfirstname.text as Any,
-                "ReporterLastName":txtlastname.text as Any,
-                "reporterphone":txtphone.text as Any,
-                "reporteremail":txtemail.text as Any,
-                "ReceivedDevice":"0",
-                "ImageBytes":ImageBytesone ?? "",
-                "ImageBytes2":ImageBytestwo ?? "",
-                "ImageBytes3":ImageBytesthree ?? "",
-                "ImageBytes4":ImageBytesfour ?? "",
-                "ImageBytes5":ImageBytesfive ?? "",
-            ] as [String : Any]
             
+            var parameters = [String : Any]()
+            
+            parameters = [
+               "violatorAddress":txtaddress.text as Any,
+               "violatorAptNum":txtaptnumber.text as Any,
+               "ViolatorGateCode":txtgatcode.text as Any,
+               "ViolatorCity":txtcity.text as Any,
+               "ViolatorState":Statetxt.text as Any,
+               "ViolatorZip":txtzip.text as Any,
+               "ViolatorCounty":txtcountry.text as Any,
+               "ViolatorNeighborhood":txtneighborhood.text as Any,
+               "TypeOfAnimals":txttypeofanimal.text as Any,
+               "NumberOfAnimals":txtnumberofanimal.text as Any,
+               "ColorOfAnimals":txtcolorofanimal.text as Any,
+               "PropertyLocation":txtanimalslocation.text as Any,
+               "FirstObservationDt":txtfirstdate.text as Any,
+               "LastObservationDt":txtlastdate.text as Any,
+               "CrueltyOngoing":checkboxongoingBool as Any,
+               "CrueltyType":checkboxstring as Any,
+               "CrueltyDesc":txtdescription.text ?? "",
+               "PreviousReport":checkboxBool as Any,
+               "PreviousAgencyDesc":txtagency.text as Any,
+               "ReporterFirstName":txtfirstname.text as Any,
+               "ReporterLastName":txtlastname.text as Any,
+               "reporterphone":txtphone.text as Any,
+               "reporteremail":txtemail.text as Any,
+               "ReceivedDevice":"0",
+           ] as [String : Any]
+//            "ImageBytes":ImageBytesone ?? "",
+//            "ImageBytes2":ImageBytestwo ?? "",
+//            "ImageBytes3":ImageBytesthree ?? "",
+//            "ImageBytes4":ImageBytesfour ?? "",
+//            "ImageBytes5":ImageBytesfive ?? "",
+           
+           if ImageBytesone?.isEmpty ?? true{
+               parameters.removeValue(forKey: "ImageBytes")
+           }else{
+               parameters.updateValue(ImageBytesone ?? "", forKey: "ImageBytes")
+           }
+
+           if ImageBytestwo?.isEmpty ?? true{
+               parameters.removeValue(forKey: "ImageBytes2")
+           }else{
+               parameters.updateValue(ImageBytestwo ?? "", forKey: "ImageBytes2")
+           }
+
+           if ImageBytesthree?.isEmpty ?? true{
+               parameters.removeValue(forKey: "ImageBytes3")
+           }else{
+               parameters.updateValue(ImageBytesthree ?? "", forKey: "ImageBytes3")
+           }
+
+           if ImageBytesfour?.isEmpty ?? true{
+               parameters.removeValue(forKey: "ImageBytes4")
+           }else{
+               parameters.updateValue(ImageBytesfour ?? "", forKey: "ImageBytes4")
+           }
+
+           if ImageBytesfive?.isEmpty ?? true{
+               parameters.removeValue(forKey: "ImageBytes5")
+           }else{
+               parameters.updateValue(ImageBytesfive ?? "", forKey: "ImageBytes5")
+           }
             
             let jsonData = try? JSONSerialization.data(withJSONObject: parameters)
 
@@ -1242,6 +1314,11 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
                 
                 let myInt3 = (string as NSString).integerValue
                 CheckMB.append(myInt3)
+                
+                hud = MBProgressHUD.showAdded(to: self.view, animated: true)
+                hud.bezelView.color = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
+                hud.customView?.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
+                hud.show(animated: true)
             }
             
             let total = CheckMB.reduce(0, +)
@@ -1257,42 +1334,65 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     //            let imageStr = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
     //            self.ImagevideoUrl?.append(imageStr)
                 
-                //let dataa = selectedImage.jpegData(compressionQuality: 0.4)
+                let dataa = selectedImage.jpegData(compressionQuality: 0.4)
                 
-                let options: NSDictionary =     [:]
-                let convertToBmp = selectedImage.toData(options: options, type: .bmp)
-                guard convertToBmp != nil else {
-                    print("😡 ERROR: could not convert image to a bitmap bmpData var.")
-                    return
+//                let options: NSDictionary = [:]
+//                let convertToBmp = selectedImage.toData(options: options, type: .bmp)
+//                guard convertToBmp != nil else {
+//                    print("😡 ERROR: could not convert image to a bitmap bmpData var.")
+//                    return
+//                }
+                
+                dismiss(animated: true, completion: nil)
+                imagePicker.dismiss(animated: true, completion: nil)
+                
+                let when = DispatchTime.now() + 1
+                DispatchQueue.main.asyncAfter(deadline: when){
+                    self.bytes = self.getArrayOfBytesFromImage(imageData: dataa! as NSData)
+                    let datos: NSData = NSData(bytes: self.bytes, length: self.bytes.count)
+                    
+                   
+                    //let imageData2:Data =  selectedImage.pngData()!
+                    let base64String2 = datos.base64EncodedString()
+                    
+                    self.arrayimage.append(base64String2)
+                    
+                    //self.ImagevideoUrl?.append(base64String2)
+                    
+                    if self.arrayimage.count == 1{
+                        print("Count 1")
+                        self.ImageBytesone = base64String2
+                        DispatchQueue.main.async {
+                            self.hud.hide(animated: true)
+                        }
+                    }else if self.arrayimage.count == 2{
+                        print("Count 2")
+                        self.ImageBytestwo = base64String2
+                        DispatchQueue.main.async {
+                            self.hud.hide(animated: true)
+                        }
+                    }else if self.arrayimage.count == 3{
+                        print("Count 3")
+                        self.ImageBytesthree = base64String2
+                        DispatchQueue.main.async {
+                            self.hud.hide(animated: true)
+                        }
+                    }else if self.arrayimage.count == 4{
+                        print("Count 4")
+                        self.ImageBytesfour = base64String2
+                        DispatchQueue.main.async {
+                            self.hud.hide(animated: true)
+                        }
+                    }else if self.arrayimage.count == 5{
+                        print("Count 5")
+                        self.ImageBytesfive = base64String2
+                        DispatchQueue.main.async {
+                            self.hud.hide(animated: true)
+                        }
+                    }
                 }
-                
-                bytes = getArrayOfBytesFromImage(imageData: convertToBmp! as NSData)
-                let datos: NSData = NSData(bytes: bytes, length: bytes.count)
                 
                
-                //let imageData2:Data =  selectedImage.pngData()!
-                let base64String2 = datos.base64EncodedString()
-                
-                self.arrayimage.append(base64String2)
-                
-                //self.ImagevideoUrl?.append(base64String2)
-                
-                if arrayimage.count == 1{
-                    print("Count 1")
-                    ImageBytesone = base64String2
-                }else if arrayimage.count == 2{
-                    print("Count 2")
-                    ImageBytestwo = base64String2
-                }else if arrayimage.count == 3{
-                    print("Count 3")
-                    ImageBytesthree = base64String2
-                }else if arrayimage.count == 4{
-                    print("Count 4")
-                    ImageBytesfour = base64String2
-                }else if arrayimage.count == 5{
-                    print("Count 5")
-                    ImageBytesfive = base64String2
-                }
                 
             
             }else{
@@ -1572,7 +1672,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     
     
     @IBAction func addvideo(_ sender: UIButton) {
-        let imagePicker = UIImagePickerController()
+        
                 imagePicker.delegate = self
                 
                 let alertViewController = UIAlertController(title: "Choose Image Source", message: nil, preferredStyle: .actionSheet)

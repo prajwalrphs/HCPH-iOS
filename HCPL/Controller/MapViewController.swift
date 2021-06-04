@@ -751,7 +751,7 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
                 if let places = response?.results() {
                     if let place = places.first {
                         print(place.lines)
-                        print("GEOCODE: Formatted postalCode: \(place.postalCode ?? "")")
+                        //print("GEOCODE: Formatted postalCode: \(place.postalCode ?? "")")
                        
                         self.ZIpCodeMain = place.postalCode ?? ""
                         
@@ -831,7 +831,7 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
                     if let places = response?.results() {
                         if let place = places.first {
                             print(place.lines)
-                            print("GEOCODE: Did Select Formatted postalCode: \(place.postalCode ?? "")")
+                            //print("GEOCODE: Did Select Formatted postalCode: \(place.postalCode ?? "")")
 
                             self.ZIpCodeMain = place.postalCode ?? ""
 

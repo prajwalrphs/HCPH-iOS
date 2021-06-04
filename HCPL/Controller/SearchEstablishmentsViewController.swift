@@ -337,7 +337,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
                         self.MapModel = try decoder.decode(Maponcreate.self, from: data)
                         
                         DispatchQueue.main.async {
-                            for i in self.SearchGet!.data{
+                            for i in self.MapModel!.data{
                                 if i.facilityType == "Convenience store"{
                                     self.ShowLocationtwo(lat: Double("\(i.lat)")!, long: Double("\(i.lon)")!, MarkerImage: #imageLiteral(resourceName: "convienent-store-icon22x22"), Miles: i.establishmentName)
                                 }else if i.facilityType == "Farmer's Market"{
@@ -1357,63 +1357,63 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
             } else {
                 if let places = response?.results() {
                     if let place = places.first {
-                        print(place.lines)
-                        print("GEOCODE: Formatted postalCode: \(place.postalCode ?? "")")
+//                        print(place.lines)
+//                        print("GEOCODE: Formatted postalCode: \(place.postalCode ?? "")")
                        
                         
-                        if Reachability.isConnectedToNetwork(){
-                            if CLLocationManager.locationServicesEnabled() == true {
-                                if CLLocationManager.locationServicesEnabled() {
-                                    switch CLLocationManager.authorizationStatus() {
-                                        case .notDetermined, .restricted, .denied:
-                                            print("No access")
-                                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
-
-                                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
-                                                //Redirect to Settings app
-                                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
-                                            })
-
-                                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
-                                            alertController.addAction(cancelAction)
-
-                                            alertController.addAction(okAction)
-
-                                            self.present(alertController, animated: true, completion: nil)
-                                        case .authorizedAlways, .authorizedWhenInUse:
-                                            print("Access")
-                                            //self.SearchApicall(Find: place.postalCode ?? "")
-                                            
-                                            self.MapOncreateApicall()
-                                            
-                                        @unknown default:
-                                        break
-                                    }
-                                    } else {
-                                        print("Location services are not enabled")
-                                }
-
-                            }else {
-                                
-                                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
-
-                                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
-                                    //Redirect to Settings app
-                                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
-                                })
-
-                                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
-                                alertController.addAction(cancelAction)
-
-                                alertController.addAction(okAction)
-
-                                self.present(alertController, animated: true, completion: nil)
-                                
-                                
-                             }
-                        }else{
-                            self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
-                        }
+//                        if Reachability.isConnectedToNetwork(){
+//                            if CLLocationManager.locationServicesEnabled() == true {
+//                                if CLLocationManager.locationServicesEnabled() {
+//                                    switch CLLocationManager.authorizationStatus() {
+//                                        case .notDetermined, .restricted, .denied:
+//                                            print("No access")
+//                                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+//
+//                                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+//                                                //Redirect to Settings app
+//                                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+//                                            })
+//
+//                                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+//                                            alertController.addAction(cancelAction)
+//
+//                                            alertController.addAction(okAction)
+//
+//                                            self.present(alertController, animated: true, completion: nil)
+//                                        case .authorizedAlways, .authorizedWhenInUse:
+//                                            print("Access")
+//                                            //self.SearchApicall(Find: place.postalCode ?? "")
+//
+//                                            self.MapOncreateApicall()
+//
+//                                        @unknown default:
+//                                        break
+//                                    }
+//                                    } else {
+//                                        print("Location services are not enabled")
+//                                }
+//
+//                            }else {
+//
+//                                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+//
+//                                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+//                                    //Redirect to Settings app
+//                                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+//                                })
+//
+//                                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+//                                alertController.addAction(cancelAction)
+//
+//                                alertController.addAction(okAction)
+//
+//                                self.present(alertController, animated: true, completion: nil)
+//
+//
+//                             }
+//                        }else{
+//                            self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
+//                        }
                        
                         
                     

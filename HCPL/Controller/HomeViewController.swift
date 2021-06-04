@@ -3,6 +3,9 @@ import UIKit
 import AMTabView
 import SideMenu
 import CoreLocation
+import GoogleMaps
+import GooglePlaces
+import GooglePlacePicker
 
 class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UITableViewDelegate,UITableViewDataSource, CLLocationManagerDelegate {
 
@@ -130,9 +133,35 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-        print("locations = \(locValue.latitude) \(locValue.longitude)")
+        //print("locations = \(locValue.latitude) \(locValue.longitude)")
         UserDefaults.standard.set(locValue.latitude, forKey: AppConstant.CURRENTLAT)
         UserDefaults.standard.set(locValue.longitude, forKey: AppConstant.CURRENTLONG)
+        
+        let geocoder = GMSGeocoder()
+        geocoder.reverseGeocodeCoordinate(locValue) { response, error in
+            if error != nil {
+                print("reverse geodcode fail: \(error!.localizedDescription)")
+                self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
+            } else {
+                if let places = response?.results() {
+                    if let place = places.first {
+//                        print(place.lines)
+//                        print("GEOCODE: Formatted postalCode: \(place.postalCode ?? "")")
+//                        print("GEOCODE: Formatted locality: \(place.locality ?? "")")
+//                        print("GEOCODE: Formatted subLocality: \(place.subLocality ?? "")")
+//                        print("GEOCODE: Formatted administrativeArea: \(place.administrativeArea ?? "")")
+//                        print("GEOCODE: Formatted country: \(place.country ?? "")")
+                        
+                        UserDefaults.standard.set(place.postalCode ?? "", forKey: AppConstant.ZIPCODETWO)
+                        
+                    } else {
+                        print("GEOCODE: nil first in places")
+                    }
+                } else {
+                    print("GEOCODE: nil in places")
+                }
+            }
+        }
     }
     
     private func setupSideMenu() {

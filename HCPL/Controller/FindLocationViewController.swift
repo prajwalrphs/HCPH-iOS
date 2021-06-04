@@ -9,6 +9,9 @@
 import UIKit
 import MapKit
 import CoreLocation
+import GoogleMaps
+import GooglePlaces
+import GooglePlacePicker
 
 class FindLocationViewController: UIViewController,UISearchBarDelegate, MKLocalSearchCompleterDelegate,CLLocationManagerDelegate {
     
@@ -76,10 +79,16 @@ class FindLocationViewController: UIViewController,UISearchBarDelegate, MKLocalS
         self.dismiss(animated: true, completion: nil)
     }
    
-    func fetchCityAndCountry(from location: CLLocation, completion: @escaping (_ city: String?, _ country:  String?, _ error: Error?) -> ()) {
+    func fetchCityAndCountry(from location: CLLocation, completion: @escaping (_ city: String?, _ country:  String?, _ administrativeArea: String?, _ name:  String?, _ postalCode: String?, _ region:  CLRegion?, _ subAdministrativeArea: String?, _ subLocality:  String?, _ error: Error?) -> ()) {
          CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
              completion(placemarks?.first?.locality,
                         placemarks?.first?.country,
+                        placemarks?.first?.administrativeArea,
+                        placemarks?.first?.name,
+                        placemarks?.first?.postalCode,
+                        placemarks?.first?.region,
+                        placemarks?.first?.subAdministrativeArea,
+                        placemarks?.first?.subLocality,
                         error)
          }
      }
@@ -144,8 +153,35 @@ extension FindLocationViewController: UITableViewDelegate {
   
             let lat = coordinate.latitude
             let lon = coordinate.longitude
+            let locValue = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
+            let geocoder = GMSGeocoder()
+            geocoder.reverseGeocodeCoordinate(locValue) { response, error in
+                if error != nil {
+                    print("reverse geodcode fail: \(error!.localizedDescription)")
+                    self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
+                } else {
+                    if let places = response?.results() {
+                        if let place = places.first {
+                            print(place.lines)
+                            print("GEOCODE: Formatted postalCode: \(place.postalCode ?? "")")
+                            print("GEOCODE: Formatted locality: \(place.locality ?? "")")
+                            print("GEOCODE: Formatted subLocality: \(place.subLocality ?? "")")
+                            print("GEOCODE: Formatted administrativeArea: \(place.administrativeArea ?? "")")
+                            print("GEOCODE: Formatted country: \(place.country ?? "")")
+                            
+    //
+                           
+                        } else {
+                            print("GEOCODE: nil first in places")
+                        }
+                    } else {
+                        print("GEOCODE: nil in places")
+                    }
+                }
+            }
             
             let FullAddress = "\(name),\(state),\(country)"
+            
             
             UserDefaults.standard.set(lat, forKey: AppConstant.CURRENTLAT)
             UserDefaults.standard.set(lon, forKey: AppConstant.CURRENTLONG)
@@ -168,7 +204,16 @@ extension FindLocationViewController: UITableViewDelegate {
 }
 
 extension CLLocation {
-    func fetchCityAndCountry(completion: @escaping (_ city: String?, _ country:  String?, _ error: Error?) -> ()) {
-        CLGeocoder().reverseGeocodeLocation(self) { completion($0?.first?.locality, $0?.first?.country, $1) }
+//               placemarks?.first?.locality,
+//               placemarks?.first?.country,
+//               placemarks?.first?.administrativeArea,
+//               placemarks?.first?.name,
+//               placemarks?.first?.postalCode,
+//               placemarks?.first?.region,
+//               placemarks?.first?.subAdministrativeArea,
+//               placemarks?.first?.subLocality,
+    func fetchCityAndCountry(completion: @escaping (_ city: String?, _ country:  String?, _ administrativeArea: String?, _ name:  String?, _ postalCode: String?, _ region:  CLRegion?, _ subAdministrativeArea: String?, _ subLocality:  String?, _ error: Error?) -> ()) {
+        CLGeocoder().reverseGeocodeLocation(self) { completion($0?.first?.locality, $0?.first?.country, $0?.first?.administrativeArea, $0?.first?.name, $0?.first?.postalCode, $0?.first?.region, $0?.first?.subAdministrativeArea, $0?.first?.subLocality, $1) }
     }
 }
+//CLGeocoder().reverseGeocodeLocation(self) { completion($0?.first?.locality, $1?.first?.country, $2?.first?.administrativeArea, $3?.first?.name, $4?.first?.postalCode, $5?.first?.region, $6?.first?.subAdministrativeArea, $7?.first?.subLocality) }
