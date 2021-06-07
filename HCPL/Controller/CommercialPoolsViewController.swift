@@ -625,10 +625,16 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
         hud.bezelView.color = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
         hud.customView?.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
         hud.show(animated: true)
-   
+        
+      
+//        let string = postal
+//        let first4 = "\(string?.prefix(3) ?? "0")"
+//        print("first4==>\(first4)")
+        
         let StringURL = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + latti + "&lon=" + Longi + "&text=" + postal + "&max=1"
                 
 //        let StringURL = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + LatitudeString + "&lon=" + LongitudeString + "&distance=1&error=0.1"
+        
         
   
         let url = URL(string: StringURL)!
@@ -665,7 +671,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                     }else{
                         let decoder = JSONDecoder()
                         self.BackgroundPools = try decoder.decode(BackgroundApicall.self, from: data)
-                        self.Establishmentnumber = self.BackgroundPools?.data[0].establishmentName
+                        self.Establishmentnumber = self.BackgroundPools?.data[0].establishmentNumber
                         DispatchQueue.main.async {
                             self.hud.hide(animated: true)
                         }
@@ -767,7 +773,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
             if txtdescription.text == "Please describe the complaint in as much detail as possible, including: date, time, address(if not already entered), and any other information that will help our investigation."{
                 let parameters = [
                     "ContactNumber":txtcontactnumber.text ?? "",
-                    "Description":"0",
+                    "Description":"",
                     "Email":txtemailaddress.text ?? "",
                     "EstablishmentNumber": Establishmentnumber ?? "0",
                     "FirstName":txtfirstname.text ?? "",

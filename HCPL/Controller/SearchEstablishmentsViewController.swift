@@ -592,13 +592,15 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         
 //        let url = URL(string:"https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")
         
-        let TestUrl = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25"
-        
-        guard let url = URL(string:TestUrl) else { return }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        let URLset = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25"
+               
+               let urlString = URLset.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+               print("urlString==>\(urlString ?? "")")
+               
+               let url = URL(string:urlString ?? "")
+               var request = URLRequest(url: url!)
+               request.httpMethod = "GET"
+               request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
                  
@@ -665,7 +667,15 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         hud.show(animated: true)
         
 //        let url = URL(string:"https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")
-        let url = URL(string:"https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")
+//        let url = URL(string:"https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")
+        434
+        let URLset = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25"
+                
+        let urlString = URLset.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+            print("urlString==>\(urlString ?? "")")
+                
+        let url = URL(string:urlString ?? "")
+        
         var request = URLRequest(url: url!)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")

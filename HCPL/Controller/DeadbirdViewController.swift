@@ -194,7 +194,7 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
                        
                         self.ZIpCode = place.postalCode ?? ""
                         self.CityCode = place.locality ?? ""
-                        self.AddressCode = "\(place.thoroughfare ?? "")" + "\(place.locality ?? "")" + " \(place.subLocality ?? "")" + " \(place.administrativeArea ?? "")" + " \(place.country ?? "")"
+                        self.AddressCode = "\(place.thoroughfare ?? "")" + " \(place.locality ?? "")" + " \(place.subLocality ?? "")" + " \(place.administrativeArea ?? "")" + " \(place.postalCode ?? "")" + " \(place.country ?? "")"
                     } else {
                         print("GEOCODE: nil first in places")
                     }
