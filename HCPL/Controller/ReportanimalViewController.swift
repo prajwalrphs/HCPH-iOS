@@ -11,8 +11,9 @@ import MaterialComponents.MaterialTextControls_FilledTextAreas
 import MaterialComponents.MaterialTextControls_FilledTextFields
 import MaterialComponents.MaterialTextControls_OutlinedTextAreas
 import MaterialComponents.MaterialTextControls_OutlinedTextFields
+import CoreLocation
 
-class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate{
+class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate,CLLocationManagerDelegate{
 
     @IBOutlet weak var mainDropDown: DropDown!
     @IBOutlet weak var check: UICheckbox!
@@ -341,6 +342,14 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
         self.submit.layer.cornerRadius = 20
         
 
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        //print("locations = \(locValue.latitude) \(locValue.longitude)")
+        UserDefaults.standard.set(locValue.latitude, forKey: AppConstant.CURRENTLAT)
+        UserDefaults.standard.set(locValue.longitude, forKey: AppConstant.CURRENTLONG)
+        
     }
     
   

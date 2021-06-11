@@ -169,13 +169,16 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
         
         // Do any additional setup after loading the view.
     }
-    
+        
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         //print("locations = \(locValue.latitude) \(locValue.longitude)")
         self.LatitudeString = "\(locValue.latitude)"
         self.LongitudeString = "\(locValue.longitude)"
         
+        UserDefaults.standard.set(locValue.latitude, forKey: AppConstant.CURRENTLAT)
+        UserDefaults.standard.set(locValue.longitude, forKey: AppConstant.CURRENTLONG)
+               
         let geocoder = GMSGeocoder()
         geocoder.reverseGeocodeCoordinate(locValue) { response, error in
             if error != nil {
@@ -206,6 +209,9 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     }
     
  
+   
+
+        
 
     
     var MAX_LENGHTPhone = 10

@@ -47,6 +47,14 @@ class EnvironmentalViewController: UIViewController,UITableViewDelegate,UITableV
         lbltitle.text = MainTitle
     }
     
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        //print("locations = \(locValue.latitude) \(locValue.longitude)")
+        UserDefaults.standard.set(locValue.latitude, forKey: AppConstant.CURRENTLAT)
+        UserDefaults.standard.set(locValue.longitude, forKey: AppConstant.CURRENTLONG)
+        
+    }
+    
     @IBAction func Back(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
     }

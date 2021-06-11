@@ -1,8 +1,9 @@
 
 import UIKit
 import AMTabView
+import CoreLocation
 
-class ContectViewController: UIViewController,TabItem,UITableViewDelegate,UITableViewDataSource,MyocationFirst,MyocationSecond,MycallFirst,MycallSecond {
+class ContectViewController: UIViewController,TabItem,UITableViewDelegate,UITableViewDataSource,MyocationFirst,MyocationSecond,MycallFirst,MycallSecond,CLLocationManagerDelegate {
 
     var tabImage: UIImage? {
       return UIImage(named: "call-2")
@@ -53,6 +54,14 @@ class ContectViewController: UIViewController,TabItem,UITableViewDelegate,UITabl
         print("hjshjdabskjdhbasjkd\(modelName)")
         print("Running on: \(UIDevice.modelName)")
         print("Running on current: \(modelNameOrignal)")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        //print("locations = \(locValue.latitude) \(locValue.longitude)")
+        UserDefaults.standard.set(locValue.latitude, forKey: AppConstant.CURRENTLAT)
+        UserDefaults.standard.set(locValue.longitude, forKey: AppConstant.CURRENTLONG)
+        
     }
     
     func btnidTappedLocationFirst(cell: ContactallTableViewCell) {

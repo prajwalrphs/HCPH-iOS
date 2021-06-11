@@ -1,7 +1,8 @@
 
 import UIKit
+import CoreLocation
 
-class AllTableViewController: UIViewController,UITableViewDelegate,UITableViewDataSource{
+class AllTableViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,CLLocationManagerDelegate{
     
     @IBOutlet weak var lbltext: UILabel!
     @IBOutlet weak var lbltitle: UILabel!
@@ -78,6 +79,14 @@ class AllTableViewController: UIViewController,UITableViewDelegate,UITableViewDa
         
         self.lbltext.text = TitleName
         self.lbltitle.text = Titlehead
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        //print("locations = \(locValue.latitude) \(locValue.longitude)")
+        UserDefaults.standard.set(locValue.latitude, forKey: AppConstant.CURRENTLAT)
+        UserDefaults.standard.set(locValue.longitude, forKey: AppConstant.CURRENTLONG)
+        
     }
     
     @IBAction func backpoo(_ sender: UIButton) {

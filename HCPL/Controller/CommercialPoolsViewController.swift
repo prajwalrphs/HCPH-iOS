@@ -13,23 +13,8 @@ import GoogleMaps
 import GooglePlaces
 import GooglePlacePicker
 
-class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UIImagePickerControllerDelegate, UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate,CLLocationManagerDelegate,GMSAutocompleteViewControllerDelegate {
-    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-        print("Place name: \(place.name)")
-           print("Place ID: \(place.placeID)")
-           print("Place attributions: \(place.attributions)")
-           dismiss(animated: true, completion: nil)
-    }
-    
-    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
-        print("Error: ", error.localizedDescription)
-    }
-    
-    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-
+class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UIImagePickerControllerDelegate, UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate,CLLocationManagerDelegate {
+  
 
     var images: [Image] = []
     
@@ -42,7 +27,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     //var ZIPCode:String?
     
     let imagePicker = UIImagePickerController()
-    
+    var establishmentNumber:String?
     
     var CheckMB = [Int]()
     
@@ -99,7 +84,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     var Longi:String!
     var postal:String!
     
-    var Establishmentnumber:String?
+    //var Establishmentnumber:String?
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,11 +93,11 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
         Longi = currentlong
         postal = zipcodetwo
         
-        if Reachability.isConnectedToNetwork(){
-            self.BackgroundApiCallApicall(Find: postal)
-        }else{
-            self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
-        }
+//        if Reachability.isConnectedToNetwork(){
+//            self.BackgroundApiCallApicall(Find: postal)
+//        }else{
+//            self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
+//        }
         
         CheckMB.removeAll()
         arrayimage.removeAll()
@@ -462,8 +447,10 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     }
 
     @objc func openPopup(){
+        establishmentNumber = UserDefaults.standard.string(forKey: AppConstant.ESTABLISHMENTNUMBER)
         let Address = UserDefaults.standard.string(forKey: AppConstant.CURRENTADDRESS)
         print("Address==>\(Address ?? "")")
+        print("establishmentNumber==>\(establishmentNumber ?? "")")
         self.txtnameaddress.text = Address ?? ""
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
@@ -618,149 +605,149 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     
     var checksuccess:Bool?
     
-
-    func BackgroundApiCallApicall(Find:String) {
-        
-        hud = MBProgressHUD.showAdded(to: self.view, animated: true)
-        hud.bezelView.color = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
-        hud.customView?.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
-        hud.show(animated: true)
-        
-      
-//        let string = postal
-//        let first4 = "\(string?.prefix(3) ?? "0")"
-//        print("first4==>\(first4)")
-        
-        let StringURL = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + latti + "&lon=" + Longi + "&text=" + postal + "&max=1"
-                
-//        let StringURL = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + LatitudeString + "&lon=" + LongitudeString + "&distance=1&error=0.1"
-        
-        
-  
-        let url = URL(string: StringURL)!
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                 
-                 guard let data = data else { return }
-                 do{
-                     let json = try JSON(data:data)
-                     print("BackgroundApiCallApicall==> \(json)")
-                                        
-                    let statusisSuccess = json["isSuccess"]
-                    let messageTost = json["message"]
-                    
-                    let gettost = "\(messageTost)"
-                    
-                    print("statusisSuccess==>\(statusisSuccess)")
-                    print("gettost==>\(gettost)")
-                    
-                    self.checksuccess = Bool(statusisSuccess.boolValue)
-                    print("checksuccess==>\(self.checksuccess ?? true)")
-                    
-                    if statusisSuccess == false{
-
-                        DispatchQueue.main.async {
-                            self.hud.hide(animated: true)
-                            //self.view.showToast(toastMessage: gettost, duration: 0.3)
-                            
-                        }
-                
-                    }else{
-                        let decoder = JSONDecoder()
-                        self.BackgroundPools = try decoder.decode(BackgroundApicall.self, from: data)
-                        self.Establishmentnumber = self.BackgroundPools?.data[0].establishmentNumber
-                        DispatchQueue.main.async {
-                            self.hud.hide(animated: true)
-                        }
-                    }
-                    
-
-                     
-                 }catch{
-                     print(error.localizedDescription)
-                    DispatchQueue.main.async {
-                        self.hud.hide(animated: true)
-                    }
-                 }
-                 
-                 }
-
-        task.resume()
-
-    }
+//
+//    func BackgroundApiCallApicall(Find:String) {
+//
+//        hud = MBProgressHUD.showAdded(to: self.view, animated: true)
+//        hud.bezelView.color = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
+//        hud.customView?.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
+//        hud.show(animated: true)
+//
+//
+////        let string = postal
+////        let first4 = "\(string?.prefix(3) ?? "0")"
+////        print("first4==>\(first4)")
+//
+//        let StringURL = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + latti + "&lon=" + Longi + "&text=770" + "&max=1"
+//
+////        let StringURL = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + LatitudeString + "&lon=" + LongitudeString + "&distance=1&error=0.1"
+//
+//
+//
+//        let url = URL(string: StringURL)!
+//        var request = URLRequest(url: url)
+//        request.httpMethod = "GET"
+//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+//
+//        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+//
+//                 guard let data = data else { return }
+//                 do{
+//                     let json = try JSON(data:data)
+//                     print("BackgroundApiCallApicall==> \(json)")
+//
+//                    let statusisSuccess = json["isSuccess"]
+//                    let messageTost = json["message"]
+//
+//                    let gettost = "\(messageTost)"
+//
+//                    print("statusisSuccess==>\(statusisSuccess)")
+//                    print("gettost==>\(gettost)")
+//
+//                    self.checksuccess = Bool(statusisSuccess.boolValue)
+//                    print("checksuccess==>\(self.checksuccess ?? true)")
+//
+//                    if statusisSuccess == false{
+//
+//                        DispatchQueue.main.async {
+//                            self.hud.hide(animated: true)
+//                            //self.view.showToast(toastMessage: gettost, duration: 0.3)
+//
+//                        }
+//
+//                    }else{
+//                        let decoder = JSONDecoder()
+//                        self.BackgroundPools = try decoder.decode(BackgroundApicall.self, from: data)
+//                        self.Establishmentnumber = self.BackgroundPools?.data[0].establishmentNumber
+//                        DispatchQueue.main.async {
+//                            self.hud.hide(animated: true)
+//                        }
+//                    }
+//
+//
+//
+//                 }catch{
+//                     print(error.localizedDescription)
+//                    DispatchQueue.main.async {
+//                        self.hud.hide(animated: true)
+//                    }
+//                 }
+//
+//                 }
+//
+//        task.resume()
+//
+//    }
     
-    func BackgroundApiCallApicall2(Find:String) {
-        
-       
-        let StringURL = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + latti + "&lon=" + Longi + "&text=" + postal + "&max=1"
-                
-//        let StringURL = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + LatitudeString + "&lon=" + LongitudeString + "&distance=1&error=0.1"
-        
-  
-        let url = URL(string: StringURL)!
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                 
-                 guard let data = data else { return }
-                 do{
-                     let json = try JSON(data:data)
-                     print("BackgroundApiCallApicall==> \(json)")
-                                        
-                    let statusisSuccess = json["isSuccess"]
-                    let messageTost = json["message"]
-                    
-                    let gettost = "\(messageTost)"
-                    
-                    print("statusisSuccess==>\(statusisSuccess)")
-                    print("gettost==>\(gettost)")
-                    
-                    self.checksuccess = Bool(statusisSuccess.boolValue)
-                    print("checksuccess==>\(self.checksuccess ?? true)")
-                    
-                    if statusisSuccess == false{
-
-                        DispatchQueue.main.async {
-                            self.hud.hide(animated: true)
-                            //self.view.showToast(toastMessage: gettost, duration: 0.3)
-                            self.CommercialPoolsApicall()
-                        }
-                        
-                
-                    }else{
-                        let decoder = JSONDecoder()
-                        self.BackgroundPools = try decoder.decode(BackgroundApicall.self, from: data)
-                        self.Establishmentnumber = self.BackgroundPools?.data[0].establishmentName
-                        
-                        DispatchQueue.main.async {
-                            self.hud.hide(animated: true)
-                            //self.view.showToast(toastMessage: gettost, duration: 0.3)
-                            self.CommercialPoolsApicall()
-                        }
-                        
-                    }
-                    
-
-                     
-                 }catch{
-                     print(error.localizedDescription)
-                    DispatchQueue.main.async {
-                        self.hud.hide(animated: true)
-                        //self.view.showToast(toastMessage: gettost, duration: 0.3)
-                        
-                    }
-                 }
-                 
-                 }
-
-        task.resume()
-
-    }
+//    func BackgroundApiCallApicall2(Find:String) {
+//
+//
+//        let StringURL = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + latti + "&lon=" + Longi + "&text=" + postal + "&max=1"
+//
+////        let StringURL = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + LatitudeString + "&lon=" + LongitudeString + "&distance=1&error=0.1"
+//
+//
+//        let url = URL(string: StringURL)!
+//        var request = URLRequest(url: url)
+//        request.httpMethod = "GET"
+//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+//
+//        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+//
+//                 guard let data = data else { return }
+//                 do{
+//                     let json = try JSON(data:data)
+//                     print("BackgroundApiCallApicall==> \(json)")
+//
+//                    let statusisSuccess = json["isSuccess"]
+//                    let messageTost = json["message"]
+//
+//                    let gettost = "\(messageTost)"
+//
+//                    print("statusisSuccess==>\(statusisSuccess)")
+//                    print("gettost==>\(gettost)")
+//
+//                    self.checksuccess = Bool(statusisSuccess.boolValue)
+//                    print("checksuccess==>\(self.checksuccess ?? true)")
+//
+//                    if statusisSuccess == false{
+//
+//                        DispatchQueue.main.async {
+//                            self.hud.hide(animated: true)
+//                            //self.view.showToast(toastMessage: gettost, duration: 0.3)
+//                            self.CommercialPoolsApicall()
+//                        }
+//
+//
+//                    }else{
+//                        let decoder = JSONDecoder()
+//                        self.BackgroundPools = try decoder.decode(BackgroundApicall.self, from: data)
+//                        self.Establishmentnumber = self.BackgroundPools?.data[0].establishmentName
+//
+//                        DispatchQueue.main.async {
+//                            self.hud.hide(animated: true)
+//                            //self.view.showToast(toastMessage: gettost, duration: 0.3)
+//                            self.CommercialPoolsApicall()
+//                        }
+//
+//                    }
+//
+//
+//
+//                 }catch{
+//                     print(error.localizedDescription)
+//                    DispatchQueue.main.async {
+//                        self.hud.hide(animated: true)
+//                        //self.view.showToast(toastMessage: gettost, duration: 0.3)
+//
+//                    }
+//                 }
+//
+//                 }
+//
+//        task.resume()
+//
+//    }
     
     func CommercialPoolsApicall() {
             
@@ -775,7 +762,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                     "ContactNumber":txtcontactnumber.text ?? "",
                     "Description":"",
                     "Email":txtemailaddress.text ?? "",
-                    "EstablishmentNumber": Establishmentnumber ?? "0",
+                    "EstablishmentNumber": establishmentNumber ?? "0",
                     "FirstName":txtfirstname.text ?? "",
                     "LastName":txtlastname.text ?? "",
                     "Place":txtnameaddress.text ?? "",
@@ -859,7 +846,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                     "ContactNumber":txtcontactnumber.text ?? "",
                     "Description":txtdescription.text ?? "",
                     "Email":txtemailaddress.text ?? "",
-                    "EstablishmentNumber":Establishmentnumber ?? "0",
+                    "EstablishmentNumber":establishmentNumber ?? "0",
                     "FirstName":txtfirstname.text ?? "",
                     "LastName":txtlastname.text ?? "",
                     "Place":txtnameaddress.text ?? "",
@@ -1216,11 +1203,11 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
 //                                        CommercialPoolsApicall()
 //                                    }
                                     
-                                    if checksuccess == false{
-                                        BackgroundApiCallApicall2(Find:postal ?? "0")
-                                    }else{
+//                                    if checksuccess == false{
+//                                        BackgroundApiCallApicall2(Find:postal ?? "0")
+//                                    }else{
                                         CommercialPoolsApicall()
-                                    }
+                                    //}
                               
                                 }
                             }

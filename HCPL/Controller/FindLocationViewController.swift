@@ -12,22 +12,38 @@ import CoreLocation
 import GoogleMaps
 import GooglePlaces
 import GooglePlacePicker
+import MBProgressHUD
+import SwiftyJSON
+import Alamofire
 
-class FindLocationViewController: UIViewController,UISearchBarDelegate, MKLocalSearchCompleterDelegate,CLLocationManagerDelegate {
+class FindLocationViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate{
     
-    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var searchResultsTable: UITableView!
+    @IBOutlet var searchBar: UITextField!
     
-    var searchCompleter = MKLocalSearchCompleter()
-    var searchResults = [MKLocalSearchCompletion]()
+    var SearchGettwo:SearchModeltwo?
+    var hud: MBProgressHUD = MBProgressHUD()
     
-    let locationManager = CLLocationManager()
-    var currentLocation: CLLocation!
+    var currentlat = UserDefaults.standard.string(forKey: AppConstant.CURRENTLAT)
+    var currentlong = UserDefaults.standard.string(forKey: AppConstant.CURRENTLONG)
+    var zipcodetwo = UserDefaults.standard.string(forKey: AppConstant.ZIPCODETWO)
     
+    var latti:String!
+    var Longi:String!
+    var postal:String!
+    
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        latti = currentlat
+        Longi = currentlong
+        postal = zipcodetwo
+        
         self.searchBar.becomeFirstResponder()
+        
+        searchBar.autocapitalizationType = .sentences
+        searchBar.autocapitalizationType = .words
         
         let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
         print("onoff==>\(onoff ?? "")")
@@ -36,6 +52,10 @@ class FindLocationViewController: UIViewController,UISearchBarDelegate, MKLocalS
             UIApplication.shared.windows.forEach { window in
                  window.overrideUserInterfaceStyle = .dark
              }
+            
+            searchBar.backgroundColor = AppConstant.ViewColor
+            
+            searchBar.attributedPlaceholder = NSAttributedString(string: "Search",attributes: [NSAttributedString.Key.foregroundColor: AppConstant.LabelWhiteColor])
         }else if onoff == "off"{
             UIApplication.shared.windows.forEach { window in
                  window.overrideUserInterfaceStyle = .light
@@ -46,7 +66,7 @@ class FindLocationViewController: UIViewController,UISearchBarDelegate, MKLocalS
              }
         }
         
-       searchCompleter.delegate = self
+      
        searchBar?.delegate = self
        searchResultsTable?.delegate = self
        searchResultsTable?.dataSource = self
@@ -59,161 +79,247 @@ class FindLocationViewController: UIViewController,UISearchBarDelegate, MKLocalS
             NotificationCenter.default.post(name: Notification.Name("remove_View"), object: nil)
 
         }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool{
+        print("Serch")
+        
+        if textField == searchBar{
+            if Reachability.isConnectedToNetwork(){
+                if CLLocationManager.locationServicesEnabled() == true {
+                    if CLLocationManager.locationServicesEnabled() {
+                        switch CLLocationManager.authorizationStatus() {
+                            case .notDetermined, .restricted, .denied:
+                                print("No access")
+                                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
 
-       func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-           searchCompleter.queryFragment = searchText
-       }
+                                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                    //Redirect to Settings app
+                                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                                })
 
-       func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-           
-           searchResults = completer.results
-           searchResultsTable.reloadData()
-       }
-       
-       func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
-           
-       }
+                                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                                alertController.addAction(cancelAction)
+
+                                alertController.addAction(okAction)
+
+                                self.present(alertController, animated: true, completion: nil)
+                            case .authorizedAlways, .authorizedWhenInUse:
+                                print("Access")
+                                if searchBar.text?.isEmpty == true{
+                                    self.view.showToast(toastMessage: "Please enter search value", duration: 0.3)
+                                }else{
+                                    DispatchQueue.main.async {
+                                        self.searchBar.resignFirstResponder()
+                                    }
+                                    SearchApicalltwo(Find: searchBar.text ?? "")
+                                }
+                            @unknown default:
+                            break
+                        }
+                        } else {
+                            print("Location services are not enabled")
+                    }
+
+                }else {
+                    
+                    let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                    let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                        //Redirect to Settings app
+                        UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                    })
+
+                    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                    alertController.addAction(cancelAction)
+
+                    alertController.addAction(okAction)
+
+                    self.present(alertController, animated: true, completion: nil)
+                    
+                    
+                 }
+            }else{
+                self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
+            }
+        }
+        
+        return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == searchBar{
+            if CLLocationManager.locationServicesEnabled() {
+                switch CLLocationManager.authorizationStatus() {
+                    case .notDetermined, .restricted, .denied:
+                        print("No access")
+                        DispatchQueue.main.async {
+                            self.searchBar.resignFirstResponder()
+                        }
+                        let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+
+                        let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                            //Redirect to Settings app
+                            UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                        })
+
+                        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                        alertController.addAction(cancelAction)
+
+                        alertController.addAction(okAction)
+
+                        self.present(alertController, animated: true, completion: nil)
+                    case .authorizedAlways, .authorizedWhenInUse:
+                        print("Access")
+                        let updatedString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+                                    
+                        let count = self.searchBar.text?.count ?? 0 + string.count
+                        
+                                     if count >= 2{
+                                        //VPAutoDropTable.isHidden = false
+                                        let when = DispatchTime.now() + 1
+                                        DispatchQueue.main.asyncAfter(deadline: when){
+                                            if Reachability.isConnectedToNetwork(){
+                                                self.SearchApicalltwo(Find: self.searchBar.text ?? "")
+                                                print("LastPin==>\(self.searchBar.text ?? "")")
+                                            }else{
+                                                self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
+                                            }
+                                            
+                                        }
+                                        
+                                        
+                                     }else if count <= 1{
+                                        //VPAutoDropTable.isHidden = true
+                                        print("LastPin1==>")
+                                        return true
+                                     }else{
+                                        //VPAutoDropTable.isHidden = true
+                                        print("LastPin2==>")
+                                        return true
+                                     }
+                    @unknown default:
+                    break
+                }
+                } else {
+                    print("Location services are not enabled")
+            }
+
+    
+            return true
+        }else{
+            return true
+        }
+        return true
+        }
+    
+    func SearchApicalltwo(Find:String) {
+        
+//        hud = MBProgressHUD.showAdded(to: self.view, animated: true)
+//        hud.bezelView.color = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
+//        hud.customView?.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
+//        hud.show(animated: true)
+        
+//        let url = URL(string:"https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")
+        
+        let URLset = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(latti ?? "")" + "&lon=" + "\(Longi ?? "")" + "&text=" + "\(Find)" + "&max=25"
+               
+               let urlString = URLset.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+               print("urlString==>\(urlString ?? "")")
+               
+               let url = URL(string:urlString ?? "")
+               var request = URLRequest(url: url!)
+               request.httpMethod = "GET"
+               request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                 
+                 guard let data = data else { return }
+                 do{
+                     let json = try JSON(data:data)
+                    
+                    print("response===>\(json)")
+                    let statusisSuccess = json["isSuccess"]
+                    let messageTost = json["message"]
+                    
+                    let gettost = "\(messageTost)"
+                    
+                    if statusisSuccess == false{
+
+                        DispatchQueue.main.async {
+                            self.view.showToast(toastMessage: gettost, duration: 0.3)
+                            //self.hud.hide(animated: true)
+                            DispatchQueue.main.async {
+                                self.searchBar.resignFirstResponder()
+                            }
+                        }
+                
+                    }else{
+                        let decoder = JSONDecoder()
+                        self.SearchGettwo = try decoder.decode(SearchModeltwo.self, from: data)
+                        DispatchQueue.main.async {
+                            self.searchResultsTable.reloadData()
+                        }
+                        
+                    }
+                 }catch{
+                     print(error.localizedDescription)
+                    DispatchQueue.main.async {
+                        self.hud.hide(animated: true)
+                      }
+                 }
+                 
+                 }
+
+        task.resume()
+
+    }
+
     
     @IBAction func back(_ sender: UIButton) {
         //self.navigationController?.popViewController(animated: true)
         self.dismiss(animated: true, completion: nil)
     }
-   
-    func fetchCityAndCountry(from location: CLLocation, completion: @escaping (_ city: String?, _ country:  String?, _ administrativeArea: String?, _ name:  String?, _ postalCode: String?, _ region:  CLRegion?, _ subAdministrativeArea: String?, _ subLocality:  String?, _ error: Error?) -> ()) {
-         CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
-             completion(placemarks?.first?.locality,
-                        placemarks?.first?.country,
-                        placemarks?.first?.administrativeArea,
-                        placemarks?.first?.name,
-                        placemarks?.first?.postalCode,
-                        placemarks?.first?.region,
-                        placemarks?.first?.subAdministrativeArea,
-                        placemarks?.first?.subLocality,
-                        error)
-         }
-     }
-       
-    
-       func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-             print("Error while updating location " + error.localizedDescription)
-       }
-
-}
-
-extension FindLocationViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchResults.count
+        return SearchGettwo?.data.count ?? 0
     }
     
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let searchResult = searchResults[indexPath.row]
         
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         
-        cell.textLabel?.text = searchResult.title
-        cell.detailTextLabel?.text = searchResult.subtitle
+        cell.textLabel?.text =  SearchGettwo?.data[indexPath.row].establishmentName
+        cell.detailTextLabel?.text = "\(SearchGettwo?.data[indexPath.row].streetNumber ?? "")" + " \(SearchGettwo?.data[indexPath.row].streetAddress ?? "")" + ", \(SearchGettwo?.data[indexPath.row].zipCode ?? "")"
         return cell
     }
-}
-
-extension FindLocationViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let result = searchResults[indexPath.row]
-        let searchRequest = MKLocalSearch.Request(completion: result)
+        //let establishmentName = SearchGettwo?.data[indexPath.row].establishmentName
+        let address = "\(SearchGettwo?.data[indexPath.row].establishmentName ?? "")"
+//        let address = "\(SearchGettwo?.data[indexPath.row].establishmentName ?? "")" + "\(SearchGettwo?.data[indexPath.row].streetNumber ?? "")" + " \(SearchGettwo?.data[indexPath.row].streetAddress ?? "")" + " \(SearchGettwo?.data[indexPath.row].city ?? "")" + ", \(SearchGettwo?.data[indexPath.row].zipCode ?? "")" + "\(SearchGettwo?.data[indexPath.row].milesAway ?? "")" + " miles"
+        let establishmentNumber = SearchGettwo?.data[indexPath.row].establishmentNumber
+//        navigate.lat = Double("\(SearchGettwo?.data[indexPath.row].lat ?? "")")
+//        navigate.long = Double("\(SearchGettwo?.data[indexPath.row].lon ?? "")")
+//        navigate.demeritsString = SearchGettwo?.data[indexPath.row].demerits
         
-        let search = MKLocalSearch(request: searchRequest)
-        search.start { (response, error) in
-            guard let coordinate = response?.mapItems[0].placemark.coordinate else {
-                return
-            }
-            
-            guard let name = response?.mapItems[0].name else {
-                return
-            }
-            
-            guard let state = response?.mapItems[0].placemark.administrativeArea else {
-                return
-            }
-            
-            guard let country = response?.mapItems[0].placemark.country else {
-                return
-            }
-            
+    
+            UserDefaults.standard.set(SearchGettwo?.data[indexPath.row].lat, forKey: AppConstant.CURRENTLAT)
+            UserDefaults.standard.set(SearchGettwo?.data[indexPath.row].lon, forKey: AppConstant.CURRENTLONG)
         
-  
-            let lat = coordinate.latitude
-            let lon = coordinate.longitude
-            let locValue = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
-            let geocoder = GMSGeocoder()
-            geocoder.reverseGeocodeCoordinate(locValue) { response, error in
-                if error != nil {
-                    print("reverse geodcode fail: \(error!.localizedDescription)")
-                    self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
-                } else {
-                    if let places = response?.results() {
-                        if let place = places.first {
-                            print(place.lines)
-                            print("GEOCODE: Formatted postalCode: \(place.postalCode ?? "")")
-                            print("GEOCODE: Formatted locality: \(place.locality ?? "")")
-                            print("GEOCODE: Formatted subLocality: \(place.subLocality ?? "")")
-                            print("GEOCODE: Formatted administrativeArea: \(place.administrativeArea ?? "")")
-                            print("GEOCODE: Formatted country: \(place.country ?? "")")
-                            
-    //
-                           
-                        } else {
-                            print("GEOCODE: nil first in places")
-                        }
-                    } else {
-                        print("GEOCODE: nil in places")
-                    }
-                }
-            }
+            UserDefaults.standard.set(establishmentNumber, forKey: AppConstant.ESTABLISHMENTNUMBER)
+            UserDefaults.standard.set(address, forKey: AppConstant.CURRENTADDRESS)
             
-            let FullAddress = "\(name),\(state),\(country)"
-            
-            
-            UserDefaults.standard.set(lat, forKey: AppConstant.CURRENTLAT)
-            UserDefaults.standard.set(lon, forKey: AppConstant.CURRENTLONG)
-            UserDefaults.standard.set(FullAddress, forKey: AppConstant.CURRENTADDRESS)
-            
-            
-            print("name==>\(name)")
-            print("lat==>\(lat)")
-            print("lon==>\(lon)")
-            
-            print("state==>\(state)")
-            print("country==>\(country)")
-            
-            
+         
             self.dismiss(animated: true, completion: nil)
             
         }
     }
-    
-}
 
-extension CLLocation {
-//               placemarks?.first?.locality,
-//               placemarks?.first?.country,
-//               placemarks?.first?.administrativeArea,
-//               placemarks?.first?.name,
-//               placemarks?.first?.postalCode,
-//               placemarks?.first?.region,
-//               placemarks?.first?.subAdministrativeArea,
-//               placemarks?.first?.subLocality,
-    func fetchCityAndCountry(completion: @escaping (_ city: String?, _ country:  String?, _ administrativeArea: String?, _ name:  String?, _ postalCode: String?, _ region:  CLRegion?, _ subAdministrativeArea: String?, _ subLocality:  String?, _ error: Error?) -> ()) {
-        CLGeocoder().reverseGeocodeLocation(self) { completion($0?.first?.locality, $0?.first?.country, $0?.first?.administrativeArea, $0?.first?.name, $0?.first?.postalCode, $0?.first?.region, $0?.first?.subAdministrativeArea, $0?.first?.subLocality, $1) }
-    }
-}
-//CLGeocoder().reverseGeocodeLocation(self) { completion($0?.first?.locality, $1?.first?.country, $2?.first?.administrativeArea, $3?.first?.name, $4?.first?.postalCode, $5?.first?.region, $6?.first?.subAdministrativeArea, $7?.first?.subLocality) }

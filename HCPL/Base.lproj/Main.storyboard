@@ -8614,44 +8614,40 @@ By submitting this form, I agree to be contacted by a HCPH-MVCD Representative.<
                                     <constraint firstItem="dpz-8Q-Z0a" firstAttribute="bottom" secondItem="a7V-jt-NuJ" secondAttribute="bottom" id="x1T-Cb-EHW"/>
                                 </constraints>
                             </view>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="avg-vz-h0a">
+                                <rect key="frame" x="0.0" y="95" width="414" height="34"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.92941176469999998" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="search"/>
+                            </textField>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tel-ST-1uU">
-                                <rect key="frame" x="0.0" y="139" width="414" height="723"/>
+                                <rect key="frame" x="0.0" y="129" width="414" height="733"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="723" id="vGa-od-Ns4"/>
-                                </constraints>
                             </tableView>
-                            <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="45X-6N-yvS">
-                                <rect key="frame" x="0.0" y="95" width="414" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="zLt-Si-IVZ"/>
-                                </constraints>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="qnb-je-KgR"/>
                         <color key="backgroundColor" red="0.41186356540000002" green="0.75500118729999999" blue="0.330655843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="h7p-h4-Gm0" firstAttribute="leading" secondItem="qnb-je-KgR" secondAttribute="leading" id="05n-0b-rjC"/>
-                            <constraint firstItem="45X-6N-yvS" firstAttribute="top" secondItem="h7p-h4-Gm0" secondAttribute="bottom" id="A5n-1a-Yw4"/>
-                            <constraint firstItem="45X-6N-yvS" firstAttribute="leading" secondItem="qnb-je-KgR" secondAttribute="leading" id="Btg-ds-txq"/>
-                            <constraint firstItem="45X-6N-yvS" firstAttribute="trailing" secondItem="qnb-je-KgR" secondAttribute="trailing" id="DV9-ps-xqH"/>
+                            <constraint firstItem="avg-vz-h0a" firstAttribute="top" secondItem="h7p-h4-Gm0" secondAttribute="bottom" id="C53-MG-Lj8"/>
+                            <constraint firstItem="avg-vz-h0a" firstAttribute="leading" secondItem="tel-ST-1uU" secondAttribute="leading" id="CzC-lH-PqT"/>
                             <constraint firstItem="h7p-h4-Gm0" firstAttribute="top" secondItem="qnb-je-KgR" secondAttribute="top" id="ERE-Uy-uJn"/>
-                            <constraint firstItem="tel-ST-1uU" firstAttribute="top" secondItem="45X-6N-yvS" secondAttribute="bottom" id="V1Z-be-zAk"/>
-                            <constraint firstItem="tel-ST-1uU" firstAttribute="bottom" secondItem="qnb-je-KgR" secondAttribute="bottom" id="ZWM-n2-xmm"/>
-                            <constraint firstItem="tel-ST-1uU" firstAttribute="leading" secondItem="qnb-je-KgR" secondAttribute="leading" id="hbH-oI-Ygq"/>
-                            <constraint firstItem="tel-ST-1uU" firstAttribute="trailing" secondItem="qnb-je-KgR" secondAttribute="trailing" id="jg2-w1-3Uy"/>
+                            <constraint firstItem="tel-ST-1uU" firstAttribute="top" secondItem="avg-vz-h0a" secondAttribute="bottom" id="d7S-4c-zFl"/>
+                            <constraint firstItem="avg-vz-h0a" firstAttribute="trailing" secondItem="h7p-h4-Gm0" secondAttribute="trailing" id="hLu-X7-POe"/>
+                            <constraint firstItem="avg-vz-h0a" firstAttribute="leading" secondItem="h7p-h4-Gm0" secondAttribute="leading" id="ktN-eq-LaH"/>
+                            <constraint firstItem="avg-vz-h0a" firstAttribute="trailing" secondItem="tel-ST-1uU" secondAttribute="trailing" id="rIZ-FM-4ui"/>
                             <constraint firstItem="h7p-h4-Gm0" firstAttribute="trailing" secondItem="qnb-je-KgR" secondAttribute="trailing" id="tra-eV-KXL"/>
+                            <constraint firstItem="tel-ST-1uU" firstAttribute="bottom" secondItem="qnb-je-KgR" secondAttribute="bottom" id="xNY-61-aCa"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="searchBar" destination="45X-6N-yvS" id="yFy-IM-RGd"/>
+                        <outlet property="searchBar" destination="avg-vz-h0a" id="z3U-Y6-pGN"/>
                         <outlet property="searchResultsTable" destination="tel-ST-1uU" id="lQe-fw-0ic"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fss-e2-bt7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8478" y="1702"/>
+            <point key="canvasLocation" x="8369.5652173913059" y="1781.9196428571427"/>
         </scene>
     </scenes>
     <designables>

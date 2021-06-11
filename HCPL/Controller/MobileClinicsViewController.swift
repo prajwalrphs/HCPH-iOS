@@ -1,7 +1,8 @@
 
 import UIKit
+import CoreLocation
 
-class MobileClinicsViewController: UIViewController {
+class MobileClinicsViewController: UIViewController,CLLocationManagerDelegate {
 
     @IBOutlet weak var lblmobilehealth: UILabel!
     @IBOutlet weak var lblhealthvillage: UILabel!
@@ -59,6 +60,14 @@ class MobileClinicsViewController: UIViewController {
 //        self.lblformore.text = "For more information"
 //        self.lblnumber.text = "832.927.7517"
 
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        //print("locations = \(locValue.latitude) \(locValue.longitude)")
+        UserDefaults.standard.set(locValue.latitude, forKey: AppConstant.CURRENTLAT)
+        UserDefaults.standard.set(locValue.longitude, forKey: AppConstant.CURRENTLONG)
+        
     }
     
     @IBAction func backpoo(_ sender: UIButton) {

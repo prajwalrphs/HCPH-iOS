@@ -1,8 +1,9 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
-class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,MyCellDelegateLocation,MyCellDelegatecall,MyCellDelegatecallsecond {
+class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,MyCellDelegateLocation,MyCellDelegatecall,MyCellDelegatecallsecond,CLLocationManagerDelegate {
     
     @IBOutlet weak var locationtable: UITableView!
     
@@ -47,6 +48,14 @@ class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewD
         print("hjshjdabskjdhbasjkd\(modelName)")
         print("Running on: \(UIDevice.modelName)")
         print("Running on current: \(modelNameOrignal)")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        //print("locations = \(locValue.latitude) \(locValue.longitude)")
+        UserDefaults.standard.set(locValue.latitude, forKey: AppConstant.CURRENTLAT)
+        UserDefaults.standard.set(locValue.longitude, forKey: AppConstant.CURRENTLONG)
+        
     }
     
     @IBAction func Back(_ sender: UIButton) {

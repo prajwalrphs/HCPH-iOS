@@ -209,6 +209,9 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
         //print("locations = \(locValue.latitude) \(locValue.longitude)")
         self.LatitudeString = "\(locValue.latitude)"
         self.LongitudeString = "\(locValue.longitude)"
+        
+        UserDefaults.standard.set(locValue.latitude, forKey: AppConstant.CURRENTLAT)
+        UserDefaults.standard.set(locValue.longitude, forKey: AppConstant.CURRENTLONG)
     }
     
     

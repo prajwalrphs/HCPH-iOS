@@ -657,7 +657,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
     
     func SearchApicall(Find:String) {
        
-            self.hud.hide(animated: true)
+        self.hud.hide(animated: true)
         
         
         
@@ -668,7 +668,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         
 //        let url = URL(string:"https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")
 //        let url = URL(string:"https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")
-        434
+        
         let URLset = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25"
                 
         let urlString = URLset.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
@@ -1119,7 +1119,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
     
     @IBAction func filter(_ sender: UIButton) {
         bottomviewmap.isHidden = true
-        dropdownview.isHidden = false 
+        dropdownview.isHidden = false
     }
     
     @IBAction func Listviewbutton(_ sender: UIButton) {
