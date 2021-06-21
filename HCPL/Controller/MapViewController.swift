@@ -8,11 +8,6 @@ import GoogleMaps
 import GooglePlaces
 import GooglePlacePicker
 
-private struct AttributeKeys {
-    static let placeAddress = "Texas"
-    static let placeName = "Houston"
-}
-
 class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarDelegate,AGSGeoViewTouchDelegate {
     
     @IBOutlet weak var mapview: AGSMapView!
@@ -35,12 +30,8 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
     let locationOverlay = AGSGraphicsOverlay()
     var locatorTask = AGSLocatorTask(url: URL(string: "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer")!)
     
-    //private let featureServiceURL = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/PoolPermits/FeatureServer/0"
-    
-    let featureTable0 = AGSServiceFeatureTable(url: URL(string: "https://www.gis.hctx.net/arcgis/rest/services/HCPHES/Mobile_Mosquito_Disease_Last7days/MapServer/0")!)
-
-    let featureTable7 = AGSServiceFeatureTable(url: URL(string: "https://www.gis.hctx.net/arcgis/rest/services/HCPHES/MVCD_ConfirmedMosquitoActivity_OpAreas_Public_MapService/MapServer/7")!)
-    
+    private let featureServiceURL = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/PoolPermits/FeatureServer/0"
+        
     var ZIpCodeMain = String()
     
     var demos: [(UIViewController & Demoable).Type] = [
@@ -73,7 +64,7 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
     //Locator task for searching zipcode
     private var geocodeParameters: AGSGeocodeParameters!
     //private let locatorURL = "https://www.gis.hctx.net/arcgis/rest/services/Locator/Harris_County_Address_Points/GeocodeServer"
-    //private let locatorURL = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
+    private let locatorURL = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
     
     private var mapFeatureLayer:AGSFeatureLayer!
     private var featureLayer0:AGSFeatureLayer?
@@ -511,10 +502,10 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
             basemapStyle: .arcGISTopographic
          )
             
-        //let featureTable = AGSServiceFeatureTable(url: URL(string: featureServiceURL)!)
+        let featureTable = AGSServiceFeatureTable(url: URL(string: featureServiceURL)!)
         //set the request mode
-        featureTable0.featureRequestMode = AGSFeatureRequestMode.onInteractionCache
-        let featureLayer = AGSFeatureLayer(featureTable: featureTable0)
+        featureTable.featureRequestMode = AGSFeatureRequestMode.onInteractionCache
+        let featureLayer = AGSFeatureLayer(featureTable: featureTable)
         //add the feature layer to the map
         map.operationalLayers.add(featureLayer)
         
@@ -873,6 +864,9 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
             
             //let hcBoundaryLayer = AGSFeatureLayer(featureTable: hcBoundaryMask)
             
+            let featureTable0 = AGSServiceFeatureTable(url: URL(string: "https://www.gis.hctx.net/arcgis/rest/services/HCPHES/Mobile_Mosquito_Disease_Last7days/MapServer/0")!)
+
+            let featureTable7 = AGSServiceFeatureTable(url: URL(string: "https://www.gis.hctx.net/arcgis/rest/services/HCPHES/MVCD_ConfirmedMosquitoActivity_OpAreas_Public_MapService/MapServer/7")!)
            
             
           
