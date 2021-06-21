@@ -1030,6 +1030,9 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                     }else if self.arrayimage.count == 2{
                         print("Count 2")
                         self.ImageBytestwo = base64String2
+                        DispatchQueue.main.async {
+                            self.hud.hide(animated: true)
+                        }
                       
     //                    let dataDecoded:NSData = NSData(base64Encoded: base64String2, options: NSData.Base64DecodingOptions(rawValue: 0))!
     //                    let decodedimage:UIImage = UIImage(data: dataDecoded as Data)!
@@ -1041,6 +1044,9 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                     }else if self.arrayimage.count == 3{
                         print("Count 3")
                         self.ImageBytesthree = base64String2
+                        DispatchQueue.main.async {
+                            self.hud.hide(animated: true)
+                        }
                         
     //                    let dataDecoded:NSData = NSData(base64Encoded: base64String2, options: NSData.Base64DecodingOptions(rawValue: 0))!
     //                    let decodedimage:UIImage = UIImage(data: dataDecoded as Data)!
@@ -1051,6 +1057,9 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                     }else if self.arrayimage.count == 4{
                         print("Count 4")
                         self.ImageBytesfour = base64String2
+                        DispatchQueue.main.async {
+                            self.hud.hide(animated: true)
+                        }
                         
     //                    let dataDecoded:NSData = NSData(base64Encoded: base64String2, options: NSData.Base64DecodingOptions(rawValue: 0))!
     //                    let decodedimage:UIImage = UIImage(data: dataDecoded as Data)!
@@ -1061,6 +1070,9 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                     }else if self.arrayimage.count == 5{
                         print("Count 5")
                         self.ImageBytesfive = base64String2
+                        DispatchQueue.main.async {
+                            self.hud.hide(animated: true)
+                        }
                         
     //                    let dataDecoded:NSData = NSData(base64Encoded: base64String2, options: NSData.Base64DecodingOptions(rawValue: 0))!
     //                    let decodedimage:UIImage = UIImage(data: dataDecoded as Data)!

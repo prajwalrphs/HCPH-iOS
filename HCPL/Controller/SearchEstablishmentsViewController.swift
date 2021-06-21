@@ -333,11 +333,14 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
                         }
                 
                     }else{
+//                        let decoder = JSONDecoder()
+//                        self.MapModel = try decoder.decode(Maponcreate.self, from: data)
+                        
                         let decoder = JSONDecoder()
-                        self.MapModel = try decoder.decode(Maponcreate.self, from: data)
+                        self.SearchGet = try decoder.decode(SearchModel.self, from: data)
                         
                         DispatchQueue.main.async {
-                            for i in self.MapModel!.data{
+                            for i in self.SearchGet!.data{
                                 if i.facilityType == "Convenience store"{
                                     self.ShowLocationtwo(lat: Double("\(i.lat)")!, long: Double("\(i.lon)")!, MarkerImage: #imageLiteral(resourceName: "convienent-store-icon22x22"), Miles: i.establishmentName)
                                 }else if i.facilityType == "Farmer's Market"{
@@ -658,6 +661,9 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
     func SearchApicall(Find:String) {
        
         self.hud.hide(animated: true)
+        
+        CustomMapView.clear()
+        
         
         
         
