@@ -5413,7 +5413,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="105" id="tpn-tC-81h"/>
                                                 </constraints>
-                                                <string key="text">If the bird cannot be picked up right away, wear gloves to double-bag the bird and place it in a freezer or ice chest that is not used for food. Submissions of this form not guarantee specimen pickup.  HCPH Division will contact you with more information and to schedule a pickup.</string>
+                                                <string key="text">If the bird cannot be picked up right away, wear gloves to double-bag the bird and place it in a freezer or ice chest that is not used for food. Submissions of this form does not guarantee specimen pickup.  HCPH Division will contact you with more information and to schedule a pickup.</string>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                                 <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>

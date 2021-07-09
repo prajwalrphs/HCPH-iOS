@@ -869,6 +869,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                 request.httpMethod = "POST"
                 request.httpBody = jsonData
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                request.addValue("500000", forHTTPHeaderField: "Content-Length")
                 
                 let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
                          

@@ -506,7 +506,7 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
    
     }
 
-    let headers: HTTPHeaders = ["Content-Type": "application/json"]
+    let headers: HTTPHeaders = ["Content-Type": "application/json","Content-Length":"500000"]
 
 
     let CurrentDate = UserDefaults.standard.string(forKey: AppConstant.DATE)
@@ -651,7 +651,7 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
             let image = Image(imageData: selectedImage.pngData()!)
             images.append(image)
             
-            if let data = selectedImage.jpegData(compressionQuality: 0.4){
+            if let data = selectedImage.jpegData(compressionQuality: 0.1){
             //print("There were \(data.count) bytes")
             let bcf = ByteCountFormatter()
             bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
@@ -682,7 +682,7 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
 //                bytes = getArrayOfBytesFromImage(imageData: dataa! as NSData)
 //                let datos: NSData = NSData(bytes: bytes, length: bytes.count)
                 
-                let dataa = selectedImage.jpegData(compressionQuality: 0.4)
+                let dataa = selectedImage.jpegData(compressionQuality: 0.1)
                 
 //                let options: NSDictionary =     [:]
 //                let convertToBmp = selectedImage.toData(options: options, type: .bmp)

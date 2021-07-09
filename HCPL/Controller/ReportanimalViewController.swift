@@ -1073,6 +1073,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
             request.httpMethod = "POST"
             request.httpBody = jsonData
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.addValue("500000", forHTTPHeaderField: "Content-Length")
 
             let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
 
@@ -1202,6 +1203,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
             request.httpMethod = "POST"
             request.httpBody = jsonData
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.addValue("500000", forHTTPHeaderField: "Content-Length")
 
             let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
 

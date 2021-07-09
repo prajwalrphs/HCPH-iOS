@@ -536,7 +536,8 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     let headers: HTTPHeaders = ["Content-Type": "application/json; charset=utf-8",
     "Accept": "application/json",
     "Connection": "Keep-Alive",
-    "User-Agent": "Pigeon"]
+    "User-Agent": "Pigeon","Content-Length":"500000"]
+        
 
     let CurrentDate = UserDefaults.standard.string(forKey: AppConstant.DATE)
     print("onoff==>\(CurrentDate ?? "")")
@@ -566,6 +567,7 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
 
 //     let url = URL(string: "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddDeadBirdReport?SecondaryAddress=" + "\(AddressCode)" + "&City=" + "\(CityCode)" + "&ZipCode=" + "\(ZIpCode)" + "&IsExternalRequest=true")!
      print("urlurlurl==>\(URLset)")
+        //print("objParameters==>\(objParameters)")
         
         
         let urlString = URLset.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
@@ -638,7 +640,7 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
 //                CheckMB.append(myInt3)
 //            }
             
-            if let data = selectedImage.jpegData(compressionQuality: 0.4){
+            if let data = selectedImage.jpegData(compressionQuality: 0.1){
             //print("There were \(data.count) bytes")
             let bcf = ByteCountFormatter()
             bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
@@ -677,7 +679,7 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
                 //let dataimages = selectedImage.pngData()
                 
                 //let convertToBmp = selectedImage.toData(options: options, type: .bmp)
-                let dataa = selectedImage.jpegData(compressionQuality: 0.4)
+                let dataa = selectedImage.jpegData(compressionQuality: 0.1)
             
                 dismiss(animated: true, completion: nil)
                 imagePicker.dismiss(animated: true, completion: nil)
