@@ -59,6 +59,9 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
     
     let imagePicker = UIImagePickerController()
     
+    var TabelMosquitoBreeding:String?
+    var CollectionMosquitoBreeding:String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -550,15 +553,19 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
 
             self.hud.hide(animated: true)
             self.view.showToast(toastMessage: "Form Successfully Submitted", duration: 0.3)
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-            // your code here
-            let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
-            navigate.selectdtab = 4
-            self.navigationController?.pushViewController(navigate, animated: true)
-            }
                 
-            }
+                if self.TabelMosquitoBreeding == "TabelMosquitoBreeding"{
+                    self.navigationController?.popViewController(animated: true)
+                }else if self.CollectionMosquitoBreeding == "CollectionMosquitoBreeding"{
+                    self.navigationController?.popViewController(animated: true)
+                }else{
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                    let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                    navigate.selectdtab = 4
+                    self.navigationController?.pushViewController(navigate, animated: true)
+                    }
+                }
+              }
             }
 
             case .failure(let error):
@@ -609,12 +616,17 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
             self.hud.hide(animated: true)
             self.view.showToast(toastMessage: "Form Successfully Submitted", duration: 0.3)
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-            // your code here
-            let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
-            navigate.selectdtab = 4
-            self.navigationController?.pushViewController(navigate, animated: true)
-            }
+                if self.TabelMosquitoBreeding == "TabelMosquitoBreeding"{
+                    self.navigationController?.popViewController(animated: true)
+                }else if self.CollectionMosquitoBreeding == "CollectionMosquitoBreeding"{
+                    self.navigationController?.popViewController(animated: true)
+                }else{
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                    let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                    navigate.selectdtab = 4
+                    self.navigationController?.pushViewController(navigate, animated: true)
+                    }
+                }
                 
             }
             }

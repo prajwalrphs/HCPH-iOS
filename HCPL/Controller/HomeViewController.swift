@@ -646,6 +646,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                                     case .authorizedAlways, .authorizedWhenInUse:
                                         print("Access")
                                         let naviagte:DeadbirdViewController = self.storyboard?.instantiateViewController(withIdentifier: "DeadbirdViewController") as! DeadbirdViewController
+                                        naviagte.TabelDeadbird = "TabelDeadbird"
                                         self.navigationController?.pushViewController(naviagte, animated: true)
                                     @unknown default:
                                     break
@@ -696,6 +697,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                                     case .authorizedAlways, .authorizedWhenInUse:
                                         print("Access")
                                         let naviagte:MosquitoBreedingViewController = self.storyboard?.instantiateViewController(withIdentifier: "MosquitoBreedingViewController") as! MosquitoBreedingViewController
+                                        naviagte.TabelMosquitoBreeding = "TabelMosquitoBreeding"
                                         self.navigationController?.pushViewController(naviagte, animated: true)
                                     @unknown default:
                                     break

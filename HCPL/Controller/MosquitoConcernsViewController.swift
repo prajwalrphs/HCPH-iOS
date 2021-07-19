@@ -103,10 +103,12 @@ class MosquitoConcernsViewController: UIViewController,UITableViewDelegate,UITab
                                 print("Access")
                                 if indexPath.row == 0{
                                     let navigate:DeadbirdViewController = self.storyboard?.instantiateViewController(identifier: "DeadbirdViewController") as! DeadbirdViewController
+                                    navigate.CollectionDeadbird = "CollectionDeadbird"
                                     self.navigationController?.pushViewController(navigate, animated: true)
                                 }
                                 if indexPath.row == 1{
                                     let navigate:MosquitoBreedingViewController = self.storyboard?.instantiateViewController(identifier: "MosquitoBreedingViewController") as! MosquitoBreedingViewController
+                                    navigate.CollectionMosquitoBreeding = "CollectionMosquitoBreeding"
                                     self.navigationController?.pushViewController(navigate, animated: true)
                                 }
                                 if indexPath.row == 2{

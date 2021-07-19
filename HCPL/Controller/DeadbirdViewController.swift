@@ -27,6 +27,9 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     
     var arrayimage = [String]()
     
+    var TabelDeadbird:String?
+    var CollectionDeadbird:String?
+    
     @IBOutlet weak var birdcollection: UICollectionView!
     @IBOutlet weak var addimageview: UIView!
     @IBOutlet weak var submit: UIButton!
@@ -586,13 +589,20 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
             self.hud.hide(animated: true)
 
             self.view.showToast(toastMessage: "Form Successfully Submitted", duration: 0.3)
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-            // your code here
-            let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
-            navigate.selectdtab = 4
-            self.navigationController?.pushViewController(navigate, animated: true)
-            }
+                
+                if self.TabelDeadbird == "TabelDeadbird"{
+                    self.navigationController?.popViewController(animated: true)
+                }else if self.CollectionDeadbird == "CollectionDeadbird"{
+                    self.navigationController?.popViewController(animated: true)
+                }else{
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                    // your code here
+                    let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                    navigate.selectdtab = 4
+                    self.navigationController?.pushViewController(navigate, animated: true)
+                    }
+                }
+            
         }
 
         }
