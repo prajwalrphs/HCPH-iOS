@@ -1105,9 +1105,8 @@
 			baseConfigurationReference = 4C2CE5E69F0CCD22061B26DF /* Pods-HCPL.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = S3SAGN2DFC;
 				INFOPLIST_FILE = HCPL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
@@ -1118,7 +1117,6 @@
 				MARKETING_VERSION = 4.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = gov.harriscountytx.harriscountypublichealth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1129,9 +1127,8 @@
 			baseConfigurationReference = C4A25D56DFDE4AE222445404 /* Pods-HCPL.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = S3SAGN2DFC;
 				INFOPLIST_FILE = HCPL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
@@ -1142,7 +1139,6 @@
 				MARKETING_VERSION = 4.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = gov.harriscountytx.harriscountypublichealth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
