@@ -137,6 +137,8 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
     
     var bytes = Array<UInt8>()
 
+    var TabelReportanimal:String?
+    var CollectionReportanimal:String?
     
     
     override func viewDidLoad() {
@@ -188,8 +190,8 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
         txtlastname.autocapitalizationType = .sentences
         txtlastname.autocapitalizationType = .words
                 
-        txtdescription.autocapitalizationType = .sentences
-        txtdescription.autocapitalizationType = .words
+//        txtdescription.autocapitalizationType = .sentences
+//        txtdescription.autocapitalizationType = .words
         //txtdescription.autocapitalizationType = .allCharacters
         txtdescription.text = "Description of Cruelty (Please fill out information in this field)"
         txtdescription.textColor = UIColor.lightGray
@@ -1107,15 +1109,20 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
                                   self.hud.hide(animated: true)
 
                               self.view.showToast(toastMessage: "Form Successfully Submitted", duration: 0.3)
-
-                              DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                                  // your code here
-                                  let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
-                                  navigate.selectdtab = 4
-                                  self.navigationController?.pushViewController(navigate, animated: true)
-                              }
-
-
+                                
+                            
+                                if self.TabelReportanimal == "TabelReportanimal"{
+                                    self.navigationController?.popViewController(animated: true)
+                                }else if self.CollectionReportanimal == "CollectionReportanimal"{
+                                    self.navigationController?.popViewController(animated: true)
+                                }else{
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                                        // your code here
+                                        let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                                        navigate.selectdtab = 4
+                                        self.navigationController?.pushViewController(navigate, animated: true)
+                                    }
+                                }
 
                               }
                         }
@@ -1238,14 +1245,18 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
 
                               self.view.showToast(toastMessage: "Form Successfully Submitted", duration: 0.3)
 
-                              DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                                  // your code here
-                                  let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
-                                  navigate.selectdtab = 4
-                                  self.navigationController?.pushViewController(navigate, animated: true)
-                              }
-
-
+                                if self.TabelReportanimal == "TabelReportanimal"{
+                                    self.navigationController?.popViewController(animated: true)
+                                }else if self.CollectionReportanimal == "CollectionReportanimal"{
+                                    self.navigationController?.popViewController(animated: true)
+                                }else{
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                                        // your code here
+                                        let navigate:ViewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                                        navigate.selectdtab = 4
+                                        self.navigationController?.pushViewController(navigate, animated: true)
+                                    }
+                                }
 
                               }
                         }

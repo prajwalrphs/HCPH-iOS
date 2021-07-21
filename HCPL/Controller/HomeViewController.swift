@@ -555,7 +555,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                         print("one click")
                         //ReportanimalViewController
                         let naviagte:ReportanimalViewController = self.storyboard?.instantiateViewController(withIdentifier: "ReportanimalViewController") as! ReportanimalViewController
-                        
+                        naviagte.TabelReportanimal = "TabelReportanimal"
                         self.navigationController?.pushViewController(naviagte, animated: true)
                     }else if indexPath.row == 2{
                         let alert = UIAlertController(title: "",

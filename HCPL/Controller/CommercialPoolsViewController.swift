@@ -163,8 +163,8 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
         txtlastname.autocapitalizationType = .words
         
         
-        txtdescription.autocapitalizationType = .sentences
-        txtdescription.autocapitalizationType = .words
+//        txtdescription.autocapitalizationType = .sentences
+//        txtdescription.autocapitalizationType = .words
         txtdescription.text = "Please describe the complaint in as much detail as possible, including: date, time, address(if not already entered), and any other information that will help our investigation."
         txtdescription.textColor = UIColor.lightGray
         //txtdescription.autocapitalizationType = .allCharacters

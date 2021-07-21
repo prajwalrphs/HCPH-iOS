@@ -213,6 +213,7 @@ class EnvironmentalViewController: UIViewController,UITableViewDelegate,UITableV
                 }
             }else if indexPath.row == 1{
                 let navigate:ReportanimalViewController = self.storyboard?.instantiateViewController(identifier: "ReportanimalViewController") as! ReportanimalViewController
+                navigate.CollectionReportanimal = "CollectionReportanimal"
                 self.navigationController?.pushViewController(navigate, animated: true)
             }else if indexPath.row == 2{
                 
