@@ -1287,36 +1287,77 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
 
             self.present(alertController, animated: true, completion: nil)
         }else{
-            let imagePicker = UIImagePickerController()
-                    imagePicker.delegate = self
-                    
-                    let alertViewController = UIAlertController(title: "Choose Image Source", message: nil, preferredStyle: .actionSheet)
-                    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-                    
-                    if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-                        let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default, handler: { action in
-                            imagePicker.sourceType = .photoLibrary
-                            imagePicker.allowsEditing = true
-                            self.present(imagePicker, animated: true, completion: nil)
-                        })
-                        let CameraLibraryAction = UIAlertAction(title: "Camera", style: .default, handler: { action in
-                            //self.galleryVideo()
-                            imagePicker.sourceType = .camera
-                            imagePicker.allowsEditing = true
-                            self.present(imagePicker, animated: true, completion: nil)
-                        })
-
-                        alertViewController.addAction(CameraLibraryAction)
-                        alertViewController.addAction(photoLibraryAction)
-                    }
-            alertViewController.addAction(cancelAction)
-                    present(alertViewController, animated: true, completion: nil)
-                    
-                    alertViewController.view.subviews.flatMap({$0.constraints}).filter{ (one: NSLayoutConstraint)-> (Bool)  in
-                        return (one.constant < 0) && (one.secondItem == nil) &&  (one.firstAttribute == .width)
-                        }.first?.isActive = false
+            let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
+            
+            switch cameraAuthorizationStatus {
+            case .notDetermined: requestCameraPermission()
+            case .authorized: presentCamera()
+            case .restricted, .denied: alertCameraAccessNeeded()
+            @unknown default:
+                print("Error Camere Set")
+            }
+            
+            
         }
         
+    }
+    
+    func requestCameraPermission() {
+        AVCaptureDevice.requestAccess(for: .video, completionHandler: {accessGranted in
+            guard accessGranted == true else { return }
+            self.presentCamera()
+        })
+    }
+    
+    func presentCamera() {
+        //let imagePicker = UIImagePickerController()
+        DispatchQueue.main.async {
+            self.imagePicker.delegate = self
+            
+            let alertViewController = UIAlertController(title: "Choose Image Source", message: nil, preferredStyle: .actionSheet)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default, handler: { action in
+                    self.imagePicker.sourceType = .photoLibrary
+                    self.imagePicker.allowsEditing = true
+                    self.present(self.imagePicker, animated: true, completion: nil)
+                })
+                let CameraLibraryAction = UIAlertAction(title: "Camera", style: .default, handler: { action in
+                    //self.galleryVideo()
+                    self.imagePicker.sourceType = .camera
+                    self.imagePicker.allowsEditing = true
+                    self.present(self.imagePicker, animated: true, completion: nil)
+                })
+
+                alertViewController.addAction(CameraLibraryAction)
+                alertViewController.addAction(photoLibraryAction)
+            }
+    alertViewController.addAction(cancelAction)
+            self.present(alertViewController, animated: true, completion: nil)
+            
+            alertViewController.view.subviews.flatMap({$0.constraints}).filter{ (one: NSLayoutConstraint)-> (Bool)  in
+                return (one.constant < 0) && (one.secondItem == nil) &&  (one.firstAttribute == .width)
+                }.first?.isActive = false
+        }
+                
+    }
+    
+    func alertCameraAccessNeeded() {
+        let settingsAppURL = URL(string: UIApplication.openSettingsURLString)!
+     
+         let alert = UIAlertController(
+             title: "Need Camera Access",
+             message: "Camera access is required to make full use of this app.",
+            preferredStyle: UIAlertController.Style.alert
+         )
+     
+        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Allow Camera", style: .cancel, handler: { (alert) -> Void in
+            UIApplication.shared.open(settingsAppURL, options: [:], completionHandler: nil)
+        }))
+    
+        present(alert, animated: true, completion: nil)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {

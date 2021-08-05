@@ -146,17 +146,29 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
             
             if CLLocationManager.locationServicesEnabled() == true {
                 if CLLocationManager.locationServicesEnabled() {
+                    
                     switch CLLocationManager.authorizationStatus() {
-                        case .notDetermined, .restricted, .denied:
+                    case .notDetermined:
+                        //self.locationManager.requestAlwaysAuthorization()
+                        let navigate:CommercialPoolsViewController = self.storyboard?.instantiateViewController(identifier: "CommercialPoolsViewController") as! CommercialPoolsViewController
+                        navigate.CommercialArray = CommercialArray
+                        navigate.ids = ids
+                        navigate.Title = CommercialTitle
+                        navigate.PlaceholderGet = "Commercial Pools"
+                        self.navigationController?.pushViewController(navigate, animated: true)
+                        self.locationManager.requestWhenInUseAuthorization()
+                    case .restricted, .denied:
                             print("No access")
-                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+                        //self.locationManager.requestWhenInUseAuthorization()
+                            let alertController = UIAlertController(title: "HCPL", message: "Please provide location permission from settings screen", preferredStyle: UIAlertController.Style.alert)
 
                             let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
                                 //Redirect to Settings app
                                 UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
                             })
-
+                        
                             let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                                                
                             alertController.addAction(cancelAction)
 
                             alertController.addAction(okAction)
@@ -170,14 +182,17 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
                             navigate.Title = CommercialTitle
                             navigate.PlaceholderGet = "Commercial Pools"
                             self.navigationController?.pushViewController(navigate, animated: true)
+                            locationManager.delegate = self
+                            locationManager.startUpdatingLocation()
                         @unknown default:
                         break
                     }
                     } else {
                         print("Location services are not enabled")
                 }
-
-            }else{
+               
+            }else {
+                
                 let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
 
                 let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
@@ -191,24 +206,33 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
                 alertController.addAction(okAction)
 
                 self.present(alertController, animated: true, completion: nil)
-            }
-
+                
+                
+             }
+            
             
         }else if indexPath.row == 1{
             
             if CLLocationManager.locationServicesEnabled() == true {
                 if CLLocationManager.locationServicesEnabled() {
                     switch CLLocationManager.authorizationStatus() {
-                        case .notDetermined, .restricted, .denied:
+                    case .notDetermined:
+                        //self.locationManager.requestAlwaysAuthorization()
+                        let navigate:DeadbirdViewController = self.storyboard?.instantiateViewController(identifier: "DeadbirdViewController") as! DeadbirdViewController
+                        self.navigationController?.pushViewController(navigate, animated: true)
+                        self.locationManager.requestWhenInUseAuthorization()
+                    case .restricted, .denied:
                             print("No access")
-                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+                        //self.locationManager.requestWhenInUseAuthorization()
+                        let alertController = UIAlertController(title: "HCPL", message: "Please provide location permission from settings screen", preferredStyle: UIAlertController.Style.alert)
 
                             let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
                                 //Redirect to Settings app
                                 UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
                             })
-
+                        
                             let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                                            
                             alertController.addAction(cancelAction)
 
                             alertController.addAction(okAction)
@@ -218,14 +242,17 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
                             print("Access")
                             let navigate:DeadbirdViewController = self.storyboard?.instantiateViewController(identifier: "DeadbirdViewController") as! DeadbirdViewController
                             self.navigationController?.pushViewController(navigate, animated: true)
+                            locationManager.delegate = self
+                            locationManager.startUpdatingLocation()
                         @unknown default:
                         break
                     }
                     } else {
                         print("Location services are not enabled")
                 }
-
-            }else{
+               
+            }else {
+                
                 let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
 
                 let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
@@ -239,24 +266,37 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
                 alertController.addAction(okAction)
 
                 self.present(alertController, animated: true, completion: nil)
-            }
-            
+                
+                
+             }
+
             
         }else if indexPath.row == 2{
             
             if CLLocationManager.locationServicesEnabled() == true {
                 if CLLocationManager.locationServicesEnabled() {
                     switch CLLocationManager.authorizationStatus() {
-                        case .notDetermined, .restricted, .denied:
+                    case .notDetermined:
+                        //self.locationManager.requestAlwaysAuthorization()
+                        let navigate:CommercialPoolsViewController = self.storyboard?.instantiateViewController(identifier: "CommercialPoolsViewController") as! CommercialPoolsViewController
+                        navigate.CommercialArray = DrinkingWater
+                        navigate.ids = DrinkingWaterids
+                        navigate.PlaceholderGet = "Public Drinking Water"
+                        navigate.Title = "Drinking Water"
+                        self.navigationController?.pushViewController(navigate, animated: true)
+                        self.locationManager.requestWhenInUseAuthorization()
+                    case .restricted, .denied:
                             print("No access")
-                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+                        //self.locationManager.requestWhenInUseAuthorization()
+                        let alertController = UIAlertController(title: "HCPL", message: "Please provide location permission from settings screen", preferredStyle: UIAlertController.Style.alert)
 
                             let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
                                 //Redirect to Settings app
                                 UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
                             })
-
+                        
                             let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                                                
                             alertController.addAction(cancelAction)
 
                             alertController.addAction(okAction)
@@ -270,14 +310,17 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
                             navigate.PlaceholderGet = "Public Drinking Water"
                             navigate.Title = "Drinking Water"
                             self.navigationController?.pushViewController(navigate, animated: true)
+                            locationManager.delegate = self
+                            locationManager.startUpdatingLocation()
                         @unknown default:
                         break
                     }
                     } else {
                         print("Location services are not enabled")
                 }
-
-            }else{
+               
+            }else {
+                
                 let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
 
                 let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
@@ -291,8 +334,9 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
                 alertController.addAction(okAction)
 
                 self.present(alertController, animated: true, completion: nil)
-            }
-
+                
+                
+             }
             
         }
 //        else if indexPath.row == 3{
@@ -324,21 +368,28 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
 //        }
         else if indexPath.row == 3{
             
+            
             if CLLocationManager.locationServicesEnabled() == true {
                 if CLLocationManager.locationServicesEnabled() {
                     switch CLLocationManager.authorizationStatus() {
-                        case .notDetermined, .restricted, .denied:
+                    case .notDetermined:
+                        //self.locationManager.requestAlwaysAuthorization()
+                        let navigate:MosquitoBreedingViewController = self.storyboard?.instantiateViewController(identifier: "MosquitoBreedingViewController") as! MosquitoBreedingViewController
+                        self.navigationController?.pushViewController(navigate, animated: true)
+                        self.locationManager.requestWhenInUseAuthorization()
+                    case .restricted, .denied:
                             print("No access")
-                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+                        //self.locationManager.requestWhenInUseAuthorization()
+                        let alertController = UIAlertController(title: "HCPL", message: "Please provide location permission from settings screen", preferredStyle: UIAlertController.Style.alert)
 
                             let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
                                 //Redirect to Settings app
                                 UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
                             })
-
+                        
                             let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
                             alertController.addAction(cancelAction)
-
+                        
                             alertController.addAction(okAction)
 
                             self.present(alertController, animated: true, completion: nil)
@@ -346,14 +397,17 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
                             print("Access")
                             let navigate:MosquitoBreedingViewController = self.storyboard?.instantiateViewController(identifier: "MosquitoBreedingViewController") as! MosquitoBreedingViewController
                             self.navigationController?.pushViewController(navigate, animated: true)
+                            locationManager.delegate = self
+                            locationManager.startUpdatingLocation()
                         @unknown default:
                         break
                     }
                     } else {
                         print("Location services are not enabled")
                 }
-   
-            }else{
+               
+            }else {
+                
                 let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
 
                 let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
@@ -367,26 +421,40 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
                 alertController.addAction(okAction)
 
                 self.present(alertController, animated: true, completion: nil)
-            }
-        
+                
+                
+             }
+            
+    
             
         }else if indexPath.row == 4{
+            
             
             if CLLocationManager.locationServicesEnabled() == true {
                 if CLLocationManager.locationServicesEnabled() {
                     switch CLLocationManager.authorizationStatus() {
-                        case .notDetermined, .restricted, .denied:
+                    case .notDetermined:
+                        //self.locationManager.requestAlwaysAuthorization()
+                        let navigate:CommercialPoolsViewController = self.storyboard?.instantiateViewController(identifier: "CommercialPoolsViewController") as! CommercialPoolsViewController
+                        navigate.CommercialArray = NeighbourArray
+                        navigate.ids = Neighbourids
+                        navigate.Title = NeighbourTitle
+                        navigate.PlaceholderGet = "Neighborhood Nuisance"
+                        self.navigationController?.pushViewController(navigate, animated: true)
+                        self.locationManager.requestWhenInUseAuthorization()
+                    case .restricted, .denied:
                             print("No access")
-                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+                        //self.locationManager.requestWhenInUseAuthorization()
+                        let alertController = UIAlertController(title: "HCPL", message: "Please provide location permission from settings screen", preferredStyle: UIAlertController.Style.alert)
 
                             let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
                                 //Redirect to Settings app
                                 UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
                             })
-
+                        
                             let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
                             alertController.addAction(cancelAction)
-
+                        
                             alertController.addAction(okAction)
 
                             self.present(alertController, animated: true, completion: nil)
@@ -398,14 +466,17 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
                             navigate.Title = NeighbourTitle
                             navigate.PlaceholderGet = "Neighborhood Nuisance"
                             self.navigationController?.pushViewController(navigate, animated: true)
+                            locationManager.delegate = self
+                            locationManager.startUpdatingLocation()
                         @unknown default:
                         break
                     }
                     } else {
                         print("Location services are not enabled")
                 }
-
-            }else{
+               
+            }else {
+                
                 let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
 
                 let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
@@ -419,11 +490,68 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
                 alertController.addAction(okAction)
 
                 self.present(alertController, animated: true, completion: nil)
-            }
-            
-
+                
+                
+             }
             
         }else{
+            
+            
+//            if CLLocationManager.locationServicesEnabled() == true {
+//                if CLLocationManager.locationServicesEnabled() {
+//                    switch CLLocationManager.authorizationStatus() {
+//                    case .notDetermined:
+//                        //self.locationManager.requestAlwaysAuthorization()
+//                        let navigate:ReportanimalViewController = self.storyboard?.instantiateViewController(identifier: "ReportanimalViewController") as! ReportanimalViewController
+//                        self.navigationController?.pushViewController(navigate, animated: true)
+//                        self.locationManager.requestWhenInUseAuthorization()
+//                    case .restricted, .denied:
+//                            print("No access")
+//                        //self.locationManager.requestWhenInUseAuthorization()
+//                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+//
+//                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+//                                //Redirect to Settings app
+//                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+//                            })
+//
+//                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+//                            alertController.addAction(cancelAction)
+//
+//                            alertController.addAction(okAction)
+//
+//                            self.present(alertController, animated: true, completion: nil)
+//                        case .authorizedAlways, .authorizedWhenInUse:
+//                            print("Access")
+//                            let navigate:ReportanimalViewController = self.storyboard?.instantiateViewController(identifier: "ReportanimalViewController") as! ReportanimalViewController
+//                            self.navigationController?.pushViewController(navigate, animated: true)
+//                            locationManager.delegate = self
+//                            locationManager.startUpdatingLocation()
+//                        @unknown default:
+//                        break
+//                    }
+//                    } else {
+//                        print("Location services are not enabled")
+//                }
+//
+//            }else {
+//
+//                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+//
+//                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+//                    //Redirect to Settings app
+//                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+//                })
+//
+//                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+//                alertController.addAction(cancelAction)
+//
+//                alertController.addAction(okAction)
+//
+//                self.present(alertController, animated: true, completion: nil)
+//
+//
+//             }
             
             if CLLocationManager.locationServicesEnabled() == true {
                 if CLLocationManager.locationServicesEnabled() {

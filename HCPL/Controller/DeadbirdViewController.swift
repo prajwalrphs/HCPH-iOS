@@ -8,7 +8,7 @@ import GoogleMaps
 import GooglePlaces
 import GooglePlacePicker
 import UserNotifications
-
+import AVKit
 
 struct DeadbirdClass: Codable {
     let reportNo, collectionID: String
@@ -295,18 +295,22 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
             if CLLocationManager.locationServicesEnabled() == true {
                 if CLLocationManager.locationServicesEnabled() {
                     switch CLLocationManager.authorizationStatus() {
-                        case .notDetermined, .restricted, .denied:
+                    case .notDetermined:
+                        //self.locationManager.requestAlwaysAuthorization()
+                        self.locationManager.requestWhenInUseAuthorization()
+                    case .restricted, .denied:
                             print("No access")
-                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+                        //self.locationManager.requestWhenInUseAuthorization()
+                        let alertController = UIAlertController(title: "HCPL", message: "Please provide location permission from settings screen", preferredStyle: UIAlertController.Style.alert)
 
                             let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
                                 //Redirect to Settings app
                                 UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
                             })
-
+                        
                             let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
                             alertController.addAction(cancelAction)
-
+                        
                             alertController.addAction(okAction)
 
                             self.present(alertController, animated: true, completion: nil)
@@ -314,7 +318,6 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
                             print("Access")
                             if validate(){
                                 DeadbirdAPICall()
-                                //CommercialPoolsApicall()
                             }
                         @unknown default:
                         break
@@ -322,8 +325,9 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
                     } else {
                         print("Location services are not enabled")
                 }
-
-            }else{
+               
+            }else {
+                
                 let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
 
                 let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
@@ -337,7 +341,56 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
                 alertController.addAction(okAction)
 
                 self.present(alertController, animated: true, completion: nil)
-            }
+                
+                
+             }
+            
+//            if CLLocationManager.locationServicesEnabled() == true {
+//                if CLLocationManager.locationServicesEnabled() {
+//                    switch CLLocationManager.authorizationStatus() {
+//                        case .notDetermined, .restricted, .denied:
+//                            print("No access")
+//                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+//
+//                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+//                                //Redirect to Settings app
+//                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+//                            })
+//
+//                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+//                            alertController.addAction(cancelAction)
+//
+//                            alertController.addAction(okAction)
+//
+//                            self.present(alertController, animated: true, completion: nil)
+//                        case .authorizedAlways, .authorizedWhenInUse:
+//                            print("Access")
+//                            if validate(){
+//                                DeadbirdAPICall()
+//                                //CommercialPoolsApicall()
+//                            }
+//                        @unknown default:
+//                        break
+//                    }
+//                    } else {
+//                        print("Location services are not enabled")
+//                }
+//
+//            }else{
+//                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+//
+//                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+//                    //Redirect to Settings app
+//                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+//                })
+//
+//                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+//                alertController.addAction(cancelAction)
+//
+//                alertController.addAction(okAction)
+//
+//                self.present(alertController, animated: true, completion: nil)
+//            }
             
         }else{
             print("Internet Connection not Available!")
@@ -769,37 +822,79 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
 
             self.present(alertController, animated: true, completion: nil)
         }else{
+                
+            let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
             
-                    imagePicker.delegate = self
-                    
-                    let alertViewController = UIAlertController(title: "Choose Image Source", message: nil, preferredStyle: .actionSheet)
-                    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-                    
-                    if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-                        let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default, handler: { action in
-                            self.imagePicker.sourceType = .photoLibrary
-                            self.imagePicker.allowsEditing = true
-                            self.present(self.imagePicker, animated: true, completion: nil)
-                        })
-                        let CameraLibraryAction = UIAlertAction(title: "Camera", style: .default, handler: { action in
-                            //self.galleryVideo()
-                            self.imagePicker.sourceType = .camera
-                            self.imagePicker.allowsEditing = true
-                            self.present(self.imagePicker, animated: true, completion: nil)
-                        })
-
-                        alertViewController.addAction(CameraLibraryAction)
-                        alertViewController.addAction(photoLibraryAction)
-                    }
-            alertViewController.addAction(cancelAction)
-                    present(alertViewController, animated: true, completion: nil)
-                    
-                    alertViewController.view.subviews.flatMap({$0.constraints}).filter{ (one: NSLayoutConstraint)-> (Bool)  in
-                        return (one.constant < 0) && (one.secondItem == nil) &&  (one.firstAttribute == .width)
-                        }.first?.isActive = false
+            switch cameraAuthorizationStatus {
+            case .notDetermined: requestCameraPermission()
+            case .authorized: presentCamera()
+            case .restricted, .denied: alertCameraAccessNeeded()
+            @unknown default:
+                print("Error Camere Set")
+            }
+                   
         }
         
  
+    }
+    
+    
+    func requestCameraPermission() {
+        AVCaptureDevice.requestAccess(for: .video, completionHandler: {accessGranted in
+            guard accessGranted == true else { return }
+            self.presentCamera()
+        })
+    }
+    
+    func presentCamera() {
+        //let imagePicker = UIImagePickerController()
+        DispatchQueue.main.async {
+            self.imagePicker.delegate = self
+            
+            let alertViewController = UIAlertController(title: "Choose Image Source", message: nil, preferredStyle: .actionSheet)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default, handler: { action in
+                    self.imagePicker.sourceType = .photoLibrary
+                    self.imagePicker.allowsEditing = true
+                    self.present(self.imagePicker, animated: true, completion: nil)
+                })
+                let CameraLibraryAction = UIAlertAction(title: "Camera", style: .default, handler: { action in
+                    //self.galleryVideo()
+                    self.imagePicker.sourceType = .camera
+                    self.imagePicker.allowsEditing = true
+                    self.present(self.imagePicker, animated: true, completion: nil)
+                })
+
+                alertViewController.addAction(CameraLibraryAction)
+                alertViewController.addAction(photoLibraryAction)
+            }
+    alertViewController.addAction(cancelAction)
+            self.present(alertViewController, animated: true, completion: nil)
+            
+            alertViewController.view.subviews.flatMap({$0.constraints}).filter{ (one: NSLayoutConstraint)-> (Bool)  in
+                return (one.constant < 0) && (one.secondItem == nil) &&  (one.firstAttribute == .width)
+                }.first?.isActive = false
+        }
+                
+    }
+    
+    func alertCameraAccessNeeded() {
+        let settingsAppURL = URL(string: UIApplication.openSettingsURLString)!
+     
+         let alert = UIAlertController(
+             title: "Need Camera Access",
+             message: "Camera access is required to make full use of this app.",
+            preferredStyle: UIAlertController.Style.alert
+         )
+     
+        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Allow Camera", style: .cancel, handler: { (alert) -> Void in
+            UIApplication.shared.open(settingsAppURL, options: [:], completionHandler: nil)
+        }))
+    
+        present(alert, animated: true, completion: nil)
     }
         
         @IBAction func back(_ sender: UIButton) {

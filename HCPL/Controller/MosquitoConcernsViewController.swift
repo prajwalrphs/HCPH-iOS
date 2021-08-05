@@ -8,9 +8,17 @@ class MosquitoConcernsViewController: UIViewController,UITableViewDelegate,UITab
     
     var imagearray = [#imageLiteral(resourceName: "mosq1"),#imageLiteral(resourceName: "mosq2"),#imageLiteral(resourceName: "mosq3"),#imageLiteral(resourceName: "mosq4"),#imageLiteral(resourceName: "pic6")]
 
+    let locationManager = CLLocationManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
+        
         let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
         print("onoff==>\(onoff ?? "")")
         
@@ -81,21 +89,44 @@ class MosquitoConcernsViewController: UIViewController,UITableViewDelegate,UITab
             if Reachability.isConnectedToNetwork(){
          
                 if CLLocationManager.locationServicesEnabled() == true {
-                    
                     if CLLocationManager.locationServicesEnabled() {
                         switch CLLocationManager.authorizationStatus() {
-                            case .notDetermined, .restricted, .denied:
+                        case .notDetermined:
+                            //self.locationManager.requestAlwaysAuthorization()
+                            if indexPath.row == 0{
+                                let navigate:DeadbirdViewController = self.storyboard?.instantiateViewController(identifier: "DeadbirdViewController") as! DeadbirdViewController
+                                navigate.CollectionDeadbird = "CollectionDeadbird"
+                                self.navigationController?.pushViewController(navigate, animated: true)
+                            }
+                            if indexPath.row == 1{
+                                let navigate:MosquitoBreedingViewController = self.storyboard?.instantiateViewController(identifier: "MosquitoBreedingViewController") as! MosquitoBreedingViewController
+                                navigate.CollectionMosquitoBreeding = "CollectionMosquitoBreeding"
+                                self.navigationController?.pushViewController(navigate, animated: true)
+                            }
+                            if indexPath.row == 2{
+                                let naviagte:MapViewController = self.storyboard?.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
+                                naviagte.TitleHead = "Disease Activity"
+                                self.navigationController?.pushViewController(naviagte, animated: true)
+                            }
+                            if indexPath.row == 3{
+                                let naviagte:MapViewController = self.storyboard?.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
+                                naviagte.TitleHead = "Spray Area"
+                                self.navigationController?.pushViewController(naviagte, animated: true)
+                            }
+                            self.locationManager.requestWhenInUseAuthorization()
+                        case .restricted, .denied:
                                 print("No access")
-                                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+                            //self.locationManager.requestWhenInUseAuthorization()
+                            let alertController = UIAlertController(title: "HCPL", message: "Please provide location permission from settings screen", preferredStyle: UIAlertController.Style.alert)
 
                                 let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
                                     //Redirect to Settings app
                                     UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
                                 })
-
+                            
                                 let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
                                 alertController.addAction(cancelAction)
-
+                            
                                 alertController.addAction(okAction)
 
                                 self.present(alertController, animated: true, completion: nil)
@@ -127,8 +158,9 @@ class MosquitoConcernsViewController: UIViewController,UITableViewDelegate,UITab
                         } else {
                             print("Location services are not enabled")
                     }
-
-                }else{
+                   
+                }else {
+                    
                     let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
 
                     let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
@@ -142,7 +174,10 @@ class MosquitoConcernsViewController: UIViewController,UITableViewDelegate,UITab
                     alertController.addAction(okAction)
 
                     self.present(alertController, animated: true, completion: nil)
-                }
+                    
+                    
+                 }
+                
                 
             }else{
              

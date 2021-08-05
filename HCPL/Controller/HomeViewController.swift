@@ -28,7 +28,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
     
     var ServicesPrograms = ["Clinical Services","Animal Services","Mosquito Concerns","Environmental","Food Services"]
     
-    var ClinicServicesArr = ["Medical Clinics","Refugee Clinics","Dental Clinics","WIC","Mobile Clinics"]
+    var ClinicServicesArr = ["Health Services","Refugee Services","Dental Services","WIC Services","Wellness Programs","In Your Community"]
     var AnimalServiceArr = ["Shelter Animals","Report Animal Cruelty","VPH Maps","Events Calendar","Wish List","Visit Our Website"]
     var MosquitoConcernsArr = ["Dead Bird","Mosquito Breeding Site","Disease Activity","Spray Area","Visit Our Website"]
     var EnvironmentalArr = ["Built Environment","Pools","Drinking Water","Neighborhood Nuisance","Lead Abatement","Visit Our Website"]
@@ -628,18 +628,25 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                         if CLLocationManager.locationServicesEnabled() == true {
                             if CLLocationManager.locationServicesEnabled() {
                                 switch CLLocationManager.authorizationStatus() {
-                                    case .notDetermined, .restricted, .denied:
+                                case .notDetermined:
+                                    //self.locationManager.requestAlwaysAuthorization()
+                                    let naviagte:DeadbirdViewController = self.storyboard?.instantiateViewController(withIdentifier: "DeadbirdViewController") as! DeadbirdViewController
+                                    naviagte.TabelDeadbird = "TabelDeadbird"
+                                    self.navigationController?.pushViewController(naviagte, animated: true)
+                                    self.locationManager.requestWhenInUseAuthorization()
+                                case .restricted, .denied:
                                         print("No access")
-                                        let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+                                    //self.locationManager.requestWhenInUseAuthorization()
+                                    let alertController = UIAlertController(title: "HCPL", message: "Please provide location permission from settings screen", preferredStyle: UIAlertController.Style.alert)
 
                                         let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
                                             //Redirect to Settings app
                                             UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
                                         })
-
+                                    
                                         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
                                         alertController.addAction(cancelAction)
-
+                                    
                                         alertController.addAction(okAction)
 
                                         self.present(alertController, animated: true, completion: nil)
@@ -654,8 +661,9 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                                 } else {
                                     print("Location services are not enabled")
                             }
-
-                        }else{
+                           
+                        }else {
+                            
                             let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
 
                             let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
@@ -669,28 +677,82 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                             alertController.addAction(okAction)
 
                             self.present(alertController, animated: true, completion: nil)
-                        }
-                                      
+                            
+                            
+                         }
+                        
+//                        if CLLocationManager.locationServicesEnabled() == true {
+//                            if CLLocationManager.locationServicesEnabled() {
+//                                switch CLLocationManager.authorizationStatus() {
+//                                    case .notDetermined, .restricted, .denied:
+//                                        print("No access")
+//                                        let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+//
+//                                        let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+//                                            //Redirect to Settings app
+//                                            UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+//                                        })
+//
+//                                        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+//                                        alertController.addAction(cancelAction)
+//
+//                                        alertController.addAction(okAction)
+//
+//                                        self.present(alertController, animated: true, completion: nil)
+//                                    case .authorizedAlways, .authorizedWhenInUse:
+//                                        print("Access")
+//                                        let naviagte:DeadbirdViewController = self.storyboard?.instantiateViewController(withIdentifier: "DeadbirdViewController") as! DeadbirdViewController
+//                                        naviagte.TabelDeadbird = "TabelDeadbird"
+//                                        self.navigationController?.pushViewController(naviagte, animated: true)
+//                                    @unknown default:
+//                                    break
+//                                }
+//                                } else {
+//                                    print("Location services are not enabled")
+//                            }
+//
+//                        }else{
+//                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+//
+//                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+//                                //Redirect to Settings app
+//                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+//                            })
+//
+//                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+//                            alertController.addAction(cancelAction)
+//
+//                            alertController.addAction(okAction)
+//
+//                            self.present(alertController, animated: true, completion: nil)
+//                        }
+//
 
                         
                     }else if indexPath.row == 1{
                         
-                        
                         if CLLocationManager.locationServicesEnabled() == true {
                             if CLLocationManager.locationServicesEnabled() {
                                 switch CLLocationManager.authorizationStatus() {
-                                    case .notDetermined, .restricted, .denied:
+                                case .notDetermined:
+                                    //self.locationManager.requestAlwaysAuthorization()
+                                    let naviagte:MosquitoBreedingViewController = self.storyboard?.instantiateViewController(withIdentifier: "MosquitoBreedingViewController") as! MosquitoBreedingViewController
+                                    naviagte.TabelMosquitoBreeding = "TabelMosquitoBreeding"
+                                    self.navigationController?.pushViewController(naviagte, animated: true)
+                                    self.locationManager.requestWhenInUseAuthorization()
+                                case .restricted, .denied:
                                         print("No access")
-                                        let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+                                    //self.locationManager.requestWhenInUseAuthorization()
+                                    let alertController = UIAlertController(title: "HCPL", message: "Please provide location permission from settings screen", preferredStyle: UIAlertController.Style.alert)
 
                                         let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
                                             //Redirect to Settings app
                                             UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
                                         })
-
+                                    
                                         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
                                         alertController.addAction(cancelAction)
-
+                                    
                                         alertController.addAction(okAction)
 
                                         self.present(alertController, animated: true, completion: nil)
@@ -705,8 +767,9 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                                 } else {
                                     print("Location services are not enabled")
                             }
-
-                        }else{
+                           
+                        }else {
+                            
                             let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
 
                             let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
@@ -720,7 +783,55 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                             alertController.addAction(okAction)
 
                             self.present(alertController, animated: true, completion: nil)
-                        }
+                            
+                            
+                         }
+                        
+//                        if CLLocationManager.locationServicesEnabled() == true {
+//                            if CLLocationManager.locationServicesEnabled() {
+//                                switch CLLocationManager.authorizationStatus() {
+//                                    case .notDetermined, .restricted, .denied:
+//                                        print("No access")
+//                                        let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+//
+//                                        let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+//                                            //Redirect to Settings app
+//                                            UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+//                                        })
+//
+//                                        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+//                                        alertController.addAction(cancelAction)
+//
+//                                        alertController.addAction(okAction)
+//
+//                                        self.present(alertController, animated: true, completion: nil)
+//                                    case .authorizedAlways, .authorizedWhenInUse:
+//                                        print("Access")
+//                                        let naviagte:MosquitoBreedingViewController = self.storyboard?.instantiateViewController(withIdentifier: "MosquitoBreedingViewController") as! MosquitoBreedingViewController
+//                                        naviagte.TabelMosquitoBreeding = "TabelMosquitoBreeding"
+//                                        self.navigationController?.pushViewController(naviagte, animated: true)
+//                                    @unknown default:
+//                                    break
+//                                }
+//                                } else {
+//                                    print("Location services are not enabled")
+//                            }
+//
+//                        }else{
+//                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+//
+//                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+//                                //Redirect to Settings app
+//                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+//                            })
+//
+//                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+//                            alertController.addAction(cancelAction)
+//
+//                            alertController.addAction(okAction)
+//
+//                            self.present(alertController, animated: true, completion: nil)
+//                        }
 
                            
                     }else if indexPath.row == 2{
@@ -731,7 +842,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                                 switch CLLocationManager.authorizationStatus() {
                                     case .notDetermined, .restricted, .denied:
                                         print("No access")
-                                        let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+                                        let alertController = UIAlertController(title: "HCPL", message: "Please provide location permission from settings screen", preferredStyle: UIAlertController.Style.alert)
 
                                         let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
                                             //Redirect to Settings app
@@ -783,7 +894,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                                 switch CLLocationManager.authorizationStatus() {
                                     case .notDetermined, .restricted, .denied:
                                         print("No access")
-                                        let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+                                        let alertController = UIAlertController(title: "HCPL", message: "Please provide location permission from settings screen", preferredStyle: UIAlertController.Style.alert)
 
                                         let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
                                             //Redirect to Settings app
@@ -895,7 +1006,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                             switch CLLocationManager.authorizationStatus() {
                                 case .notDetermined, .restricted, .denied:
                                     print("No access")
-                                    let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
+                                    let alertController = UIAlertController(title: "HCPL", message: "Please provide location permission from settings screen", preferredStyle: UIAlertController.Style.alert)
 
                                     let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
                                         //Redirect to Settings app

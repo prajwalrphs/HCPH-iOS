@@ -94,6 +94,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
     var ZipCodeSArray = [String]()
     var ADDRESSARRAY = [String]()
     
+    var numberapi:String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,7 +107,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         self.parksList?.removeAll()
         
         bottomviewmap.isHidden = true
-        bottomviewmap.layer.cornerRadius = 3
+        //bottomviewmap.layer.cornerRadius = 3
         bottomviewmap.layer.borderWidth = 1
         bottomviewmap.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         
@@ -372,7 +373,61 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
                             }
                         }
                         
+                        let data: Data = try Data.init(contentsOf: NSURL(string: "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(self.Lat ?? "")" + "&lon=" + "\(self.Lon ?? "")" + "&distance=3&error=0.01")! as URL)
+                        
+                        let decodedJson = try JSONSerialization.jsonObject(with: data) as? [String: Any]
+                        self.parksList = []
+                        let tempEstablishmentConversionArray = decodedJson?["data"] as! [[String: Any]]
+                    
+                    self.parksList?.removeAll()
+                    self.filteredParksList?.removeAll()
+                    
+                        for temp in tempEstablishmentConversionArray
+                        {
+                            var temp1 = temp
+                            temp1["Lat"] = temp1["lat"]
+                            temp1.remove(at: temp1.index(forKey: "lat")!)
+                            temp1["EstablishmentName"] = temp1["establishmentName"]
+                            temp1.remove(at: temp1.index(forKey: "establishmentName")!)
+                            temp1["FacilityType"] = temp1["facilityType"]
+                            temp1.remove(at: temp1.index(forKey: "facilityType")!)
+                            temp1["EstablishmentNumber"] = temp1["establishmentNumber"]
+                            temp1.remove(at: temp1.index(forKey: "establishmentNumber")!)
+                            temp1["StreetNumber"] = temp1["streetNumber"]
+                            temp1.remove(at: temp1.index(forKey: "streetNumber")!)
+                            temp1["StreetAddress"] = temp1["streetAddress"]
+                            temp1.remove(at: temp1.index(forKey: "streetAddress")!)
+                            temp1["City"] = temp1["city"]
+                            temp1.remove(at: temp1.index(forKey: "city")!)
+                            temp1["ZipCode"] = temp1["zipCode"]
+                            temp1.remove(at: temp1.index(forKey: "zipCode")!)
+                            temp1["Lon"] = temp1["lon"]
+                            temp1.remove(at: temp1.index(forKey: "lon")!)
+                            temp1["Demerits"] = temp1["demerits"]
+                            temp1.remove(at: temp1.index(forKey: "demerits")!)
+                            temp1["LastInspection"] = temp1["lastInspection"]
+                            temp1.remove(at: temp1.index(forKey: "lastInspection")!)
+                            temp1["PermitExpireDate"] = temp1["permitExpireDate"]
+                            temp1.remove(at: temp1.index(forKey: "permitExpireDate")!)
+                            temp1["MilesAway"] = temp1["milesAway"]
+                            temp1.remove(at: temp1.index(forKey: "milesAway")!)
+                            temp1["Count"] = temp1["count"]
+                            temp1.remove(at: temp1.index(forKey: "count")!)
+                            for temp2 in temp1
+                            {
+                                if(temp2.value is NSNull)
+                                {
+                                    temp1[temp2.key] = ""
+                                }
+                            }
+                            
+                            
+                            self.parksList?.append(NSMutableDictionary(dictionary: temp1))
+                            self.filteredParksList = self.parksList
+                        }
+                        
                         DispatchQueue.main.async {
+                            self.SearchList.reloadData()
                             self.hud.hide(animated: true)
                           }
                     }
@@ -839,14 +894,17 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
     }
     
     @IBAction func ReportMapview(_ sender: UIButton) {
-        let navigate:InspectionReportIssueViewController = self.storyboard?.instantiateViewController(withIdentifier: "InspectionReportIssueViewController") as! InspectionReportIssueViewController
-                
-        navigate.lat = Double("\(MapLat ?? "")")
-        navigate.long = Double("\(MapLong ?? "")")
+        
+        let navigate:InspectionSummaryViewController = self.storyboard?.instantiateViewController(withIdentifier: "InspectionSummaryViewController") as! InspectionSummaryViewController
+
+        navigate.TitleAddress = self.lblmaptitle.text
+        navigate.addressString = self.lblmapaddress.text
+        navigate.establishmentNumberApi = numberapi
+        navigate.lat = Double(self.MapLat)
+        navigate.long = Double( self.MapLong)
+        navigate.demeritsString = self.lblmapDemerits.text
         navigate.MarkerImage = MapMarkerImage
-        navigate.TitleAddress = lblmaptitle.text
-        navigate.addressString = lblmapaddress.text
-        navigate.demeritsString = lblmapDemerits.text
+        
         self.navigationController?.pushViewController(navigate, animated: true)
     }
     
@@ -1370,69 +1428,18 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         geocoder.reverseGeocodeCoordinate(locValue) { response, error in
             if error != nil {
                 print("reverse geodcode fail: \(error!.localizedDescription)")
+                self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
             } else {
                 if let places = response?.results() {
                     if let place = places.first {
-//                        print(place.lines)
+                       // print(place.lines)
 //                        print("GEOCODE: Formatted postalCode: \(place.postalCode ?? "")")
+//                        print("GEOCODE: Formatted locality: \(place.locality ?? "")")
+//                        print("GEOCODE: Formatted subLocality: \(place.subLocality ?? "")")
+//                        print("GEOCODE: Formatted administrativeArea: \(place.administrativeArea ?? "")")
+//                        print("GEOCODE: Formatted country: \(place.country ?? "")")
+//
                        
-                        
-//                        if Reachability.isConnectedToNetwork(){
-//                            if CLLocationManager.locationServicesEnabled() == true {
-//                                if CLLocationManager.locationServicesEnabled() {
-//                                    switch CLLocationManager.authorizationStatus() {
-//                                        case .notDetermined, .restricted, .denied:
-//                                            print("No access")
-//                                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
-//
-//                                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
-//                                                //Redirect to Settings app
-//                                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
-//                                            })
-//
-//                                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
-//                                            alertController.addAction(cancelAction)
-//
-//                                            alertController.addAction(okAction)
-//
-//                                            self.present(alertController, animated: true, completion: nil)
-//                                        case .authorizedAlways, .authorizedWhenInUse:
-//                                            print("Access")
-//                                            //self.SearchApicall(Find: place.postalCode ?? "")
-//
-//                                            self.MapOncreateApicall()
-//
-//                                        @unknown default:
-//                                        break
-//                                    }
-//                                    } else {
-//                                        print("Location services are not enabled")
-//                                }
-//
-//                            }else {
-//
-//                                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
-//
-//                                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
-//                                    //Redirect to Settings app
-//                                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
-//                                })
-//
-//                                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
-//                                alertController.addAction(cancelAction)
-//
-//                                alertController.addAction(okAction)
-//
-//                                self.present(alertController, animated: true, completion: nil)
-//
-//
-//                             }
-//                        }else{
-//                            self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
-//                        }
-                       
-                        
-                    
                     } else {
                         print("GEOCODE: nil first in places")
                     }
@@ -1508,6 +1515,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
                 if i.establishmentName == marker.title{
                     self.bottomviewmap.isHidden = false
                     self.lblmaptitle.text = "\(i.establishmentName)"
+                    self.numberapi = i.establishmentNumber
                     self.lblmapaddress.text = "\(i.streetNumber)" + " \(i.streetAddress)" + " \(i.city)" + ", \(i.establishmentNumber)"
                     self.lblmapmiles.text = "\(i.milesAway)" + "Miles"
                     self.lblmapDemerits.text = "\(i.demerits)"
