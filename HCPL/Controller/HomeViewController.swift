@@ -24,18 +24,21 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
     let flowLayout = ZoomAndSnapFlowLayout()
     
     var Sliderimagearr = [#imageLiteral(resourceName: "pic10"),#imageLiteral(resourceName: "pic10-1"),#imageLiteral(resourceName: "pic6"),#imageLiteral(resourceName: "pic1"),#imageLiteral(resourceName: "pic2"),#imageLiteral(resourceName: "pic4")]
-    var SliderLabelarr = ["  COVID-19 Resources","  COVID-19 Screening tool","  Mosquito Concerns","  Environmental","  Animal Services","  Food Services"]
+    var SliderLabelarr = ["  COVID-19 Resources","  COVID-19 Dashboard","  Mosquito Concerns","  Environmental","  Animal Services","  Food Services"]
     
-    var ServicesPrograms = ["Clinical Services","Animal Services","Mosquito Concerns","Environmental","Food Services"]
+    var ServicesPrograms = ["Health & Wellness","Animal Services","Mosquito Concerns","Environmental","Food Services"]
     
-    var ClinicServicesArr = ["Health Services","Refugee Services","Dental Services","WIC Services","Wellness Programs","In Your Community"]
+    //var ClinicServicesArr = ["Health Services","Refugee Clinics","Dental Clinics","WIC","Mobile Clinics"]
+    var ClinicServicesArr = ["Health Services","Wellness Programs","Dental Services","WIC Services","Refugee Services","In Your Community"]
     var AnimalServiceArr = ["Shelter Animals","Report Animal Cruelty","VPH Maps","Events Calendar","Wish List","Visit Our Website"]
     var MosquitoConcernsArr = ["Dead Bird","Mosquito Breeding Site","Disease Activity","Spray Area","Visit Our Website"]
     var EnvironmentalArr = ["Built Environment","Pools","Drinking Water","Neighborhood Nuisance","Lead Abatement","Visit Our Website"]
     var FoodServicesArr = ["Search Establishments","Permit Renewals","New Customer","Events and Markets","FAQ","Nutrition & Healthy Living"]
     
-    var MedicalClinicsArr = ["Locations","Hours","Dental"]
-    var MedicalClinicsLabel = "Health and Wellness Clinic Services"
+    //var MedicalClinicsArr = ["Locations","Hours","Dental"]
+    var HealthServicesArr = ["Locations","Hours"]
+    var HealthServicesLabel = "Health and Wellness Clinic Services"
+    var HealthServicesdescription = "Health and Wellness Clinic Services"
     
     var RefugeeClinicsArr = ["Locations","Hours"]
     var RefugeeClinicsLabel = "Refugee Health Screening Program"
@@ -413,9 +416,9 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                 naviGetTo(url: "https://publichealth.harriscountytx.gov/Resources/2019-Novel-Coronavirus", title: "Covid-19 Resources")
             }
             if indexPath.row == 1{
-//                naviGetTo(url: "https://harriscounty.maps.arcgis.com/apps/opsdashboard/index.html#/c0de71f8ea484b85bb5efcb7c07c6914", title: "Covid-19 Screening tool")
+//                naviGetTo(url: "https://harriscounty.maps.arcgis.com/apps/opsdashboard/index.html#/c0de71f8ea484b85bb5efcb7c07c6914", title: "Covid-19 Dashboard")
                 
-                naviGetTo(url: "https://covid-harriscounty.hub.arcgis.com", title: "Covid-19 Screening tool")
+                naviGetTo(url: "https://covid-harriscounty.hub.arcgis.com", title: "Covid-19 Dashboard")
                 
             }
             if indexPath.row == 2{
@@ -503,47 +506,93 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                         
                         let naviagte:AllTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "AllTableViewController") as! AllTableViewController
                         
-                        naviagte.TableArr = MedicalClinicsArr
-                        naviagte.TitleName = MedicalClinicsLabel
-                        naviagte.Titlehead = "Medical Clinics"
+                        naviagte.TableArr = HealthServicesArr
+                        naviagte.TitleName = HealthServicesLabel
+                        naviagte.Titlehead = "Health Services"
+                        naviagte.descriptionGet = "Harris Country Public Health Provides a variety of low-cost, clinical and preventive health services to meet your essential healthcare needs offered at clinic across Harris Country."
                         
                         
                         self.navigationController?.pushViewController(naviagte, animated: true)
                         
                     }else if indexPath.row == 1{
                         
-                        let naviagte:AllTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "AllTableViewController") as! AllTableViewController
-                        
-                        naviagte.TableArr = RefugeeClinicsArr
-                        naviagte.TitleName = RefugeeClinicsLabel
-                        naviagte.Titlehead = "Refugee Clinics"
-                        
+                        let naviagte:WellnessProgramsViewController = self.storyboard?.instantiateViewController(withIdentifier: "WellnessProgramsViewController") as! WellnessProgramsViewController
                         self.navigationController?.pushViewController(naviagte, animated: true)
                         
                     }else if indexPath.row == 2{
                         
-                        let naviagte:AllTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "AllTableViewController") as! AllTableViewController
-                        
-                        naviagte.TableArr = DentalClinicsArr
-                        naviagte.TitleName = DentalClinicsLabel
-                        naviagte.Titlehead = "Dental Clinics"
-                        
+//                        let naviagte:AllTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "AllTableViewController") as! AllTableViewController
+//
+//                        naviagte.TableArr = DentalClinicsArr
+//                        naviagte.TitleName = DentalClinicsLabel
+//                        naviagte.Titlehead = "Dental Clinics"
+//
+//                        self.navigationController?.pushViewController(naviagte, animated: true)
+//
+                        let naviagte:DentalServicesViewController = self.storyboard?.instantiateViewController(withIdentifier: "DentalServicesViewController") as! DentalServicesViewController
+
                         self.navigationController?.pushViewController(naviagte, animated: true)
                         
                     }else if indexPath.row == 3{
                         
                         let naviagte:AllTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "AllTableViewController") as! AllTableViewController
-                        
+
                         naviagte.TableArr = WICArr
                         naviagte.TitleName = WICLabel
-                        naviagte.Titlehead = "WIC"
-                        
+                        naviagte.Titlehead = "WIC Services"
+                        naviagte.descriptionGet = "WIC is a federally-funded public health nutrition program administered through the Texas Department of State Health Services. The program is exceptional among federally administered programs in that it provides support to a specific population: pregnant women or women who are breastfeeding or have recently had a baby, infants, and children up to the age of five."
+
                         self.navigationController?.pushViewController(naviagte, animated: true)
                         
                     }else if indexPath.row == 4{
-                        let naviagte:MobileClinicsViewController = self.storyboard?.instantiateViewController(withIdentifier: "MobileClinicsViewController") as! MobileClinicsViewController
                         
+                        let naviagte:AllTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "AllTableViewController") as! AllTableViewController
+
+                        naviagte.TableArr = RefugeeClinicsArr
+                        naviagte.TitleName = RefugeeClinicsLabel
+                        naviagte.Titlehead = "Refugee Services"
+                        naviagte.descriptionGet = "The Harris County Public Health (HCPH) Refugee Health Screening Program contracts with the U.S. Committee For Refugees and Immigrants to oversee refugee health screening in Harris County. Refugees are officially recognized individuals by the U.S. government. Texas is the second largest refugee resettlement state in the United States."
+
                         self.navigationController?.pushViewController(naviagte, animated: true)
+                        
+                    }else if indexPath.row == 5{
+                        
+                        if CLLocationManager.locationServicesEnabled() {
+                            switch CLLocationManager.authorizationStatus() {
+                            case .notDetermined:
+                                self.naviGetTo(url: "https://hcpublichealth.maps.arcgis.com/apps/webappviewer/index.html?id=3770cf582fe14e8a9c247caf8219dc07", title: "In Your Community")
+                                self.locationManager.requestWhenInUseAuthorization()
+                            case .restricted, .denied:
+                                    print("No access")
+                                //self.locationManager.requestWhenInUseAuthorization()
+                                let alertController = UIAlertController(title: "HCPL", message: "Please provide location permission from settings screen", preferredStyle: UIAlertController.Style.alert)
+
+                                    let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                                        //Redirect to Settings app
+                                        UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+                                    })
+                                
+                                    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+                                    alertController.addAction(cancelAction)
+                                
+                                    alertController.addAction(okAction)
+
+                                    self.present(alertController, animated: true, completion: nil)
+                                case .authorizedAlways, .authorizedWhenInUse:
+                                    print("Access")
+                                    self.naviGetTo(url: "https://hcpublichealth.maps.arcgis.com/apps/webappviewer/index.html?id=3770cf582fe14e8a9c247caf8219dc07", title: "In Your Community")
+                                    locationManager.delegate = self
+                                    locationManager.startUpdatingLocation()
+                                @unknown default:
+                                break
+                            }
+                            } else {
+                                print("Location services are not enabled")
+                        }
+                        
+//                        let naviagte:MobileClinicsViewController = self.storyboard?.instantiateViewController(withIdentifier: "MobileClinicsViewController") as! MobileClinicsViewController
+//
+//                        self.navigationController?.pushViewController(naviagte, animated: true)
                     }
                 }else if TableArr == AnimalServiceArr{
                     if indexPath.row == 0{
@@ -1046,7 +1095,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                                 self.naviGetTo(url: "https://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/New-Customers/Fixed-Food-Establishments", title: "Permit Renewal")
                             })
                          
-                            let action2 = UIAlertAction(title: "Mobile Units New", style: .default, handler: { (action) -> Void in
+                            let action2 = UIAlertAction(title: "Mobile Food Units New", style: .default, handler: { (action) -> Void in
                                 print("ACTION 2 selected!")
                                 self.naviGetTo(url: "https://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/New-Customers/Mobile-Units-New", title: "Permit Renewal")
                             })
@@ -1091,7 +1140,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                                 self.naviGetTo(url: "https://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/New-Customers/Fixed-Food-Establishments", title: "New Customer")
                             })
                          
-                            let action2 = UIAlertAction(title: "Mobile Units New", style: .default, handler: { (action) -> Void in
+                            let action2 = UIAlertAction(title: "Mobile Food Units New", style: .default, handler: { (action) -> Void in
                                 print("ACTION 2 selected!")
                                 self.naviGetTo(url: "https://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/New-Customers/Mobile-Units-New", title: "New Customer")
                             })

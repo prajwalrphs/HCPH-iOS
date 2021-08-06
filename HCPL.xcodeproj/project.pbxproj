@@ -14,6 +14,10 @@
 		EF1455CE2600A32F007A8D2D /* Demoable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1455CD2600A32F007A8D2D /* Demoable.swift */; };
 		EF1455D32600D43A007A8D2D /* DropDownTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1455D22600D43A007A8D2D /* DropDownTableViewCell.swift */; };
 		EF1455D82600EA95007A8D2D /* SearchlistingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1455D72600EA95007A8D2D /* SearchlistingTableViewCell.swift */; };
+		EF28D2E426BA6BB7002AB5FA /* WellnessProgramsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28D2E326BA6BB7002AB5FA /* WellnessProgramsViewController.swift */; };
+		EF28D2E926BA6BE1002AB5FA /* WellnessProgramsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28D2E826BA6BE1002AB5FA /* WellnessProgramsTableViewCell.swift */; };
+		EF28D2EE26BA7F84002AB5FA /* DentalServicesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28D2ED26BA7F84002AB5FA /* DentalServicesTableViewCell.swift */; };
+		EF28D2F326BA7F9F002AB5FA /* DentalServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28D2F226BA7F9F002AB5FA /* DentalServicesViewController.swift */; };
 		EF4AFB2D2605096600957E24 /* SheetContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4AFB252605096200957E24 /* SheetContentViewController.swift */; };
 		EF4AFB2E2605096600957E24 /* Localize.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4AFB2C2605096600957E24 /* Localize.swift */; };
 		EF4AFB2F2605096600957E24 /* SheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4AFB262605096300957E24 /* SheetViewController.swift */; };
@@ -148,6 +152,10 @@
 		EF1455CD2600A32F007A8D2D /* Demoable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Demoable.swift; sourceTree = "<group>"; };
 		EF1455D22600D43A007A8D2D /* DropDownTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownTableViewCell.swift; sourceTree = "<group>"; };
 		EF1455D72600EA95007A8D2D /* SearchlistingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchlistingTableViewCell.swift; sourceTree = "<group>"; };
+		EF28D2E326BA6BB7002AB5FA /* WellnessProgramsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WellnessProgramsViewController.swift; sourceTree = "<group>"; };
+		EF28D2E826BA6BE1002AB5FA /* WellnessProgramsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WellnessProgramsTableViewCell.swift; sourceTree = "<group>"; };
+		EF28D2ED26BA7F84002AB5FA /* DentalServicesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DentalServicesTableViewCell.swift; sourceTree = "<group>"; };
+		EF28D2F226BA7F9F002AB5FA /* DentalServicesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DentalServicesViewController.swift; sourceTree = "<group>"; };
 		EF4AFB1E2605095E00957E24 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		EF4AFB1F2605095F00957E24 /* SheetTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetTransition.swift; sourceTree = "<group>"; };
 		EF4AFB202605095F00957E24 /* SheetContentViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetContentViewDelegate.swift; sourceTree = "<group>"; };
@@ -352,6 +360,7 @@
 		EF66ED3B256F9DC500A9E9EE /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				EF28D2ED26BA7F84002AB5FA /* DentalServicesTableViewCell.swift */,
 				EF56EA70257244C100E6EC66 /* ImageCell.swift */,
 				EF56EA6F257244C100E6EC66 /* ImageCell.xib */,
 				EF66ED3E256F9EB600A9E9EE /* SliderCollectionViewCell.swift */,
@@ -377,6 +386,7 @@
 				EF5A8EDB260206FC0081BDCD /* InspectionCollectionViewCell.swift */,
 				EF5A8EE0260207160081BDCD /* InspectionTableViewCell.swift */,
 				EF568DAC2603DE8700AE8208 /* vpSearchTableViewCell.swift */,
+				EF28D2E826BA6BE1002AB5FA /* WellnessProgramsTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -412,6 +422,8 @@
 				EF1455C82600A2A5007A8D2D /* ResizingDemo.swift */,
 				EF1455CD2600A32F007A8D2D /* Demoable.swift */,
 				EF5A8ED6260206D80081BDCD /* InspectionSummaryViewController.swift */,
+				EF28D2E326BA6BB7002AB5FA /* WellnessProgramsViewController.swift */,
+				EF28D2F226BA7F9F002AB5FA /* DentalServicesViewController.swift */,
 				EF62BE142602732F000036E7 /* VPAutoComplete-Source */,
 				EF7408DE2604DCE0004B5CE2 /* InspectionReportIssueViewController.swift */,
 				EF4AFB1D2605095D00957E24 /* FittedSheets */,
@@ -840,6 +852,7 @@
 				EF9A97632594FB8B0048545A /* webviewViewController.swift in Sources */,
 				EFA279E22580EF5D008F1681 /* DeadbirdViewController.swift in Sources */,
 				EF67380D25CAD1A9006FAEEB /* SearchEstablishmentsViewController.swift in Sources */,
+				EF28D2E926BA6BE1002AB5FA /* WellnessProgramsTableViewCell.swift in Sources */,
 				EF8477CA256D481C0061BEB2 /* IQTitleBarButtonItem.swift in Sources */,
 				EF4AFB2E2605096600957E24 /* Localize.swift in Sources */,
 				EF75E84025790E3F00479F5B /* AllTableViewCell.swift in Sources */,
@@ -863,6 +876,7 @@
 				EFACA24D25C80589009496B1 /* PrivacyPolicyViewController.swift in Sources */,
 				EF9C7121256CEA38008D3A05 /* ViewController.swift in Sources */,
 				EF8477CB256D481C0061BEB2 /* IQBarButtonItem.swift in Sources */,
+				EF28D2F326BA7F9F002AB5FA /* DentalServicesViewController.swift in Sources */,
 				EF4AFB342605096600957E24 /* Yalta.swift in Sources */,
 				EF66ED43256FBB1700A9E9EE /* SidemenuTableViewCell.swift in Sources */,
 				EF4AFB322605096600957E24 /* InitialTouchPanGestureRecognizer.swift in Sources */,
@@ -917,12 +931,14 @@
 				EF689B9926621EE400A0B5AC /* BackgroundApicall.swift in Sources */,
 				EF8477D7256D481C0061BEB2 /* IQNSArray+Sort.swift in Sources */,
 				EF62BE1A2602732F000036E7 /* VPAutoCompleteViewCell.swift in Sources */,
+				EF28D2EE26BA7F84002AB5FA /* DentalServicesTableViewCell.swift in Sources */,
 				EF9A974A259496B70048545A /* ReportIssueViewController.swift in Sources */,
 				EF9C7150256D02F6008D3A05 /* LoginViewController.swift in Sources */,
 				EF9C711F256CEA38008D3A05 /* SceneDelegate.swift in Sources */,
 				EF66ED35256F6D3D00A9E9EE /* MapViewController.swift in Sources */,
 				EF7408DF2604DCE0004B5CE2 /* InspectionReportIssueViewController.swift in Sources */,
 				EF1455D82600EA95007A8D2D /* SearchlistingTableViewCell.swift in Sources */,
+				EF28D2E426BA6BB7002AB5FA /* WellnessProgramsViewController.swift in Sources */,
 				EF8477D0256D481C0061BEB2 /* IQKeyboardManagerConstants.swift in Sources */,
 				EF4AFB362605096600957E24 /* SheetViewDelegate.swift in Sources */,
 				EF5A8EE1260207160081BDCD /* InspectionTableViewCell.swift in Sources */,
@@ -1106,7 +1122,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = S3SAGN2DFC;
 				INFOPLIST_FILE = HCPL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
@@ -1128,7 +1144,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = S3SAGN2DFC;
 				INFOPLIST_FILE = HCPL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;

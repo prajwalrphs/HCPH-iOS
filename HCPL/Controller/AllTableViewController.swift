@@ -6,10 +6,12 @@ class AllTableViewController: UIViewController,UITableViewDelegate,UITableViewDa
     
     @IBOutlet weak var lbltext: UILabel!
     @IBOutlet weak var lbltitle: UILabel!
+    @IBOutlet var lbldescription: UILabel!
     
     var TableArr = [String]()
     var TitleName:String!
     var Titlehead:String!
+    var descriptionGet:String!
     
     var WeekArray = [" Monday"," Tuesday"," Wednesday"," Thursday"," Friday"]
     var Timearray = ["8:00am-5:00pm","8:00am-5:00pm","8:00am-5:00pm","8:00am-5:00pm","8:00am-5:00pm"]
@@ -79,6 +81,7 @@ class AllTableViewController: UIViewController,UITableViewDelegate,UITableViewDa
         
         self.lbltext.text = TitleName
         self.lbltitle.text = Titlehead
+        self.lbldescription.text = descriptionGet
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

@@ -383,7 +383,7 @@ class EnvironmentalViewController: UIViewController,UITableViewDelegate,UITableV
                         self.naviGetTo(url: "https://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/New-Customers/Fixed-Food-Establishments", title: "Permit Renewal")
                     })
                  
-                    let action2 = UIAlertAction(title: "Mobile Units New", style: .default, handler: { (action) -> Void in
+                    let action2 = UIAlertAction(title: "Mobile Food Units New", style: .default, handler: { (action) -> Void in
                         print("ACTION 2 selected!")
                         self.naviGetTo(url: "https://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/New-Customers/Mobile-Units-New", title: "Permit Renewal")
                     })
@@ -427,7 +427,7 @@ class EnvironmentalViewController: UIViewController,UITableViewDelegate,UITableV
                         self.naviGetTo(url: "https://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/New-Customers/Fixed-Food-Establishments", title: "New Customer")
                     })
                  
-                    let action2 = UIAlertAction(title: "Mobile Units New", style: .default, handler: { (action) -> Void in
+                    let action2 = UIAlertAction(title: "Mobile Food Units New", style: .default, handler: { (action) -> Void in
                         print("ACTION 2 selected!")
                         self.naviGetTo(url: "https://publichealth.harriscountytx.gov/Services-Programs/All-Services/Food-Permits/New-Customers/Mobile-Units-New", title: "New Customer")
                     })
