@@ -189,10 +189,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
         
         txtlastname.autocapitalizationType = .sentences
         txtlastname.autocapitalizationType = .words
-                
-//        txtdescription.autocapitalizationType = .sentences
-//        txtdescription.autocapitalizationType = .words
-        //txtdescription.autocapitalizationType = .allCharacters
+  
         txtdescription.text = "Description of Cruelty (Please fill out information in this field)"
         txtdescription.textColor = UIColor.lightGray
 
@@ -970,14 +967,6 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
                 }else{
                     ReportAnimalApicall()
                 }
-                
-//                else if checkboxstring == "false"{
-//                    print("Test")
-//                    //ReportAnimalApicall()
-//                }else{
-//                    //ReportAnimalApicall()
-//                }
-              
             }else{
                 print("Testtwo")
             }
@@ -1030,11 +1019,6 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
                 "reporteremail":txtemail.text as Any,
                 "ReceivedDevice":"0",
             ] as [String : Any]
-//            "ImageBytes":ImageBytesone ?? "",
-//            "ImageBytes2":ImageBytestwo ?? "",
-//            "ImageBytes3":ImageBytesthree ?? "",
-//            "ImageBytes4":ImageBytesfour ?? "",
-//            "ImageBytes5":ImageBytesfive ?? "",
             
             if ImageBytesone?.isEmpty ?? true{
                 parameters.removeValue(forKey: "ImageBytes")
@@ -1166,12 +1150,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
                "reporteremail":txtemail.text as Any,
                "ReceivedDevice":"0",
            ] as [String : Any]
-//            "ImageBytes":ImageBytesone ?? "",
-//            "ImageBytes2":ImageBytestwo ?? "",
-//            "ImageBytes3":ImageBytesthree ?? "",
-//            "ImageBytes4":ImageBytesfour ?? "",
-//            "ImageBytes5":ImageBytesfive ?? "",
-           
+
            if ImageBytesone?.isEmpty ?? true{
                parameters.removeValue(forKey: "ImageBytes")
            }else{
@@ -1392,20 +1371,9 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
                 Image.saveImages(images)
                 dismiss(animated: true, completion: nil)
                 self.addimagescollection.reloadData()
-                
-    //            let imageData: Data? = selectedImage.jpegData(compressionQuality: 0.4)
-    //            let imageStr = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
-    //            self.ImagevideoUrl?.append(imageStr)
-                
+     
                 let dataa = selectedImage.jpegData(compressionQuality: 0.4)
-                
-//                let options: NSDictionary = [:]
-//                let convertToBmp = selectedImage.toData(options: options, type: .bmp)
-//                guard convertToBmp != nil else {
-//                    print("😡 ERROR: could not convert image to a bitmap bmpData var.")
-//                    return
-//                }
-                
+
                 dismiss(animated: true, completion: nil)
                 imagePicker.dismiss(animated: true, completion: nil)
                 
@@ -1501,9 +1469,7 @@ class ReportanimalViewController: UIViewController,UICollectionViewDelegate,UICo
                                         
                     self.present(alertController, animated: true, completion: nil)
                 }
-                
-                
-    
+               
             }else{
                  
                 self.VideosongUrl = "\(videoUrl)"

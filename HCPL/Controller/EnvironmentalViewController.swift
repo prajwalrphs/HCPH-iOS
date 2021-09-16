@@ -15,11 +15,6 @@ class EnvironmentalViewController: UIViewController,UITableViewDelegate,UITableV
     
     var TableArrScroll = [String]()
     
-    
-//    var CommercialArray = ["CommercialPools"]
-//    var ids = [1]
-//    var FoodTitle = "Food Safety"
-    
     var FoodSafetyArray = ["Food Made Me Sick","Unclean Preparation","Something in My Food"]
     var Foodids = [1,2,3,4]
     var FoodTitle = "Food Safety"
@@ -518,32 +513,7 @@ class EnvironmentalViewController: UIViewController,UITableViewDelegate,UITableV
                 
   
             }
-            
-//            else{
-//                if CLLocationManager.locationServicesEnabled() == true {
-//                    let navigate:CommercialPoolsViewController = self.storyboard?.instantiateViewController(identifier: "CommercialPoolsViewController") as! CommercialPoolsViewController
-//                    navigate.CommercialArray = FoodSafetyArray
-//                    navigate.ids = Foodids
-//                    navigate.Title = FoodTitle
-//                    navigate.PlaceholderGet = "Choose Subject"
-//                    self.navigationController?.pushViewController(navigate, animated: true)
-//                }else{
-//                    let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
-//
-//                    let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
-//                        //Redirect to Settings app
-//                        UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
-//                    })
-//
-//                    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
-//                    alertController.addAction(cancelAction)
-//
-//                    alertController.addAction(okAction)
-//
-//                    self.present(alertController, animated: true, completion: nil)
-//                }
-//
-//            }
+   
         }
         
 
@@ -561,60 +531,3 @@ class EnvironmentalViewController: UIViewController,UITableViewDelegate,UITableV
     }
     
 }
-
-//if indexPath.row == 0{
-//    if let url = URL(string: "itms-apps://apple.com/app/id839686104") {
-//        UIApplication.shared.open(url)
-//    }
-//}else if indexPath.row == 1{
-//    print("one click")
-//    //ReportanimalViewController
-//    let naviagte:ReportanimalViewController = self.storyboard?.instantiateViewController(withIdentifier: "ReportanimalViewController") as! ReportanimalViewController
-//
-//    self.navigationController?.pushViewController(naviagte, animated: true)
-//}else if indexPath.row == 2{
-//    let alert = UIAlertController(title: "",
-//        message: "",
-//        preferredStyle: .alert)
-//
-//    let attribMsg = NSAttributedString(string: "What are you trying to locate?",
-//                                       attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 23.0)])
-//
-//    alert.setValue(attribMsg, forKey: "attributedTitle")
-//
-//    let action1 = UIAlertAction(title: "Vet Clinic Location", style: .default, handler: { (action) -> Void in
-//            print("ACTION 1 selected!")
-//            self.naviGetTo(url: "http://harriscounty.maps.arcgis.com/apps/webappviewer/index.html?id=4c596ce857ef4b50930c603f2fdef55e", title: "Vet Clinic")
-//        })
-//
-//        let action2 = UIAlertAction(title: "Dangerous Animal's Location", style: .default, handler: { (action) -> Void in
-//            print("ACTION 2 selected!")
-//            self.naviGetTo(url: "http://harriscounty.maps.arcgis.com/apps/webappviewer/index.html?id=bc063b6062ec4d86a282b13a0c566a7a", title: "Dangerous Animal's")
-//        })
-//
-//        let action3 = UIAlertAction(title: "Rabies Outbreak Location", style: .default, handler: { (action) -> Void in
-//            print("ACTION 3 selected!")
-//            self.naviGetTo(url: "http://harriscounty.maps.arcgis.com/apps/webappviewer/index.html?id=4c596ce857ef4b50930c603f2fdef55e", title: "Rabies Outbreak")
-//        })
-//
-//        // Cancel button
-//        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
-//
-//    // Restyle the view of the Alert
-//    alert.view.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)  // change text color of the buttons
-//    alert.view.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)  // change background color
-//    alert.view.layer.cornerRadius = 25
-//
-//    alert.addAction(action1)
-//    alert.addAction(action2)
-//    alert.addAction(action3)
-//    alert.addAction(cancel)
-//    present(alert, animated: true, completion: nil)
-//
-//}else if indexPath.row == 3{
-//    self.naviGetTo(url: "http://countypets.com/Event-Calendar", title: "Event Calendar")
-//}else if indexPath.row == 4{
-//    self.naviGetTo(url: "https://www.amazon.com/hz/wishlist/ls/14I5Q47TPD5CE?&", title: "Wish List")
-//}else if indexPath.row == 5{
-//    self.naviGetTo(url: "http://publichealth.harriscountytx.gov/About/Organization-Offices/Mosquito-and-Vector-Control", title: "Website")
-//}

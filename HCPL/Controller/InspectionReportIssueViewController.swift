@@ -1,10 +1,3 @@
-//
-//  InspectionReportIssueViewController.swift
-//  HCPL
-//
-//  Created by Skywave-Mac on 19/03/21.
-//  Copyright © 2021 Skywave-Mac. All rights reserved.
-//
 
 import UIKit
 import CoreLocation
@@ -119,30 +112,11 @@ class InspectionReportIssueViewController: UIViewController,GMSMapViewDelegate,C
         viewbordermap.layer.cornerRadius = 3
         viewbordermap.layer.borderWidth = 1
         viewbordermap.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        
-//        txtaddress.layer.cornerRadius = 3
-//        txtaddress.layer.borderWidth = 1
-//        txtaddress.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        
-//        txtFirstName.layer.cornerRadius = 3
-//        txtFirstName.layer.borderWidth = 1
-//        txtFirstName.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        
-        //txtFirstName.layer.borderColor = UIColor.clear.cgColor
+ 
         txtFirstName.setBottomBordar()
         txtaddress.setBottomBordar()
         txtLastName.setBottomBordar()
         txtContectNumber.setBottomBordar()
-        
-
-        
-//        txtLastName.layer.cornerRadius = 3
-//        txtLastName.layer.borderWidth = 1
-//        txtLastName.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        
-//        txtContectNumber.layer.cornerRadius = 3
-//        txtContectNumber.layer.borderWidth = 1
-//        txtContectNumber.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         
         viewcamera1.layer.cornerRadius = 3
         viewcamera1.layer.borderWidth = 1
@@ -710,10 +684,6 @@ class InspectionReportIssueViewController: UIViewController,GMSMapViewDelegate,C
 
         if let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
 
-            
-//            let imageData:NSData = selectedImage.pngData()! as NSData
-//            let imageStr = imageData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
-//            print("imageStr==>\(imageStr)")
             
             let imageData: Data? = selectedImage.jpegData(compressionQuality: 0.4)
             let imageStr = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""

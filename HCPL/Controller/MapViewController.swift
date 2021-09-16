@@ -822,7 +822,7 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
                     if let places = response?.results() {
                         if let place = places.first {
                             print(place.lines)
-                            //print("GEOCODE: Did Select Formatted postalCode: \(place.postalCode ?? "")")
+                            print("GEOCODE: Did Select Formatted postalCode: \(place.postalCode ?? "")")
 
                             self.ZIpCodeMain = place.postalCode ?? ""
 
@@ -912,34 +912,7 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
 
 
         }
-        
-//        mapview.identifyLayers(atScreenPoint: screenPoint, tolerance: 20, returnPopupsOnly: false) { [weak self]  (results, error) in
-//
-//            guard let self = self else { return }
-//
-//
-//            print("screenPoint.x: \(screenPoint.x)")
-//            print("screenPoint.y: \(screenPoint.y)")
-//
-//            print("mapPoint.x: \(mapPoint.x)")
-//            print("mapPoint.y: \(mapPoint.y)")
-//
-//            if let error = error{
-//                print("Error identifyLayers: \(error.localizedDescription)")
-//                return
-//            }
-//
-//            if let result = results?.first,
-//               let feature = result.geoElements.first as? AGSFeature{
-//
-//                self.mapview.callout.title = feature.attributes["Name"] as? String
-//                self.mapview.callout.detail = feature.attributes["Text_for_Short_Desc_field"] as? String
-//                self.mapview.callout.show(for: feature, tapLocation: mapPoint, animated: true)
-//            }else{
-//                self.mapview.callout.dismiss()
-//            }
-//
-//        }
+
     }
         
     func searchTextdemo(text: String!)

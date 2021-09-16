@@ -111,8 +111,15 @@
 		EFA279E22580EF5D008F1681 /* DeadbirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA279E12580EF5D008F1681 /* DeadbirdViewController.swift */; };
 		EFA279E42580EF76008F1681 /* deadbirdCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA279E32580EF76008F1681 /* deadbirdCollectionViewCell.swift */; };
 		EFACA24D25C80589009496B1 /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFACA24C25C80589009496B1 /* PrivacyPolicyViewController.swift */; };
+		EFAD3A1226C6414900E726BC /* TobaccoCessationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAD3A1126C6414900E726BC /* TobaccoCessationViewController.swift */; };
+		EFAD3A1726C6416B00E726BC /* TobaccoCessationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAD3A1626C6416B00E726BC /* TobaccoCessationTableViewCell.swift */; };
+		EFAD3A1F26C64D0600E726BC /* SignupnowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAD3A1E26C64D0600E726BC /* SignupnowViewController.swift */; };
+		EFAD3A2726C66E7100E726BC /* AdditionalResourcesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAD3A2626C66E7100E726BC /* AdditionalResourcesViewController.swift */; };
+		EFAD3A2C26C66EB700E726BC /* AdditionalResourcesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAD3A2B26C66EB700E726BC /* AdditionalResourcesTableViewCell.swift */; };
 		EFB9B6982615AD3E00F81A9C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EFB9B6972615AD3E00F81A9C /* GoogleService-Info.plist */; };
 		EFC67053257F572900854BD2 /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC67052257F572900854BD2 /* DownloadManager.swift */; };
+		EFE0558026C7800800857EEB /* YouthVapingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE0557F26C7800800857EEB /* YouthVapingViewController.swift */; };
+		EFE0558526C7802600857EEB /* YouthVapingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE0558426C7802600857EEB /* YouthVapingTableViewCell.swift */; };
 		EFEB25E625712FD600E20DE5 /* ContactallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEB25E525712FD600E20DE5 /* ContactallTableViewCell.swift */; };
 		EFFE326825936DF300415DCD /* MosquitoBreedingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFE326725936DF300415DCD /* MosquitoBreedingViewController.swift */; };
 		EFFE326D25937CFC00415DCD /* MosquitoConcernsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFE326C25937CFC00415DCD /* MosquitoConcernsViewController.swift */; };
@@ -257,8 +264,15 @@
 		EFA279E12580EF5D008F1681 /* DeadbirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadbirdViewController.swift; sourceTree = "<group>"; };
 		EFA279E32580EF76008F1681 /* deadbirdCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = deadbirdCollectionViewCell.swift; sourceTree = "<group>"; };
 		EFACA24C25C80589009496B1 /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
+		EFAD3A1126C6414900E726BC /* TobaccoCessationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TobaccoCessationViewController.swift; sourceTree = "<group>"; };
+		EFAD3A1626C6416B00E726BC /* TobaccoCessationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TobaccoCessationTableViewCell.swift; sourceTree = "<group>"; };
+		EFAD3A1E26C64D0600E726BC /* SignupnowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupnowViewController.swift; sourceTree = "<group>"; };
+		EFAD3A2626C66E7100E726BC /* AdditionalResourcesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalResourcesViewController.swift; sourceTree = "<group>"; };
+		EFAD3A2B26C66EB700E726BC /* AdditionalResourcesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalResourcesTableViewCell.swift; sourceTree = "<group>"; };
 		EFB9B6972615AD3E00F81A9C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		EFC67052257F572900854BD2 /* DownloadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
+		EFE0557F26C7800800857EEB /* YouthVapingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouthVapingViewController.swift; sourceTree = "<group>"; };
+		EFE0558426C7802600857EEB /* YouthVapingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouthVapingTableViewCell.swift; sourceTree = "<group>"; };
 		EFEB25E525712FD600E20DE5 /* ContactallTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactallTableViewCell.swift; sourceTree = "<group>"; };
 		EFFE326725936DF300415DCD /* MosquitoBreedingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosquitoBreedingViewController.swift; sourceTree = "<group>"; };
 		EFFE326C25937CFC00415DCD /* MosquitoConcernsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosquitoConcernsViewController.swift; sourceTree = "<group>"; };
@@ -387,6 +401,9 @@
 				EF5A8EE0260207160081BDCD /* InspectionTableViewCell.swift */,
 				EF568DAC2603DE8700AE8208 /* vpSearchTableViewCell.swift */,
 				EF28D2E826BA6BE1002AB5FA /* WellnessProgramsTableViewCell.swift */,
+				EFAD3A1626C6416B00E726BC /* TobaccoCessationTableViewCell.swift */,
+				EFAD3A2B26C66EB700E726BC /* AdditionalResourcesTableViewCell.swift */,
+				EFE0558426C7802600857EEB /* YouthVapingTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -424,6 +441,10 @@
 				EF5A8ED6260206D80081BDCD /* InspectionSummaryViewController.swift */,
 				EF28D2E326BA6BB7002AB5FA /* WellnessProgramsViewController.swift */,
 				EF28D2F226BA7F9F002AB5FA /* DentalServicesViewController.swift */,
+				EFAD3A1126C6414900E726BC /* TobaccoCessationViewController.swift */,
+				EFAD3A1E26C64D0600E726BC /* SignupnowViewController.swift */,
+				EFAD3A2626C66E7100E726BC /* AdditionalResourcesViewController.swift */,
+				EFE0557F26C7800800857EEB /* YouthVapingViewController.swift */,
 				EF62BE142602732F000036E7 /* VPAutoComplete-Source */,
 				EF7408DE2604DCE0004B5CE2 /* InspectionReportIssueViewController.swift */,
 				EF4AFB1D2605095D00957E24 /* FittedSheets */,
@@ -850,11 +871,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF9A97632594FB8B0048545A /* webviewViewController.swift in Sources */,
+				EFE0558026C7800800857EEB /* YouthVapingViewController.swift in Sources */,
 				EFA279E22580EF5D008F1681 /* DeadbirdViewController.swift in Sources */,
 				EF67380D25CAD1A9006FAEEB /* SearchEstablishmentsViewController.swift in Sources */,
 				EF28D2E926BA6BE1002AB5FA /* WellnessProgramsTableViewCell.swift in Sources */,
 				EF8477CA256D481C0061BEB2 /* IQTitleBarButtonItem.swift in Sources */,
 				EF4AFB2E2605096600957E24 /* Localize.swift in Sources */,
+				EFAD3A1226C6414900E726BC /* TobaccoCessationViewController.swift in Sources */,
 				EF75E84025790E3F00479F5B /* AllTableViewCell.swift in Sources */,
 				EF9A97402594617D0048545A /* CallforAppointmentTableViewCell.swift in Sources */,
 				EF9A9776259507430048545A /* Appconstant.swift in Sources */,
@@ -889,7 +912,9 @@
 				EF75E84225790E6400479F5B /* AllTableViewController.swift in Sources */,
 				EF4AFB392605096600957E24 /* SheetOptions.swift in Sources */,
 				EF66ED33256F6D3100A9E9EE /* ProfileViewController.swift in Sources */,
+				EFAD3A1F26C64D0600E726BC /* SignupnowViewController.swift in Sources */,
 				EF5DB0B12595E69B002A59F2 /* LocationsTableViewCell.swift in Sources */,
+				EFE0558526C7802600857EEB /* YouthVapingTableViewCell.swift in Sources */,
 				EF9A978025950FCA0048545A /* EnvironmentalTableViewCell.swift in Sources */,
 				EF66ED41256FBAAC00A9E9EE /* LeftMenuTableViewController.swift in Sources */,
 				EF5B401B25BAFB140068EDEE /* commercialpoolmodel.swift in Sources */,
@@ -903,6 +928,7 @@
 				EF8477D5256D481C0061BEB2 /* IQUITextFieldView+Additions.swift in Sources */,
 				EF6CD73725E8FAC9001491FF /* Reachability.swift in Sources */,
 				EF56EA72257244C100E6EC66 /* ImageCell.swift in Sources */,
+				EFAD3A2726C66E7100E726BC /* AdditionalResourcesViewController.swift in Sources */,
 				EF4AFB2D2605096600957E24 /* SheetContentViewController.swift in Sources */,
 				EF8477D1256D481C0061BEB2 /* IQKeyboardReturnKeyHandler.swift in Sources */,
 				EF8477D2256D481C0061BEB2 /* IQKeyboardManager.swift in Sources */,
@@ -910,6 +936,7 @@
 				EF1455D32600D43A007A8D2D /* DropDownTableViewCell.swift in Sources */,
 				EF9A977B25950F580048545A /* EnvironmentalViewController.swift in Sources */,
 				EF1455C92600A2A5007A8D2D /* ResizingDemo.swift in Sources */,
+				EFAD3A2C26C66EB700E726BC /* AdditionalResourcesTableViewCell.swift in Sources */,
 				EF8B6C87257E6D27004DBF17 /* videoCollectionViewCell.swift in Sources */,
 				EF4AFB332605096600957E24 /* SheetView.swift in Sources */,
 				EF5DB0AC2595E67D002A59F2 /* LocationsViewController.swift in Sources */,
@@ -931,6 +958,7 @@
 				EF689B9926621EE400A0B5AC /* BackgroundApicall.swift in Sources */,
 				EF8477D7256D481C0061BEB2 /* IQNSArray+Sort.swift in Sources */,
 				EF62BE1A2602732F000036E7 /* VPAutoCompleteViewCell.swift in Sources */,
+				EFAD3A1726C6416B00E726BC /* TobaccoCessationTableViewCell.swift in Sources */,
 				EF28D2EE26BA7F84002AB5FA /* DentalServicesTableViewCell.swift in Sources */,
 				EF9A974A259496B70048545A /* ReportIssueViewController.swift in Sources */,
 				EF9C7150256D02F6008D3A05 /* LoginViewController.swift in Sources */,
@@ -1122,7 +1150,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_TEAM = S3SAGN2DFC;
 				INFOPLIST_FILE = HCPL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
@@ -1144,7 +1172,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_TEAM = S3SAGN2DFC;
 				INFOPLIST_FILE = HCPL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;

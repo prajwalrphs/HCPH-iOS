@@ -180,12 +180,6 @@ class InspectionSummaryViewController: UIViewController,GMSMapViewDelegate,CLLoc
         print("locations updates = \(locValue.latitude) \(locValue.longitude)")
         UserDefaults.standard.set(locValue.latitude, forKey: AppConstant.CURRENTLAT)
         UserDefaults.standard.set(locValue.longitude, forKey: AppConstant.CURRENTLONG)
-        //ShowLocationPicked(loc: locValue)
-        
-//        currentLocation = locations[0].coordinate
-//        locationManager.stopUpdatingLocation()
-//        ShowLocation()
-//        locationManager.delegate = nil
 
     }
     
@@ -241,38 +235,7 @@ class InspectionSummaryViewController: UIViewController,GMSMapViewDelegate,CLLoc
                     let messageTost = json["message"]
                     let gettost = "\(messageTost)"
                                         
-                    //let MeinData = json["data"]
-                                        
-//                    for (key, value) in MeinData {
-//
-//                        for (keyy, value) in value{
-//
-//                            print("keyykeyy==>\(keyy)")
-//                            print("value==>\(value)")
-//
-//                            if keyy == "citationsIssued"{
-//                                self.CitationsIssued = "citationsIssued"
-//
-//                            }else if keyy == "certifiedManagers"{
-//                                self.CertifiedManagers = "certifiedManagers"
-//
-//                            }else if keyy == "correctedOnSite"{
-//                                self.CorrectedOnSite = "correctedOnSite"
-//
-//                            }else if keyy == "complaintDriven"{
-//                                self.ComplaintDriven = "complaintDriven"
-//
-//                            }else if keyy == "foodborneIllnesInvestigation"{
-//                                self.FoodborneIllnesInvestigation = "foodborneIllnesInvestigation"
-//
-//                            }else if keyy == "pounds_of_food_destroyed"{
-//                                self.Pounds_of_food_destroyed = "pounds_of_food_destroyed"
-//
-//                            }
-//
-//                        }
-//                    }
-                    
+ 
                     DispatchQueue.main.async {
                         self.inspectioncurrentcollection.reloadData()
                     }
@@ -744,21 +707,7 @@ class InspectionSummaryViewController: UIViewController,GMSMapViewDelegate,CLLoc
                         cell.lbltext.text = inspectionstatuslabelarray[indexPath.row]
                     }
                 }
- 
-                
-//                if self.CertifiedManagers == "certifiedManagers"{
-//                    cell.Borderview.layer.borderWidth = 1
-//                    cell.Borderview.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.6859012395)
-//                    cell.Borderview.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-//                    cell.img.image = inspectionstatusimagearray[indexPath.row]
-//                    cell.lbltext.text = inspectionstatuslabelarray[indexPath.row]
-//                }else{
-//                    cell.Borderview.layer.borderWidth = 1
-//                    cell.Borderview.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.6859012395)
-//                    cell.Borderview.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-//                    cell.img.image = inspectionstatusimagearray[indexPath.row]
-//                    cell.lbltext.text = inspectionstatuslabelarray[indexPath.row]
-//                }
+
             }else if indexPath.row == 2{
                 
                 let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
@@ -795,19 +744,6 @@ class InspectionSummaryViewController: UIViewController,GMSMapViewDelegate,CLLoc
                     }
                 }
                 
-//                if self.CorrectedOnSite == "correctedOnSite"{
-//                    cell.Borderview.layer.borderWidth = 1
-//                    cell.Borderview.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.6859012395)
-//                    cell.Borderview.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-//                    cell.img.image = inspectionstatusimagearray[indexPath.row]
-//                    cell.lbltext.text = inspectionstatuslabelarray[indexPath.row]
-//                }else{
-//                    cell.Borderview.layer.borderWidth = 1
-//                    cell.Borderview.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.6859012395)
-//                    cell.Borderview.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-//                    cell.img.image = inspectionstatusimagearray[indexPath.row]
-//                    cell.lbltext.text = inspectionstatuslabelarray[indexPath.row]
-//                }
             }else if indexPath.row == 3{
                 
                 let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
@@ -844,19 +780,6 @@ class InspectionSummaryViewController: UIViewController,GMSMapViewDelegate,CLLoc
                     }
                 }
                 
-//                if self.ComplaintDriven == "complaintDriven"{
-//                    cell.Borderview.layer.borderWidth = 1
-//                    cell.Borderview.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.6859012395)
-//                    cell.Borderview.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-//                    cell.img.image = inspectionstatusimagearray[indexPath.row]
-//                    cell.lbltext.text = inspectionstatuslabelarray[indexPath.row]
-//                }else{
-//                    cell.Borderview.layer.borderWidth = 1
-//                    cell.Borderview.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.6859012395)
-//                    cell.Borderview.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-//                    cell.img.image = inspectionstatusimagearray[indexPath.row]
-//                    cell.lbltext.text = inspectionstatuslabelarray[indexPath.row]
-//                }
             }else if indexPath.row == 4{
                 
                 let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
@@ -892,20 +815,7 @@ class InspectionSummaryViewController: UIViewController,GMSMapViewDelegate,CLLoc
                         cell.lbltext.text = inspectionstatuslabelarray[indexPath.row]
                     }
                 }
-                
-//                if self.FoodborneIllnesInvestigation == "foodborneIllnesInvestigation"{
-//                    cell.Borderview.layer.borderWidth = 1
-//                    cell.Borderview.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.6859012395)
-//                    cell.Borderview.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-//                    cell.img.image = inspectionstatusimagearray[indexPath.row]
-//                    cell.lbltext.text = inspectionstatuslabelarray[indexPath.row]
-//                }else{
-//                    cell.Borderview.layer.borderWidth = 1
-//                    cell.Borderview.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.6859012395)
-//                    cell.Borderview.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-//                    cell.img.image = inspectionstatusimagearray[indexPath.row]
-//                    cell.lbltext.text = inspectionstatuslabelarray[indexPath.row]
-//                }
+  
             }else if indexPath.row == 5{
                 
                 let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
@@ -942,19 +852,6 @@ class InspectionSummaryViewController: UIViewController,GMSMapViewDelegate,CLLoc
                     }
                 }
                 
-//                if self.Pounds_of_food_destroyed == "pounds_of_food_destroyed"{
-//                    cell.Borderview.layer.borderWidth = 1
-//                    cell.Borderview.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.6859012395)
-//                    cell.Borderview.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-//                    cell.img.image = inspectionstatusimagearray[indexPath.row]
-//                    cell.lbltext.text = inspectionstatuslabelarray[indexPath.row]
-//                }else{
-//                    cell.Borderview.layer.borderWidth = 1
-//                    cell.Borderview.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.6859012395)
-//                    cell.Borderview.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-//                    cell.img.image = inspectionstatusimagearray[indexPath.row]
-//                    cell.lbltext.text = inspectionstatuslabelarray[indexPath.row]
-//                }
             }
         }else if self.CheckStatusBtn == "current"{
         
@@ -1031,20 +928,7 @@ class InspectionSummaryViewController: UIViewController,GMSMapViewDelegate,CLLoc
                         cell.lbltext.text = currentstatuslabelarray[indexPath.row]
                     }
                 }
-                
-//                if self.RedTagsIssued == "redTagsIssued"{
-//                    cell.Borderview.layer.borderWidth = 1
-//                    cell.Borderview.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.6859012395)
-//                    cell.Borderview.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-//                    cell.img.image = currentstatusimagearray[indexPath.row]
-//                    cell.lbltext.text = currentstatuslabelarray[indexPath.row]
-//                }else{
-//                    cell.Borderview.layer.borderWidth = 1
-//                    cell.Borderview.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.6859012395)
-//                    cell.Borderview.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-//                    cell.img.image = currentstatusimagearray[indexPath.row]
-//                    cell.lbltext.text = currentstatuslabelarray[indexPath.row]
-//                }
+
             }else if indexPath.row == 2{
                 
                 let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
@@ -1081,19 +965,7 @@ class InspectionSummaryViewController: UIViewController,GMSMapViewDelegate,CLLoc
                     }
                 }
                 
-//                if self.FoodSafetyAward == "foodSafetyAward"{
-//                    cell.Borderview.layer.borderWidth = 1
-//                    cell.Borderview.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.6859012395)
-//                    cell.Borderview.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-//                    cell.img.image = currentstatusimagearray[indexPath.row]
-//                    cell.lbltext.text = currentstatuslabelarray[indexPath.row]
-//                }else{
-//                    cell.Borderview.layer.borderWidth = 1
-//                    cell.Borderview.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.6859012395)
-//                    cell.Borderview.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-//                    cell.img.image = currentstatusimagearray[indexPath.row]
-//                    cell.lbltext.text = currentstatuslabelarray[indexPath.row]
-//                }
+
             }else if indexPath.row == 3{
                 
                 let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
@@ -1129,20 +1001,7 @@ class InspectionSummaryViewController: UIViewController,GMSMapViewDelegate,CLLoc
                         cell.lbltext.text = currentstatuslabelarray[indexPath.row]
                     }
                 }
-                
-//                if self.RedTagRemoved == "redTagRemoved"{
-//                    cell.Borderview.layer.borderWidth = 1
-//                    cell.Borderview.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.6859012395)
-//                    cell.Borderview.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-//                    cell.img.image = currentstatusimagearray[indexPath.row]
-//                    cell.lbltext.text = currentstatuslabelarray[indexPath.row]
-//                }else{
-//                    cell.Borderview.layer.borderWidth = 1
-//                    cell.Borderview.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.6859012395)
-//                    cell.Borderview.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-//                    cell.img.image = currentstatusimagearray[indexPath.row]
-//                    cell.lbltext.text = currentstatuslabelarray[indexPath.row]
-//                }
+
             }else if indexPath.row == 4{
                 
                 let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
@@ -1178,20 +1037,7 @@ class InspectionSummaryViewController: UIViewController,GMSMapViewDelegate,CLLoc
                         cell.lbltext.text = currentstatuslabelarray[indexPath.row]
                     }
                 }
-                
-//                if self.FoodConferenceParticipant == "foodConferenceParticipant"{
-//                    cell.Borderview.layer.borderWidth = 1
-//                    cell.Borderview.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.6859012395)
-//                    cell.Borderview.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-//                    cell.img.image = currentstatusimagearray[indexPath.row]
-//                    cell.lbltext.text = currentstatuslabelarray[indexPath.row]
-//                }else{
-//                    cell.Borderview.layer.borderWidth = 1
-//                    cell.Borderview.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.6859012395)
-//                    cell.Borderview.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-//                    cell.img.image = currentstatusimagearray[indexPath.row]
-//                    cell.lbltext.text = currentstatuslabelarray[indexPath.row]
-//                }
+
             }
             
         }else{

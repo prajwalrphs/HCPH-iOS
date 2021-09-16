@@ -176,24 +176,6 @@ class ContectViewController: UIViewController,TabItem,UITableViewDelegate,UITabl
         
         if indexPath.row == 2{
             
-//            if modelNameOrignal == "iPhone 8"{
-//                cell.heightconstraint.constant = 460
-//            }else{
-//                cell.heightconstraint.constant = 400
-//            }
-//
-//            if modelName == "Simulator iPhone 11 Pro"{
-//                cell.heightconstraint.constant = 455
-//            }else{
-//                cell.heightconstraint.constant = 400
-//            }
-//
-//            if modelNameOrignal == "iPhone 11 Pro"{
-//                cell.heightconstraint.constant = 455
-//            }else{
-//                cell.heightconstraint.constant = 400
-//            }
-            
             if modelNameOrignal == "iPhone 8"{
                 cell.heightconstraint.constant = 460
             }else if modelNameOrignal == "iPhone 11 Pro"{
@@ -256,10 +238,7 @@ class ContectViewController: UIViewController,TabItem,UITableViewDelegate,UITabl
             print("onoff==>\(onoff ?? "")")
             
             if onoff == "on"{
-                
-//                @IBOutlet weak var lblsecondtitle: UILabel!
-//                @IBOutlet weak var lblsecondaddress: UILabel!
-//                @IBOutlet weak var lblsecondmobilenumber: UILabel!
+
                 
                 cell.lblsecondtitle.textColor = AppConstant.NormalTextColor
                 cell.lblsecondaddress.textColor = AppConstant.NormalTextColor
@@ -305,18 +284,6 @@ class ContectViewController: UIViewController,TabItem,UITableViewDelegate,UITabl
                 cell.heightconstraint.constant = 185
             }
             
-//            if modelName == "Simulator iPhone 11 Pro"{
-//                cell.heightconstraint.constant = 215
-//            }else{
-//                cell.heightconstraint.constant = 185
-//            }
-            
-//            if modelNameOrignal == "iPhone 11 Pro"{
-//                cell.heightconstraint.constant = 215
-//            }else{
-//                cell.heightconstraint.constant = 185
-//            }
-//
             cell.lbltitle.text = arrTitle[indexPath.row]
             cell.lbladdress.text = arrAddress[indexPath.row]
             cell.lblmap.text = arrMap[indexPath.row]

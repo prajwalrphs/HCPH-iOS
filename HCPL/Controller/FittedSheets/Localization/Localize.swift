@@ -1,10 +1,3 @@
-//
-//  Localized.swift
-//  FittedSheetsPod
-//
-//  Created by Gordon Tucker on 8/11/20.
-//  Copyright © 2020 Gordon Tucker. All rights reserved.
-//
 
 import UIKit
 

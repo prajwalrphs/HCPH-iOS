@@ -771,14 +771,6 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
                         let decoder = JSONDecoder()
                         self.SearchGet = try decoder.decode(SearchModel.self, from: data)
                         
-//                        if self.sortedArray.isEmpty{
-//                            print("sortedArray is empty")
-//                            self.sortedArray.append("IOS Test")
-//                        }else{
-//                            print("sortedArray is not empty")
-//                        }
-                        
-                    
                         DispatchQueue.main.async {
                             for i in self.SearchGet!.data{
                                 if i.facilityType == "Convenience store"{
@@ -915,69 +907,6 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         if countButton == 1{
             dropdownview.isHidden = true
             Searchlistviewfilter.isHidden = false
- 
-//            if SwitchCheckon == "Assisted Living ON"{
-//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-//            }else if SwitchCheckon == "Bakery ON"{
-//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-//            }else if SwitchCheckon == "Bar ON"{
-//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-//            }else if SwitchCheckon == "Caterer ON"{
-//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-//            }else if SwitchCheckon == "Commissary ON"{
-//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-//            }else if SwitchCheckon == "Convenience store ON"{
-//                Filterimage.backgroundColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-//                //Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-//            }else if SwitchCheckon == "Daycare ON"{
-//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-//            }else if SwitchCheckon == "Farmer's Market ON"{
-//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-//            }else if SwitchCheckon == "Grocery Store ON"{
-//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-//            }else if SwitchCheckon == "Hospital ON"{
-//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-//            }else if SwitchCheckon == "Mobile Unit ON"{
-//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-//            }else if SwitchCheckon == "Restaurant ON"{
-//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-//            }else if SwitchCheckon == "School ON"{
-//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-//            }else if SwitchCheckon == "Snow cone stand ON"{
-//                Filterimage.image = #imageLiteral(resourceName: "Assisted-Living-icon22x22")
-//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-//            }else{
-//                Filterimage.image = #imageLiteral(resourceName: "filter")
-//                Filterimage.image = Filterimage.image?.withRenderingMode(.alwaysTemplate)
-//                Filterimage.tintColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
-//            }
             
         }else{
             dropdownview.isHidden = true
@@ -2093,13 +2022,6 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
             cell.buttonview.layer.borderWidth = 1
             cell.buttonview.layer.borderColor = #colorLiteral(red: 0.3991981149, green: 0.7591522932, blue: 0.3037840128, alpha: 1)
             cell.delegatereportanissue = self
-            
-//            cell.lbltitle.text = SearchGet?.data[indexPath.row].establishmentName
-//            cell.lblyork.text = "\(SearchGet?.data[indexPath.row].streetNumber ?? "")" + " \(SearchGet?.data[indexPath.row].streetAddress ?? "")"
-//            cell.lblkaty.text = "\(SearchGet?.data[indexPath.row].city ?? "")" + " \(SearchGet?.data[indexPath.row].zipCode ?? "")"
-//            cell.lblmiles.text = "\(SearchGet?.data[indexPath.row].milesAway ?? "")" + " miles"
-//            cell.lblDemerits.text = SearchGet?.data[indexPath.row].demerits
-//            cell.lbldate.text = convertToString(dateString: SearchGet?.data[indexPath.row].lastInspection ?? "", formatIn: "M/dd/yyyy hh:mm:ss a", formatOut: "MM/dd/yyyy")
             
 
             cell.lbltitle.text = (park?["EstablishmentName"] as! String)
