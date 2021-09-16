@@ -1,11 +1,11 @@
 
 import UIKit
 
-class WellnessProgramsTableViewCell: UITableViewCell {
+class AdditionalResourcesTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var lbl: UILabel!
-    @IBOutlet weak var viewlayout: UIView!
+    @IBOutlet var lbl: UILabel!
     @IBOutlet var ArrowRight: UIButton!
+    @IBOutlet var viewlayout: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -52,7 +52,7 @@ class AllTableViewController: UIViewController,UITableViewDelegate,UITableViewDa
     
     var WICTitleArray = ["WIC Administration Office","Harris County Public Helalth Antoine WIC Center","Harris County Public Helalth Bear Creek WIC","Harris County Public Helalth Decker Drive WIC Center","Harris County Public Helalth Emerald Plaza WIC Center","Harris County Public Helalth Fallbrook WIC Center","Harris County Public Humble WIC Center","Harris County Public Helalth Cypress Station WIC Center","Harris County Public Helalth Shaver WIC Center","Harris County Public Helalth Scarsdale WIC Center","Harris County Public Helalth Tomball WIC Center","Harris County Public Helalth Southeast WIC Center"]
     
-    var WICAddressArray = ["2223 West Loop south, Suit 529 Houston Taxes 77027","5815 Antoine Drive Houston, Texas 77091","16233 Clay Road, Suit 318, Houston TX 77084","4128 decker Drive,Baytown, Texas 77520","11509 Veterans Memorial Drive,Suite 400 Houston,Texas 77067","14901 SH 249 Tomball Parkway,suit 107 Houston, Texas 77086","8950 Will Clyton Parkway, Suite A Humble Texas 77338","221 FM 1960 West, suit A Houston, Texas 77090","152 Fairmont Parkway, Pasadena,Texas 77504","10851 Scarsdale Boulevard,Suit 116 Houston,teaxas 77089","701 East Main street, Suite # 145b Tomball, Teaxas 77375","3737 red Bluff Road Pasadena,Teaxas 77503"]
+    var WICAddressArray = ["2223 West Loop south, Suit 529 Houston Texas 77027","5815 Antoine Drive Houston, Texas 77091","16233 Clay Road, Suit 318, Houston TX 77084","4128 decker Drive,Baytown, Texas 77520","11509 Veterans Memorial Drive,Suite 400 Houston,Texas 77067","14901 SH 249 Tomball Parkway,suit 107 Houston, Texas 77086","8950 Will Clyton Parkway, Suite A Humble Texas 77338","221 FM 1960 West, suit A Houston, Texas 77090","152 Fairmont Parkway, Pasadena,Texas 77504","10851 Scarsdale Boulevard,Suit 116 Houston,Texas 77089","701 East Main street, Suite # 145b Tomball, Texas 77375","3737 red Bluff Road Pasadena,Texas 77503"]
     
     var WICArrayNumber = ["713.439.6145","6855","6855","6855","6855","6855","6855","6855","6855","6855","6855","6855"]
     
@@ -131,11 +131,6 @@ class AllTableViewController: UIViewController,UITableViewDelegate,UITableViewDa
             }else{
                 
             }
-            //cell.viewlayout.backgroundColor = UIColor.white
-            //cell.viewlayout.layer.shadowColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-//            cell.viewlayout.layer.shadowOpacity = 2
-//            cell.viewlayout.layer.shadowOffset = CGSize.zero
-//            cell.viewlayout.layer.shadowRadius = 2
 
             return cell
         }

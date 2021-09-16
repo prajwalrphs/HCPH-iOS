@@ -29,7 +29,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
     var ServicesPrograms = ["Health & Wellness","Animal Services","Mosquito Concerns","Environmental","Food Services"]
     
     //var ClinicServicesArr = ["Health Services","Refugee Clinics","Dental Clinics","WIC","Mobile Clinics"]
-    var ClinicServicesArr = ["Health Services","Wellness Programs","Dental Services","WIC Services","Refugee Services","In Your Community"]
+    var ClinicServicesArr = ["Health Services","Dental Services","WIC Services","Refugee Services","In Your Community"]
     var AnimalServiceArr = ["Shelter Animals","Report Animal Cruelty","VPH Maps","Events Calendar","Wish List","Visit Our Website"]
     var MosquitoConcernsArr = ["Dead Bird","Mosquito Breeding Site","Disease Activity","Spray Area","Visit Our Website"]
     var EnvironmentalArr = ["Built Environment","Pools","Drinking Water","Neighborhood Nuisance","Lead Abatement","Visit Our Website"]
@@ -149,13 +149,6 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
             } else {
                 if let places = response?.results() {
                     if let place = places.first {
-//                        print(place.lines)
-//                        print("GEOCODE: Formatted postalCode: \(place.postalCode ?? "")")
-//                        print("GEOCODE: Formatted locality: \(place.locality ?? "")")
-//                        print("GEOCODE: Formatted subLocality: \(place.subLocality ?? "")")
-//                        print("GEOCODE: Formatted administrativeArea: \(place.administrativeArea ?? "")")
-//                        print("GEOCODE: Formatted country: \(place.country ?? "")")
-                        
                         UserDefaults.standard.set(place.postalCode ?? "", forKey: AppConstant.ZIPCODETWO)
                         
                     } else {
@@ -514,12 +507,16 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
                         
                         self.navigationController?.pushViewController(naviagte, animated: true)
                         
-                    }else if indexPath.row == 1{
-                        
-                        let naviagte:WellnessProgramsViewController = self.storyboard?.instantiateViewController(withIdentifier: "WellnessProgramsViewController") as! WellnessProgramsViewController
-                        self.navigationController?.pushViewController(naviagte, animated: true)
-                        
-                    }else if indexPath.row == 2{
+                    }
+                    
+//                    else if indexPath.row == 1{
+//
+//                        let naviagte:WellnessProgramsViewController = self.storyboard?.instantiateViewController(withIdentifier: "WellnessProgramsViewController") as! WellnessProgramsViewController
+//                        self.navigationController?.pushViewController(naviagte, animated: true)
+//
+//                    }
+                    
+                    else if indexPath.row == 1{
                         
 //                        let naviagte:AllTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "AllTableViewController") as! AllTableViewController
 //
@@ -533,7 +530,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
 
                         self.navigationController?.pushViewController(naviagte, animated: true)
                         
-                    }else if indexPath.row == 3{
+                    }else if indexPath.row == 2{
                         
                         let naviagte:AllTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "AllTableViewController") as! AllTableViewController
 
@@ -544,7 +541,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
 
                         self.navigationController?.pushViewController(naviagte, animated: true)
                         
-                    }else if indexPath.row == 4{
+                    }else if indexPath.row == 3{
                         
                         let naviagte:AllTableViewController = self.storyboard?.instantiateViewController(withIdentifier: "AllTableViewController") as! AllTableViewController
 
@@ -555,7 +552,7 @@ class HomeViewController: UIViewController,TabItem,UICollectionViewDelegate,UICo
 
                         self.navigationController?.pushViewController(naviagte, animated: true)
                         
-                    }else if indexPath.row == 5{
+                    }else if indexPath.row == 4{
                         
                         if CLLocationManager.locationServicesEnabled() {
                             switch CLLocationManager.authorizationStatus() {

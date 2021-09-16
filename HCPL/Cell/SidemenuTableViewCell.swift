@@ -24,20 +24,6 @@ class SidemenuTableViewCell: UITableViewCell {
         
         delegateSwitchisOn?.SwitchisOnTapped(cell: self)
         
-//        if sender.isOn {
-//
-//            print("is on")
-//            UserDefaults.standard.set("on", forKey: AppConstant.ISONISOFF)
-//            UIApplication.shared.windows.forEach { window in
-//                 window.overrideUserInterfaceStyle = .dark
-//             }
-//        } else {
-//            print("is off")
-//            UserDefaults.standard.set("off", forKey: AppConstant.ISONISOFF)
-//            UIApplication.shared.windows.forEach { window in
-//                 window.overrideUserInterfaceStyle = .light
-//             }
-//        }
     }
     
     

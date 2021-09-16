@@ -1,49 +1,31 @@
-//
-//  WellnessProgramsViewController.swift
-//  HCPL
-//
-//  Created by Skywave-Mac on 04/08/21.
-//  Copyright © 2021 Skywave-Mac. All rights reserved.
-//
 
 import UIKit
 
-class WellnessProgramsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
-    
-    @IBOutlet var WellnessTable: UITableView!
-    @IBOutlet var Wellnesslastview: UIView!
-    
-    var WellnessProgramsArray = ["Tobacco Cessation","Obesity Reduction","Diabetes Prevention Children and Adults","Immunization for Children and Adults","HIV and STI Programs","Programs Alpha","Programs Beta"]
+class AdditionalResourcesViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+
+    var Listofarray = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        Wellnesslastview.layer.cornerRadius = 7
-        Wellnesslastview.layer.borderWidth = 0.6
-        Wellnesslastview.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        
     }
     
     @IBAction func Back(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func WellnessProgram(_ sender: UIButton) {
-        
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return WellnessProgramsArray.count
+        return Listofarray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell:AdditionalResourcesTableViewCell = tableView.dequeueReusableCell(withIdentifier: "AdditionalResourcesTableViewCell", for: indexPath) as! AdditionalResourcesTableViewCell
         
-        let cell:WellnessProgramsTableViewCell = tableView.dequeueReusableCell(withIdentifier: "WellnessProgramsTableViewCell", for: indexPath) as! WellnessProgramsTableViewCell
         
-        cell.lbl.text = WellnessProgramsArray[indexPath.row]
+        cell.lbl.text = Listofarray[indexPath.row]
         cell.viewlayout.layer.cornerRadius = 7
         cell.viewlayout.layer.borderWidth = 0.6
         cell.viewlayout.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        
         
         let onoff = UserDefaults.standard.string(forKey: AppConstant.ISONISOFF)
         print("onoff==>\(onoff ?? "")")
@@ -60,18 +42,37 @@ class WellnessProgramsViewController: UIViewController,UITableViewDelegate,UITab
         }else{
             
         }
+        
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 0{
-            let navigate:TobaccoCessationViewController = self.storyboard?.instantiateViewController(identifier: "TobaccoCessationViewController") as! TobaccoCessationViewController
-            
-            self.navigationController?.pushViewController(navigate, animated: true)
-            //self.naviGetTo(url: "https://publichealth.harriscountytx.gov/Services-Programs/Services/TobaccoCessation", title: "Tobacco Cessation")
+        
+        if Reachability.isConnectedToNetwork(){
+            if self.Listofarray == ["Texas Quitline","Become an Ex"]{
+                if indexPath.row == 0{
+                    naviGetTo(url: "https://www.quitnow.net/mve/quitnow?qnclient=texas", title: "Texas Quitline")
+                }
+                
+                if indexPath.row == 1{
+                    naviGetTo(url: "https://www.becomeanex.org/", title: "Become an Ex")
+                }
+            }else{
+                if indexPath.row == 0{
+                    naviGetTo(url: "https://aspire2.mdanderson.org/", title: "MDAnderson Program")
+                }
+                
+                if indexPath.row == 1{
+                    naviGetTo(url: "https://myquitforlife.com/mve/?client=LVFTX&clientId=11501506", title: "Live Vaps")
+                    
+                }
+            }
+        }else{
+            self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
         }
     }
-    
+
     func naviGetTo(url:String, title:String){
         let navigate:webviewViewController = self.storyboard?.instantiateViewController(withIdentifier: "webviewViewController") as! webviewViewController
         
@@ -81,4 +82,5 @@ class WellnessProgramsViewController: UIViewController,UITableViewDelegate,UITab
         self.navigationController?.pushViewController(navigate, animated: true)
         
     }
+    
 }

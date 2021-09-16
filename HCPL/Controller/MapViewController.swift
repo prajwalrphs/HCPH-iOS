@@ -764,9 +764,112 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
     func geoView(_ geoView: AGSGeoView, didTapAtScreenPoint screenPoint: CGPoint, mapPoint: AGSPoint) {
         
         locationOverlay.graphics.removeAllObjects()
+        
+        
+        hud = MBProgressHUD.showAdded(to: self.view, animated: true)
+        hud.bezelView.color = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
+        hud.customView?.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
+        hud.show(animated: true)
 
         let mapCenter = mapview.visibleArea?.extent.center
         
+        
+        if let latLon = AGSGeometryEngine.projectGeometry(mapCenter!, to: .wgs84()) as? AGSPoint
+        {
+            let lat = latLon.y
+            let lon = latLon.x
+
+            print("latLon.y==>\(lat)")
+            print("latLon.x==>\(lon)")
+
+        
+            let GetLatlon = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+
+            print("GetLatlon==>\(GetLatlon.latitude)")
+            print("GetLatlon==>\(GetLatlon.longitude)")
+
+
+            let geocoder = GMSGeocoder()
+            geocoder.reverseGeocodeCoordinate(GetLatlon) { response, error in
+                if error != nil {
+                    print("reverse geodcode fail: \(error!.localizedDescription)")
+                } else {
+
+                    if let places = response?.results() {
+                        if let place = places.first {
+                            print(place.lines)
+                            print("GEOCODE: Did Select Formatted postalCode: \(place.postalCode ?? "")")
+
+                            self.ZIpCodeMain = place.postalCode ?? ""
+
+                            self.locatorTask.geocode(withSearchText: place.postalCode ?? "") { [weak self] (results, error) in
+
+
+                                guard let self = self else { return }
+
+                                if let error = error{
+                                    print("Error geocoding: \(error.localizedDescription)")
+                                    DispatchQueue.main.async {
+                                        self.hud.hide(animated: true)
+                                    }
+                                    return
+                                }
+
+                                guard let result = results?.first else { return }
+                                
+                                print(
+                                            """
+                                            Found \(result.label)
+                                            at \(result.displayLocation.debugDescription)
+                                            with score \(result.score)
+                                            """
+                                        )
+                                
+                                if result.label.contains("Texas") || result.label.contains("Alabama") || result.label.contains("Alaska") || result.label.contains("Arizona") || result.label.contains("Arkansas") || result.label.contains("California") || result.label.contains("Colorado") || result.label.contains("Connecticut") || result.label.contains("Delaware") || result.label.contains("District Of Columbia") || result.label.contains("Florida") || result.label.contains("Georgia") || result.label.contains("Hawaii") || result.label.contains("Idaho") || result.label.contains("Illinois") || result.label.contains("Indiana") || result.label.contains("Iowa") || result.label.contains("Kansas") || result.label.contains("Kentucky") || result.label.contains("Louisiana") || result.label.contains("Maine") || result.label.contains("Marshall Islands") || result.label.contains("Maryland") || result.label.contains("Massachusetts") || result.label.contains("Michigan") || result.label.contains("Minnesota") || result.label.contains("Mississippi") || result.label.contains("Missouri") || result.label.contains("Montana") || result.label.contains("Nebraska") || result.label.contains("Nevada") || result.label.contains("New Hampshire") || result.label.contains("New Jersey") || result.label.contains("New Mexico") || result.label.contains("New York") || result.label.contains("North Carolina") || result.label.contains("North Dakota") || result.label.contains("Ohio") || result.label.contains("Oklahoma") || result.label.contains("Oregon") || result.label.contains("Pennsylvania") || result.label.contains("Rhode Island") || result.label.contains("South Carolina") || result.label.contains("South Dakota") || result.label.contains("Tennessee") || result.label.contains("Utah") || result.label.contains("Vermont") || result.label.contains("Virginia") || result.label.contains("Washington") || result.label.contains("West Virginia") || result.label.contains("Wisconsin") || result.label.contains("Wyoming"){
+                                    print("exists")
+                                    
+                                    if let extent = result.extent{
+                                        self.mapview.setViewpoint(AGSViewpoint(targetExtent: extent))
+                                    }
+
+                                    if let location  = result.displayLocation{
+
+                                        //let graphic = graphicForPoint(location, attributes: result.attributes as [String: AnyObject]?)
+
+                                        let graphic = AGSGraphic(geometry: location, symbol: AGSSimpleMarkerSymbol(style: .circle, color: .blue, size: 12), attributes: nil)
+                                        DispatchQueue.main.async {
+                                            self.hud.hide(animated: true)
+                                        }
+                                        self.locationOverlay.graphics.add(graphic)
+
+                                        for demo in self.demos {
+                                            self.addButton(for: demo)
+                                        }
+
+                                    }
+
+                                    
+                                }else{
+                                    DispatchQueue.main.async {
+                                        self.hud.hide(animated: true)
+                                    }
+                                    self.view.showToast(toastMessage: "No results found", duration: 0.3)
+                                    
+                                }
+                            }
+                           
+
+                        } else {
+                            print("GEOCODE: nil first in places")
+                        }
+                    } else {
+                        print("GEOCODE: nil in places")
+                    }
+                }
+            }
+
+        
+        }
         
         
 
@@ -780,166 +883,139 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
 //
 //        print("X==>\(x)")
 //        print("Y==>\(y)")
-        if let latLon = AGSGeometryEngine.projectGeometry(mapCenter!, to: .wgs84()) as? AGSPoint
-        {
-            let lat = latLon.y
-            let lon = latLon.x
-
-            print("latLon.y==>\(lat)")
-            print("latLon.x==>\(lon)")
-
-            let map = AGSMap(
-                basemapStyle: .arcGISTopographic
-            )
-
-           mapview.map = map
-
-           mapview.setViewpoint(
-                AGSViewpoint(
-                    latitude: lat,
-                    longitude: lon,
-                    scale: 42_000
-                )
-            )
-
-            let GetLatlon = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-
-            print("GetLatlon==>\(GetLatlon.latitude)")
-            print("GetLatlon==>\(GetLatlon.longitude)")
-
-          let locationmain = AGSPoint(clLocationCoordinate2D: CLLocationCoordinate2D(latitude: lat, longitude: lon))
-
-            let graphic = AGSGraphic(geometry: locationmain, symbol: AGSSimpleMarkerSymbol(style: .circle, color: .purple, size: 12), attributes: nil)
-           self.locationOverlay.graphics.add(graphic)
-
-
-            let geocoder = GMSGeocoder()
-            geocoder.reverseGeocodeCoordinate(GetLatlon) { response, error in
-                if error != nil {
-                    print("reverse geodcode fail: \(error!.localizedDescription)")
-                } else {
-
-                    if let places = response?.results() {
-                        if let place = places.first {
-                            print(place.lines)
-                            //print("GEOCODE: Did Select Formatted postalCode: \(place.postalCode ?? "")")
-
-                            self.ZIpCodeMain = place.postalCode ?? ""
-
-                            for demo in self.demos {
-                                self.addButton(for: demo)
-                            }
-
-                        } else {
-                            print("GEOCODE: nil first in places")
-                        }
-                    } else {
-                        print("GEOCODE: nil in places")
-                    }
-                }
-            }
-
-            
-            do {
-                let result = try AGSArcGISRuntimeEnvironment.setLicenseKey("runtimelite,1000,rud2361000057,none,TRB3LNBHPDH4F5KHT180")
-                print("License Result : \(result.licenseStatus)")
-            }
-            catch let error as NSError {
-                print("error: \(error)")
-            }
-            
-
-            self.graphicsOverlay = AGSGraphicsOverlay()
-            self.mapview.graphicsOverlays.add(graphicsOverlay)
-            
-
-            //self.locatorTask = AGSLocatorTask(url: URL(string: self.locatorURL)!)
-            
-            self.geocodeParameters = AGSGeocodeParameters()
-            self.geocodeParameters.resultAttributeNames.append(contentsOf: ["*"])
-            self.geocodeParameters.minScore = 75
-            
-            
-            let map3 = AGSMap(basemap: .topographic())
-            
-            //let hcBoundaryLayer = AGSFeatureLayer(featureTable: hcBoundaryMask)
-            
-            let featureTable0 = AGSServiceFeatureTable(url: URL(string: "https://www.gis.hctx.net/arcgis/rest/services/HCPHES/Mobile_Mosquito_Disease_Last7days/MapServer/0")!)
-
-            let featureTable7 = AGSServiceFeatureTable(url: URL(string: "https://www.gis.hctx.net/arcgis/rest/services/HCPHES/MVCD_ConfirmedMosquitoActivity_OpAreas_Public_MapService/MapServer/7")!)
-           
-            
-          
-            self.featureLayer0 = AGSFeatureLayer(featureTable: featureTable0)
-            self.featureLayer7 = AGSFeatureLayer(featureTable: featureTable7)
-
-            map3.operationalLayers.add(featureLayer0!)
-            map3.operationalLayers.add(featureLayer7!)
-
-            self.mapview.map = map3
-           
-            self.mapview.locationDisplay.autoPanMode = AGSLocationDisplayAutoPanMode.off
-            self.mapview.locationDisplay.start { (error:Error?) -> Void in
-                if error != nil {
-                    //self.presentAlert(error: error)
-                    
-                    //update context sheet to Stop
-                    //self.sheet.selectedIndex = 0
-                }
-            }
-            let locationManager = CLLocationManager()
-            
-            let myLocationPoint = AGSPoint(clLocationCoordinate2D: (locationManager.location?.coordinate)!)
-            self.mapview.setViewpointCenter(myLocationPoint, scale: 6000, completion: nil)
-            
-            self.mapview.selectionProperties.color = .cyan
-            //self.searchTextField.isHidden = true
-            self.mapview.layerViewStateChangedHandler = { (layer:AGSLayer, state:AGSLayerViewState) in
-                switch state.status {
-                case AGSLayerViewStatus.active:
-                    if(layer.name == "Zip Codes")
-                    {
-                        //self.searchTextField.isHidden = false
-                    }
-                    print("Active - ", layer.name)
-                case AGSLayerViewStatus.notVisible:print("Not Visible - ", layer.name)
-                case AGSLayerViewStatus.outOfScale:print("Out of Scale - ", layer.name)
-                case AGSLayerViewStatus.loading:print("Loading - ", layer.name)
-                case AGSLayerViewStatus.error:print("Error - ", layer.name)
-                default:print("Unknown - ", layer.name)
-                }
-            }
-
-
-        }
-        
-//        mapview.identifyLayers(atScreenPoint: screenPoint, tolerance: 20, returnPopupsOnly: false) { [weak self]  (results, error) in
+//        if let latLon = AGSGeometryEngine.projectGeometry(mapCenter!, to: .wgs84()) as? AGSPoint
+//        {
+//            let lat = latLon.y
+//            let lon = latLon.x
 //
-//            guard let self = self else { return }
+//            print("latLon.y==>\(lat)")
+//            print("latLon.x==>\(lon)")
+//
+//            let map = AGSMap(
+//                basemapStyle: .arcGISTopographic
+//            )
+//
+//           mapview.map = map
+//
+//           mapview.setViewpoint(
+//                AGSViewpoint(
+//                    latitude: lat,
+//                    longitude: lon,
+//                    scale: 42_000
+//                )
+//            )
+//
+//            let GetLatlon = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+//
+//            print("GetLatlon==>\(GetLatlon.latitude)")
+//            print("GetLatlon==>\(GetLatlon.longitude)")
+//
+//          let locationmain = AGSPoint(clLocationCoordinate2D: CLLocationCoordinate2D(latitude: lat, longitude: lon))
+//
+//            let graphic = AGSGraphic(geometry: locationmain, symbol: AGSSimpleMarkerSymbol(style: .circle, color: .purple, size: 12), attributes: nil)
+//           self.locationOverlay.graphics.add(graphic)
 //
 //
-//            print("screenPoint.x: \(screenPoint.x)")
-//            print("screenPoint.y: \(screenPoint.y)")
+//            let geocoder = GMSGeocoder()
+//            geocoder.reverseGeocodeCoordinate(GetLatlon) { response, error in
+//                if error != nil {
+//                    print("reverse geodcode fail: \(error!.localizedDescription)")
+//                } else {
 //
-//            print("mapPoint.x: \(mapPoint.x)")
-//            print("mapPoint.y: \(mapPoint.y)")
+//                    if let places = response?.results() {
+//                        if let place = places.first {
+//                            print(place.lines)
+//                            print("GEOCODE: Did Select Formatted postalCode: \(place.postalCode ?? "")")
 //
-//            if let error = error{
-//                print("Error identifyLayers: \(error.localizedDescription)")
-//                return
+//                            self.ZIpCodeMain = place.postalCode ?? ""
+//
+//                            for demo in self.demos {
+//                                self.addButton(for: demo)
+//                            }
+//
+//                        } else {
+//                            print("GEOCODE: nil first in places")
+//                        }
+//                    } else {
+//                        print("GEOCODE: nil in places")
+//                    }
+//                }
 //            }
 //
-//            if let result = results?.first,
-//               let feature = result.geoElements.first as? AGSFeature{
 //
-//                self.mapview.callout.title = feature.attributes["Name"] as? String
-//                self.mapview.callout.detail = feature.attributes["Text_for_Short_Desc_field"] as? String
-//                self.mapview.callout.show(for: feature, tapLocation: mapPoint, animated: true)
-//            }else{
-//                self.mapview.callout.dismiss()
+//            do {
+//                let result = try AGSArcGISRuntimeEnvironment.setLicenseKey("runtimelite,1000,rud2361000057,none,TRB3LNBHPDH4F5KHT180")
+//                print("License Result : \(result.licenseStatus)")
 //            }
+//            catch let error as NSError {
+//                print("error: \(error)")
+//            }
+//
+//
+//            self.graphicsOverlay = AGSGraphicsOverlay()
+//            self.mapview.graphicsOverlays.add(graphicsOverlay)
+//
+//
+//            //self.locatorTask = AGSLocatorTask(url: URL(string: self.locatorURL)!)
+//
+//            self.geocodeParameters = AGSGeocodeParameters()
+//            self.geocodeParameters.resultAttributeNames.append(contentsOf: ["*"])
+//            self.geocodeParameters.minScore = 75
+//
+//
+//            let map3 = AGSMap(basemap: .topographic())
+//
+//            //let hcBoundaryLayer = AGSFeatureLayer(featureTable: hcBoundaryMask)
+//
+//            let featureTable0 = AGSServiceFeatureTable(url: URL(string: "https://www.gis.hctx.net/arcgis/rest/services/HCPHES/Mobile_Mosquito_Disease_Last7days/MapServer/0")!)
+//
+//            let featureTable7 = AGSServiceFeatureTable(url: URL(string: "https://www.gis.hctx.net/arcgis/rest/services/HCPHES/MVCD_ConfirmedMosquitoActivity_OpAreas_Public_MapService/MapServer/7")!)
+//
+//
+//
+//            self.featureLayer0 = AGSFeatureLayer(featureTable: featureTable0)
+//            self.featureLayer7 = AGSFeatureLayer(featureTable: featureTable7)
+//
+//            map3.operationalLayers.add(featureLayer0!)
+//            map3.operationalLayers.add(featureLayer7!)
+//
+//            self.mapview.map = map3
+//
+//            self.mapview.locationDisplay.autoPanMode = AGSLocationDisplayAutoPanMode.off
+//            self.mapview.locationDisplay.start { (error:Error?) -> Void in
+//                if error != nil {
+//                    //self.presentAlert(error: error)
+//
+//                    //update context sheet to Stop
+//                    //self.sheet.selectedIndex = 0
+//                }
+//            }
+//            let locationManager = CLLocationManager()
+//
+//            let myLocationPoint = AGSPoint(clLocationCoordinate2D: (locationManager.location?.coordinate)!)
+//            self.mapview.setViewpointCenter(myLocationPoint, scale: 6000, completion: nil)
+//
+//            self.mapview.selectionProperties.color = .cyan
+//            //self.searchTextField.isHidden = true
+//            self.mapview.layerViewStateChangedHandler = { (layer:AGSLayer, state:AGSLayerViewState) in
+//                switch state.status {
+//                case AGSLayerViewStatus.active:
+//                    if(layer.name == "Zip Codes")
+//                    {
+//                        //self.searchTextField.isHidden = false
+//                    }
+//                    print("Active - ", layer.name)
+//                case AGSLayerViewStatus.notVisible:print("Not Visible - ", layer.name)
+//                case AGSLayerViewStatus.outOfScale:print("Out of Scale - ", layer.name)
+//                case AGSLayerViewStatus.loading:print("Loading - ", layer.name)
+//                case AGSLayerViewStatus.error:print("Error - ", layer.name)
+//                default:print("Unknown - ", layer.name)
+//                }
+//            }
+//
 //
 //        }
+
     }
         
     func searchTextdemo(text: String!)

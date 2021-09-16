@@ -1,9 +1,3 @@
-// The MIT License (MIT)
-//
-// Copyright (c) 2017-2018 Alexander Grebenyuk (github.com/kean).
-//
-// August 2018 version, to update copy all code from https://raw.githubusercontent.com/kean/Yalta/master/Sources/Yalta.swift (leaving this header instead of the updated one)
-// Make sure to remove all `public` from this class so we don't cause issues with anyone using this library in their own code already
 
 #if os(iOS) || os(tvOS) || os(watchOS)
 import UIKit

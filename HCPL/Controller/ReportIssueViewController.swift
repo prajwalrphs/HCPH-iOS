@@ -80,13 +80,6 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
             } else {
                 if let places = response?.results() {
                     if let place = places.first {
-//                        print(place.lines)
-//                        print("GEOCODE: Formatted postalCode: \(place.postalCode ?? "")")
-//                        print("GEOCODE: Formatted locality: \(place.locality ?? "")")
-//                        print("GEOCODE: Formatted subLocality: \(place.subLocality ?? "")")
-//                        print("GEOCODE: Formatted administrativeArea: \(place.administrativeArea ?? "")")
-//                        print("GEOCODE: Formatted country: \(place.country ?? "")")
-                        
                         UserDefaults.standard.set(place.postalCode ?? "", forKey: AppConstant.ZIPCODETWO)
                         
                     } else {
@@ -110,13 +103,6 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
         let cell:RepostissueTableViewCell = tableView.dequeueReusableCell(withIdentifier: "RepostissueTableViewCell", for: indexPath) as! RepostissueTableViewCell
         
         cell.lblname.text = Arrofname[indexPath.row]
-        
-//        cell.borderview.backgroundColor = UIColor.white
-//        cell.borderview.layer.shadowColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-//        cell.borderview.layer.shadowOpacity = 2
-//        cell.borderview.layer.shadowOffset = CGSize.zero
-//        cell.borderview.layer.shadowRadius = 2
-        
         cell.borderview.layer.borderWidth = 0.6
         cell.borderview.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         cell.borderview.layer.cornerRadius = 7
@@ -339,33 +325,7 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
              }
             
         }
-//        else if indexPath.row == 3{
-//
-//            if CLLocationManager.locationServicesEnabled() == true {
-//                let navigate:CommercialPoolsViewController = self.storyboard?.instantiateViewController(identifier: "CommercialPoolsViewController") as! CommercialPoolsViewController
-//                navigate.CommercialArray = FoodSafetyArray
-//                navigate.ids = Foodids
-//                navigate.Title = FoodTitle
-//                navigate.PlaceholderGet = "Choose Subject"
-//                self.navigationController?.pushViewController(navigate, animated: true)
-//            }else{
-//                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
-//
-//                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
-//                    //Redirect to Settings app
-//                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
-//                })
-//
-//                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
-//                alertController.addAction(cancelAction)
-//
-//                alertController.addAction(okAction)
-//
-//                self.present(alertController, animated: true, completion: nil)
-//            }
-//
-//
-//        }
+
         else if indexPath.row == 3{
             
             
@@ -495,64 +455,7 @@ class ReportIssueViewController: UIViewController,UITableViewDelegate,UITableVie
              }
             
         }else{
-            
-            
-//            if CLLocationManager.locationServicesEnabled() == true {
-//                if CLLocationManager.locationServicesEnabled() {
-//                    switch CLLocationManager.authorizationStatus() {
-//                    case .notDetermined:
-//                        //self.locationManager.requestAlwaysAuthorization()
-//                        let navigate:ReportanimalViewController = self.storyboard?.instantiateViewController(identifier: "ReportanimalViewController") as! ReportanimalViewController
-//                        self.navigationController?.pushViewController(navigate, animated: true)
-//                        self.locationManager.requestWhenInUseAuthorization()
-//                    case .restricted, .denied:
-//                            print("No access")
-//                        //self.locationManager.requestWhenInUseAuthorization()
-//                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
-//
-//                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
-//                                //Redirect to Settings app
-//                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
-//                            })
-//
-//                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
-//                            alertController.addAction(cancelAction)
-//
-//                            alertController.addAction(okAction)
-//
-//                            self.present(alertController, animated: true, completion: nil)
-//                        case .authorizedAlways, .authorizedWhenInUse:
-//                            print("Access")
-//                            let navigate:ReportanimalViewController = self.storyboard?.instantiateViewController(identifier: "ReportanimalViewController") as! ReportanimalViewController
-//                            self.navigationController?.pushViewController(navigate, animated: true)
-//                            locationManager.delegate = self
-//                            locationManager.startUpdatingLocation()
-//                        @unknown default:
-//                        break
-//                    }
-//                    } else {
-//                        print("Location services are not enabled")
-//                }
-//
-//            }else {
-//
-//                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
-//
-//                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
-//                    //Redirect to Settings app
-//                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
-//                })
-//
-//                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
-//                alertController.addAction(cancelAction)
-//
-//                alertController.addAction(okAction)
-//
-//                self.present(alertController, animated: true, completion: nil)
-//
-//
-//             }
-            
+        
             if CLLocationManager.locationServicesEnabled() == true {
                 if CLLocationManager.locationServicesEnabled() {
                     switch CLLocationManager.authorizationStatus() {

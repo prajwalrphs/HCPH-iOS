@@ -60,18 +60,6 @@ class webviewViewController: UIViewController,WKNavigationDelegate {
         
         LoadLink()
         
-//        datastr = strUrl
-//        receivedTitle = strTitle
-//
-//        lbltitle.text  = receivedTitle
-//
-//        let urlget = datastr ?? ""
-//        let url = NSURL(string: urlget)
-//        let request = NSURLRequest(url: url! as URL)
-//
-//        webView.navigationDelegate = self
-//        webView.load(request as URLRequest)
-        
     }
     
     @IBAction func leftarrow(_ sender: UIButton) {

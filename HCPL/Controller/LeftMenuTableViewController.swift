@@ -80,16 +80,7 @@ class LeftMenuTableViewController: UIViewController,UITableViewDelegate,UITableV
                 SwitchTag = arrlable[indexPath.row]
                 cell.darklightmode.tag = Int(SwitchTag.count)
             }
-//            else{
-//                cell.img.image = arrimages[indexPath.row]
-//                cell.lbl.text = arrlable[indexPath.row]
-//                cell.img.image = cell.img.image?.withRenderingMode(.alwaysTemplate)
-//                cell.img.tintColor = #colorLiteral(red: 0.4235294118, green: 0.7490196078, blue: 0.3529411765, alpha: 1)
-//                cell.darklightmode.isHidden = false
-//                cell.delegateSwitchisOn = self
-//                SwitchTag = arrlable[indexPath.row]
-//                cell.darklightmode.tag = Int(SwitchTag.count)
-//            }
+
             
         }else{
             cell.img.image = arrimages[indexPath.row]
@@ -97,9 +88,7 @@ class LeftMenuTableViewController: UIViewController,UITableViewDelegate,UITableV
             cell.img.image = cell.img.image?.withRenderingMode(.alwaysTemplate)
             cell.img.tintColor = #colorLiteral(red: 0.4235294118, green: 0.7490196078, blue: 0.3529411765, alpha: 1)
             cell.darklightmode.isHidden = true
-//            cell.delegateSwitchisOn = self
-//            SwitchTag = arrlable[indexPath.row]
-//            cell.darklightmode.tag = Int(SwitchTag.count)
+
         }
         
         return cell

@@ -189,15 +189,7 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
             } else {
                 if let places = response?.results() {
                     if let place = places.first {
-                        print(place.lines)
-                        print("GEOCODE: Formatted postalCode: \(place.postalCode ?? "")")
-                        print("GEOCODE: Formatted locality: \(place.locality ?? "")")
-                        print("GEOCODE: Formatted subLocality: \(place.subLocality ?? "")")
-                        print("GEOCODE: Formatted administrativeArea: \(place.administrativeArea ?? "")")
-                        print("GEOCODE: Formatted country: \(place.country ?? "")")
-                        print("GEOCODE: Formatted thoroughfare: \(place.thoroughfare ?? "")")
-                        
-                       
+                    
                         self.ZIpCode = place.postalCode ?? ""
                         self.CityCode = place.locality ?? ""
                         self.AddressCode = "\(place.thoroughfare ?? "")" + " \(place.locality ?? "")" + " \(place.subLocality ?? "")" + " \(place.administrativeArea ?? "")" + " \(place.postalCode ?? "")" + " \(place.country ?? "")"
@@ -210,12 +202,6 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
             }
         }
     }
-    
- 
-   
-
-        
-
     
     var MAX_LENGHTPhone = 10
     func Phonelenght(_ textField : UITextField){
@@ -344,54 +330,7 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
                 
                 
              }
-            
-//            if CLLocationManager.locationServicesEnabled() == true {
-//                if CLLocationManager.locationServicesEnabled() {
-//                    switch CLLocationManager.authorizationStatus() {
-//                        case .notDetermined, .restricted, .denied:
-//                            print("No access")
-//                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
-//
-//                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
-//                                //Redirect to Settings app
-//                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
-//                            })
-//
-//                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
-//                            alertController.addAction(cancelAction)
-//
-//                            alertController.addAction(okAction)
-//
-//                            self.present(alertController, animated: true, completion: nil)
-//                        case .authorizedAlways, .authorizedWhenInUse:
-//                            print("Access")
-//                            if validate(){
-//                                DeadbirdAPICall()
-//                                //CommercialPoolsApicall()
-//                            }
-//                        @unknown default:
-//                        break
-//                    }
-//                    } else {
-//                        print("Location services are not enabled")
-//                }
-//
-//            }else{
-//                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
-//
-//                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
-//                    //Redirect to Settings app
-//                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
-//                })
-//
-//                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
-//                alertController.addAction(cancelAction)
-//
-//                alertController.addAction(okAction)
-//
-//                self.present(alertController, animated: true, completion: nil)
-//            }
-            
+        
         }else{
             print("Internet Connection not Available!")
             self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
@@ -476,45 +415,26 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     "IsObserved": true,
     "$$hashKey": ""] as [String : Any]
 
-    //switch1
-    // let BirdConditionListDic = ["DataAbbr": "Intact",
-    // "DataDesc": "Is the Bird intact ? Is the head attached to the body ?",
-    // "IsObserved": true,
-    // "$$hashKey": ""] as [String : Any]
     BirdConditionList.append(BirdConditionListDic)
 
     }else{
-        
-        
+    
         let BirdConditionListDic = ["DataAbbr": "Intact",
         "DataDesc": "Is the Bird intact ? Is the head attached to the body ?",
         "IsObserved": false,
         "$$hashKey": ""] as [String : Any]
 
-        //switch1
-        // let BirdConditionListDic = ["DataAbbr": "Intact",
-        // "DataDesc": "Is the Bird intact ? Is the head attached to the body ?",
-        // "IsObserved": true,
-        // "$$hashKey": ""] as [String : Any]
+      
         BirdConditionList.append(BirdConditionListDic)
     }
 
     if BirdbeendeadlessBool == "true"{
-    //switch1
-
-    // let BirdConditionListDic2 = """
-    // {"DataAbbr": "Dead < 24 hrs.","DataDesc": "Has the Bird been dead less than 24 hrs ?","IsObserved": \(testbool),"$$hashKey": ""},
-    // """
-
+  
     let BirdConditionListDic2 = ["DataAbbr": "Dead < 24 hrs.",
     "DataDesc": "Has the Bird been dead less than 24 hrs ?",
     "IsObserved": true,
     "$$hashKey": ""] as [String : Any]
-    ////
-    // let BirdConditionListDic2 = ["DataAbbr": "Dead < 24 hrs.",
-    // "DataDesc": "Has the Bird been dead less than 24 hrs ?",
-    // "IsObserved": true,
-    // "$$hashKey": ""] as [String : Any]
+   
     BirdConditionList.append(BirdConditionListDic2)
     }else{
         let BirdConditionListDic2 = ["DataAbbr": "Dead < 24 hrs.",
@@ -530,20 +450,13 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     }
 
     if maggotsorantsBool == "true"{
-    //switch1
-    // let BirdConditionListDic3 = """
-    // {"DataAbbr": "Dead > 24 hrs.","DataDesc": "Are there any maggots or ants on the Bird ?","IsObserved": \(testbool),"$$hashKey": ""},
-    // """
+ 
 
     let BirdConditionListDic3 = ["DataAbbr": "Dead > 24 hrs.",
     "DataDesc": "Are there any maggots or ants on the Bird ?",
     "IsObserved": true,
     "$$hashKey": ""] as [String : Any]
 
-    // let BirdConditionListDic3 = ["DataAbbr": "Dead > 24 hrs.",
-    // "DataDesc": "Are there any maggots or ants on the Bird ?",
-    // "IsObserved": true,
-    // "$$hashKey": ""] as [String : Any]
     BirdConditionList.append(BirdConditionListDic3)
     }else{
         let BirdConditionListDic3 = ["DataAbbr": "Dead > 24 hrs.",
@@ -551,40 +464,23 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
         "IsObserved": false,
         "$$hashKey": ""] as [String : Any]
 
-        // let BirdConditionListDic3 = ["DataAbbr": "Dead > 24 hrs.",
-        // "DataDesc": "Are there any maggots or ants on the Bird ?",
-        // "IsObserved": true,
-        // "$$hashKey": ""] as [String : Any]
         BirdConditionList.append(BirdConditionListDic3)
     }
 
     if birdappeartobeillorinjuredBool == "true"{
-    //switch1
-
-    // let BirdConditionListDic4 = """
-    // {"DataAbbr": "Sick","DataDesc": "Does the bird appear ill or injured ?","IsObserved": \(testbool),"$$hashKey": ""},
-    // """
-
+        
     let BirdConditionListDic4 = ["DataAbbr": "Sick",
     "DataDesc": "Does the bird appear ill or injured ?",
     "IsObserved": true,
     "$$hashKey": ""] as [String : Any]
-    //
-    // let BirdConditionListDic4 = ["DataAbbr": "Sick",
-    // "DataDesc": "Does the bird appear ill or injured ?",
-    // "IsObserved": true,
-    // "$$hashKey": ""] as [String : Any]
+   
     BirdConditionList.append(BirdConditionListDic4)
     }else{
         let BirdConditionListDic4 = ["DataAbbr": "Sick",
         "DataDesc": "Does the bird appear ill or injured ?",
         "IsObserved": false,
         "$$hashKey": ""] as [String : Any]
-        //
-        // let BirdConditionListDic4 = ["DataAbbr": "Sick",
-        // "DataDesc": "Does the bird appear ill or injured ?",
-        // "IsObserved": true,
-        // "$$hashKey": ""] as [String : Any]
+     
         BirdConditionList.append(BirdConditionListDic4)
     }
 
@@ -691,18 +587,7 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
             let image = Image(imageData: selectedImage.pngData()!)
             images.append(image)
             
-//            if let data = selectedImage.pngData() {
-//            //print("There were \(data.count) bytes")
-//            let bcf = ByteCountFormatter()
-//            bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
-//            bcf.countStyle = .file
-//            let string = bcf.string(fromByteCount: Int64(data.count))
-//                print("formatted result: \(string)")
-//
-//                let myInt3 = (string as NSString).integerValue
-//                CheckMB.append(myInt3)
-//            }
-            
+
             if let data = selectedImage.jpegData(compressionQuality: 0.1){
             //print("There were \(data.count) bytes")
             let bcf = ByteCountFormatter()
@@ -721,27 +606,13 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
             }
             
             let total = CheckMB.reduce(0, +)
-//            let imageData: Data? = selectedImage.jpegData(compressionQuality: 0.4)
-//            let imageStr = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
-            //print("imageStr====>\(imageStr)")
-            
-            
-            
+
             if total < 20{
    
                 Image.saveImages(images)
                 dismiss(animated: true, completion: nil)
                 self.birdcollection.reloadData()
                 
-//                let dataa = selectedImage.pngData()
-//                bytes = getArrayOfBytesFromImage(imageData: dataa! as NSData)
-//                let datos: NSData = NSData(bytes: bytes, length: bytes.count)
-                
-                //let options: NSDictionary = [:]
-                
-                //let dataimages = selectedImage.pngData()
-                
-                //let convertToBmp = selectedImage.toData(options: options, type: .bmp)
                 let dataa = selectedImage.jpegData(compressionQuality: 0.1)
             
                 dismiss(animated: true, completion: nil)

@@ -1,10 +1,3 @@
-//
-//  vpSearchTableViewCell.swift
-//  HCPL
-//
-//  Created by Skywave-Mac on 19/03/21.
-//  Copyright © 2021 Skywave-Mac. All rights reserved.
-//
 
 import UIKit
 

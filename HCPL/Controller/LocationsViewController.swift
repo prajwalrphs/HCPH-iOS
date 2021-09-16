@@ -235,23 +235,6 @@ class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewD
                           
                       }
             
-//            if modelNameOrignal == "iPhone 8"{
-//                cell.heightconstraint.constant = 205
-//            }else{
-//                cell.heightconstraint.constant = 185
-//            }
-//
-//            if modelName == "Simulator iPhone 11 Pro"{
-//                cell.heightconstraint.constant = 210
-//            }else{
-//                cell.heightconstraint.constant = 185
-//            }
-//
-//            if modelNameOrignal == "iPhone 11 Pro"{
-//                cell.heightconstraint.constant = 210
-//            }else{
-//                cell.heightconstraint.constant = 185
-//            }
             
             if modelNameOrignal == "iPhone 8"{
                 cell.heightconstraint.constant = 205
@@ -322,15 +305,7 @@ class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewD
                 print("onoff==>\(onoff ?? "")")
                 
                 if onoff == "on"{
-//                    cell.Mainview.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.9782107068)
-//                    cell.btnLocation.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-//                    cell.btnCallFirst.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-//                    cell.btnCallSecond.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-//                    cell.lblAddress.textColor = #colorLiteral(red: 0.533272922, green: 0.5333681703, blue: 0.5332669616, alpha: 1)
-//                    cell.lblFirstNumber.textColor = #colorLiteral(red: 0.533272922, green: 0.5333681703, blue: 0.5332669616, alpha: 1)
-//                    cell.lblTitle.textColor = #colorLiteral(red: 0.533272922, green: 0.5333681703, blue: 0.5332669616, alpha: 1)
-//                    cell.lblSecondNumber.textColor = #colorLiteral(red: 0.533272922, green: 0.5333681703, blue: 0.5332669616, alpha: 1)
-//                    cell.lblsecondTitle.textColor = #colorLiteral(red: 0.533272922, green: 0.5333681703, blue: 0.5332669616, alpha: 1)
+
                     
                     cell.Mainview.backgroundColor = AppConstant.ViewColor
                     cell.Mainview.layer.borderColor = #colorLiteral(red: 0.2588828802, green: 0.2548307478, blue: 0.2589023411, alpha: 1)
@@ -397,16 +372,7 @@ class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewD
                 print("onoff==>\(onoff ?? "")")
                 
                 if onoff == "on"{
-//                    cell.Mainview.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.9782107068)
-//                    cell.btnLocation.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-//                    cell.btnCallFirst.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-//                    cell.btnCallSecond.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-//                    cell.lblAddress.textColor = #colorLiteral(red: 0.533272922, green: 0.5333681703, blue: 0.5332669616, alpha: 1)
-//                    cell.lblFirstNumber.textColor = #colorLiteral(red: 0.533272922, green: 0.5333681703, blue: 0.5332669616, alpha: 1)
-//                    cell.lblTitle.textColor = #colorLiteral(red: 0.533272922, green: 0.5333681703, blue: 0.5332669616, alpha: 1)
-//                    cell.lblSecondNumber.textColor = #colorLiteral(red: 0.533272922, green: 0.5333681703, blue: 0.5332669616, alpha: 1)
-//                    cell.lblsecondTitle.textColor = #colorLiteral(red: 0.533272922, green: 0.5333681703, blue: 0.5332669616, alpha: 1)
-                    
+
                     cell.Mainview.backgroundColor = AppConstant.ViewColor
                     cell.Mainview.layer.borderColor = #colorLiteral(red: 0.2588828802, green: 0.2548307478, blue: 0.2589023411, alpha: 1)
                     cell.btnLocation.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
@@ -475,16 +441,7 @@ class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewD
             print("onoff==>\(onoff ?? "")")
             
             if onoff == "on"{
-//                cell.Mainview.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.9782107068)
-//                cell.btnLocation.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-//                cell.btnCallFirst.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-//                cell.btnCallSecond.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-//                cell.lblAddress.textColor = #colorLiteral(red: 0.533272922, green: 0.5333681703, blue: 0.5332669616, alpha: 1)
-//                cell.lblFirstNumber.textColor = #colorLiteral(red: 0.533272922, green: 0.5333681703, blue: 0.5332669616, alpha: 1)
-//                cell.lblTitle.textColor = #colorLiteral(red: 0.533272922, green: 0.5333681703, blue: 0.5332669616, alpha: 1)
-//                cell.lblSecondNumber.textColor = #colorLiteral(red: 0.533272922, green: 0.5333681703, blue: 0.5332669616, alpha: 1)
-//                cell.lblsecondTitle.textColor = #colorLiteral(red: 0.533272922, green: 0.5333681703, blue: 0.5332669616, alpha: 1)
-                
+
                 cell.Mainview.backgroundColor = AppConstant.ViewColor
                 cell.Mainview.layer.borderColor = #colorLiteral(red: 0.2588828802, green: 0.2548307478, blue: 0.2589023411, alpha: 1)
                 cell.btnLocation.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
@@ -504,23 +461,6 @@ class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewD
                 
             }
             
-//            if modelNameOrignal == "iPhone 8"{
-//                cell.heightconstraint.constant = 205
-//            }else{
-//                cell.heightconstraint.constant = 185
-//            }
-//
-//            if modelName == "Simulator iPhone 11 Pro"{
-//                cell.heightconstraint.constant = 200
-//            }else{
-//                cell.heightconstraint.constant = 185
-//            }
-//
-//            if modelNameOrignal == "iPhone 11 Pro"{
-//                cell.heightconstraint.constant = 200
-//            }else{
-//                cell.heightconstraint.constant = 185
-//            }
             
             if modelNameOrignal == "iPhone 8"{
                 cell.heightconstraint.constant = 205
@@ -577,16 +517,7 @@ class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewD
             print("onoff==>\(onoff ?? "")")
             
             if onoff == "on"{
-//                cell.Mainview.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.9782107068)
-//                cell.btnLocation.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-//                cell.btnCallFirst.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-//                cell.btnCallSecond.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-//                cell.lblAddress.textColor = #colorLiteral(red: 0.533272922, green: 0.5333681703, blue: 0.5332669616, alpha: 1)
-//                cell.lblFirstNumber.textColor = #colorLiteral(red: 0.533272922, green: 0.5333681703, blue: 0.5332669616, alpha: 1)
-//                cell.lblTitle.textColor = #colorLiteral(red: 0.533272922, green: 0.5333681703, blue: 0.5332669616, alpha: 1)
-//                cell.lblSecondNumber.textColor = #colorLiteral(red: 0.533272922, green: 0.5333681703, blue: 0.5332669616, alpha: 1)
-//                cell.lblsecondTitle.textColor = #colorLiteral(red: 0.533272922, green: 0.5333681703, blue: 0.5332669616, alpha: 1)
-                
+
                 cell.Mainview.backgroundColor = AppConstant.ViewColor
                 cell.Mainview.layer.borderColor = #colorLiteral(red: 0.2588828802, green: 0.2548307478, blue: 0.2589023411, alpha: 1)
                 cell.btnLocation.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
@@ -607,20 +538,6 @@ class LocationsViewController: UIViewController,UITableViewDelegate,UITableViewD
                 
             }
         
-            //cell.Lblheightconstraint.constant = 0
-            
-//            if modelName == "Simulator iPhone 11 Pro"{
-//                cell.heightconstraint.constant = 185
-//            }else{
-//                cell.heightconstraint.constant = 175
-//            }
-//
-//            if modelNameOrignal == "iPhone 11 Pro"{
-//                cell.heightconstraint.constant = 185
-//            }else{
-//                cell.heightconstraint.constant = 175
-//            }
-            
              if modelNameOrignal == "iPhone 11 Pro"{
                 cell.heightconstraint.constant = 185
             }else if modelNameOrignal == "iPhone Xs"{

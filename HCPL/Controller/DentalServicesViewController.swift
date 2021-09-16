@@ -1,10 +1,3 @@
-//
-//  DentalServicesViewController.swift
-//  HCPL
-//
-//  Created by Skywave-Mac on 04/08/21.
-//  Copyright © 2021 Skywave-Mac. All rights reserved.
-//
 
 import UIKit
 import CoreLocation
@@ -81,27 +74,7 @@ class DentalServicesViewController: UIViewController,UITableViewDelegate,UITable
                     switch CLLocationManager.authorizationStatus() {
                     case .notDetermined:
                         self.locationManager.requestWhenInUseAuthorization()
-//                        if indexPath.row == 5{
-//                            let navigate:LocationsViewController = self.storyboard?.instantiateViewController(withIdentifier: "LocationsViewController") as! LocationsViewController
-//                            navigate.TitleArray = DentalTitleArray
-//                            navigate.AddressArray = DentalAddressArray
-//                            navigate.FirstNumberArray = DentalFirstNumberArray
-//                            navigate.secondTitleArray = DentalsecondTitleArray
-//                            navigate.SecondNumberArray = DentalSecondNumberArray
-//                            navigate.ConditionString = "Dental Services"
-//                            self.navigationController?.pushViewController(navigate, animated: true)
-//                        }
-//
-//                        if indexPath.row == 6{
-//                            let navigate:HoursViewController = self.storyboard?.instantiateViewController(withIdentifier: "HoursViewController") as! HoursViewController
-//                            navigate.WeekArray = WeekArray
-//                            navigate.Timearray = Timearray
-//                            navigate.CallArray = CallArray
-//                            navigate.ClinicArray = ClinicArray
-//                            navigate.NumberArray = NumberArray
-//                            navigate.TitleTopBar = "Hours"
-//                            self.navigationController?.pushViewController(navigate, animated: true)
-//                        }
+
                     case .restricted, .denied:
                             print("No access")
                         //self.locationManager.requestWhenInUseAuthorization()

@@ -150,8 +150,6 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
              }
         }
         
-
-        
         self.hideKeyboardTappedAround()
                 
         self.locationManager.requestAlwaysAuthorization()
@@ -301,52 +299,6 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
                 
              }
             
-//            if CLLocationManager.locationServicesEnabled() == true {
-//                if CLLocationManager.locationServicesEnabled() {
-//                    switch CLLocationManager.authorizationStatus() {
-//                        case .notDetermined, .restricted, .denied:
-//                            print("No access")
-//                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
-//
-//                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
-//                                //Redirect to Settings app
-//                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
-//                            })
-//
-//                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
-//                            alertController.addAction(cancelAction)
-//
-//                            alertController.addAction(okAction)
-//
-//                            self.present(alertController, animated: true, completion: nil)
-//                        case .authorizedAlways, .authorizedWhenInUse:
-//                            print("Access")
-//                            if validate(){
-//                                MosquitoBreedingAPICall()
-//                            }
-//                        @unknown default:
-//                        break
-//                    }
-//                    } else {
-//                        print("Location services are not enabled")
-//                }
-//
-//            }else{
-//                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
-//
-//                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
-//                    //Redirect to Settings app
-//                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
-//                })
-//
-//                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
-//                alertController.addAction(cancelAction)
-//
-//                alertController.addAction(okAction)
-//
-//                self.present(alertController, animated: true, completion: nil)
-//            }
-            
         }else{
             print("Internet Connection not Available!")
             self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
@@ -403,13 +355,7 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
     }
     
     func UPView(){
-//        let originalX = lbladdimages.frame.origin.x
-//        if(originalX < 0){
-//            bringIntoFrame()
-//        }
-//        else{
-//            lbladdimages.frame.offsetBy(dx: -50, dy: 0)
-//        }
+
         
         UIView.animate(withDuration: 1, delay: 0, options: [.beginFromCurrentState],
                           animations: {
@@ -422,13 +368,7 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
     }
     
     func DOWNView(){
-//        let originalX = lbladdimages.frame.origin.x
-//        if(originalX < 0){
-//            bringIntoFrame()
-//        }
-//        else{
-//            lbladdimages.frame.offsetBy(dx: -50, dy: 0)
-//        }
+
         
         UIView.animate(withDuration: 1, delay: 0, options: [.beginFromCurrentState],
                           animations: {
@@ -704,18 +644,6 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
 
         if let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
 
-//            if let data = selectedImage.pngData() {
-//            //print("There were \(data.count) bytes")
-//            let bcf = ByteCountFormatter()
-//            bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
-//            bcf.countStyle = .file
-//            let string = bcf.string(fromByteCount: Int64(data.count))
-//                print("formatted result: \(string)")
-//
-//                let myInt3 = (string as NSString).integerValue
-//                CheckMB.append(myInt3)
-//            }
-            
             let image = Image(imageData: selectedImage.pngData()!)
             images.append(image)
             
@@ -766,12 +694,7 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
                 DispatchQueue.main.asyncAfter(deadline: when){
                     self.bytes = self.getArrayOfBytesFromImage(imageData: dataa! as NSData)
                     let datos: NSData = NSData(bytes: self.bytes, length: self.bytes.count)
-                    
-    //                let imageData: Data? = selectedImage.jpegData(compressionQuality: 0.4)
-    //                let imageStr = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
-    //                self.arrayimage.append(imageStr)
-                    
-                    //let imageData2:Data =  selectedImage.pngData()!
+                  
                     let base64String2 = datos.base64EncodedString()
                     
                     self.arrayimage.append(base64String2)

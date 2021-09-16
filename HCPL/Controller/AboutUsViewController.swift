@@ -52,26 +52,6 @@ class AboutUsViewController: UIViewController,TabItem,WKNavigationDelegate {
         
         LoadLink()
         
-//        if Reachability.isConnectedToNetwork(){
-//            print("Internet Connection Available!")
-//            let urlget = datastr ?? ""
-//            let url = NSURL(string: urlget)
-//            let request = NSURLRequest(url: url! as URL)
-//
-//            webView.navigationDelegate = self
-//            webView.load(request as URLRequest)
-//
-//        }else{
-//
-//            let alertController = UIAlertController(title: "Internet Connection", message: "Please turn on internet connection to continue.", preferredStyle: UIAlertController.Style.alert)
-//            let cancelAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel)
-//            alertController.addAction(cancelAction)
-//            self.present(alertController, animated: true, completion: nil)
-//
-//
-//        }
-        
-
     }
     
     @IBAction func RefreshBtn(_ sender: UIButton) {

@@ -72,9 +72,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     var ids = [Int]()
     var Title:String!
     var PlaceholderGet:String!
-    
-//    var LatitudeString:String!
-//    var LongitudeString:String!
+
     let locationManager = CLLocationManager()
     
     var currentlat = UserDefaults.standard.string(forKey: AppConstant.CURRENTLAT)
@@ -84,22 +82,14 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     var latti:String!
     var Longi:String!
     var postal:String!
-    
-    //var Establishmentnumber:String?
-        
+            
     override func viewDidLoad() {
         super.viewDidLoad()
         
         latti = currentlat
         Longi = currentlong
         postal = zipcodetwo
-        
-//        if Reachability.isConnectedToNetwork(){
-//            self.BackgroundApiCallApicall(Find: postal)
-//        }else{
-//            self.view.showToast(toastMessage: "Please turn on your device internet connection to continue.", duration: 0.3)
-//        }
-        
+
         CheckMB.removeAll()
         arrayimage.removeAll()
         
@@ -162,15 +152,10 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
         
         txtlastname.autocapitalizationType = .sentences
         txtlastname.autocapitalizationType = .words
-        
-        
-//        txtdescription.autocapitalizationType = .sentences
-//        txtdescription.autocapitalizationType = .words
+ 
         txtdescription.text = "Please describe the complaint in as much detail as possible, including: date, time, address(if not already entered), and any other information that will help our investigation."
         txtdescription.textColor = UIColor.lightGray
-        //txtdescription.autocapitalizationType = .allCharacters
-        
-        
+                
         if onoff == "on"{
             UIApplication.shared.windows.forEach { window in
                  window.overrideUserInterfaceStyle = .dark
@@ -234,12 +219,8 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
             }
         }
         
-
-        
         self.submitoutlate.layer.cornerRadius = 25
         
-        
-
         // For use in foreground
         self.locationManager.requestWhenInUseAuthorization()
         self.locationManager.requestAlwaysAuthorization()
@@ -262,14 +243,6 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
             } else {
                 if let places = response?.results() {
                     if let place = places.first {
-                       // print(place.lines)
-//                        print("GEOCODE: Formatted postalCode: \(place.postalCode ?? "")")
-//                        print("GEOCODE: Formatted locality: \(place.locality ?? "")")
-//                        print("GEOCODE: Formatted subLocality: \(place.subLocality ?? "")")
-//                        print("GEOCODE: Formatted administrativeArea: \(place.administrativeArea ?? "")")
-//                        print("GEOCODE: Formatted country: \(place.country ?? "")")
-//
-                       
                     } else {
                         print("GEOCODE: nil first in places")
                     }
@@ -367,21 +340,6 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                                 controller.modalTransitionStyle = .coverVertical
                                 present(controller, animated: true, completion: nil)
                         
-//                                let autocompleteController = GMSAutocompleteViewController()
-//                                   autocompleteController.delegate = self
-//
-//                                   // Specify the place data types to return.
-//                                   let fields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.name.rawValue) |
-//                                     UInt(GMSPlaceField.placeID.rawValue))!
-//                                   autocompleteController.placeFields = fields
-//
-//                                   // Specify a filter.
-//                                   let filter = GMSAutocompleteFilter()
-//                                   filter.type = .address
-//                                   autocompleteController.autocompleteFilter = filter
-//
-//                                   // Display the autocomplete view controller.
-//                                   present(autocompleteController, animated: true, completion: nil)
                             @unknown default:
                             break
                         }
@@ -507,13 +465,6 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
         
         checkRemainingChars()
     }
-    
-    
-
-//    func textViewDidChange(_ textView: UITextView) {
-//       self.updateCharacterCount()
-//    }
-
 
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool{
        if(textView == txtdescription){
@@ -574,12 +525,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     }
     
     func validateFoodSafety() -> Bool {
-        
-//        if self.Statetxt.text?.isEmpty ?? true {
-//            self.view.showToast(toastMessage: "Please choose subject", duration: 0.3)
-//                    return false
-//        }else
-        
+ 
      if self.txtnameaddress.text?.isEmpty ?? true {
       self.view.showToast(toastMessage: "Please select location.", duration: 0.3)
                 return false
@@ -605,150 +551,6 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
     }
     
     var checksuccess:Bool?
-    
-//
-//    func BackgroundApiCallApicall(Find:String) {
-//
-//        hud = MBProgressHUD.showAdded(to: self.view, animated: true)
-//        hud.bezelView.color = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
-//        hud.customView?.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
-//        hud.show(animated: true)
-//
-//
-////        let string = postal
-////        let first4 = "\(string?.prefix(3) ?? "0")"
-////        print("first4==>\(first4)")
-//
-//        let StringURL = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + latti + "&lon=" + Longi + "&text=770" + "&max=1"
-//
-////        let StringURL = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + LatitudeString + "&lon=" + LongitudeString + "&distance=1&error=0.1"
-//
-//
-//
-//        let url = URL(string: StringURL)!
-//        var request = URLRequest(url: url)
-//        request.httpMethod = "GET"
-//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//
-//        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-//
-//                 guard let data = data else { return }
-//                 do{
-//                     let json = try JSON(data:data)
-//                     print("BackgroundApiCallApicall==> \(json)")
-//
-//                    let statusisSuccess = json["isSuccess"]
-//                    let messageTost = json["message"]
-//
-//                    let gettost = "\(messageTost)"
-//
-//                    print("statusisSuccess==>\(statusisSuccess)")
-//                    print("gettost==>\(gettost)")
-//
-//                    self.checksuccess = Bool(statusisSuccess.boolValue)
-//                    print("checksuccess==>\(self.checksuccess ?? true)")
-//
-//                    if statusisSuccess == false{
-//
-//                        DispatchQueue.main.async {
-//                            self.hud.hide(animated: true)
-//                            //self.view.showToast(toastMessage: gettost, duration: 0.3)
-//
-//                        }
-//
-//                    }else{
-//                        let decoder = JSONDecoder()
-//                        self.BackgroundPools = try decoder.decode(BackgroundApicall.self, from: data)
-//                        self.Establishmentnumber = self.BackgroundPools?.data[0].establishmentNumber
-//                        DispatchQueue.main.async {
-//                            self.hud.hide(animated: true)
-//                        }
-//                    }
-//
-//
-//
-//                 }catch{
-//                     print(error.localizedDescription)
-//                    DispatchQueue.main.async {
-//                        self.hud.hide(animated: true)
-//                    }
-//                 }
-//
-//                 }
-//
-//        task.resume()
-//
-//    }
-    
-//    func BackgroundApiCallApicall2(Find:String) {
-//
-//
-//        let StringURL = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + latti + "&lon=" + Longi + "&text=" + postal + "&max=1"
-//
-////        let StringURL = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + LatitudeString + "&lon=" + LongitudeString + "&distance=1&error=0.1"
-//
-//
-//        let url = URL(string: StringURL)!
-//        var request = URLRequest(url: url)
-//        request.httpMethod = "GET"
-//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//
-//        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-//
-//                 guard let data = data else { return }
-//                 do{
-//                     let json = try JSON(data:data)
-//                     print("BackgroundApiCallApicall==> \(json)")
-//
-//                    let statusisSuccess = json["isSuccess"]
-//                    let messageTost = json["message"]
-//
-//                    let gettost = "\(messageTost)"
-//
-//                    print("statusisSuccess==>\(statusisSuccess)")
-//                    print("gettost==>\(gettost)")
-//
-//                    self.checksuccess = Bool(statusisSuccess.boolValue)
-//                    print("checksuccess==>\(self.checksuccess ?? true)")
-//
-//                    if statusisSuccess == false{
-//
-//                        DispatchQueue.main.async {
-//                            self.hud.hide(animated: true)
-//                            //self.view.showToast(toastMessage: gettost, duration: 0.3)
-//                            self.CommercialPoolsApicall()
-//                        }
-//
-//
-//                    }else{
-//                        let decoder = JSONDecoder()
-//                        self.BackgroundPools = try decoder.decode(BackgroundApicall.self, from: data)
-//                        self.Establishmentnumber = self.BackgroundPools?.data[0].establishmentName
-//
-//                        DispatchQueue.main.async {
-//                            self.hud.hide(animated: true)
-//                            //self.view.showToast(toastMessage: gettost, duration: 0.3)
-//                            self.CommercialPoolsApicall()
-//                        }
-//
-//                    }
-//
-//
-//
-//                 }catch{
-//                     print(error.localizedDescription)
-//                    DispatchQueue.main.async {
-//                        self.hud.hide(animated: true)
-//                        //self.view.showToast(toastMessage: gettost, duration: 0.3)
-//
-//                    }
-//                 }
-//
-//                 }
-//
-//        task.resume()
-//
-//    }
     
     func CommercialPoolsApicall() {
             
@@ -943,12 +745,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
             
             let image = Image(imageData: selectedImage.pngData()!)
             images.append(image)
-            
-//            let imageData:NSData = selectedImage.pngData()! as NSData
-//            let imageStr = imageData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
-//            print("imageStr==>\(imageStr)")
-            
-            //if let data = selectedImage.pngData()
+
        
             if let data = selectedImage.jpegData(compressionQuality: 0.4){
             //print("There were \(data.count) bytes")
@@ -977,19 +774,10 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                 dismiss(animated: true, completion: nil)
                 self.imagecollection.reloadData()
                 
-                
-                //let dataa = selectedImage.pngData()
-                //let dataa = selectedImage.jpegData(compressionQuality: 0.4)
-                
+             
                 let options: NSDictionary = [:]
                 
-                //let dataimages = selectedImage.pngData()
-                
-                //let convertToBmp = selectedImage.toData(options: options, type: .bmp)
-//                guard convertToBmp != nil else {
-//                    print("😡 ERROR: could not convert image to a bitmap bmpData var.")
-//                    return
-//                }
+
                 let dataa = selectedImage.jpegData(compressionQuality: 0.4)
                 
                 dismiss(animated: true, completion: nil)
@@ -1004,12 +792,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                     
                     //let imageData2:Data =  selectedImage.pngData()!
                     let base64String2 = datos.base64EncodedString()
-                    //print("base64String2===>\(base64String2)")
-                    
-                    
-                    //let imageData: Data? = selectedImage.jpegData(compressionQuality: 0.4)
-                    //let imageStr = imageData?.base64EncodedString(options: .lineLength64Characters) ?? ""
-                    
+                  
                     self.arrayimage.append(base64String2)
                     
                     if self.arrayimage.count == 1{
@@ -1018,17 +801,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                         DispatchQueue.main.async {
                             self.hud.hide(animated: true)
                         }
-                     
-                   
-    //                    let dataDecoded:NSData = NSData(base64Encoded: base64String2, options: NSData.Base64DecodingOptions(rawValue: 0))!
-    //                    let decodedimage:UIImage = UIImage(data: dataDecoded as Data)!
-    //                    //print(decodedimage)
-    //                    yourImageView.image = decodedimage
-    //
-    //                    saveImageToDocumentDirectory(image: yourImageView.image!)
-    //
-    //                    textLog.write(base64String2)
-                        
+           
                     }else if self.arrayimage.count == 2{
                         print("Count 2")
                         self.ImageBytestwo = base64String2
@@ -1036,12 +809,6 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                             self.hud.hide(animated: true)
                         }
                       
-    //                    let dataDecoded:NSData = NSData(base64Encoded: base64String2, options: NSData.Base64DecodingOptions(rawValue: 0))!
-    //                    let decodedimage:UIImage = UIImage(data: dataDecoded as Data)!
-    //                    //print(decodedimage)
-    //                    yourImageView.image = decodedimage
-    //
-    //                    saveImageToDocumentDirectory(image: yourImageView.image!)
                         
                     }else if self.arrayimage.count == 3{
                         print("Count 3")
@@ -1050,38 +817,20 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                             self.hud.hide(animated: true)
                         }
                         
-    //                    let dataDecoded:NSData = NSData(base64Encoded: base64String2, options: NSData.Base64DecodingOptions(rawValue: 0))!
-    //                    let decodedimage:UIImage = UIImage(data: dataDecoded as Data)!
-    //                    //print(decodedimage)
-    //                    yourImageView.image = decodedimage
-    //
-    //                    saveImageToDocumentDirectory(image: yourImageView.image!)
                     }else if self.arrayimage.count == 4{
                         print("Count 4")
                         self.ImageBytesfour = base64String2
                         DispatchQueue.main.async {
                             self.hud.hide(animated: true)
                         }
-                        
-    //                    let dataDecoded:NSData = NSData(base64Encoded: base64String2, options: NSData.Base64DecodingOptions(rawValue: 0))!
-    //                    let decodedimage:UIImage = UIImage(data: dataDecoded as Data)!
-    //                    //print(decodedimage)
-    //                    yourImageView.image = decodedimage
-    //
-    //                    saveImageToDocumentDirectory(image: yourImageView.image!)
+           
                     }else if self.arrayimage.count == 5{
                         print("Count 5")
                         self.ImageBytesfive = base64String2
                         DispatchQueue.main.async {
                             self.hud.hide(animated: true)
                         }
-                        
-    //                    let dataDecoded:NSData = NSData(base64Encoded: base64String2, options: NSData.Base64DecodingOptions(rawValue: 0))!
-    //                    let decodedimage:UIImage = UIImage(data: dataDecoded as Data)!
-    //                    //print(decodedimage)
-    //                    yourImageView.image = decodedimage
-    //
-    //                    saveImageToDocumentDirectory(image: yourImageView.image!)
+            
                     }
               
                 }
@@ -1256,18 +1005,8 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                             }else{
                                 if validate(){
                                     
-//                                    if self.BackgroundPools?.data[0].establishmentNumber.isEmpty ?? true  && self.BackgroundPools?.data[0].establishmentNumber == "0"{
-//                                        BackgroundApiCallApicall2(Find:postal ?? "0")
-//                                    }else{
-//                                        CommercialPoolsApicall()
-//                                    }
+                                 CommercialPoolsApicall()
                                     
-//                                    if checksuccess == false{
-//                                        BackgroundApiCallApicall2(Find:postal ?? "0")
-//                                    }else{
-                                        CommercialPoolsApicall()
-                                    //}
-                              
                                 }
                             }
                         @unknown default:
@@ -1295,76 +1034,6 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                 
                 
              }
-            
-//
-//            if CLLocationManager.locationServicesEnabled() == true {
-//
-//                if CLLocationManager.locationServicesEnabled() {
-//                    switch CLLocationManager.authorizationStatus() {
-//                        case .notDetermined, .restricted, .denied:
-//                            print("No access")
-//                            let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
-//
-//                            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
-//                                //Redirect to Settings app
-//                                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
-//                            })
-//
-//                            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
-//                            alertController.addAction(cancelAction)
-//
-//                            alertController.addAction(okAction)
-//
-//                            self.present(alertController, animated: true, completion: nil)
-//                        case .authorizedAlways, .authorizedWhenInUse:
-//                            print("Access")
-//                            if Title == "Food Safety"{
-//                                if validateFoodSafety(){
-//                                    CommercialPoolsApicall()
-//                                }
-//                            }else{
-//                                if validate(){
-//
-////                                    if self.BackgroundPools?.data[0].establishmentNumber.isEmpty ?? true  && self.BackgroundPools?.data[0].establishmentNumber == "0"{
-////                                        BackgroundApiCallApicall2(Find:postal ?? "0")
-////                                    }else{
-////                                        CommercialPoolsApicall()
-////                                    }
-//
-////                                    if checksuccess == false{
-////                                        BackgroundApiCallApicall2(Find:postal ?? "0")
-////                                    }else{
-//                                        CommercialPoolsApicall()
-//                                    //}
-//
-//                                }
-//                            }
-//                        @unknown default:
-//                        break
-//                    }
-//                    } else {
-//                        print("Location services are not enabled")
-//                }
-//
-//
-//            }else {
-//
-//                let alertController = UIAlertController(title: "Location Permission Required", message: "Location is disabled. do you want to enable it?", preferredStyle: UIAlertController.Style.alert)
-//
-//                let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
-//                    //Redirect to Settings app
-//                    UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
-//                })
-//
-//                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
-//                alertController.addAction(cancelAction)
-//
-//                alertController.addAction(okAction)
-//
-//                self.present(alertController, animated: true, completion: nil)
-//
-//
-//             }
             
         }else{
             print("Internet Connection not Available!")

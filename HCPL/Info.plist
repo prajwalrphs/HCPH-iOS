@@ -19,7 +19,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
-	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<string>1</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>comgooglemaps</string>
@@ -35,11 +35,11 @@
 	<key>NSCameraUsageDescription</key>
 	<string>camera description.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>We'll use this to personalize your app experience</string>
+	<string>We&apos;ll use this to personalize your app experience</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Description</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We'll use this to personalize your app experience</string>
+	<string>We&apos;ll use this to personalize your app experience</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Please allow access to save photo in your photo library</string>
 	<key>NSPhotoLibraryUsageDescription</key>
