@@ -511,15 +511,11 @@ class DeadbirdViewController: UIViewController,UICollectionViewDelegate,UICollec
     ]
         
         objParameters.updateValue(arrayimage as AnyObject, forKey: "ImageList")
-
-        let URLset = "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddDeadBirdReport?SecondaryAddress=" + AddressCode + "&City=" + CityCode + "&ZipCode=" + ZIpCode + "&IsExternalRequest=true"
         
-//        let URLset = "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddDeadBirdReport/SecondaryAddress=Houston%20Texas%20United%20States&City=Houston&ZipCode=77027&IsExternalRequest=true"
+//        let URLset = "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddDeadBirdReport?SecondaryAddress=" + AddressCode + "&City=" + CityCode + "&ZipCode=" + ZIpCode + "&IsExternalRequest=true"
         
+        let URLset = "https://secure.hcphes.org/MCDWebApi/api/External/AddDeadBirdReport?SecondaryAddress=" + AddressCode + "&City=" + CityCode + "&ZipCode=" + ZIpCode + "&IsExternalRequest=true"
 
-//     let url = URL(string: "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddDeadBirdReport?SecondaryAddress=" + "\(AddressCode)" + "&City=" + "\(CityCode)" + "&ZipCode=" + "\(ZIpCode)" + "&IsExternalRequest=true")!
-     print("urlurlurl==>\(URLset)")
-        //print("objParameters==>\(objParameters)")
         
         
         let urlString = URLset.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)

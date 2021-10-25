@@ -532,9 +532,10 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
             ]
 
                 
-        //    let url = URL(string: "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddExtCitizenRequest?title=")!
-                
-                let URLset = "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddExtCitizenRequest?title="
+       
+//            let URLset = "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddExtCitizenRequest?title="
+            
+            let URLset = "https://secure.hcphes.org/MCDWebApi/api/External/AddExtCitizenRequest?title="
 
             AF.request(URLset,method: .post, parameters:objParameters, encoding: JSONEncoding.default
             , headers: headers)
@@ -596,7 +597,9 @@ class MosquitoBreedingViewController: UIViewController,UICollectionViewDelegate,
                 
         //    let url = URL(string: "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddExtCitizenRequest?title=")!
                 
-                let URLset = "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddExtCitizenRequest?title="
+            //let URLset = "http://svpphesmcweb01.hcphes.hc.hctx.net/Stage_MCDExternalApi/api/External/AddExtCitizenRequest?title="
+            
+            let URLset = "https://secure.hcphes.org/MCDWebApi/api/External/AddExtCitizenRequest?title="
 
             AF.request(URLset,method: .post, parameters:objParameters, encoding: JSONEncoding.default
             , headers: headers)
