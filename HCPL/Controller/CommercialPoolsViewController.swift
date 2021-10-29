@@ -583,7 +583,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                 
                 let jsonData = try? JSONSerialization.data(withJSONObject: parameters)
 
-                let url = URL(string: "https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/UploadServiceRequest")!
+                let url = URL(string: "https://apps.harriscountytx.gov/PHESNotify/api/QAPublicHealthPortal/api/UploadServiceRequest")!
                 var request = URLRequest(url: url)
                 request.httpMethod = "POST"
                 request.httpBody = jsonData
@@ -667,7 +667,7 @@ class CommercialPoolsViewController: UIViewController,UICollectionViewDelegate,U
                 
                 let jsonData = try? JSONSerialization.data(withJSONObject: parameters)
 
-                let url = URL(string: "https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/UploadServiceRequest")!
+                let url = URL(string: "https://apps.harriscountytx.gov/PHESNotify/api/QAPublicHealthPortal/api/UploadServiceRequest")!
                 var request = URLRequest(url: url)
                 request.httpMethod = "POST"
                 request.httpBody = jsonData

@@ -219,7 +219,7 @@ class InspectionSummaryViewController: UIViewController,GMSMapViewDelegate,CLLoc
         
         
         let url = URL(string:"https://apps.harriscountytx.gov/PublicHealthPortal/api/InspectionsWebCitations/id=" + "\(establishmentNumberApi ?? "")")
-       // let url = URL(string:"https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/InspectionsWebCitations/id=" + "\(establishmentNumberApi ?? "")")
+       // let url = URL(string:"https://apps.harriscountytx.gov/PHESNotify/api/QAPublicHealthPortal/api/InspectionsWebCitations/id=" + "\(establishmentNumberApi ?? "")")
         var request = URLRequest(url: url!)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -315,7 +315,7 @@ class InspectionSummaryViewController: UIViewController,GMSMapViewDelegate,CLLoc
         hud.customView?.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
         hud.show(animated: true)
         
-        //let url = URL(string:"https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/InspectionsWeb/id=" + "\(inspectionNumber)")
+        //let url = URL(string:"https://apps.harriscountytx.gov/PHESNotify/api/QAPublicHealthPortal/api/InspectionsWeb/id=" + "\(inspectionNumber)")
         let url = URL(string:"https://apps.harriscountytx.gov/PublicHealthPortal/api/InspectionsWeb/id=" + "\(inspectionNumber)")
         var request = URLRequest(url: url!)
         request.httpMethod = "GET"
@@ -410,7 +410,7 @@ class InspectionSummaryViewController: UIViewController,GMSMapViewDelegate,CLLoc
     
     func StatusApicall(inspectionNumber:String) {
 
-        //let url = URL(string:"https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/EstablishmentCurrentStatus/id=" + "\(inspectionNumber)")
+        //let url = URL(string:"https://apps.harriscountytx.gov/PHESNotify/api/QAPublicHealthPortal/api/EstablishmentCurrentStatus/id=" + "\(inspectionNumber)")
         let url = URL(string:"https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentCurrentStatus/id=" + "\(inspectionNumber)")
         var request = URLRequest(url: url!)
         request.httpMethod = "GET"

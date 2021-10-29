@@ -219,7 +219,7 @@ class FindLocationViewController: UIViewController,UITableViewDelegate,UITableVi
 //        hud.customView?.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
 //        hud.show(animated: true)
         
-//        let url = URL(string:"https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")
+//        let url = URL(string:"https://apps.harriscountytx.gov/PHESNotify/api/QAPublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")
         
         let URLset = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(latti ?? "")" + "&lon=" + "\(Longi ?? "")" + "&text=" + "\(Find)" + "&max=25"
                
@@ -304,12 +304,8 @@ class FindLocationViewController: UIViewController,UITableViewDelegate,UITableVi
         
         //let establishmentName = SearchGettwo?.data[indexPath.row].establishmentName
         let address = "\(SearchGettwo?.data[indexPath.row].establishmentName ?? "")"
-//        let address = "\(SearchGettwo?.data[indexPath.row].establishmentName ?? "")" + "\(SearchGettwo?.data[indexPath.row].streetNumber ?? "")" + " \(SearchGettwo?.data[indexPath.row].streetAddress ?? "")" + " \(SearchGettwo?.data[indexPath.row].city ?? "")" + ", \(SearchGettwo?.data[indexPath.row].zipCode ?? "")" + "\(SearchGettwo?.data[indexPath.row].milesAway ?? "")" + " miles"
+        //let address = "\(SearchGettwo?.data[indexPath.row].establishmentName ?? "")" + "\(SearchGettwo?.data[indexPath.row].streetNumber ?? "")" + " \(SearchGettwo?.data[indexPath.row].streetAddress ?? "")" + " \(SearchGettwo?.data[indexPath.row].city ?? "")" + ", \(SearchGettwo?.data[indexPath.row].zipCode ?? "")"
         let establishmentNumber = SearchGettwo?.data[indexPath.row].establishmentNumber
-//        navigate.lat = Double("\(SearchGettwo?.data[indexPath.row].lat ?? "")")
-//        navigate.long = Double("\(SearchGettwo?.data[indexPath.row].lon ?? "")")
-//        navigate.demeritsString = SearchGettwo?.data[indexPath.row].demerits
-        
     
             UserDefaults.standard.set(SearchGettwo?.data[indexPath.row].lat, forKey: AppConstant.CURRENTLAT)
             UserDefaults.standard.set(SearchGettwo?.data[indexPath.row].lon, forKey: AppConstant.CURRENTLONG)

@@ -302,7 +302,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         hud.show(animated: true)
         
         
-//        let url = URL(string: "https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&distance=3&error=0.01")!
+//        let url = URL(string: "https://apps.harriscountytx.gov/PHESNotify/api/QAPublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&distance=3&error=0.01")!
         
         let url = URL(string: "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&distance=3&error=0.01")!
         
@@ -648,7 +648,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
 //        hud.customView?.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
 //        hud.show(animated: true)
         
-//        let url = URL(string:"https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")
+//        let url = URL(string:"https://apps.harriscountytx.gov/PHESNotify/api/QAPublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")
         
         let URLset = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25"
                
@@ -727,7 +727,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
         hud.customView?.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.6941176471, blue: 0.6196078431, alpha: 1)
         hud.show(animated: true)
         
-//        let url = URL(string:"https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")
+//        let url = URL(string:"https://apps.harriscountytx.gov/PHESNotify/api/QAPublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")
 //        let url = URL(string:"https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")
         
         let URLset = "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(Lat ?? "")" + "&lon=" + "\(Lon ?? "")" + "&text=" + "\(Find)" + "&max=25"
@@ -810,7 +810,7 @@ class SearchEstablishmentsViewController: UIViewController,UISearchBarDelegate,U
 //                              }
 //                        }else{
                             
-//                            let data: Data = try Data.init(contentsOf: NSURL(string: "https://appsqa.harriscountytx.gov/QAPublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(self.Lat ?? "")" + "&lon=" + "\(self.Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")! as URL)
+//                            let data: Data = try Data.init(contentsOf: NSURL(string: "https://apps.harriscountytx.gov/PHESNotify/api/QAPublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(self.Lat ?? "")" + "&lon=" + "\(self.Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")! as URL)
                             
                             let data: Data = try Data.init(contentsOf: NSURL(string: "https://apps.harriscountytx.gov/PublicHealthPortal/api/EstablishmentLocationByDistance/lat=" + "\(self.Lat ?? "")" + "&lon=" + "\(self.Lon ?? "")" + "&text=" + "\(Find)" + "&max=25")! as URL)
                             
